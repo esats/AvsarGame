@@ -38,7 +38,11 @@ namespace AvsarGame.Portal
                         name: "default",
                         defaults: "{controller=Home}/{action=Index}",
                         template: "{controller=Home}/{action=Index}/{id?}");
-            
+                routes.MapAreaRoute(
+                        name: "MyAreaAdmin",
+                        areaName:"Admin",
+                        template: "Admin/{controller=Home}/{action=Index}/{id?}");
+
             });
             app.UseStaticFiles();
         }

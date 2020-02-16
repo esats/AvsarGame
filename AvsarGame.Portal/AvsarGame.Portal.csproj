@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Models\" />
-    <Folder Include="Areas\Views\Shared\" />
-    <Folder Include="Views\Home\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>
