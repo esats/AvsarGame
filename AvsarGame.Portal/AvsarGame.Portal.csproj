@@ -7,7 +7,7 @@
   <ItemGroup>
     <Folder Include="Areas\Models\" />
     <Folder Include="Areas\Views\Shared\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
 
   <ItemGroup>

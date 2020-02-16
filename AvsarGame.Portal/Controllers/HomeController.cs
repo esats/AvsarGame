@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AvsarGame.Portal.Areas.Controllers
-{   
-    [Route("areas/Home")]
+namespace AvsarGame.Portal.Controllers
+{
     public class HomeController : Controller
     {
         public IActionResult Index()
