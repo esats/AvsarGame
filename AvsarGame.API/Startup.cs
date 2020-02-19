@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AvsarGame.Dal.Concreate.EntityFramework;
+using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -24,14 +28,29 @@ namespace AvsarGame.API {
             Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services) {
+            services.AddDbContext<AvsarGameDBcontext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AvsarGameDBcontext>()
+                    .AddDefaultTokenProviders();
+
+            services.Configure< IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;//sayı zorunluluğu
+                options.Password.RequireLowercase = true;//küçük harf
+                options.Password.RequiredLength = 8;//minimum 8 karakter
+                options.Password.RequireNonAlphanumeric = true;//alfanümerik olması
+                options.Password.RequireUppercase = true;//büyük harf zorunluluğu
+
+                options.Lockout.MaxFailedAccessAttempts = 5;//max hatalı giriş sayısı
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);//kullanıcı ne kadar süre boyunca sisteme giriş yapamasın
+                options.User.RequireUniqueEmail = true;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "AvsarGameAPI", Version = "v1" }); });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
