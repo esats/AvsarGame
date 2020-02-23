@@ -17,10 +17,10 @@
             z-index: 90000
         }
 
-            #loader.fadeOut {
-                opacity: 0;
-                visibility: hidden
-            }
+        #loader.fadeOut {
+            opacity: 0;
+            visibility: hidden
+        }
 
         .spinner {
             width: 40px;
@@ -34,7 +34,7 @@
             animation: sk-scaleout 1s infinite ease-in-out
         }
     </style>
-    <link href="~/assest/Style/style.css" rel="stylesheet" />
+    <link href="~/assest/Style/style.css" rel="stylesheet"/>
 </head>
 
 <body class="app">
@@ -53,8 +53,12 @@
         @await Html.PartialAsync("_Sidebar")
         <div class="page-container">
             @await Html.PartialAsync("_Header")
-            @RenderBody()
-            @await Html.PartialAsync("_Footer")
+            <main class="main-content bgc-grey-100">
+                <div id="mainContent">
+                    @RenderBody()
+                    @await Html.PartialAsync("_Footer")
+                </div>
+            </main>
         </div>
     </div>
     <script src="~/assest/Scripts/vendor.js"></script>
