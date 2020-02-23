@@ -15,7 +15,4 @@ namespace AvsarGame.Entities.Entities {
         public string BearerToken { get; set; }
         public int? Gender { get; set; }
     }
-
-    public class ApplicationRole : IdentityRole<string>, IEntity {
-    }
 }
