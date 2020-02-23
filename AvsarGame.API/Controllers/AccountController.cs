@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.API.Security;
 using AvsarGame.Dal.Concreate.EntityFramework;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,7 @@ namespace AvsarGame.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
-
+        private JWTAuth jwtAuth;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -35,6 +36,7 @@ namespace AvsarGame.API.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
             _roleManager = roleManager;
+             jwtAuth = new JWTAuth(configuration);
         }
 
         [HttpPost("Login")]
@@ -46,7 +48,13 @@ namespace AvsarGame.API.Controllers
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                appUser.BearerToken = JWTAuth.Instance.GenerateJwtToken(model.Email, appUser);
+                try {
+                    await _userManager.AddToRoleAsync(appUser, "User");
+                } catch (Exception e) {
+                    Console.WriteLine(e);
+                    throw e;
+                }
+                appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
                 return new Response<ApplicationUser> { IsSuccess = true, Value = appUser };
             }
 
@@ -126,14 +134,14 @@ namespace AvsarGame.API.Controllers
 
                     if (result.Succeeded)
                     {
-                        //string role = "basic user";
-                        //await _userManager.AddToRoleAsync(identityUser, role);
+                        string role = "User";
+                        await _userManager.AddToRoleAsync(identityUser, role);
                         //await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("userName", identityUser.UserName));
                         //await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("email", identityUser.Email));
-                        //await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
+                        await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
 
                         var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                        appUser.BearerToken = JWTAuth.Instance.GenerateJwtToken(model.Email, appUser);
+                        appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
                         return new Response<ApplicationUser>(appUser);
                     }
                 }

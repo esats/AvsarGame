@@ -11,8 +11,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AvsarGame.API.Security {
-    public class JWTAuth : SingletonBase<JWTAuth> {
+    public class JWTAuth {
         protected IConfiguration Configuration;
+
+        public JWTAuth(IConfiguration configuration) {
+            Configuration = configuration;
+        }
 
         public string GenerateJwtToken(string email, ApplicationUser user) {
             var claims = new List<Claim> {
