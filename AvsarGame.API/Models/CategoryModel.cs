@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using Microsoft.AspNetCore.Http;
-using Nancy.Json;
 using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {

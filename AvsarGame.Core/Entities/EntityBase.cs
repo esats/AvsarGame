@@ -10,7 +10,7 @@ namespace AvsarGame.Core.Entities
         public virtual Guid? CreatedBy { get; set; }    
         public virtual DateTime? CreatedDate { get; set; }
         public virtual Guid? ModifiedBy { get; set; }
-        public virtual DateTime? ModifiedDate { get; set; }
-        public bool IsActive { get; set; }
+        public virtual DateTime? ModifiedDate { get; set; } 
+        public bool IsActive { get; set; } = true;
     }
 }
