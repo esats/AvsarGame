@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AvsarGame.Dal.Abstract;
 using AvsarGame.Dal.Concreate.EntityFramework;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,8 @@ namespace AvsarGame.API {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<AvsarGameDBcontext>()
                     .AddDefaultTokenProviders();
+
+            services.AddTransient<ICategory, EfCategory>();
 
             services.Configure< IdentityOptions>(options =>
             {
@@ -70,9 +73,9 @@ namespace AvsarGame.API {
             });
             app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
-            app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "AvsarGameAPI V1"); });
+            app.UseMvc();
         }
     }
 }

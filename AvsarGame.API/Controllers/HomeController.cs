@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AvsarGame.API.Controllers
 {
     [Route("api/Home")]
-    [Authorize(Roles = "User")]
     [ApiController]
+    [AllowAnonymous]
     public class HomeController : APIControllerBase
     {
         [HttpGet]

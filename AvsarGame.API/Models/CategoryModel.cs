@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using Microsoft.AspNetCore.Http;
+using Nancy.Json;
+using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
     public class CategoryModel : ModelBase<Guid> {
@@ -11,6 +13,7 @@ namespace AvsarGame.API.Models {
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public string Count { get; set; }
+        [JsonIgnore]
         public IFormFile Image { get; set; }
     }
 }

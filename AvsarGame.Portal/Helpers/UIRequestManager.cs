@@ -26,8 +26,8 @@ namespace AvsarGame.Portal.Helpers
 
         protected UiRequestManager()
         {
-            //this.BaseApiUrl = "http://localhost:24581/api";
-            this.BaseApiUrl = "http://api.dthamitavsar.com/api";
+            this.BaseApiUrl = "http://localhost:30667/api";
+            //this.BaseApiUrl = "http://api.dthamitavsar.com/api";
         }
 
         public string Get(string ControllerName, string actionName, Guid? Id = null)

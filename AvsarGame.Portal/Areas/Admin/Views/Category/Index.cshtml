@@ -53,36 +53,53 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form>
+            <form id="categoryForm" asp-antiforgery="false" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label>Kategori Adı</label>
-                            <input id="Name" type="text" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Açıklama</label>
-                            <textarea type="text" id="Description" class="form-control"> </textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Resim</label>
-                            <input type="file" id="Image" class="form-control">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label>Kategori Adı</label>
+                        <input id="Name" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea type="text" id="Description" class="form-control"> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Resim</label>
+                        <input type="file" id="Image" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer border-top-0 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    @*<button>Kaydet</button>*@
+                    <input id="save" value="aaa"/>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-
-
-
 <script>
-    $(document).ready(function () {
-        console.log("ready!");
+    $(document).ready(function() {
+
+        $("#save").click(function() {
+            debugger;
+            var model = new FormData(); // you can consider this as 'data bag'
+            model.append('Image', $('#Image')[0].files[0]);
+            model.append('Name', $('#Name').val());
+            model.append('Description', $('#Description').val());
+
+            $.ajax({
+                type: 'post',
+                url: '/Admin/Category/Save',
+                processData: false,
+                contentType: false,
+                data: model,
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        });
     });
 </script>

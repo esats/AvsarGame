@@ -7,11 +7,14 @@ using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvsarGame.API.Controllers {
     [Route("api/Category")]
+    [Produces("application/json")]
+    [AllowAnonymous]
     public class CategoryController : APIControllerBase {
         private readonly ICategory _category;
 
@@ -19,6 +22,8 @@ namespace AvsarGame.API.Controllers {
             _category = category;
         }
 
+        [HttpPost]
+        [Route("Save")]
         public ActionResult Save([FromBody] CategoryModel model) {
             try {
                 Category entity = new Category() {
