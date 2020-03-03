@@ -38,25 +38,35 @@ namespace AvsarGame.API.Controllers {
         }
 
         [HttpPost("Login")]
-        public async Task<Response<ApplicationUser>> Login([FromBody] LoginModel model) {
-            var response = new Response<ApplicationUser>();
-           
+        public async Task<Response<LoggedModel>> Login([FromBody] LoginModel model) {
             try {
+                LoggedModel loggedModel = new LoggedModel();
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-              
+
                 if (result.Succeeded) {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                    await _userManager.AddToRoleAsync(appUser, "User");
+                    var userRoles = await _userManager.GetRolesAsync(appUser);
+                    
+                    foreach (var role in userRoles) {
+                        await _userManager.AddToRoleAsync(appUser, role);
+                    }
+                    
                     appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
-                    return new Response<ApplicationUser> { IsSuccess = true, Value = appUser };
-                }
 
+                    loggedModel.Name = appUser.Name;
+                    loggedModel.Surname = appUser.Surname;
+                    loggedModel.Birthdate = appUser.Birthdate;
+                    loggedModel.Age = appUser.Age;
+                    loggedModel.BearerToken = appUser.BearerToken;
+
+                    return new Response<LoggedModel> { IsSuccess = true, Value = loggedModel };
+                }
             } catch (Exception e) {
                 Console.WriteLine(e);
                 throw;
             }
 
-            return new Response<ApplicationUser> { IsSuccess = false, Message = "Kullanıcı Adı veya Şifre yanlış" };
+            return new Response<LoggedModel> { IsSuccess = false, Message = "Kullanıcı Adı veya Şifre yanlış" };
         }
 
         //[HttpPost("PortalLogin")]

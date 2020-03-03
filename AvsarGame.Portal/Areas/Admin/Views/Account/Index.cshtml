@@ -1,0 +1,171 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>Sign In</title>
+    <style>
+        #loader {
+            transition: all .3s ease-in-out;
+            opacity: 1;
+            visibility: visible;
+            position: fixed;
+            height: 100vh;
+            width: 100%;
+            background: #fff;
+            z-index: 90000
+        }
+
+        #loader.fadeOut {
+            opacity: 0;
+            visibility: hidden
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: calc(50% - 20px);
+            left: calc(50% - 20px);
+            background-color: #333;
+            border-radius: 100%;
+            -webkit-animation: sk-scaleout 1s infinite ease-in-out;
+            animation: sk-scaleout 1s infinite ease-in-out
+        }
+
+        @@-webkit-keyframes sk-scaleout {
+            0% {
+                -webkit-transform: scale(0)
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+                opacity: 0
+            }
+        }
+
+        @@keyframes sk-scaleout {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0)
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 0
+            }
+        }
+
+        label {
+            margin: 20px 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        span {
+            padding: 10px;
+            pointer-events: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: 0.2s;
+            transition-timing-function: ease;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+            opacity: 0.5;
+        }
+
+        input {
+            padding: 10px;
+        }
+
+        input:focus + span, input:not(:placeholder-shown) + span {
+            opacity: 1;
+            transform: scale(0.75) translateY(-100%) translateX(-30px);
+        }
+
+        /* For IE Browsers*/
+
+        input:focus + span, input:not(:-ms-input-placeholder) + span {
+            opacity: 1;
+            transform: scale(0.75) translateY(-100%) translateX(-30px);
+        }
+    </style>
+    <link href="~/assest/Style/style.css" rel="stylesheet"/>
+    <link href="~/assest/Style/sweetalert.css" rel="stylesheet"/>
+</head>
+
+<body class="app">
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('fadeOut');
+            }, 300);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/assest/Scripts/vendor.js"></script>
+    <script src="~/assest/Scripts/bundle.js"></script>
+    <script src="~/assest/Scripts/sweetalert.min.js"></script>
+    <div class="peers ai-s fxw-nw h-100vh">
+        <div class="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style="background-image: url(/assest/img/knight-online-yeni-server-2019.jpg)">
+        </div>
+        <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style="min-width: 320px">
+            <h4 class="fw-300 c-grey-900 mB-40">Giriş</h4>
+            <div class="form-group">
+                <input type="email" id="email" class="form-control" placeholder="Kullanıcı Adı">
+            </div>
+            <div class="form-group">
+                <input type="password" id="passw" class="form-control" placeholder="Şifre">
+            </div>
+            <div class="form-group">
+                <div class="peers ai-c jc-sb fxw-nw">
+                    @*<div class="peer">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c">
+                        <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">Remember Me</span></label>
+                    </div>
+                </div>*@
+                    <div class="peer">
+                        <button id="login" class="btn btn-primary">Giriş</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $("#login").click(function() {
+                var model = {
+                    Password: document.getElementById("passw").value,
+                    Email: document.getElementById("email").value
+                }
+
+                debugger;
+                $.ajax({
+                    type: 'post',
+                    url: '/Admin/Account/Login',
+                    content: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: model,
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(err) {
+                        alert("Bir Hata oluştu");
+                    }
+                });
+            });
+
+        });
+
+    </script>
+</body>
+</html>

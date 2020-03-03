@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Areas.Admin.Controllers {
     [Area("Admin")]
+    [ServiceFilter(typeof(LoginFilter))]
     public class CategoryController : BaseController {
         public IActionResult Index() {
             var response = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "List"));
@@ -30,10 +31,10 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public async Task<JsonResult> Delete(Guid id) {
+        //[HttpPost]
+        //public async Task<JsonResult> Delete(Guid id) {
 
-            return Json(new { Message = responseSaving.Message, Success = responseSaving.IsSuccess });
-        }
+        //    return Json(new { Message = responseSaving.Message, Success = responseSaving.IsSuccess });
+        //}
     }
 }
