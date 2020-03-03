@@ -5,38 +5,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Areas.Admin.Controllers {
     [Area("Admin")]
-    public class CategoryController : Controller {
+    public class CategoryController : BaseController {
         public IActionResult Index() {
-            return View();
+            var response = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "List"));
+            return View(response);
         }
 
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
             try {
-                Guid id = Guid.NewGuid();
-                var path = Path.Combine(
-                        "wwwroot", "Uploads"
-                );
-
-                Response<CategoryModel> responseSaving =
-                        JsonConvert.DeserializeObject<Response<CategoryModel>>(UiRequestManager.Instance.Post("Category", "Save", JsonConvert.SerializeObject(model)));
-
-                var pathToData = Path.GetFullPath(Path.Combine(path, id + "-" + model.Image.FileName));
-                using (var stream = new FileStream(pathToData, FileMode.Create)) {
-                    model.Image.CopyToAsync(stream).Wait();
-                }
+                model.ImageUrl = FileManager.Instance.Save(model.Image);
+                var response = UiRequestManager.Instance.Post("Category", "Save", JsonConvert.SerializeObject(model));
             } catch (Exception e) {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500);
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Delete(Guid id) {
+
+            return Json(new { Message = responseSaving.Message, Success = responseSaving.IsSuccess });
         }
     }
 }
