@@ -35,7 +35,7 @@ namespace AvsarGame.Portal
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseSession();
             app.UseMvc(routes => {
                 routes.MapRoute(
@@ -48,7 +48,6 @@ namespace AvsarGame.Portal
                         template: "Admin/{controller=Home}/{action=Index}/{id?}");
 
             });
-            app.UseStaticFiles();
         }
     }
 }
