@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Dal.Concreate.EntityFramework;
 using AvsarGame.Entities.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace AvsarGame.API {
@@ -37,17 +40,31 @@ namespace AvsarGame.API {
 
             services.AddTransient<ICategory, EfCategory>();
 
-            services.Configure< IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = true;//sayı zorunluluğu
-                options.Password.RequireLowercase = true;//küçük harf
-                options.Password.RequiredLength = 8;//minimum 8 karakter
-                options.Password.RequireNonAlphanumeric = true;//alfanümerik olması
-                options.Password.RequireUppercase = true;//büyük harf zorunluluğu
-                options.Lockout.MaxFailedAccessAttempts = 5;//max hatalı giriş sayısı
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);//kullanıcı ne kadar süre boyunca sisteme giriş yapamasın
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = true; //sayı zorunluluğu
+                options.Password.RequireLowercase = true; //küçük harf
+                options.Password.RequiredLength = 8; //minimum 8 karakter
+                options.Password.RequireNonAlphanumeric = true; //alfanümerik olması
+                options.Password.RequireUppercase = true; //büyük harf zorunluluğu
+                options.Lockout.MaxFailedAccessAttempts = 5; //max hatalı giriş sayısı
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //kullanıcı ne kadar süre boyunca sisteme giriş yapamasın
                 options.User.RequireUniqueEmail = true;
             });
+
+            services.AddAuthentication(x => {
+                        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                    .AddJwtBearer(x => {
+                        x.RequireHttpsMetadata = false;
+                        x.SaveToken = true;
+                        x.TokenValidationParameters = new TokenValidationParameters {
+                                ValidateIssuerSigningKey = true,
+                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+                                ValidateIssuer = false,
+                                ValidateAudience = false
+                        };
+                    });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "AvsarGameAPI", Version = "v1" }); });

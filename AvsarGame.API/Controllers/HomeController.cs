@@ -11,7 +11,7 @@ namespace AvsarGame.API.Controllers
 {
     [Route("api/Home")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class HomeController : APIControllerBase
     {
         [HttpGet]

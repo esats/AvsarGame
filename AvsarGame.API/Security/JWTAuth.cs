@@ -31,7 +31,7 @@ namespace AvsarGame.API.Security {
 
             var token = new JwtSecurityToken(
                     Configuration["JwtIssuer"],
-                    Configuration["JwtIssuer"],
+                    "",
                     claims,
                     expires: expires,
                     signingCredentials: creds

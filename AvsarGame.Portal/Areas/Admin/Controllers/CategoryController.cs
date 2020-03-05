@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Areas.Admin.Controllers {
     [Area("Admin")]
-    //[ServiceFilter(typeof(LoginFilter))]
+    [ServiceFilter(typeof(LoginFilter))]
     public class CategoryController : BaseController {
         public IActionResult Index() {
             var response = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "List"));

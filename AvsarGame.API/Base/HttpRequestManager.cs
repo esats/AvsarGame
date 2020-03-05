@@ -34,7 +34,7 @@ namespace AvsarGame.API.Base {
           
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(Url);
             request.Method = Type.ToString().ToUpper();
-            request.ContentType = "application/json";
+            request.ContentType = "application/json; ";
             request.Timeout = Int32.MaxValue;
             request.Headers.Add(HttpRequestHeader.Authorization,"Bearer " + token);
 
