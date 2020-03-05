@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
+using AvsarGame.Portal.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -13,7 +15,6 @@ namespace AvsarGame.Portal.Helpers
         protected string BaseApiUrl { get; set; }
         public static UiRequestManager Instance { get; set; }
         public static IConfiguration Configuration { get; set; }
-
         protected UiRequestManager(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,20 +34,20 @@ namespace AvsarGame.Portal.Helpers
         public string Get(string ControllerName, string actionName, Guid? Id = null)
         {
             string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;
-
+            var token = SessionManager.Instance.Get("bearer");;
             if (Id.HasValue)
             {
                 url += "/" + Id.ToString();
             }
 
-            string response = HttpRequestManager.Instance.Get(url);
+            string response = HttpRequestManager.Instance.Get(url,token);
             return response;
         }
 
         public string Get(string ControlerName, string actionName, string QueryString)
         {
             string url = this.BaseApiUrl + "/" + ControlerName +"/"+ actionName + QueryString;
-            string response = HttpRequestManager.Instance.Get(url);
+            string response = HttpRequestManager.Instance.Get(url,"");
             return response;
         }
 
@@ -62,7 +63,7 @@ namespace AvsarGame.Portal.Helpers
                 }
             }
 
-            string response = HttpRequestManager.Instance.Get(url);
+            string response = HttpRequestManager.Instance.Get(url,"");
             return response;
         }
 
@@ -83,7 +84,7 @@ namespace AvsarGame.Portal.Helpers
         public T Get<T>(string ControlerName, string actionName, string QueryString)
         {
             string url = this.BaseApiUrl + "/" + ControlerName + QueryString;
-            string response = HttpRequestManager.Instance.Get(url);
+            string response = HttpRequestManager.Instance.Get(url,"");
 
             try
             {
@@ -130,6 +131,7 @@ namespace AvsarGame.Portal.Helpers
             string response = HttpRequestManager.Instance.Post(url, actionName, Data);
             return response;
         }
+       
         public async Task<string> PostAsync(string ControllerName, string actionName, string Data)
         {
             string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;

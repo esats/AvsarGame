@@ -10,9 +10,9 @@ namespace AvsarGame.Portal.Core
     public class LoginFilter : IAuthorizationFilter {
         public void OnAuthorization(AuthorizationFilterContext context) {
             //Check Session is Empty Then set as Result is HttpUnauthorizedResult 
-            var isAuthenticate =  context.HttpContext.Session.GetString("bearer");
+            var isAuthenticate = SessionManager.Instance.Get("bearer");
             if (String.IsNullOrEmpty(isAuthenticate)) {
-                context.HttpContext.Response.Redirect("/admin/Account/Index");
+                context.HttpContext.Response.Redirect("admin/Account/Index");
             }
         }
     }

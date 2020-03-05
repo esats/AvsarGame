@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AvsarGame.API.Controllers {
     [Route("api/Category")]
     [Produces("application/json")]
-    //[AllowAnonymous]
+    //[Authorize]
     public class CategoryController : APIControllerBase {
         private readonly ICategory _category;
 
@@ -32,9 +32,11 @@ namespace AvsarGame.API.Controllers {
                         ImageUrl = entity.ImageUrl,
                         Description = entity.Description,
                         Name = entity.Name,
+                        Id = entity.Id
                 };
                 list.Add(model);
             }
+
             return list;
         }
 
@@ -42,14 +44,26 @@ namespace AvsarGame.API.Controllers {
         [Route("Save")]
         public ActionResult Save([FromBody] CategoryModel model) {
             try {
-                Category entity = new Category() {
-                        ImageUrl = model.ImageUrl,
-                        Description = model.Description,
-                        Name = model.Name,
-                        //CreatedBy = base yapısından giriş yapan kullanıcıyı al ve ona göre createdbyı getir. mastan base sistemini alabiliriz.
-                        //CreatedDate =
-                };
-                _category.Add(entity);
+                if (model.Id != Guid.Empty) {
+                    Category entity = new Category() {
+                            Id = model.Id,
+                            ImageUrl = model.ImageUrl,
+                            Description = model.Description,
+                            Name = model.Name,
+                            //UpdatedBy = base yapısından giriş yapan kullanıcıyı al ve ona göre createdbyı getir. mastan base sistemini alabiliriz.
+                            //ModifiedBy =
+                    };
+                    _category.Update(entity);
+                } else {
+                    Category entity = new Category() {
+                            ImageUrl = model.ImageUrl,
+                            Description = model.Description,
+                            Name = model.Name,
+                            //CreatedBy = base yapısından giriş yapan kullanıcıyı al ve ona göre createdbyı getir. mastan base sistemini alabiliriz.
+                            //CreatedDate =
+                    };
+                    _category.Add(entity);
+                }
             } catch (Exception e) {
                 return StatusCode(404);
             }
@@ -64,6 +78,20 @@ namespace AvsarGame.API.Controllers {
             Category entity = await _category.GetTAsync(x => x.Id == id && x.IsActive == true);
 
             return bookResponse;
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public ActionResult Delete([FromBody] Guid id) {
+            try {
+                Category entity = _category.GetT(x => x.Id == id && x.IsActive == true);
+                entity.IsActive = false;
+                _category.Update(entity);
+            } catch (Exception e) {
+                return StatusCode(404);
+            }
+
+            return StatusCode(200);
         }
     }
 }

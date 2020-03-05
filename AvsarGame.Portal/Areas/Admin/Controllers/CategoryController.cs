@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Areas.Admin.Controllers {
     [Area("Admin")]
-    [ServiceFilter(typeof(LoginFilter))]
+    //[ServiceFilter(typeof(LoginFilter))]
     public class CategoryController : BaseController {
         public IActionResult Index() {
             var response = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "List"));
@@ -22,7 +22,9 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         [HttpPost]
         public ActionResult Save(CategoryModel model) {
             try {
-                model.ImageUrl = FileManager.Instance.Save(model.Image);
+                if (model.Image != null) {
+                    model.ImageUrl = FileManager.Instance.Save(model.Image);
+                }
                 var response = UiRequestManager.Instance.Post("Category", "Save", JsonConvert.SerializeObject(model));
             } catch (Exception e) {
                 return StatusCode(500);
@@ -31,10 +33,15 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
             return RedirectToAction("Index");
         }
 
-        //[HttpPost]
-        //public async Task<JsonResult> Delete(Guid id) {
+        [HttpPost]
+        public JsonResult Delete(Guid id) {
+            try {
+                var responseSaving = UiRequestManager.Instance.Post("Category", "Delete", JsonConvert.SerializeObject(id));
+            } catch (Exception e) {
+                return Json(new { Success = false });
+            }
 
-        //    return Json(new { Message = responseSaving.Message, Success = responseSaving.IsSuccess });
-        //}
+            return Json(new { Success = true });
+        }
     }
 }

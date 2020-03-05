@@ -4,38 +4,39 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace AvsarGame.API.Base {
     public class HttpRequestManager {
         public static HttpRequestManager Instance { get; set; }
-        public HttpContext HttpContext { get; set; }
-
+        public HttpContext httpContext { get; set; }
         static HttpRequestManager() {
             Instance = new HttpRequestManager();
         }
 
-        public string Get(string Url) {
-            return this.SendHttpRequest(Url, null, HttpRequestTypesEnum.Get, null);
+        public string Get(string Url,string bearer) {
+            return this.SendHttpRequest(Url, null, HttpRequestTypesEnum.Get, null,bearer);
         }
 
         //custom method with action paramters
         public string Post(string Url, string actionName, string Data) {
-            return this.SendHttpRequest(Url, actionName, HttpRequestTypesEnum.Post, Data);
+            return this.SendHttpRequest(Url, actionName, HttpRequestTypesEnum.Post, Data,null);
         }
 
         public async Task<string> PostAsync(string Url, string actionName, string Data) {
             return await this.SendHttpRequestAsync(Url, actionName, HttpRequestTypesEnum.Post, Data);
         }
 
-        protected string SendHttpRequest(string Url, string actionName, HttpRequestTypesEnum Type, string Data) {
+        protected string SendHttpRequest(string Url, string actionName, HttpRequestTypesEnum Type, string Data,string token) {
             string response = null;
           
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(Url);
             request.Method = Type.ToString().ToUpper();
             request.ContentType = "application/json";
             request.Timeout = Int32.MaxValue;
+            request.Headers.Add(HttpRequestHeader.Authorization,"Bearer " + token);
 
             if (Type == HttpRequestTypesEnum.Post) {
                 Stream requestStream = request.GetRequestStream();
