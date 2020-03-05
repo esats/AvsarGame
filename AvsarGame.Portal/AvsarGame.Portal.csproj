@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Views\" />
-    <Folder Include="wwwroot\assest\img\" />
     <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 

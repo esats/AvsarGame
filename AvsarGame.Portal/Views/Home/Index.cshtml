@@ -1,0 +1,224 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="Main">
+<div class="hero section">
+    <!-- <div class="hero-filter"></div> -->
+    <div id="hero-slider" class="swiper-container">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <div class="slide-container container">
+                    <div class="slide-text led led-before">
+                        <p>
+                            2020’nin En Çok Beklenen Oyunu:
+                        </p>
+                        <p>
+                            Mass Effect Andromeda!
+                        </p>
+                    </div>
+                </div>
+
+                <img src="~/assest/img/home-slide1-bg.jpg" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <div class="slide-container container">
+                    <div class="slide-text led led-before">
+                        <p>
+                            Son 5 Yılın En Çok Oynanan Oyunu:
+                        </p>
+                        <p>
+                            Elder Scrolls: Skyrim
+                        </p>
+                    </div>
+                </div>
+
+                <img src="~/assest/img/home-slide2-bg.jpg" alt=""/>
+            </div>
+        </div>
+        <!-- If we need pagination -->
+
+        <div class="swiper-pagination container"></div>
+    </div>
+</div>
+<div class="section container logo-section">
+    <div class="row mb-3">
+        <div class="col-lg-11 col-md-10 col-9">
+            <h3 class="title-secondary led led-before">En Popüler Oyunlar</h3>
+        </div>
+        <div class="col-lg-1 col-md-2 col-3">
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div id="logo-slider" class="swiper-container logo-slider has-arrows">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <img src="~/assest/img/knightlogo.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/legend-online-iii.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/knightlogo.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/legend-online-iii.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/knightlogo.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/legend-online-iii.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/knightlogo.png" alt=""/>
+            </div>
+            <div class="swiper-slide">
+                <img src="~/assest/img/legend-online-iii.png" alt=""/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section container news-section">
+    <div class="row mb-3">
+        <div class="col-lg-11 col-md-10 col-9">
+            <h3 class="title-secondary led led-before">Yeni Çıkanlar</h3>
+        </div>
+        <div class="col-lg-1 col-md-2 col-3">
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div id="news-slider" class=" swiper-container has-arrows">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper showcase">
+            <!-- Slides -->
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="showcase-info">
+                    <p class="name">Tom Glancy's Ghost</p>
+                    <p class="price">50 TL</p>
+                </div>
+            </div>
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="showcase-info">
+                    <p class="name">Dark Souls Remastered</p>
+                    <p class="price">100 TL</p>
+                </div>
+            </div>
+            <div class="swiper-slide showcase-item">
+                <div class="swiper-slide showcase-item-inner">
+                    <img class="showcase-img" src="~/assest/img/skyrim.jpg" alt=""/>
+                    <div class="showcase-info">
+                        <p class="name">Skyrim</p>
+                        <p class="price">80 TL</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="notification notification-top">%20 İndirim</div>
+                <div class="showcase-info">
+                    <p class="name">Halo 4</p>
+                    <p class="price-before">100 TL</p>
+                    <p class="price">80 TL</p>
+                </div>
+            </div>
+
+            <div class="swiper-slide showcase-item">
+                <div class="showcase-info">
+                    <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                    <p class="name">Halo 4</p>
+                    <p class="price">80 TL</p>
+                </div>
+            </div>
+
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="notification notification-top">%20 İndirim</div>
+                <div class="showcase-info">
+                    <p class="name">Halo 4</p>
+                    <p class="price-before">100 TL</p>
+                    <p class="price">80 TL</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section container best-seller-section">
+    <div class="row mb-3">
+        <div class="col-lg-11 col-md-10 col-9">
+            <h3 class="title-secondary led led-before">En Çok Satanlar</h3>
+        </div>
+        <div class="col-lg-1 col-md-2 col-3">
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div id="best-seller-slider" class=" swiper-container has-arrows">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper showcase">
+            <!-- Slides -->
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="showcase-info">
+                    <p class="name">Tom Glancy's Ghost</p>
+                    <p class="price">50 TL</p>
+                </div>
+            </div>
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="showcase-info">
+                    <p class="name">Dark Souls Remastered</p>
+                    <p class="price">100 TL</p>
+                </div>
+            </div>
+            <div class="swiper-slide showcase-item">
+                <div class="swiper-slide showcase-item-inner">
+                    <img class="showcase-img" src="~/assest/img/skyrim.jpg" alt=""/>
+                    <div class="showcase-info">
+                        <p class="name">Skyrim</p>
+                        <p class="price">80 TL</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="notification notification-top">%20 İndirim</div>
+                <div class="showcase-info">
+                    <p class="name">Halo 4</p>
+                    <p class="price-before">100 TL</p>
+                    <p class="price">80 TL</p>
+                </div>
+            </div>
+
+            <div class="swiper-slide showcase-item">
+                <div class="showcase-info">
+                    <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                    <p class="name">Halo 4</p>
+                    <p class="price">80 TL</p>
+                </div>
+            </div>
+
+            <div class="swiper-slide showcase-item">
+                <img class="showcase-img" src="~/assest/img/halo4.jpg" alt=""/>
+                <div class="notification notification-top">%20 İndirim</div>
+                <div class="showcase-info">
+                    <p class="name">Halo 4</p>
+                    <p class="price-before">100 TL</p>
+                    <p class="price">80 TL</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
