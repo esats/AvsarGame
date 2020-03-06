@@ -50,8 +50,8 @@ namespace AvsarGame.API.Controllers {
                             ImageUrl = model.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
-                            //UpdatedBy = base yapısından giriş yapan kullanıcıyı al ve ona göre createdbyı getir. mastan base sistemini alabiliriz.
-                            //ModifiedBy =
+                            ModifiedBy = base.GetUser(),
+                            ModifiedDate = DateTime.Now
                     };
                     _category.Update(entity);
                 } else {
@@ -59,8 +59,8 @@ namespace AvsarGame.API.Controllers {
                             ImageUrl = model.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
-                            //CreatedBy = base yapısından giriş yapan kullanıcıyı al ve ona göre createdbyı getir. mastan base sistemini alabiliriz.
-                            //CreatedDate =
+                            CreatedDate =DateTime.Now,
+                            CreatedBy = base.GetUser()
                     };
                     _category.Add(entity);
                 }

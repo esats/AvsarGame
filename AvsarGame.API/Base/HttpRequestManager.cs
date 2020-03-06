@@ -21,8 +21,8 @@ namespace AvsarGame.API.Base {
         }
 
         //custom method with action paramters
-        public string Post(string Url, string actionName, string Data) {
-            return this.SendHttpRequest(Url, actionName, HttpRequestTypesEnum.Post, Data,null);
+        public string Post(string Url, string actionName, string Data, string bearer) {
+            return this.SendHttpRequest(Url, actionName, HttpRequestTypesEnum.Post, Data,bearer);
         }
 
         public async Task<string> PostAsync(string Url, string actionName, string Data) {

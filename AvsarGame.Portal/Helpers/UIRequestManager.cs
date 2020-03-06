@@ -8,176 +8,140 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace AvsarGame.Portal.Helpers
-{
-    public class UiRequestManager
-    {
+namespace AvsarGame.Portal.Helpers {
+    public class UiRequestManager {
         protected string BaseApiUrl { get; set; }
         public static UiRequestManager Instance { get; set; }
         public static IConfiguration Configuration { get; set; }
-        protected UiRequestManager(IConfiguration configuration)
-        {
+        public string BearerToken => SessionManager.Instance.Get("bearer");
+
+        protected UiRequestManager(IConfiguration configuration) {
             Configuration = configuration;
         }
 
-        static UiRequestManager()
-        {
+        static UiRequestManager() {
             Instance = new UiRequestManager();
         }
 
-        protected UiRequestManager()
-        {
+        protected UiRequestManager() {
             this.BaseApiUrl = "http://localhost:30667/api";
             //this.BaseApiUrl = "http://api.dthamitavsar.com/api";
         }
 
-        public string Get(string ControllerName, string actionName, Guid? Id = null)
-        {
+        public string Get(string ControllerName, string actionName, Guid? Id = null) {
             string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;
-            var token = SessionManager.Instance.Get("bearer");;
-            if (Id.HasValue)
-            {
+            
+
+            if (Id.HasValue) {
                 url += "/" + Id.ToString();
             }
 
-            string response = HttpRequestManager.Instance.Get(url,token);
+            string response = HttpRequestManager.Instance.Get(url, BearerToken);
             return response;
         }
 
-        public string Get(string ControlerName, string actionName, string QueryString)
-        {
-            string url = this.BaseApiUrl + "/" + ControlerName +"/"+ actionName + QueryString;
-            string response = HttpRequestManager.Instance.Get(url,"");
+        public string Get(string ControlerName, string actionName, string QueryString) {
+            string url = this.BaseApiUrl + "/" + ControlerName + "/" + actionName + QueryString;
+            string response = HttpRequestManager.Instance.Get(url, BearerToken);
             return response;
         }
 
-        public string Get(string ControllerName, string actionName, params string[] Parameters)
-        {
-            string url = this.BaseApiUrl + "/" + ControllerName+ "/" + actionName;
+        public string Get(string ControllerName, string actionName, params string[] Parameters) {
+            string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;
 
-            if (Parameters != null && Parameters.Length != 0)
-            {
-                foreach (string parameter in Parameters)
-                {
+            if (Parameters != null && Parameters.Length != 0) {
+                foreach (string parameter in Parameters) {
                     url += "/" + parameter;
                 }
             }
 
-            string response = HttpRequestManager.Instance.Get(url,"");
+            string response = HttpRequestManager.Instance.Get(url, BearerToken);
             return response;
         }
 
-        public T Get<T>(string ControllerName, string actionName,Guid Id)
-        {
-            string response = this.Get(ControllerName,actionName, Id);
-            try
-            {
+        public T Get<T>(string ControllerName, string actionName, Guid Id) {
+            string response = this.Get(ControllerName, actionName, Id);
+            try {
                 T obj = JsonConvert.DeserializeObject<T>(response);
                 return obj;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new Exception(response, ex);
             }
         }
 
-        public T Get<T>(string ControlerName, string actionName, string QueryString)
-        {
+        public T Get<T>(string ControlerName, string actionName, string QueryString) {
             string url = this.BaseApiUrl + "/" + ControlerName + QueryString;
-            string response = HttpRequestManager.Instance.Get(url,"");
+            string response = HttpRequestManager.Instance.Get(url, BearerToken);
 
-            try
-            {
+            try {
                 T obj = JsonConvert.DeserializeObject<T>(response);
                 return obj;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new Exception(response, ex);
             }
         }
 
-        public T Get<T>(string ControllerName,string actionName, params string[] Parameters)
-        {
+        public T Get<T>(string ControllerName, string actionName, params string[] Parameters) {
             string response = this.Get(ControllerName, actionName, Parameters);
-            try
-            {
+            try {
                 T obj = JsonConvert.DeserializeObject<T>(response);
                 return obj;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new Exception(response, ex);
             }
         }
 
-        public List<T> Get<T>(string ControllerName,string actionName)
-        {
+        public List<T> Get<T>(string ControllerName, string actionName) {
             string response = this.Get(ControllerName, actionName);
-            try
-            {
+            try {
                 List<T> obj = JsonConvert.DeserializeObject<List<T>>(response);
                 return obj;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new Exception(response, ex);
             }
         }
 
-        public string Post(string ControllerName, string actionName, string Data)
-        {
+        public string Post(string ControllerName, string actionName, string Data) {
             string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;
-            string response = HttpRequestManager.Instance.Post(url, actionName, Data);
+            string response = HttpRequestManager.Instance.Post(url, actionName, Data,BearerToken);
             return response;
         }
-       
-        public async Task<string> PostAsync(string ControllerName, string actionName, string Data)
-        {
+
+        public async Task<string> PostAsync(string ControllerName, string actionName, string Data) {
             string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;
             string response = await HttpRequestManager.Instance.PostAsync(url, actionName, Data);
             return response;
         }
 
-        public T Post<T>(string ControllerName, string actionName, string Data)
-        {
+        public T Post<T>(string ControllerName, string actionName, string Data) {
             string response = this.Post(ControllerName, actionName, Data);
 
-            try
-            {
+            try {
                 T obj = JsonConvert.DeserializeObject<T>(response);
                 return obj;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new Exception(response, ex);
             }
         }
 
-        public List<T> PostList<T>(string ControllerName, string actionName, string Data)
-        {
+        public List<T> PostList<T>(string ControllerName, string actionName, string Data) {
             string response = this.Post(ControllerName, actionName, Data);
 
-            try
-            {
+            try {
                 List<T> obj = JsonConvert.DeserializeObject<List<T>>(response);
                 return obj;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new Exception(response, ex);
             }
         }
 
-        public T Post<T>(string ControllerName, string actionName, IModelBase Data)
-        {
+        public T Post<T>(string ControllerName, string actionName, IModelBase Data) {
             string json = JsonConvert.SerializeObject(Data);
             T obj = this.Post<T>(ControllerName, actionName, json);
             return obj;
         }
 
-        public List<T> PostList<T>(string ControllerName, string actionName, IModelBase Data)
-        {
+        public List<T> PostList<T>(string ControllerName, string actionName, IModelBase Data) {
             string json = JsonConvert.SerializeObject(Data);
             List<T> obj = this.PostList<T>(ControllerName, actionName, json);
             return obj;

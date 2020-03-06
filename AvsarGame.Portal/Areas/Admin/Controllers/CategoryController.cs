@@ -20,17 +20,17 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Save(CategoryModel model) {
+        public JsonResult Save(CategoryModel model) {
             try {
                 if (model.Image != null) {
                     model.ImageUrl = FileManager.Instance.Save(model.Image);
                 }
                 var response = UiRequestManager.Instance.Post("Category", "Save", JsonConvert.SerializeObject(model));
             } catch (Exception e) {
-                return StatusCode(500);
+                return Json(new{Success = false, Message = "Birşeyler ters gitti"});
             }
 
-            return RedirectToAction("Index");
+            return Json(new{Success = true, Message = "oldu işte "});
         }
 
         [HttpPost]
