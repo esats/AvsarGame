@@ -17,7 +17,7 @@ namespace AvsarGame.API.Controllers {
     [Route("api/Account")]
     [Produces("application/json")]
     [AllowAnonymous]
-    public class AccountController : APIControllerBase {
+    public class AccountController : ControllerBase {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -106,7 +106,8 @@ namespace AvsarGame.API.Controllers {
         //}
 
         [HttpPost("Register")]
-        public async Task<Response<ApplicationUser>> Register([FromBody] RegisterModel model) {
+        public async Task<RegisterModel> Register([FromBody] RegisterModel model) {
+            RegisterModel registerModel= new RegisterModel();
             try {
                 var identityUser = new ApplicationUser {
                         UserName = model.Email,
@@ -128,28 +129,25 @@ namespace AvsarGame.API.Controllers {
                     updatedEntity.NormalizedEmail = model.Email;
                     updatedEntity.PhoneNumber = model.PhoneNumber;
                     var update = await _userManager.UpdateAsync(updatedEntity);
-                    return new Response<ApplicationUser>(updatedEntity);
+                    return registerModel;
                 } else {
                     var result = await _userManager.CreateAsync(identityUser, model.Password);
 
                     if (result.Succeeded) {
                         string role = "User";
                         await _userManager.AddToRoleAsync(identityUser, role);
-                        //await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("userName", identityUser.UserName));
-                        //await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("email", identityUser.Email));
                         await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
-
                         var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                        appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
-                        return new Response<ApplicationUser>(appUser);
+                        registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
+                        return registerModel;
+                    } else {
+                        registerModel.Error = result.Errors;
+                        return registerModel;
                     }
                 }
             } catch (Exception e) {
-                Console.WriteLine(e);
-                throw;
+                throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
             }
-
-            throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Portal.Areas.Admin.Models;
 using AvsarGame.Portal.Core;
@@ -14,7 +15,7 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         public IActionResult Index() {
             GamePageModel model =  new GamePageModel();
             model.Categories = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "List"));
-            //model.Games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "List"));
+            model.Games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "List"));
             return View(model);
         }
 
@@ -24,7 +25,7 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
                 if (model.Image != null) {
                     model.ImageUrl = FileManager.Instance.Save(model.Image);
                 }
-                var response = UiRequestManager.Instance.Post("Category", "Save", JsonConvert.SerializeObject(model));
+                var response = JsonConvert.DeserializeObject<Response<GameModel>>(UiRequestManager.Instance.Post("Game", "Save", JsonConvert.SerializeObject(model)));
             } catch (Exception e) {
                 return Json(new{Success = false, Message = "Birşeyler ters gitti"});
             }
@@ -35,7 +36,7 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         [HttpPost]
         public JsonResult Delete(Guid id) {
             try {
-                var responseSaving = UiRequestManager.Instance.Post("Category", "Delete", JsonConvert.SerializeObject(id));
+                var responseSaving = UiRequestManager.Instance.Post("Game", "Delete", JsonConvert.SerializeObject(id));
             } catch (Exception e) {
                 return Json(new { Success = false });
             }

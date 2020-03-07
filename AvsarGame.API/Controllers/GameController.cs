@@ -30,9 +30,8 @@ namespace AvsarGame.API.Controllers {
                         ImageUrl = entity.ImageUrl,
                         Description = entity.Description,
                         Name = entity.Name,
-                        CategoryName=entity.Category.Name,
-                        SellPrice=entity.SellPrice,
-                        BuyPrice=entity.BuyPrice
+                        SellPrice = entity.SellPrice,
+                        BuyPrice = entity.BuyPrice
                 };
                 list.Add(model);
             }
@@ -52,7 +51,7 @@ namespace AvsarGame.API.Controllers {
                             Name = model.Name,
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
-                            //CategoryId= model.CategoryId,
+                            CategoryId = model.CategoryId,
                             ModifiedBy = base.GetUser(),
                             ModifiedDate = DateTime.Now
                     };
@@ -64,8 +63,8 @@ namespace AvsarGame.API.Controllers {
                             Name = model.Name,
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
-                            //CategoryId= model.CategoryId,
-                            CreatedDate =DateTime.Now,
+                            CategoryId = model.CategoryId,
+                            CreatedDate = DateTime.Now,
                             CreatedBy = base.GetUser()
                     };
                     _game.Add(entity);

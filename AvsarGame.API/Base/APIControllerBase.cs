@@ -12,9 +12,11 @@ namespace AvsarGame.API.Base
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class APIControllerBase : ControllerBase
     {
+        [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public Guid GetUser() {
             var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "jti")?.Value;
             return new Guid(userId);

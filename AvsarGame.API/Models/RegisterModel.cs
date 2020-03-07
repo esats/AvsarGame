@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
     public class RegisterModel :ModelBase<Guid> {
@@ -14,6 +16,9 @@ namespace AvsarGame.API.Models {
         public string PhoneNumber { get; set; }
         public int? Gender { get; set; }
         public DateTime? Birthdate { get; set; }
+        public string BearerToken { get; set; }
+        public IEnumerable<IdentityError> Error { get; set; }
+        [JsonIgnore]
         public IFormFile formData { get; set; }
     }
 }
