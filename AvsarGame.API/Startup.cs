@@ -40,6 +40,7 @@ namespace AvsarGame.API {
 
             services.AddTransient<ICategory, EfCategory>();
             services.AddTransient<IGame, EfGame>();
+            services.AddTransient<IAnnouncement, EfAnnouncement>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = true; //sayı zorunluluğu
