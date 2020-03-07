@@ -1,5 +1,5 @@
 ﻿@using AvsarGame.Portal.Core
-@model IEnumerable<AvsarGame.API.Models.GameModel>
+@model AvsarGame.Portal.Areas.Admin.Models.GamePageModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -27,7 +27,7 @@
                     <tbody>
                         @*@foreach (var item in Model)*@
                         {
-                            @*<tr>
+                        @*<tr>
                                 <td>@item.Name</td>
                                 <td>@item.Description</td>
                                 <td><img style="width: 100px;height: 100px" src="/Uploads/@item.ImageUrl" /></td>
@@ -39,7 +39,7 @@
                                     <button id="delete" data-id="@item.Id" class="btn btn-danger">Sil</button>
                                 </td>
                             </tr>*@
-                            @*<div class="modal fade" id="@PageHelper.GetModalId(item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        @*<div class="modal fade" id="@PageHelper.GetModalId(item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header border-bottom-0">
@@ -78,6 +78,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -91,14 +92,27 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Kategori Adı</label>
-                        <input name="CategoryName" type="text" class="form-control">
+                        <select name="CategoryId" class="form-control">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Kategori Adı</label>
                         <input name="Name" type="text" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Adı</label>
+                        <label>Alış Fiyatı</label>
+                        <input name="Name" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Satış Fiyatı</label>
+                        <input name="Name" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
                         <textarea type="text" name="Description" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
@@ -108,7 +122,7 @@
                 </div>
                 <div class="modal-footer border-top-0 d-flex justify-content-center">
                     @*<button>Kaydet</button>*@
-                    <input type="button" id="save" class="btn btn-success" value="kaydet" />
+                    <input type="button" id="save" class="btn btn-success" value="kaydet"/>
                 </div>
             </form>
         </div>
@@ -129,7 +143,9 @@
                 data: model,
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 1000);
+                    setTimeout(function() {
+                        location.reload()
+                    }, 1000);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");
@@ -137,7 +153,7 @@
             });
         });
 
-        $("td #delete").click(function () {
+        $("td #delete").click(function() {
             debugger;
             var id = $(this).attr('data-id');
             var btn = this;
@@ -151,15 +167,15 @@
                     closeOnConfirm: true,
                     closeOnCancel: true
                 },
-                function (isConfirm) {
+                function(isConfirm) {
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
                             url: '/Admin/Category/Delete',
                             content: "application/json; charset=utf-8",
-                            data: {id: id},
-                            dataType:'json',
-                            success: function (res) {
+                            data: { id: id },
+                            dataType: 'json',
+                            success: function(res) {
                                 if (res) {
                                     swal("Basarili!", "Kayıt silindi", "success");
                                     location.reload();

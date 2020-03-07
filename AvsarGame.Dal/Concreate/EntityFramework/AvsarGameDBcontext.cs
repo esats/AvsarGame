@@ -13,6 +13,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<IdentityRole> AppIdentityRoles { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Games> Games { get; set; }
 
         public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options) {
         }

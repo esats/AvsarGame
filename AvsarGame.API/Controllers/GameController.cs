@@ -52,7 +52,7 @@ namespace AvsarGame.API.Controllers {
                             Name = model.Name,
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
-                            CategoryId= model.CategoryId,
+                            //CategoryId= model.CategoryId,
                             ModifiedBy = base.GetUser(),
                             ModifiedDate = DateTime.Now
                     };
@@ -64,7 +64,7 @@ namespace AvsarGame.API.Controllers {
                             Name = model.Name,
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
-                            CategoryId= model.CategoryId,
+                            //CategoryId= model.CategoryId,
                             CreatedDate =DateTime.Now,
                             CreatedBy = base.GetUser()
                     };
