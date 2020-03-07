@@ -12,6 +12,7 @@ namespace AvsarGame.API.Base
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class APIControllerBase : ControllerBase
     {
         public Guid GetUser() {

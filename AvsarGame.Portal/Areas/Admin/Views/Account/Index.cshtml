@@ -155,8 +155,12 @@
                     content: "application/json; charset=utf-8",
                     dataType: 'json',
                     data: model,
-                    success: function(response) {
-                        console.log(response);
+                    success: function(res) {
+                        if (res.success) {
+                            location.href = res.returnUrl;
+                        } else {
+                            alert("Kullanıcı adı veya şifre hatalı");
+                        }
                     },
                     error: function(err) {
                         alert("Bir Hata oluştu");

@@ -22,5 +22,9 @@ namespace AvsarGame.Portal.Core {
         public string Get(string key) {
             return Context.HttpContext.Session.GetString(key);
         }
+
+        public void set(string key,string value) {
+            Context.HttpContext.Session.SetString(key,value);
+        }
     }
 }

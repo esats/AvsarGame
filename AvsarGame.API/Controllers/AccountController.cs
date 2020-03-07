@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace AvsarGame.API.Controllers {
-    [ApiController]
     [Route("api/Account")]
     [Produces("application/json")]
     [AllowAnonymous]

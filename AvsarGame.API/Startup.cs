@@ -39,6 +39,7 @@ namespace AvsarGame.API {
                     .AddDefaultTokenProviders();
 
             services.AddTransient<ICategory, EfCategory>();
+            services.AddTransient<IGame, EfGame>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = true; //sayı zorunluluğu

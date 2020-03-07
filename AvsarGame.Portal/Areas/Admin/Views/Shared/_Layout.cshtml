@@ -125,7 +125,16 @@
     <script src="~/assest/Scripts/vendor.js"></script>
     <script src="~/assest/Scripts/bundle.js"></script>
     <script src="~/assest/Scripts/sweetalert.min.js"></script>
+    <script>
+        function serializeArrayToJson(serializedArray) {
+            var jsonObj = {};
+            $.map(serializedArray, function(n, i) {
+                jsonObj[n.name] = n.value;
+            });
 
+            return jsonObj;
+        }
+    </script>
     <div>
         @await Html.PartialAsync("_Sidebar")
         <div class="page-container">

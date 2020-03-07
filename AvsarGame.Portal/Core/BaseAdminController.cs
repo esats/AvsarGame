@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AvsarGame.Portal.Core
 {
-    public class BaseController : Controller {
+    [Area("Admin")]
+    //[ServiceFilter(typeof(LoginFilter))]
+    public class BaseAdminController : Controller {
         //protected string UserName => HttpContext.Request.Headers.ContentLength;
     }
 }

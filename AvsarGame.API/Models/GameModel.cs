@@ -1,11 +1,15 @@
-﻿using AvsarGame.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using AvsarGame.API.Base;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
-namespace AvsarGame.Entities.Entities {
-    public class Games : EntityBase<Guid> {
+namespace AvsarGame.API.Models {
+    public class GameModel : ModelBase<Guid> {
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public string Description { get; set; }
@@ -14,6 +18,8 @@ namespace AvsarGame.Entities.Entities {
         public decimal SellPrice { get; set; }
         public decimal BuyPrice { get; set; }
         public string Count { get; set; }
-        public Category Category { get; set; }
+
+        [JsonIgnore]
+        public IFormFile Image { get; set; }
     }
 }
