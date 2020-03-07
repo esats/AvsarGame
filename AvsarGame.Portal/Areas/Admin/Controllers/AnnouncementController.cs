@@ -26,11 +26,11 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers
                     model.ImageUrl = FileManager.Instance.Save(model.Image);
                 }
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Announcement", "Save", JsonConvert.SerializeObject(model)));
+                return Json(response);
             } catch (Exception e) {
                 return Json(new{Success = false, Message = "Birşeyler ters gitti"});
             }
 
-            return Json(new{Success = true, Message = "oldu işte "});
         }
 
         [HttpPost]

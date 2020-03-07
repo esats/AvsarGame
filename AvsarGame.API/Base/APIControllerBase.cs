@@ -12,7 +12,7 @@ namespace AvsarGame.API.Base
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class APIControllerBase : ControllerBase
     {
         [HttpGet]
