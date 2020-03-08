@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
-using AvsarGame.Portal.Areas.Admin.Models;
 using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
+using AvsarGame.Portal.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

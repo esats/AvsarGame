@@ -1,0 +1,502 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-wrapper">
+<main class="Main">
+<div class="container">
+<div class="row align-items-center">
+    @*<div class="col-6">
+        <h3 class="title-primary">Bakiye Çek</h3>
+    </div>*@
+    <div class="col-12">
+        <p class="text-right page-info">
+            GB alım satımları TRADE ile yapılmaktadır.
+        </p>
+    </div>
+</div>
+<div class="row section">
+    <div class="order-lg-1 order-2 col-12 col-lg-3 recommended side">
+        <div class="row">
+            @*<div class="col-12 col-sm-6 col-lg-12">
+                <h4 class="title-secondary led led-below">
+                    HAFTANIN ÖNERİLEN OYUNU
+                </h4>
+                <img class="recommended-img mt-3 mb-5" src="./assets/img/star-wars.jpg" alt="" />
+            </div>*@
+            <div class="col-12 col-sm-6 col-lg-12">
+                <div class="title-secondary led led-below">UYARI</div>
+                <div class="recommended-text pt-3">
+                    <p>
+                        ByNoGame® Ntt Game Knight Online World Yetkili
+                        Satıcısıdır. (Official ESN Reseller)
+                    </p>
+                    <p>
+                        Alıcı, ürünün satın alımındaki tüm risk ve sorumlulukları
+                        kabul eder; ByNoGame firmasının hiçbir koşul altında
+                        sorumlu tutulamayacağını kabul, beyan ve taahhüt eder.
+                    </p>
+                    <p>
+                        Yeni Knight Online serverlarında (Vega, Sirius, Altar) en
+                        az 20m satabilir, en az 20m satın alabilirsiniz.
+                    </p>
+                    <p>* PAZAR kurmayınız TRADE ile verilmektedir.</p>
+                    <p>
+                        Tüm serverlarda fiyatlar 1 gb için olup, en az 50m
+                        üzerinden alış ve satış yapılabilmektedir. 1 gb almak için
+                        miktar kısmına 1 yazmanız yeterlidir.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9 col-12 order-lg-2 order-1 payment-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section tab-primary">
+                    <ul class="nav nav-pills " id="pills-tab" role="tablist">
+                        @*<li class="nav-item">
+                            <a class="nav-link active" id="pills-all-methods" data-toggle="pill" href="#all-methods"
+                               role="tab" aria-controls="all-methods" aria-selected="true">Tümü</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-credit-method" data-toggle="pill" href="#credit-method" role="tab"
+                               aria-controls="credit-method" aria-selected="false">Kredi / Banka Kartı</a>
+                        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-atm-method-tab" data-toggle="pill"
+                               href="#atm-method" role="tab" aria-controls="atm-method"
+                               aria-selected="false">ATM / Havale / EFT</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        @*<div class="tab-pane fade show active" id="all-methods" role="tabpanel"
+                             aria-labelledby="pills-all-methods">
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <div class="collapse-container">
+                                        <a class="collapse-head" data-toggle="collapse" data-target="#pay-credit">
+                                            <p class="collapse-title">Kredi Kartı İle Ödeme</p>
+                                        </a>
+                                        <div class="collapse multi-collapse" id="pay-credit">
+                                            <div class="collapse-content">
+                                                <form id="payment-form" class="needs-validation pt-3" novalidate="">
+                                                    <div class="row">
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="bank">Ödeme Yapacağınız Banka</label>
+
+                                                            <div class="form-select">
+                                                                <select class="form-control" name="bank" id="bank" required="">
+                                                                    <option disabled="" selected="" value="">Seçiniz</option>
+                                                                    <option value="akbank">Akbank</option>
+                                                                    <option value="garanti">Garanti</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="amount">Ödenecek Tutar</label>
+
+                                                            <input id="amount" name="amount" class="text-right form-control"
+                                                                   type="text" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="owner">Kart Sahibi</label>
+
+                                                            <input required="" name="owner" id="owner" class="form-control">
+                                                        </div>
+                                                        <div class="form-group credit-card col-12 col-sm-6 ">
+                                                            <label class="label-white" for="cardNumber">Kart Numarası</label>
+
+                                                            <input required="" placeholder="____ ____ ____ ____" id="cardNumber"
+                                                                   name="cardNumber" class="form-control" type="text" maxlength="19">
+                                                            <div class="payment-logo-container">
+                                                                <img class="payment-logo master-card-logo"
+                                                                     src="./assets/img/master-card.svg" alt="">
+                                                                <img class="payment-logo visa-logo" src="./assets/img/visa.svg"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-6 col-sm-4">
+                                                            <label class="no-wrap label-white" for="expireMonth">
+                                                                Son Kullanma
+                                                                Tarihi
+                                                            </label>
+
+                                                            <div class="form-select">
+                                                                <select required="" name="expireMonth" id="expireMonth"
+                                                                        class="form-control">
+                                                                    <option disabled="" selected="" value="">Ay</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-6 col-sm-4">
+                                                            <label class="invisible d-sm-block label-white"
+                                                                   for="expireYear">Yıl</label>
+
+                                                            <div class="form-select">
+                                                                <select required="" id="expireYear" name="expireYear"
+                                                                        class="form-control">
+                                                                    <option disabled="" selected="" value="">Yıl</option>
+                                                                    <option value="2020">2020</option>
+                                                                    <option value="2021">2021</option>
+                                                                    <option value="2022">2022</option>
+                                                                    <option value="2023">2023</option>
+                                                                    <option value="2024">2024</option>
+                                                                    <option value="2025">2025</option>
+                                                                    <option value="2026">2026</option>
+                                                                    <option value="2027">2027</option>
+                                                                    <option value="2028">2028</option>
+                                                                    <option value="2029">2029</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-12 col-sm-4">
+                                                            <label class="label-white" for="cvc">CVC</label>
+
+                                                            <input required="" id="cvc" name="cvc" class="form-control" type="text"
+                                                                   maxlength="3">
+                                                        </div>
+                                                    </div>
+                                                    <button id="payment-button" type="submit" class="button btn-blue ml-auto">
+                                                        Ödeme Yap
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse-container">
+                                        <a class="collapse-head" data-toggle="collapse" data-target="#pay-ininal">
+                                            <p class="collapse-title">İninal Kart İle Ödeme</p>
+                                        </a>
+                                        <div class="collapse multi-collapse" id="pay-ininal">
+                                            <div class="collapse-content">
+                                                <form id="payment-form" class="needs-validation pt-3" novalidate="">
+                                                    <div class="row">
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="bank">Ödeme Yapacağınız Banka</label>
+
+                                                            <div class="form-select">
+                                                                <select class="form-control" name="bank" id="bank" required="">
+                                                                    <option disabled="" selected="" value="">Seçiniz</option>
+                                                                    <option value="akbank">Akbank</option>
+                                                                    <option value="garanti">Garanti</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="amount">Ödenecek Tutar</label>
+
+                                                            <input id="amount" name="amount" class="text-right form-control"
+                                                                   type="text" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="owner">Kart Sahibi</label>
+
+                                                            <input required="" name="owner" id="owner" class="form-control">
+                                                        </div>
+                                                        <div class="form-group credit-card col-12 col-sm-6 ">
+                                                            <label class="label-white" for="cardNumber">Kart Numarası</label>
+
+                                                            <input required="" placeholder="____ ____ ____ ____" id="cardNumber"
+                                                                   name="cardNumber" class="form-control" type="text" maxlength="19">
+                                                            <div class="payment-logo-container">
+                                                                <img class="payment-logo master-card-logo"
+                                                                     src="./assets/img/master-card.svg" alt="">
+                                                                <img class="payment-logo visa-logo" src="./assets/img/visa.svg"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-6 col-sm-4">
+                                                            <label class="no-wrap label-white" for="expireMonth">
+                                                                Son Kullanma
+                                                                Tarihi
+                                                            </label>
+
+                                                            <div class="form-select">
+                                                                <select required="" name="expireMonth" id="expireMonth"
+                                                                        class="form-control">
+                                                                    <option disabled="" selected="" value="">Ay</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-6 col-sm-4">
+                                                            <label class="invisible d-sm-block label-white"
+                                                                   for="expireYear">Yıl</label>
+
+                                                            <div class="form-select">
+                                                                <select required="" id="expireYear" name="expireYear"
+                                                                        class="form-control">
+                                                                    <option disabled="" selected="" value="">Yıl</option>
+                                                                    <option value="2020">2020</option>
+                                                                    <option value="2021">2021</option>
+                                                                    <option value="2022">2022</option>
+                                                                    <option value="2023">2023</option>
+                                                                    <option value="2024">2024</option>
+                                                                    <option value="2025">2025</option>
+                                                                    <option value="2026">2026</option>
+                                                                    <option value="2027">2027</option>
+                                                                    <option value="2028">2028</option>
+                                                                    <option value="2029">2029</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-12 col-sm-4">
+                                                            <label class="label-white" for="cvc">CVC</label>
+
+                                                            <input required="" id="cvc" name="cvc" class="form-control" type="text"
+                                                                   maxlength="3">
+                                                        </div>
+                                                    </div>
+                                                    <button id="payment-button" type="submit" class="button btn-blue ml-auto">
+                                                        Ödeme Yap
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse-container">
+                                        <a class="collapse-head" data-toggle="collapse" data-target="#pay-gpay">
+                                            <p class="collapse-title">Kredi Kartı İle Ödeme (Gpay)</p>
+                                        </a>
+                                        <div class="collapse multi-collapse" id="pay-gpay">
+                                            <div class="collapse-content">
+                                                <form id="payment-form" class="needs-validation pt-3" novalidate="">
+                                                    <div class="row">
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="bank">Ödeme Yapacağınız Banka</label>
+
+                                                            <div class="form-select">
+                                                                <select class="form-control" name="bank" id="bank" required="">
+                                                                    <option disabled="" selected="" value="">Seçiniz</option>
+                                                                    <option value="akbank">Akbank</option>
+                                                                    <option value="garanti">Garanti</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="amount">Ödenecek Tutar</label>
+
+                                                            <input id="amount" name="amount" class="text-right form-control"
+                                                                   type="text" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-12 col-sm-6 ">
+                                                            <label class="label-white" for="owner">Kart Sahibi</label>
+
+                                                            <input required="" name="owner" id="owner" class="form-control">
+                                                        </div>
+                                                        <div class="form-group credit-card col-12 col-sm-6 ">
+                                                            <label class="label-white" for="cardNumber">Kart Numarası</label>
+
+                                                            <input required="" placeholder="____ ____ ____ ____" id="cardNumber"
+                                                                   name="cardNumber" class="form-control" type="text" maxlength="19">
+                                                            <div class="payment-logo-container">
+                                                                <img class="payment-logo master-card-logo"
+                                                                     src="./assets/img/master-card.svg" alt="">
+                                                                <img class="payment-logo visa-logo" src="./assets/img/visa.svg"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-6 col-sm-4">
+                                                            <label class="no-wrap label-white" for="expireMonth">
+                                                                Son Kullanma
+                                                                Tarihi
+                                                            </label>
+
+                                                            <div class="form-select">
+                                                                <select required="" name="expireMonth" id="expireMonth"
+                                                                        class="form-control">
+                                                                    <option disabled="" selected="" value="">Ay</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-6 col-sm-4">
+                                                            <label class="invisible d-sm-block label-white"
+                                                                   for="expireYear">Yıl</label>
+
+                                                            <div class="form-select">
+                                                                <select required="" id="expireYear" name="expireYear"
+                                                                        class="form-control">
+                                                                    <option disabled="" selected="" value="">Yıl</option>
+                                                                    <option value="2020">2020</option>
+                                                                    <option value="2021">2021</option>
+                                                                    <option value="2022">2022</option>
+                                                                    <option value="2023">2023</option>
+                                                                    <option value="2024">2024</option>
+                                                                    <option value="2025">2025</option>
+                                                                    <option value="2026">2026</option>
+                                                                    <option value="2027">2027</option>
+                                                                    <option value="2028">2028</option>
+                                                                    <option value="2029">2029</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-12 col-sm-4">
+                                                            <label class="label-white" for="cvc">CVC</label>
+
+                                                            <input required="" id="cvc" name="cvc" class="form-control" type="text"
+                                                                   maxlength="3">
+                                                        </div>
+                                                    </div>
+                                                    <button id="payment-button" type="submit" class="button btn-blue ml-auto">
+                                                        Ödeme Yap
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="credit-method" role="tabpanel" aria-labelledby="pills-credit-method">
+                            <div class="row">
+                                <div class="col-12">
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="tab-pane fade active show" id="atm-method" role="tabpanel"
+                             aria-labelledby="pills-atm-method-tab">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="announce-box">
+                                        <div>
+                                            <p>
+                                                Ziraat Bankası
+                                            </p>
+                                        </div>
+                                        <p>
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                            Omnis laudantium quaerat labore animi, libero adipisci
+                                            pariatur error ad at repellat.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="announce-box">
+                                        <div>
+                                            <p>
+                                                Ziraat Bankası
+                                            </p>
+                                        </div>
+                                        <p>
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                            Omnis laudantium quaerat labore animi, libero adipisci
+                                            pariatur error ad at repellat.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="announce-box">
+                                        <div>
+                                            <p>
+                                                Ziraat Bankası
+                                            </p>
+                                        </div>
+                                        <p>
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                            Omnis laudantium quaerat labore animi, libero adipisci
+                                            pariatur error ad at repellat.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="announce-box">
+                                        <div>
+                                            <p>
+                                                Ziraat Bankası
+                                            </p>
+                                        </div>
+                                        <p>
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                            Omnis laudantium quaerat labore animi, libero adipisci
+                                            pariatur error ad at repellat.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="announce-box">
+                                        <div>
+                                            <p>
+                                                Ziraat Bankası
+                                            </p>
+                                        </div>
+                                        <p>
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                            Omnis laudantium quaerat labore animi, libero adipisci
+                                            pariatur error ad at repellat.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</main>
+</div>

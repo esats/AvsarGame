@@ -39,6 +39,25 @@ namespace AvsarGame.API.Controllers {
             return list;
         }
 
+        [HttpGet]
+        [Route("UiCategoryList")]
+        [AllowAnonymous]
+        public List<CategoryModel> UiCategoryList() {
+            List<CategoryModel> list = new List<CategoryModel>();
+            var entities = _category.GetList(x => x.IsActive == true);
+            foreach (var entity in entities) {
+                CategoryModel model = new CategoryModel() {
+                        ImageUrl = entity.ImageUrl,
+                        Description = entity.Description,
+                        Name = entity.Name,
+                        Id = entity.Id
+                };
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         [HttpPost]
         [Route("Save")]
         public ActionResult Save([FromBody] CategoryModel model) {

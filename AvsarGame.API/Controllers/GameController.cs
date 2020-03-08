@@ -6,6 +6,7 @@ using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,27 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("List")]
         public List<GameModel> List() {
+            List<GameModel> list = new List<GameModel>();
+            var entities = _game.GetList(x => x.IsActive == true);
+            foreach (var entity in entities) {
+                GameModel model = new GameModel() {
+                        Id = entity.Id,
+                        ImageUrl = entity.ImageUrl,
+                        Description = entity.Description,
+                        Name = entity.Name,
+                        SellPrice = entity.SellPrice,
+                        BuyPrice = entity.BuyPrice
+                };
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        [HttpGet]
+        [Route("UiGameList")]
+        [AllowAnonymous]
+        public List<GameModel> UiGameList() {
             List<GameModel> list = new List<GameModel>();
             var entities = _game.GetList(x => x.IsActive == true);
             foreach (var entity in entities) {
