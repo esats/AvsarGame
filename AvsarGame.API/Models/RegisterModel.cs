@@ -14,11 +14,12 @@ namespace AvsarGame.API.Models {
         public string Email { get; set; }
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
+        public string ImageUrl { get; set; }
         public int? Gender { get; set; }
         public DateTime? Birthdate { get; set; }
         public string BearerToken { get; set; }
         public IEnumerable<IdentityError> Error { get; set; }
         [JsonIgnore]
-        public IFormFile formData { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

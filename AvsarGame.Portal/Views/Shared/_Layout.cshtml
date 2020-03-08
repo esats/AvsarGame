@@ -2,13 +2,13 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
-    <link href="~/assest/Style/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/assest/Style/swiper.min.css" rel="stylesheet" />
-    <link href="~/assest/Style/main.min.css" rel="stylesheet" />
+    <link href="~/assest/Style/bootstrap.min.css" rel="stylesheet"/>
+    <link href="~/assest/Style/swiper.min.css" rel="stylesheet"/>
+    <link href="~/assest/Style/main.min.css" rel="stylesheet"/>
 </head>
 <div class="spinner-wrapper">
     <div class="spinner">
@@ -27,208 +27,279 @@
 
 @await Html.PartialAsync("_Footer")
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <!--Content-->
-        <div class="modal-content">
-            <!--Modal cascading tabs-->
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs row" id="login-tabs" role="tablist">
-                <li class="nav-item col login-link">
-                    <a class="nav-link active" data-toggle="tab" href="#login-tab" role="tab">Giriş</a>
-                </li>
-                <li class="nav-item col register-link">
-                    <a class="nav-link" data-toggle="tab" href="#register-tab" role="tab">Üye Ol</a>
-                </li>
-                <li class="nav-item col terms-link d-none">
-                    <a class="nav-link" data-toggle="tab" href="#terms-tab" role="tab">Kullanım Koşulları</a>
-                </li>
-                <li class="nav-item col forgot-pw-link d-none">
-                    <a class="nav-link" data-toggle="tab" href="#forgot-pw-tab" role="tab">Şifremi Unuttum</a>
-                </li>
-            </ul>
+<div class="modal-dialog" role="document">
+<!--Content-->
+<div class="modal-content">
+<!--Modal cascading tabs-->
+<!-- Nav tabs -->
+<ul class="nav nav-tabs row" id="login-tabs" role="tablist">
+    <li class="nav-item col login-link">
+        <a class="nav-link active" data-toggle="tab" href="#login-tab" role="tab">Giriş</a>
+    </li>
+    <li class="nav-item col register-link">
+        <a class="nav-link" data-toggle="tab" href="#register-tab" role="tab">Üye Ol</a>
+    </li>
+    <li class="nav-item col terms-link d-none">
+        <a class="nav-link" data-toggle="tab" href="#terms-tab" role="tab">Kullanım Koşulları</a>
+    </li>
+    <li class="nav-item col forgot-pw-link d-none">
+        <a class="nav-link" data-toggle="tab" href="#forgot-pw-tab" role="tab">Şifremi Unuttum</a>
+    </li>
+</ul>
 
-            <!-- Tab panels -->
-            <div class="tab-content">
-                <!--Register-->
-                <div class="tab-pane fade" id="register-tab" role="tabpanel">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <form class="needs-validation" novalidate>
-                            <div class="form-row form-group">
-                                <div class="col-12 ">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="user-name">Ad Soyad</label>
-                                    <input type="text" class="form-control validate" id="user-name"
-                                           placeholder="Ad Soyad" required/>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="user-email">Email</label>
-                                    <input type="email" class="form-control validate" id="user-email"
-                                           placeholder="Email" required/>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12 ">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="user-password">Şifre</label>
-                                    <div class="pw-container">
-                                        <input type="password" class="form-control validate" id="user-password"
-                                               placeholder="Şifre" required/>
-                                        <div class="pw-icon"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12 ">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="user-phone">Telefon</label>
-                                    <input type="phone" class="form-control validate" id="user-phone"
-                                           placeholder="Telefon" required/>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <label class="form-csCheck">
-                                        <input class="form-check-input form-control validate" type="checkbox"
-                                               value="" id="terms" required/>
-                                        <span class="form-csCheck-checkmark"></span>
-                                    </label>
-                                    <span class="terms">
-                                        <a data-toggle="tab" href="#terms-tab"
-                                           href="javascript:void(0)" onclick="showTerms()">Kullanım koşullarını</a>
-                                        kabul ediyorum
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <button class="button btn-blue w-100" type="submit">
-                                        ÜYE OL
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="modal-close">Kapat</div>
-                        </form>
+<!-- Tab panels -->
+<div class="tab-content">
+    <!--Register-->
+    <div class="tab-pane fade" id="register-tab" role="tabpanel">
+        <!--Body-->
+        <div class="modal-body">
+            <form class="needs-validation" novalidate>
+                <div class="form-row form-group">
+                    <div class="col-12 ">
+                        <input type="text" class="form-control validate" id="user-name"
+                               placeholder="Ad" required />
                     </div>
                 </div>
-                <!--/.Register-->
-                <!--Login-->
-                <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <form class="needs-validation" novalidate>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="current-email">Email</label>
-                                    <input type="email" class="form-control validate" id="current-email"
-                                           placeholder="Email" required/>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12 ">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="current-password">Şifre</label>
-                                    <div class="pw-container">
-                                        <input type="password" class="form-control validate" id="current-password"
-                                               placeholder="Şifre" required/>
-                                        <div class="pw-icon"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <label class="form-csCheck">
-                                        <input class="form-check-input form-control validate" type="checkbox"
-                                               value="" id="user-remember" required/>
-                                        <span class="form-csCheck-checkmark"></span>
-                                        Beni Hatırla
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <button class="button btn-blue w-100" type="submit">
-                                        GİRİŞ YAP
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <p onclick="forgotPw()" class="text-center forgot-pw">
-                            Şifremi Unuttum
-                        </p>
-                        <div class="modal-close">Kapat</div>
+                <div class="form-row form-group">
+                    <div class="col-12 ">
+                        <input type="text" class="form-control validate" id="user-surname"
+                               placeholder="Soyad" required />
                     </div>
                 </div>
-                <!--/.Login-->
-                <!-- Terms -->
-                <div class="tab-pane fade terms-link" id="terms-tab" role="tabpanel">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="terms-container">
-                            <p>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Enim quia assumenda at aspernatur, unde accusamus porro sed
-                                impedit doloribus. Beatae delectus consequatur quos
-                                architecto, aliquid culpa sit odio facere possimus dolor?
-                                Nesciunt doloremque cupiditate quasi officia facere quam,
-                                atque, accusantium ducimus, libero praesentium repellendus
-                                dolorem facilis aspernatur consequatur aliquam? Consectetur
-                                sequi odio sit consequatur quaerat molestiae odit omnis
-                                provident saepe possimus delectus ea ex cupiditate
-                                distinctio alias, accusamus voluptate. Non laboriosam ipsam
-                                tempora distinctio, sunt dolorem id facere nisi quae
-                                officiis quo est quisquam in quas fuga iste accusamus qui
-                                quia aspernatur alias. Asperiores ipsa quae odio omnis at
-                                sunt ullam eaque aperiam natus, similique iusto maiores
-                                autem! Quam, atque quae quidem dicta commodi hic velit
-                                mollitia id illum ab saepe sed quod nihil quas officiis.
-                                Repellendus unde magnam vitae odio ullam iste minus a
-                                reprehenderit quas veniam consequatur adipisci nulla non,
-                                quisquam ipsum officiis aliquam placeat nesciunt quidem
-                                dicta.
-                            </p>
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <input type="email" class="form-control validate" id="user-email"
+                               placeholder="Email" required />
+                    </div>
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-12 ">
+                        <div class="pw-container">
+                            <input type="password" class="form-control validate" id="user-password"
+                                   placeholder="Şifre" required />
+                            <div class="pw-icon"></div>
                         </div>
-                        <div class="modal-close">Kapat</div>
                     </div>
                 </div>
-                <!-- ./Terms -->
-                <!-- Forgot-pw -->
-                <div class="tab-pane fade terms-link" id="forgot-pw-tab" role="tabpanel">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <form class="needs-validation" novalidate>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <label class="label-white" data-error="wrong" data-success="right"
-                                           for="current-email">Email</label>
-                                    <input type="email" class="form-control validate" id="current-email"
-                                           placeholder="Email" required/>
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col-12">
-                                    <button class="button btn-blue w-100" type="submit">
-                                        GÖNDER
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="modal-close">Kapat</div>
+                <div class="form-row form-group">
+                    <div class="col-12 ">
+                        <input type="phone" class="form-control validate" id="user-phone"
+                               placeholder="Telefon" required />
                     </div>
                 </div>
-                <!-- ./Forgot-pw -->
-            </div>
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <label class="form-csCheck">
+                            <input class="form-check-input form-control validate" type="checkbox"
+                                   value="" id="terms" required />
+                            <span class="form-csCheck-checkmark"></span>
+                        </label>
+                        <span class="terms">
+                            <a data-toggle="tab" href="#terms-tab"
+                               href="javascript:void(0)" onclick="showTerms()">
+                                Kullanım koşullarını
+                            </a>
+                            kabul ediyorum
+                        </span>
+                    </div>
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <button class="button btn-blue w-100" id="register" type="submit">
+                            ÜYE OL
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-close">Kapat</div>
+            </form>
         </div>
-        <!--/.Content-->
     </div>
+    <!--/.Register-->
+    <!--Login-->
+    <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+        <!--Body-->
+        <div class="modal-body">
+            <form class="needs-validation" novalidate>
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <input type="email" class="form-control validate" id="currentEmail"
+                               placeholder="Email" required/>
+                    </div>
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-12 ">
+                        <div class="pw-container">
+                            <input type="password" class="form-control validate" id="current-password"
+                                   placeholder="Şifre" required/>
+                            <div class="pw-icon"></div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-row form-group">
+                    <div class="col-12">
+                        <label class="form-csCheck">
+                            <input class="form-check-input form-control validate" type="checkbox"
+                                   value="" id="user-remember" required/>
+                            <span class="form-csCheck-checkmark"></span>
+                            Beni Hatırla
+                        </label>
+                    </div>
+                </div>*@
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <button class="button btn-blue w-100" id="login" type="submit">
+                            GİRİŞ YAP
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <p onclick="forgotPw()" class="text-center forgot-pw">
+                Şifremi Unuttum
+            </p>
+            <div class="modal-close">Kapat</div>
+        </div>
+    </div>
+    <!--/.Login-->
+    <!-- Terms -->
+    <div class="tab-pane fade terms-link" id="terms-tab" role="tabpanel">
+        <!--Body-->
+        <div class="modal-body">
+            <div class="terms-container">
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Enim quia assumenda at aspernatur, unde accusamus porro sed
+                    impedit doloribus. Beatae delectus consequatur quos
+                    architecto, aliquid culpa sit odio facere possimus dolor?
+                    Nesciunt doloremque cupiditate quasi officia facere quam,
+                    atque, accusantium ducimus, libero praesentium repellendus
+                    dolorem facilis aspernatur consequatur aliquam? Consectetur
+                    sequi odio sit consequatur quaerat molestiae odit omnis
+                    provident saepe possimus delectus ea ex cupiditate
+                    distinctio alias, accusamus voluptate. Non laboriosam ipsam
+                    tempora distinctio, sunt dolorem id facere nisi quae
+                    officiis quo est quisquam in quas fuga iste accusamus qui
+                    quia aspernatur alias. Asperiores ipsa quae odio omnis at
+                    sunt ullam eaque aperiam natus, similique iusto maiores
+                    autem! Quam, atque quae quidem dicta commodi hic velit
+                    mollitia id illum ab saepe sed quod nihil quas officiis.
+                    Repellendus unde magnam vitae odio ullam iste minus a
+                    reprehenderit quas veniam consequatur adipisci nulla non,
+                    quisquam ipsum officiis aliquam placeat nesciunt quidem
+                    dicta.
+                </p>
+            </div>
+            <div class="modal-close">Kapat</div>
+        </div>
+    </div>
+    <!-- ./Terms -->
+    <!-- Forgot-pw -->
+    <div class="tab-pane fade terms-link" id="forgot-pw-tab" role="tabpanel">
+        <!--Body-->
+        <div class="modal-body">
+            <form class="needs-validation" novalidate>
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <label class="label-white" data-error="wrong" data-success="right"
+                               for="current-email">
+                            Email
+                        </label>
+                        <input type="email" class="form-control validate" id="current-email"
+                               placeholder="Email" required/>
+                    </div>
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-12">
+                        <button class="button btn-blue w-100" type="submit">
+                            GÖNDER
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-close">Kapat</div>
+        </div>
+    </div>
+    <!-- ./Forgot-pw -->
+</div>
+</div>
+<!--/.Content-->
+</div>
 </div>
 
-
 <script src="~/assest/Scripts/app.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#login").click(function() {
+            var model = {
+                Password: document.getElementById("current-password").value,
+                Email: document.getElementById("currentEmail").value
+            }
+    
+            $.ajax({
+                type: 'post',
+                url: '/User/Login',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                success: function(res) {
+                    if (res.isSuccess) {
+                        $('#login-modal').modal('hide');
+                        setUserForHeader(res.value);
+                    } else {
+                        alert("Kullanıcı adı veya şifre hatalı");
+                    }
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+        $("#register").click(function() {
+            var model = {
+                Password: document.getElementById("user-password").value,
+                Name: document.getElementById("user-name").value,
+                Surname: document.getElementById("user-surname").value,
+                Email: document.getElementById("user-email").value,
+                PhoneNumber: document.getElementById("user-phone").value
+            }
+
+            debugger;
+            $.ajax({
+                type: 'post',
+                url: '/User/Register',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                success: function(res) {
+                    setUserForHeader(res.value);
+                    if (res.isSuccess) {
+                        $('#login-modal').modal('hide');
+                        setUserForHeader(res.value);
+                    } else {
+                        alert("Kullanıcı adı veya şifre hatalı");
+                    }
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+    });
+
+    function setUserForHeader(user) {
+        debugger;
+        var items = document.getElementsByClassName("reglog");
+        for (var i in items) {
+            $(items[i]).css("display", "none");
+        }
+
+        //var userText = document.getElementsByClassName("profile");
+
+        //$(userText[1]).innerHTML =  "adsasdasdas";
+        //$(userText[0]).css("display", "block");
+
+    }
+</script>
 </body>
 </html>

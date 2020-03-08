@@ -59,13 +59,12 @@ namespace AvsarGame.API.Controllers {
                     loggedModel.BearerToken = appUser.BearerToken;
 
                     return new Response<LoggedModel> { IsSuccess = true, Value = loggedModel };
+                } else {
+                    return new Response<LoggedModel> { IsSuccess = false, Message = "Kullanıcı Adı veya Şifre yanlış" };
                 }
             } catch (Exception e) {
-                Console.WriteLine(e);
-                throw;
+                return new Response<LoggedModel> { IsSuccess = false, Message = "Bir hata oluştu lütfen sonra tekrar deneyiniz"};
             }
-
-            return new Response<LoggedModel> { IsSuccess = false, Message = "Kullanıcı Adı veya Şifre yanlış" };
         }
 
         //[HttpPost("PortalLogin")]
@@ -106,8 +105,9 @@ namespace AvsarGame.API.Controllers {
         //}
 
         [HttpPost("Register")]
-        public async Task<RegisterModel> Register([FromBody] RegisterModel model) {
-            RegisterModel registerModel= new RegisterModel();
+        public async Task<Response<RegisterModel>> Register([FromBody] RegisterModel model) {
+            Response<RegisterModel> response= new Response<RegisterModel>();
+            RegisterModel registerModel = new RegisterModel();
             try {
                 var identityUser = new ApplicationUser {
                         UserName = model.Email,
@@ -129,7 +129,7 @@ namespace AvsarGame.API.Controllers {
                     updatedEntity.NormalizedEmail = model.Email;
                     updatedEntity.PhoneNumber = model.PhoneNumber;
                     var update = await _userManager.UpdateAsync(updatedEntity);
-                    return registerModel;
+                    return null;
                 } else {
                     var result = await _userManager.CreateAsync(identityUser, model.Password);
 
@@ -139,14 +139,23 @@ namespace AvsarGame.API.Controllers {
                         await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
                         var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
                         registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
-                        return registerModel;
+                        registerModel.Name = model.Name;
+                        registerModel.Surname = model.Surname;
+                        registerModel.Id = new Guid(appUser.Id);
+                        response.Value = registerModel;
+                        response.IsSuccess = true;
+                        return response;
                     } else {
                         registerModel.Error = result.Errors;
-                        return registerModel;
+                        response.Value = registerModel;
+                        response.IsSuccess = false;
+                        return response;
                     }
                 }
             } catch (Exception e) {
-                throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+                response.IsSuccess = false;
+                response.Exception = e.InnerException;
+                return response;
             }
         }
     }
