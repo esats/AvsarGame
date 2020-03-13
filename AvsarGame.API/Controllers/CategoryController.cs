@@ -50,6 +50,7 @@ namespace AvsarGame.API.Controllers {
                         ImageUrl = entity.ImageUrl,
                         Description = entity.Description,
                         Name = entity.Name,
+                        SeoName = entity.SeoName,
                         Id = entity.Id
                 };
                 list.Add(model);
@@ -68,6 +69,7 @@ namespace AvsarGame.API.Controllers {
                             ImageUrl = model.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
+                            SeoName = UrlExtension.FriendlyUrl(model.Name),
                             ModifiedBy = base.GetUser(),
                             ModifiedDate = DateTime.Now
                     };
@@ -77,6 +79,7 @@ namespace AvsarGame.API.Controllers {
                             ImageUrl = model.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
+                            SeoName = UrlExtension.FriendlyUrl(model.Name),
                             CreatedDate =DateTime.Now,
                             CreatedBy = base.GetUser()
                     };
@@ -88,14 +91,15 @@ namespace AvsarGame.API.Controllers {
 
             return StatusCode(200);
         }
-
+       
         [HttpGet]
-        [Route("GetOne/{id}")]
-        public async Task<Response<CategoryModel>> GetOne(Guid id) {
-            Response<CategoryModel> bookResponse = new Response<CategoryModel>();
-            Category entity = await _category.GetTAsync(x => x.Id == id && x.IsActive == true);
+        [Route("GetCategoryWithGames?SeoName={SeoName}")]
+        [AllowAnonymous]
+        public async Task<Response<CategoryModel>> GetCategoryWithGames(string SeoName) {
+            Response<GameModel> bookResponse = new Response<GameModel>();
+            //Games entity = await _category.GetTAsync(x => .SeoName == SeoName && x.IsActive == true);
 
-            return bookResponse;
+            return null;
         }
 
         [HttpPost]

@@ -11,6 +11,7 @@ namespace AvsarGame.API.Models {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string Name { get; set; }
+        public string SeoName { get; set; }
         public string ImageUrl { get; set; }
         public string Description { get; set; }
         public bool IsPriceChange { get; set; }

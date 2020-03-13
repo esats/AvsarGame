@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AvsarGame.Portal
@@ -47,7 +48,18 @@ namespace AvsarGame.Portal
                         areaName:"Admin",
                         template: "Admin/{controller=Home}/{action=Index}/{id?}");
 
+                //routes.MapRoute(
+                //        name: "detail",
+                //        template: "{Name}/{id}",
+                //        defaults: new { controller = "Home", action = "Detail" });
+
+
             });
+            var rewrite = new RewriteOptions().AddRewrite(
+                    @"^Home/CategoryDetail/Name=(.*)",  // RegEx to match Route
+                    "oyun/{$1}",                     // URL to rewrite route
+                    skipRemainingRules: true         // Should skip other rules
+            );
         }
     }
 }

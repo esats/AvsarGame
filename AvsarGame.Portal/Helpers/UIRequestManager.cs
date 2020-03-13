@@ -58,6 +58,18 @@ namespace AvsarGame.Portal.Helpers {
             string response = HttpRequestManager.Instance.Get(url, BearerToken);
             return response;
         }
+        public string Get(string ControllerName, int? Id = null)
+        {
+            string url = this.BaseApiUrl + "/" + ControllerName;
+
+            if (Id.HasValue)
+            {
+                url += "/" + Id.ToString();
+            }
+
+            string response = HttpRequestManager.Instance.Get(url,BearerToken);
+            return response;
+        }
 
         public T Get<T>(string ControllerName, string actionName, Guid Id) {
             string response = this.Get(ControllerName, actionName, Id);

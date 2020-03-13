@@ -52,6 +52,7 @@ namespace AvsarGame.API.Controllers {
                         ImageUrl = entity.ImageUrl,
                         Description = entity.Description,
                         Name = entity.Name,
+                        SeoName = entity.SeoName,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice
                 };
@@ -71,6 +72,7 @@ namespace AvsarGame.API.Controllers {
                             ImageUrl = model.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
+                            SeoName = UrlExtension.FriendlyUrl(model.Name),
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
                             CategoryId = model.CategoryId,
@@ -83,6 +85,7 @@ namespace AvsarGame.API.Controllers {
                             ImageUrl = model.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
+                            SeoName = UrlExtension.FriendlyUrl(model.Name),
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
                             CategoryId = model.CategoryId,

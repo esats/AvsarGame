@@ -14,7 +14,15 @@ namespace AvsarGame.Portal.Controllers {
             HomeModel model = new HomeModel();
             model.Announcements = JsonConvert.DeserializeObject<List<AnnouncementModel>>(UiRequestManager.Instance.Get("Announcement", "UiAnnouncementList"));
             model.Games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "UiGameList"));
+            model.Categories = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "UiCategoryList"));
+
             return View(model);
+        }
+
+        [Route("oyun/{Name}")]
+        public IActionResult CategoryDetail(string Name) {
+            CategoryModel categoryWithGames  = JsonConvert.DeserializeObject<CategoryModel>(UiRequestManager.Instance.Get(string.Format("Category/GetCategoryWithGames?SeoName={0}",Name)));
+            return View();
         }
     }
 }
