@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
     public class GameModel : ModelBase<Guid> {
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string Name { get; set; }
         public string SeoName { get; set; }

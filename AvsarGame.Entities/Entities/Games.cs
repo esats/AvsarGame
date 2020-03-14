@@ -14,6 +14,6 @@ namespace AvsarGame.Entities.Entities {
         public decimal SellPrice { get; set; }
         public decimal BuyPrice { get; set; }
         public string Count { get; set; }
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }

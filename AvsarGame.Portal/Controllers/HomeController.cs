@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Portal.Helpers;
 using AvsarGame.Portal.Models;
@@ -21,8 +22,8 @@ namespace AvsarGame.Portal.Controllers {
 
         [Route("oyun/{Name}")]
         public IActionResult CategoryDetail(string Name) {
-            CategoryModel categoryWithGames  = JsonConvert.DeserializeObject<CategoryModel>(UiRequestManager.Instance.Get(string.Format("Category/GetCategoryWithGames?SeoName={0}",Name)));
-            return View();
+            CategoryGameModel categoryWithGames  = JsonConvert.DeserializeObject<CategoryGameModel>(UiRequestManager.Instance.Get(string.Format("Category/GetCategoryWithGames?SeoName={0}",Name)));
+            return View(categoryWithGames);
         }
     }
 }

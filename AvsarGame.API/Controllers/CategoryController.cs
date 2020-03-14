@@ -16,9 +16,11 @@ namespace AvsarGame.API.Controllers {
     [Produces("application/json")]
     public class CategoryController : APIControllerBase {
         private readonly ICategory _category;
+        private readonly IGame _game;
 
-        public CategoryController(ICategory category) {
+        public CategoryController(ICategory category, IGame game) {
             _category = category;
+            _game = game;
         }
 
         [HttpGet]
@@ -80,7 +82,7 @@ namespace AvsarGame.API.Controllers {
                             Description = model.Description,
                             Name = model.Name,
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
-                            CreatedDate =DateTime.Now,
+                            CreatedDate = DateTime.Now,
                             CreatedBy = base.GetUser()
                     };
                     _category.Add(entity);
@@ -91,15 +93,43 @@ namespace AvsarGame.API.Controllers {
 
             return StatusCode(200);
         }
-       
-        [HttpGet]
-        [Route("GetCategoryWithGames?SeoName={SeoName}")]
-        [AllowAnonymous]
-        public async Task<Response<CategoryModel>> GetCategoryWithGames(string SeoName) {
-            Response<GameModel> bookResponse = new Response<GameModel>();
-            //Games entity = await _category.GetTAsync(x => .SeoName == SeoName && x.IsActive == true);
 
-            return null;
+        [HttpGet]
+        [Route("GetCategoryWithGames")]
+        [AllowAnonymous]
+        public CategoryGameModel GetCategoryWithGames(string SeoName) {
+            List<GameModel> gameList = new List<GameModel>();
+            CategoryGameModel categoryGameModel = new CategoryGameModel();
+            CategoryModel categoryModel = new CategoryModel();
+
+            try {
+                var category = _category.GetT(x => x.SeoName == SeoName);
+                var games = _game.GetList(x => x.CategoryId == category.Id);
+
+                foreach (var item in games) {
+                    GameModel gameModel = new GameModel();
+                    gameModel.Id = item.Id;
+                    gameModel.Name = item.Name;
+                    gameModel.BuyPrice = item.BuyPrice;
+                    gameModel.SellPrice = item.SellPrice;
+                    gameModel.ImageUrl = item.ImageUrl;
+                    gameList.Add(gameModel);
+                }
+
+                categoryModel.Name = category.Name;
+                categoryModel.ImageUrl = category.ImageUrl;
+                categoryModel.Description = category.Description;
+                categoryModel.Id = category.Id;
+                categoryModel.SeoName = category.SeoName;
+
+                categoryGameModel.Games = gameList;
+                categoryGameModel.Category = categoryModel;
+
+            } catch (Exception e) {
+                 throw new Exception(e.Message); 
+            }
+
+            return categoryGameModel;
         }
 
         [HttpPost]
