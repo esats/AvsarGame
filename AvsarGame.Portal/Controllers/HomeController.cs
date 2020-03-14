@@ -23,6 +23,7 @@ namespace AvsarGame.Portal.Controllers {
         [Route("oyun/{Name}")]
         public IActionResult CategoryDetail(string Name) {
             CategoryGameModel categoryWithGames  = JsonConvert.DeserializeObject<CategoryGameModel>(UiRequestManager.Instance.Get(string.Format("Category/GetCategoryWithGames?SeoName={0}",Name)));
+
             return View(categoryWithGames);
         }
     }

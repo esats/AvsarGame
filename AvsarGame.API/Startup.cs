@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Dal.Concreate.EntityFramework;
 using AvsarGame.Entities.Entities;
@@ -37,7 +38,7 @@ namespace AvsarGame.API {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<AvsarGameDBcontext>()
                     .AddDefaultTokenProviders();
-
+            services.AddAutoMapper();
             services.AddTransient<ICategory, EfCategory>();
             services.AddTransient<IGame, EfGame>();
             services.AddTransient<IAnnouncement, EfAnnouncement>();

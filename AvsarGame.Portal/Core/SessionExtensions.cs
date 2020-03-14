@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Core {
     public class SessionManager : SingletonBase<SessionManager> {
@@ -25,6 +26,17 @@ namespace AvsarGame.Portal.Core {
 
         public void set(string key,string value) {
             Context.HttpContext.Session.SetString(key,value);
+        }
+
+        public void SetObject(string key, object value)
+        {
+            Context.HttpContext.Session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public T GetObject<T>( string key)
+        {
+            var value = Context.HttpContext.Session.GetString(key);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
 }

@@ -47,19 +47,8 @@ namespace AvsarGame.Portal
                         name: "MyAreaAdmin",
                         areaName:"Admin",
                         template: "Admin/{controller=Home}/{action=Index}/{id?}");
-
-                //routes.MapRoute(
-                //        name: "detail",
-                //        template: "{Name}/{id}",
-                //        defaults: new { controller = "Home", action = "Detail" });
-
-
             });
-            var rewrite = new RewriteOptions().AddRewrite(
-                    @"^Home/CategoryDetail/Name=(.*)",  // RegEx to match Route
-                    "oyun/{$1}",                     // URL to rewrite route
-                    skipRemainingRules: true         // Should skip other rules
-            );
+        
         }
     }
 }

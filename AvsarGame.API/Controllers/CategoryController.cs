@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Dal.Abstract;
@@ -17,10 +18,12 @@ namespace AvsarGame.API.Controllers {
     public class CategoryController : APIControllerBase {
         private readonly ICategory _category;
         private readonly IGame _game;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategory category, IGame game) {
+        public CategoryController(ICategory category, IGame game, IMapper mapper) {
             _category = category;
             _game = game;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -98,32 +101,13 @@ namespace AvsarGame.API.Controllers {
         [Route("GetCategoryWithGames")]
         [AllowAnonymous]
         public CategoryGameModel GetCategoryWithGames(string SeoName) {
-            List<GameModel> gameList = new List<GameModel>();
             CategoryGameModel categoryGameModel = new CategoryGameModel();
-            CategoryModel categoryModel = new CategoryModel();
-
             try {
                 var category = _category.GetT(x => x.SeoName == SeoName);
                 var games = _game.GetList(x => x.CategoryId == category.Id);
-
-                foreach (var item in games) {
-                    GameModel gameModel = new GameModel();
-                    gameModel.Id = item.Id;
-                    gameModel.Name = item.Name;
-                    gameModel.BuyPrice = item.BuyPrice;
-                    gameModel.SellPrice = item.SellPrice;
-                    gameModel.ImageUrl = item.ImageUrl;
-                    gameList.Add(gameModel);
-                }
-
-                categoryModel.Name = category.Name;
-                categoryModel.ImageUrl = category.ImageUrl;
-                categoryModel.Description = category.Description;
-                categoryModel.Id = category.Id;
-                categoryModel.SeoName = category.SeoName;
-
-                categoryGameModel.Games = gameList;
-                categoryGameModel.Category = categoryModel;
+             
+                categoryGameModel.Games = _mapper.Map<List<GameModel>>(games);
+                categoryGameModel.Category = _mapper.Map<CategoryModel>(category);
 
             } catch (Exception e) {
                  throw new Exception(e.Message); 

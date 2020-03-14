@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Dal.Abstract;
@@ -15,9 +16,11 @@ namespace AvsarGame.API.Controllers {
     [Produces("application/json")]
     public class GameController : APIControllerBase {
         private readonly IGame _game;
+        private readonly IMapper _mapper;
 
-        public GameController(IGame game) {
+        public GameController(IGame game, IMapper mapper) {
             _game = game;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -122,6 +125,25 @@ namespace AvsarGame.API.Controllers {
             }
 
             return StatusCode(200);
+        }
+
+        [HttpGet]
+        [Route("GetGames")]
+        public List<GameModel> GetGames(string gamesId) {
+            var ids = ConvertToStringList(gamesId);
+            var games = _mapper.Map<List<GameModel>>(_game.GetList().Where(x => ids.Contains(x.Id)).ToList());
+            return games;
+        }
+
+        public List<Guid> ConvertToStringList(string Items) {
+            List<Guid> result = new List<Guid>();
+
+            var ids = Items.Split(",");
+            foreach (var item in ids) {
+                result.Add(new Guid(item));
+            }
+
+            return result;
         }
     }
 }
