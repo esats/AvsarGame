@@ -6,7 +6,7 @@ using AutoMapper;
 using AvsarGame.API.Models;
 using AvsarGame.Entities.Entities;
 
-namespace AvsarGame.API.Base {
+namespace AvsarGame.API.Helpers {
     public class AutoMapperHelper : Profile {
         public AutoMapperHelper() {
             CreateMap<Games,GameModel>();
