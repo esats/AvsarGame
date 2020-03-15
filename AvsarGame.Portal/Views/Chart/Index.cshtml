@@ -1,4 +1,15 @@
-﻿@model List<AvsarGame.API.Models.GameModel>
+﻿@using AvsarGame.API.Models
+@model List<AvsarGame.API.Models.GameModel>
+
+@functions {
+    private decimal Calculated(List<GameModel> model) {
+        decimal totalAmount = Decimal.Zero;
+        foreach (var item in model) {
+            totalAmount = totalAmount + item.SellPrice;
+        }
+        return totalAmount;
+    }
+}
 
 @{
     ViewBag.Title = "title";
@@ -12,7 +23,7 @@
             <div class="section">
                 <div class="row">
                     <div class="col-12">
-                        <div class="table-container">
+                        <div class="table-container" >
                             <table class="table table-dark responsive-table cart-table total-table">
                                 <thead>
                                     <tr>
@@ -24,28 +35,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td data-heading="Ürünler"><img src="/Uploads/@item.ImageUrl" alt=""></td>
+                                    @foreach (var item in Model) {
+                                        <tr class="order">
+                                            <td data-heading="Ürünler">
+                                                <img src="/Uploads/@item.ImageUrl" alt="">
+                                            </td>
                                             <td scope="row" data-heading="Ürün Adı">@item.Name</td>
                                             <td data-heading="Miktar">
                                                 <div class="counter-container">
-                                                    <input class="count" style="font-weight: bold; width: 20%" value="1" />
+                                                    <input id="count" style="font-weight: bold; width: 20%" value="1"/>
                                                 </div>
                                             </td>
-                                            <td data-heading="Fiyat">@item.SellPrice</td>
-                                            <td data-heading="Toplam">240 TL</td>
+                                            <td class="price" data-heading="Fiyat">@item.SellPrice</td>
+                                            <td class="totalPrice" data-heading="Toplam">@item.SellPrice TL</td>
                                         </tr>
                                     }
                                     <tr class="total-amount">
                                         <td colspan="3" scope="col" data-heading="Ürünler">Toplam Tutar:</td>
-                                        <td colspan="2" scope="col" data-heading="Ürün Adı">960 TL</td>
+                                        <td colspan="2" scope="col" id="totalAmount" data-heading="Ürün Adı">@Calculated(Model) TL</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
                 <button id="payment-button" type="submit" class="button btn-blue ml-auto">
@@ -56,3 +67,25 @@
     </main>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $(".total-table #count").on('change', function() {
+            var counter = parseFloat(this.value);
+            var itemPrice = parseFloat(this.parentElement.parentElement.parentElement.getElementsByClassName("price")[0].innerHTML);
+            this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = (counter * itemPrice) + " TL";
+            calculatedTotalAmount();
+        });
+    });
+
+    function calculatedTotalAmount() {
+        var rows = document.getElementsByClassName("order");
+        var totalAmount = 0.00;
+        for (var i = 0; i < rows.length; i++) {
+            var amount = parseFloat(rows[i].cells[2].getElementsByTagName("input")[0].value);
+            var price = parseFloat(rows[i].cells[3].innerHTML);
+            totalAmount = totalAmount + (amount * price);
+        }
+        $("#totalAmount")[0].innerHTML = totalAmount + " TL";
+    }
+
+</script>

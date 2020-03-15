@@ -65,6 +65,28 @@ namespace AvsarGame.API.Controllers {
             return list;
         }
 
+        [HttpGet]
+        [Route("NewGames")]
+        [AllowAnonymous]
+        public List<GameModel> NewGames() {
+            List<GameModel> list = new List<GameModel>();
+            var entities = _game.GetList(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate);
+            foreach (var entity in entities) {
+                GameModel model = new GameModel() {
+                        Id = entity.Id,
+                        ImageUrl = entity.ImageUrl,
+                        Description = entity.Description,
+                        Name = entity.Name,
+                        SeoName = entity.SeoName,
+                        SellPrice = entity.SellPrice,
+                        BuyPrice = entity.BuyPrice
+                };
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         [HttpPost]
         [Route("Save")]
         public ActionResult Save([FromBody] GameModel model) {

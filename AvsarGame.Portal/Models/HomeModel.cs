@@ -8,6 +8,7 @@ namespace AvsarGame.Portal.Models {
     public class HomeModel {
         public List<CategoryModel> Categories { get; set; }
         public List<GameModel> Games { get; set; }
+        public List<GameModel> NewGames { get; set; }
         public List<AnnouncementModel> Announcements { get; set; }
     }
 }
