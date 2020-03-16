@@ -157,6 +157,7 @@ namespace AvsarGame.API.Controllers {
             return games;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public List<Guid> ConvertToStringList(string Items) {
             List<Guid> result = new List<Guid>();
 

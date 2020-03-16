@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using AvsarGame.Core.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace AvsarGame.Entities.Entities {
-    public class UserOrderDetail: EntityBase<Guid>  {
+namespace AvsarGame.API.Models {
+    public class UserOrderDetailModel {
         public Guid UserOrderId { get; set; }
-        public Guid GameId { get; set; }
+        public GameModel Game { get; set; }
         public string CharacterName { get; set; }
         public decimal BillingPrice { get; set; }
         public decimal BillingAmount { get; set; }

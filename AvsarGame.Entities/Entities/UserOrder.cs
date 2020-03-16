@@ -7,6 +7,6 @@ using AvsarGame.Core.Entities;
 namespace AvsarGame.Entities.Entities {
     public class UserOrder : EntityBase<Guid> {
         public Guid UserId { get; set; }
-        public ICollection<UserOrderDetail> OrderDetail { get; set; }
+        public ICollection<UserOrderDetail> Orders { get; set; }
     }
 }

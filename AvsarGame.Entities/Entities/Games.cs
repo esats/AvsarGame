@@ -13,7 +13,7 @@ namespace AvsarGame.Entities.Entities {
         public int Type { get; set; }
         public decimal SellPrice { get; set; }
         public decimal BuyPrice { get; set; }
-        public string Count { get; set; }
+        public int Count { get; set; }
         public Guid CategoryId { get; set; }
     }
 }
