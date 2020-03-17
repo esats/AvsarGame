@@ -8,14 +8,19 @@ using Microsoft.AspNetCore.Http;
 
 namespace AvsarGame.API.Base {
     public class Logger : SingletonBase<Logger> {
-        private readonly EfLog _log;
+        private EfLog _log;
 
-        public Logger() {
-            _log = new EfLog();
+        public EfLog _Log {
+            get {
+                if (_log == null) {
+                    _log = new EfLog();
+                }
+                return _log;
+            }
         }
 
         public void Insert(Log log) {
-            _log.insert(log);
+            _Log.insert(log);
         }
     }
 }

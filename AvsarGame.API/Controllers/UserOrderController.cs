@@ -101,18 +101,19 @@ namespace AvsarGame.API.Controllers {
                                 GameId = item.Game.Id,
                                 CharacterName = item.CharacterName,
                                 CreatedDate = DateTime.Now,
-                                CreatedBy = GetUser()
+                                CreatedBy = base.GetUser()
                         };
                         _userDetailOrder.Add(orderDetail);
                     }
 
                     transactionScope.Complete();
                 } catch (Exception e) {
-                    Log log = new Log();
-                    log.Path = HttpContext.Request.Path;
-                    log.Message = e.Message;
-                    log.UserId = base.GetUser();
-                    log.CreatedDate = DateTime.Now;
+                    Log log = new Log {
+                            Path = HttpContext.Request.Path, 
+                            Message = e.Message,
+                            UserId = base.GetUser(), 
+                            CreatedDate = DateTime.Now
+                    };
                     Logger.Instance.Insert(log);
 
                     return StatusCode(404);
