@@ -3,10 +3,13 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand  mr-auto" href="index.html"><img src="/assest/img/logo.png" alt="" /></a>
+
             <div class="form-wrapper ml-auto">
                 <form class="form-inline">
-                    <input class="form-control d-lg-inline-block d-none w-100" type="search"
-                           placeholder="Arama..." />
+                    <div class="auto-complete w-100">
+                        <input id="header-search" class="form-control d-lg-inline-block d-none w-100" type="search"
+                               placeholder="Arama..." autocomplete="off" />
+                    </div>
                 </form>
                 <div class="search-icon ml-auto" data-toggle="search-form"></div>
             </div>
@@ -21,15 +24,15 @@
                         <a class="nav-link profile" href="/User/Detail/29d81876-0a7b-458a-8f5e-d73b684471bc">giriş yapan oyuncu</a>
                     </li>
                     @*<li class="nav-item reglog">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
-                           onclick="showRegister()">ÜYE OL</a>
-                    </li>
-                    <li class="nav-item reglog">
-                        <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
-                           data-target="#login-modal">GİRİŞ</a>
-                    </li>*@
-                    <li class="nav-item passive" id ="chart">
-                        <a class="nav-link"  href="/Sepetim">Sepetim<span id="chartSpan">(0)</span> </a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
+                       onclick="showRegister()">ÜYE OL</a>
+                </li>
+                <li class="nav-item reglog">
+                    <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
+                       data-target="#login-modal">GİRİŞ</a>
+                </li>*@
+                    <li class="nav-item passive" id="chart">
+                        <a class="nav-link" href="/Sepetim">Sepetim<span id="chartSpan">(0)</span> </a>
                     </li>
                 </ul>
             </div>
