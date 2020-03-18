@@ -19,53 +19,95 @@
 <div class="page-wrapper">
     <main class="Main">
         <div class="container">
-            <div class="title-primary">Sepetim</div>
-            <div class="section">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-container" >
-                            <table class="table table-dark responsive-table cart-table total-table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ürünler</th>
-                                        <th scope="col">Ürün Adı</th>
-                                        <th scope="col">Miktar</th>
-                                        <th scope="col">Fiyat</th>
-                                        <th scope="col">Toplam</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model) {
-                                        <tr class="order">
-                                            <td data-heading="Ürünler">
-                                                <img src="/Uploads/@item.ImageUrl" alt="">
-                                            </td>
-                                            <td scope="row" data-heading="Ürün Adı">@item.Name</td>
-                                            <td data-heading="Miktar">
-                                                <div class="counter-container">
-                                                    <input id="count" style="font-weight: bold; width: 20%" value="1"/>
-                                                </div>
-                                            </td>
-                                            <td class="price" data-heading="Fiyat">@item.SellPrice</td>
-                                            <td class="totalPrice" data-heading="Toplam">@item.SellPrice TL</td>
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <h3 class="title-primary">Sepetim</h3>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="col-lg-9 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-dark responsive-table cart-table total-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ürünler</th>
+                                            <th scope="col">Ürün Adı</th>
+                                            <th scope="col">Miktar</th>
+                                            <th scope="col">Fiyat</th>
+                                            <th scope="col">Toplam</th>
                                         </tr>
-                                    }
-                                    <tr class="total-amount">
-                                        <td colspan="3" scope="col" data-heading="Ürünler">Toplam Tutar:</td>
-                                        <td colspan="2" scope="col" id="totalAmount" data-heading="Ürün Adı">@Calculated(Model) TL</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="order">
+                                                <td data-heading="Ürünler">
+                                                    <img src="/Uploads/@item.ImageUrl" alt="">
+                                                </td>
+                                                <td scope="row" data-heading="Ürün Adı">@item.Name</td>
+                                                <td data-heading="Miktar">
+                                                    <div class="counter-container">
+                                                        <input id="count" style="font-weight: bold; width: 20%" value="1" />
+                                                    </div>
+                                                </td>
+                                                <td class="price" data-heading="Fiyat">@item.SellPrice</td>
+                                                <td class="totalPrice" data-heading="Toplam">@item.SellPrice TL</td>
+                                            </tr>
+                                        }
+                                        <tr class="total-amount">
+                                            <td colspan="3" scope="col" data-heading="Ürünler">Toplam Tutar:</td>
+                                            <td colspan="2" scope="col" id="totalAmount" data-heading="Ürün Adı">@Calculated(Model) TL</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <button id="payment-button" type="submit" class="button btn-blue ml-auto">
-                    Alışverişi Tamamla
-                </button>
+                <div class="col-12 col-lg-3 side">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-dark responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="table-title">
+                                                Sipariş Özeti
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-heading="Sipariş Özeti">
+                                                <div class="d-flex justify-content-between form-group">
+                                                    <div>
+                                                        Ödenecek Tutar
+                                                        <p>(KDV Dahil)</p>
+                                                    </div>
+                                                    <div>
+                                                        960 TL
+                                                    </div>
+                                                </div>
+                                                <button id="payment-button" type="submit" class="button btn-blue ml-auto w-100">
+                                                    Alışverişi Tamamla
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+               
             </div>
         </div>
     </main>
-</div>
+</div>  
 
 <script>
     $(document).ready(function() {
