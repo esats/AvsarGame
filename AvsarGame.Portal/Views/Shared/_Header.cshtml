@@ -1,8 +1,14 @@
-﻿<header class="Header">
+﻿<style>
+    li:hover .dropdown-menu{
+        display: block;
+    }
+</style>
+
+<header class="Header">
     <div class="Header-filter"></div>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand  mr-auto" href="index.html"><img src="/assest/img/logo.png" alt="" /></a>
+            <a class="navbar-brand  mr-auto" href="/"><img src="/assest/img/logo.png" alt="" /></a>
 
             <div class="form-wrapper ml-auto">
                 <form class="form-inline">
@@ -39,19 +45,18 @@
         </nav>
         <div class="notice-box">
             <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                <span><i class="fa fa-circle"></i>&nbsp;<a style="color:#baff12"  href="javascript:;">AVSAR GAME OYUN SEKTÖRÜN DE SİZİN YENİ YARDIMCINIZ.</a></span>
+                <span><i class="fa fa-circle"></i>&nbsp;<a style="color:#baff12"  href="javascript:;">ANATOLIA GAME OYUN SEKTÖRÜN DE SİZİN YENİ YARDIMCINIZ.</a></span>
             </marquee>
         </div>
         <hr />
         <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
             <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item nav-item2 position-static dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle">
                         OYUNLAR
                     </a>
 
-                    <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <div class="row">
                             <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
                                 <h5 class="dropdown-title list-title led led-below">
@@ -99,7 +104,7 @@
                 @*<li class="nav-item nav-item2">
                     <a class="nav-link" href="products.html">KNIGHT ONLINE</a>
                 </li>*@
-                <li class="nav-item nav-item2">
+                <li class="nav-item nav-item2" style="margin-left: 530px">
                     <a class="nav-link" href="/Payment/Methods">Ödeme Yöntemleri</a>
                 </li>
                 @*<li class="nav-item nav-item2">
@@ -111,9 +116,9 @@
                 <li class="nav-item nav-item2">
                     <a class="nav-link" href="/Support/Index">Yardım</a>
                 </li>
-                <li class="nav-item nav-item2">
+                @*<li class="nav-item nav-item2">
                     <a class="nav-link" href="payment-methods.html">İletişim</a>
-                </li>
+                </li>*@
             </ul>
         </nav>
         <div class="search-form-wrapper">
