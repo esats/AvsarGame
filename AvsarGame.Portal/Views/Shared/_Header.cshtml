@@ -9,204 +9,212 @@
 </style>
 
 <header class="Header">
-<div class="Header-filter"></div>
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand  mr-auto" href="/">
-            <img src="~/assest/img/logo.png" alt="">
-        </a>
+    <div class="Header-filter"></div>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand  mr-auto" href="/">
+                <img src="~/assest/img/logo.png" alt="">
+            </a>
 
-        <div class="form-wrapper ml-auto">
-            <form class="form-inline">
-                <div class="auto-complete w-100">
-                    <input id="header-search" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." autocomplete="off">
-                </div>
+            <div class="form-wrapper ml-auto">
+                <form class="form-inline">
+                    <div class="auto-complete w-100">
+                        <input id="header-search" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." autocomplete="off">
+                    </div>
 
-            </form>
-            <div class="search-icon ml-auto" data-toggle="search-form"></div>
+                </form>
+                <div class="search-icon ml-auto" data-toggle="search-form"></div>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item profile" @*style="display: none"*@>
+                        <a class="nav-link profile" href="/User/Detail/29d81876-0a7b-458a-8f5e-d73b684471bc">giriş yapan oyuncu</a>
+                    </li>
+                    @*<li class="nav-item reglog">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
+                               onclick="showRegister()">ÜYE OL</a>
+                        </li>
+                        <li class="nav-item reglog">
+                            <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
+                               data-target="#login-modal">GİRİŞ</a>
+                        </li>*@
+                    <li class="nav-item  dropdown dropdown-cart" id="chart">
+                        <a class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" href="/Sepetim"  role="button" aria-haspopup="true" aria-expanded="false">
+                            SEPET <span id="chartSpan">(0)</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-container" id="chartDataTable">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <hr>
+        <div class="notice-box">
+            <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+                <span><i class="fa fa-circle"></i>&nbsp;<a style="color: #baff12" href="javascript:;">ANATOLIA GAME OYUN SEKTÖRÜN DE SİZİN YENİ YARDIMCINIZ.</a></span>
+            </marquee>
         </div>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggler">
-            <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <li class="nav-item profile" @*style="display: none"*@>
-                    <a class="nav-link profile" href="/User/Detail/29d81876-0a7b-458a-8f5e-d73b684471bc">giriş yapan oyuncu</a>
-                </li>
-                @*<li class="nav-item reglog">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
-                   onclick="showRegister()">ÜYE OL</a>
-            </li>
-        <li class="nav-item reglog">
-            <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
-               data-target="#login-modal">GİRİŞ</a>
-        </li>*@
-                <li class="nav-item  dropdown dropdown-cart" id="chart">
-                    <a class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" href="/Sepetim"navbarDropdownMenuLink" role="button" aria-haspopup="true" aria-expanded="false">
-                        SEPET <span id="chartSpan">(0)</span>
+        <hr />
+        <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
+            <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item nav-item2 position-static dropdown">
+                    <a class="nav-link dropdown-toggle">
+                        OYUNLAR
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="table-container">
-                                    <table class="table table-dark">
-                                        <thead>
-                                            <tr>
-                                                <th class="table-title">
-                                                    2 Ürün
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td data-heading="Sipariş Özeti">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            Ürün 1
-                                                        </div>
-
-                                                        <div>
-                                                            960 TL
-
-                                                        </div>
-                                                        <div class="cross"></div>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            Ürün 2
-                                                        </div>
-
-                                                        <div>
-                                                            <span class="price-before">1100</span>
-                                                            <span class="price">
-                                                                960 TL
-                                                            </span>
-
-                                                        </div>
-                                                        <div class="cross"></div>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-                                                        <a href="payment.html" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">
-                                                            Alışverişi Tamamla
-                                                        </a>
-
-                                                        <span class="order-1 pb-3 pb-sm-0 order-sm-2">
-                                                            1920
-                                                            TL
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
+                            <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+                                <h5 class="dropdown-title list-title led led-below">
+                                    GAMES
+                                </h5>
+                                <a class="dropdown-item list-item" href="payment-methods2.html">Hakkımızda</a>
+                                <a class="dropdown-item list-item" href="#">İletişim</a>
+                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                <a class="dropdown-item list-item" href="#">İletişim</a>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+                                <h5 class="dropdown-title list-title led led-below">
+                                    ABOUT
+                                </h5>
+                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                <a class="dropdown-item list-item" href="#">İletişim</a>
+                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                <a class="dropdown-item list-item" href="#">İletişim</a>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+                                <h5 class="dropdown-title list-title led led-below">
+                                    CONTACT
+                                </h5>
+                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                <a class="dropdown-item list-item" href="#">İletişim</a>
+                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                <a class="dropdown-item list-item" href="#">İletişim</a>
+                            </div>
+                            <div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
+                                <div class="d-flex dropdown-image">
+                                    <div class="col-6 p-0">
+                                        <img class="dropdown-image-img" src="~/assest/img/dropdown-img.png"
+                                             alt="" />
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center">
+                                        <p class="dropdown-image-text text-center w-100">
+                                            BLACK DESERT RAMESTERED
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </li>
-            </ul>
-        </div>
-    </nav>
-    <hr>
-    <div class="notice-box">
-        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-            <span><i class="fa fa-circle"></i>&nbsp;<a style="color: #baff12" href="javascript:;">ANATOLIA GAME OYUN SEKTÖRÜN DE SİZİN YENİ YARDIMCINIZ.</a></span>
-        </marquee>
-    </div>
-    <hr/>
-    <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
-        <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item nav-item2 position-static dropdown">
-                <a class="nav-link dropdown-toggle">
-                    OYUNLAR
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
-                            <h5 class="dropdown-title list-title led led-below">
-                                GAMES
-                            </h5>
-                            <a class="dropdown-item list-item" href="payment-methods2.html">Hakkımızda</a>
-                            <a class="dropdown-item list-item" href="#">İletişim</a>
-                            <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                            <a class="dropdown-item list-item" href="#">İletişim</a>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
-                            <h5 class="dropdown-title list-title led led-below">
-                                ABOUT
-                            </h5>
-                            <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                            <a class="dropdown-item list-item" href="#">İletişim</a>
-                            <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                            <a class="dropdown-item list-item" href="#">İletişim</a>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
-                            <h5 class="dropdown-title list-title led led-below">
-                                CONTACT
-                            </h5>
-                            <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                            <a class="dropdown-item list-item" href="#">İletişim</a>
-                            <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                            <a class="dropdown-item list-item" href="#">İletişim</a>
-                        </div>
-                        <div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
-                            <div class="d-flex dropdown-image">
-                                <div class="col-6 p-0">
-                                    <img class="dropdown-image-img" src="~/assest/img/dropdown-img.png"
-                                         alt=""/>
-                                </div>
-                                <div class="col-6 d-flex align-items-center">
-                                    <p class="dropdown-image-text text-center w-100">
-                                        BLACK DESERT RAMESTERED
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            @*<li class="nav-item nav-item2">
+                @*<li class="nav-item nav-item2">
                         <a class="nav-link" href="products.html">KNIGHT ONLINE</a>
                     </li>*@
-            <li class="nav-item nav-item2" style="margin-left: 530px">
-                <a class="nav-link" href="/Payment/Methods">Ödeme Yöntemleri</a>
-            </li>
-            @*<li class="nav-item nav-item2">
+                <li class="nav-item nav-item2" style="margin-left: 530px">
+                    <a class="nav-link" href="/Payment/Methods">Ödeme Yöntemleri</a>
+                </li>
+                @*<li class="nav-item nav-item2">
                         <a class="nav-link" href="games.html">WAX (VGO)</a>
                     </li>*@
-            @*<li class="nav-item nav-item2">
+                @*<li class="nav-item nav-item2">
                         <a class="nav-link" href="orders.html">STEAM</a>
                     </li>*@
-            <li class="nav-item nav-item2">
-                <a class="nav-link" href="/Support/Index">Yardım</a>
-            </li>
-            @*<li class="nav-item nav-item2">
+                <li class="nav-item nav-item2">
+                    <a class="nav-link" href="/Support/Index">Yardım</a>
+                </li>
+                @*<li class="nav-item nav-item2">
                         <a class="nav-link" href="payment-methods.html">İletişim</a>
                     </li>*@
-        </ul>
-    </nav>
-    <div class="search-form-wrapper">
-        <form class="search-form" id="" action="">
-            <div class="input-group">
-                <div class="auto-complete w-100">
-                    <input type="text" name="search" class="search form-control" placeholder="Search" id="header-mobile-search" autocomplete="off">
-                </div>
+            </ul>
+        </nav>
+        <div class="search-form-wrapper">
+            <form class="search-form" id="" action="">
+                <div class="input-group">
+                    <div class="auto-complete w-100">
+                        <input type="text" name="search" class="search form-control" placeholder="Search" id="header-mobile-search" autocomplete="off">
+                    </div>
 
-            </div>
-        </form>
-    </div>
+                </div>
+            </form>
+        </div>
 </div>
 </header>
+
+<script>
+    $(document).ready(function () {
+        $("#chart").hover(function () {
+            
+            $.ajax({
+                type: 'GET',
+                url: '/Sepetim/GetChartDetail',
+                dataType: 'json', 
+                success: function (res) {
+                    if (res.success) {
+                        getChartHtml(res.data);
+                    }
+                },
+                error: function (err) {
+                    Command: toastr["error"]("Bir Sorun Oluştu");
+                }
+            });
+        });
+    });
+
+    function getChartHtml(data) {
+        
+        $("#chartDataTable").html('');
+
+        var aa = '<table class="table table-dark">'
+                                                    +'<thead>'
+                                                    + '<tr>'
+                                                    + '<th class="table-title">'
+                                                    + '2 Ürün'
+                                                    + '</th>'
+                                                    + '</tr>'
+                                                    + '</thead>'
+                                                    + '<tbody>'
+                                                    + '<tr>'
+                                                    + '<td data-heading="Sipariş Özeti">'
+                                                    + '<div class="d-flex justify-content-between">'
+                                                    + '<div>'
+                                                    + 'ürün 1 '
+                                                    + '</div>'
+                                                    + ' <div>'
+                                                    + '960 tl '
+                                                    + '</div>'
+                                                    + '<div class="cross">'
+                                                    + '</div>'
+                                                    +  '</div>'
+                                                    + '</td>'
+                                                    + '</tr>'
+                                                    + '<tr>'
+                                                    + '<td>'
+                                                    + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
+                                                    + '<a href="payment.html" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
+                                                    + 'Alışverişi Tamamla'
+                                                    + '</a>'
+                                                    + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
+                                                    + '1920 TL'
+                                                    + '</span>'
+                                                    + '</div>'
+                                                    + '</td>'
+                                                    + '</tr>'
+                                                    + '</tbody>'
+                                                    + '</table>';
+        debugger;
+        $("#chartDataTable").append(aa);
+
+    }
+
+</script>
