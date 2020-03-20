@@ -1,0 +1,705 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link href="~/assest/Style/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assest/Style/swiper.min.css" rel="stylesheet" />
+    <link href="~/assest/Style/main.min.css" rel="stylesheet" />
+</head>
+<div class="spinner-wrapper">
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+</div>
+
+<body>
+    <header class="Header">
+        <div class="Header-filter"></div>
+
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand  mr-auto" href="index.html"><img src="./assets/img/logo.png" alt="" /></a>
+
+                <div class="form-wrapper ml-auto">
+                    <form class="form-inline">
+                        <input class="form-control d-lg-inline-block d-none w-100" type="search"
+                               placeholder="Arama..." />
+                    </form>
+                    <div class="search-icon ml-auto" data-toggle="search-form"></div>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggler">
+                    <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
+                               onclick="showRegister()">ÜYE OL</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
+                               data-target="#login-modal">GİRİŞ</a>
+                        </li>
+                        <li class="nav-item passive">
+                            <a class="nav-link" href="#">SEPET <span>(0)</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
+                <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item nav-item2 position-static dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            OYUNLAR
+                        </a>
+
+                        <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+                                    <h5 class="dropdown-title list-title led led-below">
+                                        GAMES
+                                    </h5>
+                                    <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                    <a class="dropdown-item list-item" href="#">İletişim</a>
+                                    <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                    <a class="dropdown-item list-item" href="#">İletişim</a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+                                    <h5 class="dropdown-title list-title led led-below">
+                                        ABOUT
+                                    </h5>
+                                    <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                    <a class="dropdown-item list-item" href="#">İletişim</a>
+                                    <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                    <a class="dropdown-item list-item" href="#">İletişim</a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+                                    <h5 class="dropdown-title list-title led led-below">
+                                        CONTACT
+                                    </h5>
+                                    <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                    <a class="dropdown-item list-item" href="#">İletişim</a>
+                                    <a class="dropdown-item list-item" href="#">Hakkımızda</a>
+                                    <a class="dropdown-item list-item" href="#">İletişim</a>
+                                </div>
+                                <div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
+                                    <div class="d-flex dropdown-image">
+                                        <div class="col-6 p-0">
+                                            <img class="dropdown-image-img" src="./assets/img/dropdown-img.png"
+                                                 alt="" />
+                                        </div>
+                                        <div class="col-6 d-flex align-items-center">
+                                            <p class="dropdown-image-text text-center w-100">
+                                                BLACK DESERT RAMESTERED
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item nav-item2">
+                        <a class="nav-link" href="products.html">KNIGHT ONLINE</a>
+                    </li>
+                    <li class="nav-item nav-item2">
+                        <a class="nav-link" href="payment.html">ITEM & SKIN</a>
+                    </li>
+                    <li class="nav-item nav-item2">
+                        <a class="nav-link" href="games.html">WAX (VGO)</a>
+                    </li>
+                    <li class="nav-item nav-item2">
+                        <a class="nav-link" href="orders.html">STEAM</a>
+                    </li>
+                    <li class="nav-item nav-item2">
+                        <a class="nav-link" href="support.html">PAZAR</a>
+                    </li>
+                    <li class="nav-item nav-item2">
+                        <a class="nav-link" href="#">DESTEKLE</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="search-form-wrapper">
+                <form class="search-form" id="" action="">
+                    <div class="input-group">
+                        <input type="text" name="search" class="search form-control" placeholder="Search" />
+                        <span class="input-group-addon" id="basic-addon2">
+                            <i class="fa fa-search"
+                               aria-hidden="true"></i>
+                        </span>
+                        <span class="input-group-addon search-close" id="basic-addon2">
+                            <i class="fa fa-window-close"
+                               aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <main class="Main">
+            <div class="container payment-methods-container">
+                <div class="title-primary">Ödeme</div>
+                <div class="section tab-primary">
+                    <ul class="nav nav-pills " id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-adress-tab" data-toggle="pill" href="#adress-tab"
+                               role="tab" aria-controls="adress-tab" aria-selected="true">Teslimat Adresi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-payment-tab" data-toggle="pill" href="#payment-tab" role="tab"
+                               aria-controls="payment-tab" aria-selected="false">Sipariş Ödeme</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-payment-summary-tab" data-toggle="pill"
+                               href="#payment-summary" role="tab" aria-controls="payment-summary"
+                               aria-selected="false">Sipariş Özeti</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="adress-tab" role="tabpanel"
+                             aria-labelledby="pills-adress-tab">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-container">
+                                        <table class="table table-dark responsive-table">
+                                            <tbody>
+                                                <tr>
+
+                                                    <td>
+
+                                                        <input class="form-csRadio" type="radio" id="adress1"
+                                                               name="adress" required="">
+                                                        <label for="adress1">
+                                                            <p class="adress-title">Ev</p>
+                                                            <div class="adress-content">
+                                                                <p>
+                                                                    Akatlar Mahallesi / Sümbül Sokak /
+                                                                    Beşiktaş / Istanbul / Turkey
+                                                                </p>
+                                                                <p>
+                                                                    Akatlar Mahallesi / Sümbül Sokak /
+                                                                    Beşiktaş / Istanbul / Turkey
+                                                                </p>
+                                                                <p>
+                                                                    Akatlar Mahallesi / Sümbül Sokak /
+                                                                    Beşiktaş / Istanbul / Turkey
+                                                                </p>
+                                                            </div>
+                                                        </label>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+
+                                                        <input class="form-csRadio" type="radio" id="adress2"
+                                                               name="adress" required="">
+                                                        <label for="adress2">
+                                                            <p class="adress-title">İş</p>
+                                                            <div class="adress-content">
+
+                                                                <p>
+                                                                    Akatlar Mahallesi / Sümbül Sokak / </br>
+                                                                    Beşiktaş / Istanbul / Turkey
+                                                                </p>
+                                                            </div>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="button btn-blue ml-auto my-4">Devam</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="pills-payment-tab">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form id="payment-form" class="needs-validation pt-3" novalidate="">
+                                        <div class="row">
+                                            <div class="form-group col-12 col-sm-6 ">
+                                                <label class="label-white" for="bank">Ödeme Yapacağınız Banka</label>
+
+                                                <div class="form-select">
+                                                    <select class="form-control" name="bank" id="bank" required="">
+                                                        <option disabled="" selected="" value="">Seçiniz</option>
+                                                        <option value="akbank">Akbank</option>
+                                                        <option value="garanti">Garanti</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-12 col-sm-6 ">
+                                                <label class="label-white" for="amount">Ödenecek Tutar</label>
+
+                                                <input id="amount" name="amount" class="text-right form-control"
+                                                       type="text" required="">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-12 col-sm-6 ">
+                                                <label class="label-white" for="owner">Kart Sahibi</label>
+
+                                                <input required="" name="owner" id="owner" class="form-control">
+                                            </div>
+                                            <div class="form-group credit-card col-12 col-sm-6 ">
+                                                <label class="label-white" for="cardNumber">Kart Numarası</label>
+
+                                                <input required="" placeholder="____ ____ ____ ____" id="cardNumber"
+                                                       name="cardNumber" class="form-control" type="text" maxlength="19">
+                                                <div class="payment-logo-container">
+                                                    <img class="payment-logo master-card-logo"
+                                                         src="./assets/img/master-card.svg" alt="">
+                                                    <img class="payment-logo visa-logo" src="./assets/img/visa.svg"
+                                                         alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-6 col-sm-4">
+                                                <label class="no-wrap label-white" for="expireMonth">
+                                                    Son Kullanma
+                                                    Tarihi
+                                                </label>
+
+                                                <div class="form-select">
+                                                    <select required="" name="expireMonth" id="expireMonth"
+                                                            class="form-control">
+                                                        <option disabled="" selected="" value="">Ay</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-6 col-sm-4">
+                                                <label class="invisible d-sm-block label-white"
+                                                       for="expireYear">Yıl</label>
+
+                                                <div class="form-select">
+                                                    <select required="" id="expireYear" name="expireYear"
+                                                            class="form-control">
+                                                        <option disabled="" selected="" value="">Yıl</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2027">2027</option>
+                                                        <option value="2028">2028</option>
+                                                        <option value="2029">2029</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 col-sm-4">
+                                                <label class="label-white" for="cvc">CVC</label>
+
+                                                <input required="" id="cvc" name="cvc" class="form-control" type="text"
+                                                       maxlength="3">
+                                            </div>
+                                        </div>
+                                        <button id="payment-button" type="submit" class="button btn-blue ml-auto">
+                                            Ödeme Yap
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="payment-summary" role="tabpanel"
+                             aria-labelledby="pills-payment-summary-tab">
+
+                            <div class="row">
+                                <div class="col-lg-6 col-12">
+                                    <div class="table-container">
+                                        <table class="table table-dark responsive-table">
+                                            <thead>
+                                            <th class="table-title">
+                                                Teslimat Bilgileri
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <label for="adress1">
+                                                            <div class="adress-content">
+                                                                <p>
+                                                                    Akatlar Mahallesi / Sümbül Sokak /
+                                                                    Beşiktaş / Istanbul / Turkey
+                                                                </p>
+                                                            </div>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="table-container">
+                                        <table class="table table-dark responsive-table">
+                                            <thead>
+                                            <th class="table-title">
+                                                Fatura Bilgileri
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <label for="adress1">
+                                                            <div class="adress-content">
+                                                                <p>
+                                                                    Akatlar Mahallesi / Sümbül Sokak /
+                                                                    Beşiktaş / Istanbul / Turkey
+                                                                </p>
+                                                            </div>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="table-container">
+                                        <table class="table table-dark responsive-table total-table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Ürün Adı</th>
+                                                    <th scope="col">Miktar</th>
+                                                    <th scope="col">Fiyat</th>
+                                                    <th scope="col">Toplam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="row">
+                                                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                                                        elit. Cumque, doloribus.
+                                                    </td>
+                                                    <td>10</td>
+                                                    <td>24 TL</td>
+                                                    <td>240 TL</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td scope="row">Halo 4</td>
+                                                    <td>10</td>
+                                                    <td>24 TL</td>
+                                                    <td>240 TL</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td scope="row">Skyrim</td>
+                                                    <td>10</td>
+                                                    <td>24 TL</td>
+                                                    <td>240 TL</td>
+
+                                                </tr>
+                                                <tr>
+
+                                                    <td scope="row">Star Wars</td>
+                                                    <td>10</td>
+                                                    <td>24 TL</td>
+                                                    <td>240 TL</td>
+
+                                                </tr>
+                                                <tr class="total-amount">
+                                                    <td colspan="2" scope="col">Toplam Tutar:</td>
+                                                    <td colspan=" 2" scope="col">960 TL</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+        <footer class="Footer ">
+            <div class="container">
+                <div class="row Footer-inner">
+                    <div class="col-6 col-md-3 mb-4 d-flex flex-column">
+                        <h5 class="list-title led led-below">GAMES</h5>
+                        <a href="#">Hakkımızda</a>
+                        <a href="#">İletişim</a>
+                        <a href="#">Hakkımızda</a>
+                        <a href="#">İletişim</a>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4 d-flex flex-column">
+                        <h5 class="list-title led led-below">ABOUT</h5>
+                        <a href="#">Hakkımızda</a>
+                        <a href="#">İletişim</a>
+                        <a href="#">Hakkımızda</a>
+                        <a href="#">İletişim</a>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4 d-flex flex-column">
+                        <h5 class="list-title led led-below">CONTACT</h5>
+                        <a href="#">Hakkımızda</a>
+                        <a href="#">İletişim</a>
+                        <a href="#">Hakkımızda</a>
+                        <a href="#">İletişim</a>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4 address">
+                        <p>
+                            Theodore Lowe Ap
+                        </p>
+                        <p>#867-859 Sit Rd.</p>
+                        <p>Azusa</p>
+                        <p>New York</p>
+                        <p>
+                            39531
+                        </p>
+                        <p>
+                            (793) 151-6230
+                        </p>
+                    </div>
+                </div>
+                <div class="row pb-5">
+                    <div class="col-12 text-center">
+                        <p class="copyright">2020 GAMING | Tüm hakları gizlidir.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Modal cascading tabs-->
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs row" id="login-tabs" role="tablist">
+                        <li class="nav-item col login-link">
+                            <a class="nav-link active" data-toggle="tab" href="#login-tab" role="tab">Giriş</a>
+                        </li>
+                        <li class="nav-item col register-link">
+                            <a class="nav-link" data-toggle="tab" href="#register-tab" role="tab">Üye Ol</a>
+                        </li>
+                        <li class="nav-item col terms-link d-none">
+                            <a class="nav-link" data-toggle="tab" href="#terms-tab" role="tab">Kullanım Koşulları</a>
+                        </li>
+                        <li class="nav-item col forgot-pw-link d-none">
+                            <a class="nav-link" data-toggle="tab" href="#forgot-pw-tab" role="tab">Şifremi Unuttum</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panels -->
+                    <div class="tab-content">
+                        <!--Register-->
+                        <div class="tab-pane fade" id="register-tab" role="tabpanel">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <form class="needs-validation" novalidate>
+                                    <div class="form-row form-group">
+                                        <div class="col-12 ">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="user-name">Ad Soyad</label>
+                                            <input type="text" class="form-control validate" id="user-name"
+                                                   placeholder="Ad Soyad" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="user-email">Email</label>
+                                            <input type="email" class="form-control validate" id="user-email"
+                                                   placeholder="Email" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12 ">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="user-password">Şifre</label>
+                                            <div class="pw-container">
+                                                <input type="password" class="form-control validate" id="user-password"
+                                                       placeholder="Şifre" required />
+                                                <div class="pw-icon"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12 ">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="user-phone">Telefon</label>
+                                            <input type="phone" class="form-control validate" id="user-phone"
+                                                   placeholder="Telefon" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <label class="form-csCheck">
+                                                <input class="form-check-input form-control validate" type="checkbox"
+                                                       value="" id="terms" required />
+                                                <span class="form-csCheck-checkmark"></span>
+                                            </label>
+                                            <span class="terms">
+                                                <a data-toggle="tab" href="#terms-tab"
+                                                   href="javascript:void(0)" onclick="showTerms()">
+                                                    Kullanım
+                                                    koşullarını
+                                                </a>
+                                                kabul ediyorum
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <button class="button btn-blue w-100" type="submit">
+                                                ÜYE OL
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="modal-close">Kapat</div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--/.Register-->
+                        <!--Login-->
+                        <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <form class="needs-validation" novalidate>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="current-email">Email</label>
+                                            <input type="email" class="form-control validate" id="current-email"
+                                                   placeholder="Email" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12 ">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="current-password">Şifre</label>
+                                            <div class="pw-container">
+                                                <input type="password" class="form-control validate"
+                                                       id="current-password" placeholder="Şifre" required />
+                                                <div class="pw-icon"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <label class="form-csCheck">
+                                                <input class="form-check-input form-control validate" type="checkbox"
+                                                       value="" id="user-remember" required />
+                                                <span class="form-csCheck-checkmark"></span>
+                                                Beni Hatırla
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <button class="button btn-blue w-100" type="submit">
+                                                GİRİŞ YAP
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <p onclick="forgotPw()" class="text-center forgot-pw">
+                                    Şifremi Unuttum
+                                </p>
+                                <div class="modal-close">Kapat</div>
+                            </div>
+                        </div>
+                        <!--/.Login-->
+                        <!-- Terms -->
+                        <div class="tab-pane fade terms-link" id="terms-tab" role="tabpanel">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="terms-container">
+                                    <p>
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                        Enim quia assumenda at aspernatur, unde accusamus porro sed
+                                        impedit doloribus. Beatae delectus consequatur quos
+                                        architecto, aliquid culpa sit odio facere possimus dolor?
+                                        Nesciunt doloremque cupiditate quasi officia facere quam,
+                                        atque, accusantium ducimus, libero praesentium repellendus
+                                        dolorem facilis aspernatur consequatur aliquam? Consectetur
+                                        sequi odio sit consequatur quaerat molestiae odit omnis
+                                        provident saepe possimus delectus ea ex cupiditate
+                                        distinctio alias, accusamus voluptate. Non laboriosam ipsam
+                                        tempora distinctio, sunt dolorem id facere nisi quae
+                                        officiis quo est quisquam in quas fuga iste accusamus qui
+                                        quia aspernatur alias. Asperiores ipsa quae odio omnis at
+                                        sunt ullam eaque aperiam natus, similique iusto maiores
+                                        autem! Quam, atque quae quidem dicta commodi hic velit
+                                        mollitia id illum ab saepe sed quod nihil quas officiis.
+                                        Repellendus unde magnam vitae odio ullam iste minus a
+                                        reprehenderit quas veniam consequatur adipisci nulla non,
+                                        quisquam ipsum officiis aliquam placeat nesciunt quidem
+                                        dicta.
+                                    </p>
+                                </div>
+                                <div class="modal-close">Kapat</div>
+                            </div>
+                        </div>
+                        <!-- ./Terms -->
+                        <!-- Forgot-pw -->
+                        <div class="tab-pane fade terms-link" id="forgot-pw-tab" role="tabpanel">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <form class="needs-validation" novalidate>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <label class="label-white" data-error="wrong" data-success="right"
+                                                   for="current-email">Email</label>
+                                            <input type="email" class="form-control validate" id="current-email"
+                                                   placeholder="Email" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <div class="col-12">
+                                            <button class="button btn-blue w-100" type="submit">
+                                                GÖNDER
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="modal-close">Kapat</div>
+                            </div>
+                        </div>
+                        <!-- ./Forgot-pw -->
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assest/scripts/app.min.js"></script>
+</body>
+
+</html>

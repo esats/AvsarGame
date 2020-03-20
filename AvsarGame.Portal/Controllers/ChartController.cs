@@ -13,15 +13,12 @@ namespace AvsarGame.Portal.Controllers {
     [Route("Sepetim")]
     public class ChartController : Controller {
         public IActionResult Index() {
-            var chart = SessionManager.Instance.GetObject<List<Guid>>("chart");
+            var chart = SessionManager.Instance.GetObject<List<GameModel>>("chart");
             if (chart == null) {
                 return null;
             }
 
-            var ids = ConvertToString(chart);
-            List<GameModel> games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get(string.Format("Game/GetGames?gamesId={0}", ids)));
-
-            return View(games);
+            return View(chart);
         }
 
         [HttpPost]
@@ -57,6 +54,12 @@ namespace AvsarGame.Portal.Controllers {
             }
 
             return result.TrimEnd(',');
+        }
+   
+        [HttpGet]
+        [Route("Ozet")]
+        public ActionResult Summary() {
+            return View();
         }
     }
 }

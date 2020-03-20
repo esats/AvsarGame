@@ -27,5 +27,9 @@ namespace AvsarGame.Portal.Controllers {
 
             return View(categoryWithGames);
         }
+
+        public ActionResult Test() {
+            return View();
+        }
     }
 }

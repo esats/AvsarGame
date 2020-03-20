@@ -17,6 +17,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         public virtual DbSet<UserOrder> UserOrder { get; set; }
         public virtual DbSet<UserOrderDetail> UserOrderDetail { get; set; }
         public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<UserBalance> UserBalance { get; set; }
 
         public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options) {
         }
