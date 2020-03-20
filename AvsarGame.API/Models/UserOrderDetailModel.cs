@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AvsarGame.API.Models {
     public class UserOrderDetailModel {
-        public Guid UserOrderId { get; set; }
+        public int UserOrderId { get; set; }
         public GameModel Game { get; set; }
         public string CharacterName { get; set; }
         public decimal BillingPrice { get; set; }

@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace AvsarGame.Portal.Areas.Admin.Controllers {
     public class UserOrderController : BaseAdminController {
         public IActionResult Index() {
-            List<UserOrderDetailModel> model = JsonConvert.DeserializeObject<List<UserOrderDetailModel>>(UiRequestManager.Instance.Get("UserOrder", "List"));
+            List<UserOrdersModel> model = JsonConvert.DeserializeObject<List<UserOrdersModel>>(UiRequestManager.Instance.Get("UserOrder", "List"));
             return View(model);
         }
     }

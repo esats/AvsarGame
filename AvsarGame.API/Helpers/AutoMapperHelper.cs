@@ -11,6 +11,7 @@ namespace AvsarGame.API.Helpers {
         public AutoMapperHelper() {
             CreateMap<Games,GameModel>();
             CreateMap<Category, CategoryModel>();
+            CreateMap<ApplicationUser, UserManagementModel>();
         }
     }
 }
