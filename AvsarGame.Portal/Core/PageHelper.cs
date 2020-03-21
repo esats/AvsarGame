@@ -9,24 +9,38 @@ namespace AvsarGame.Portal.Core {
             var modalId = "category" + id;
             return modalId;
         }
-    
-        public static string Description( Enum value )
-        {
+
+        public static string Description(Enum value) {
             // get attributes  
-            var field = value.GetType().GetField( value.ToString() );
-            var attributes = field.GetCustomAttributes( false );
+            var field = value.GetType().GetField(value.ToString());
+            var attributes = field.GetCustomAttributes(false);
 
             // Description is in a hidden Attribute class called DisplayAttribute
             // Not to be confused with DisplayNameAttribute
             dynamic displayAttribute = null;
 
-            if (attributes.Any())
-            {
-                displayAttribute = attributes.ElementAt( 0 );
+            if (attributes.Any()) {
+                displayAttribute = attributes.ElementAt(0);
             }
 
             // return description
             return displayAttribute?.Description ?? "Description Not Found";
+        }
+
+        public static string DisplayStyle(string state) {
+            var token = SessionManager.Instance.Get("bearer");
+            if (token == null) {
+                if (state == "login") {
+                     return "block";
+                }
+                return "none";
+            } else {
+                if (state == "logged") {
+                    return "block";
+                }
+                return "none";
+            }
+
         }
     }
 }

@@ -122,10 +122,10 @@
                                             <span class="form-csCheck-checkmark"></span>
                                         </label>
                                         <span class="terms">
-                                            <a data-toggle="tab" href="#terms-tab"
+                                            <button data-toggle="tab" href="#terms-tab"
                                                href="javascript:void(0)" onclick="showTerms()">
                                                 Kullanım koşullarını
-                                            </a>
+                                            </button>
                                             kabul ediyorum
                                         </span>
                                     </div>
@@ -274,14 +274,14 @@
                     dataType: 'json',
                     data: model,
                     success: function (res) {
-                        if (res.isSuccess) {
-                            debugger;
+                        debugger;
+                        if (res.success) {
                             if (res.message == null) {
-                                debugger;
-                                setUserForHeader(res.value);
+                                setUserForHeader(res.data.value);
                                 $('#login-modal').modal('hide');
+                            } else {
+                                alert(res.message);
                             }
-
                         } 
                     },
                     error: function (err) {
@@ -306,7 +306,7 @@
                     dataType: 'json',
                     data: model,
                     success: function (res) {
-                        if (res.isSuccess) {
+                        if (res.success) {
                             setUserForHeader(res.value);
                             $('#login-modal').modal('hide');
                         } else {
@@ -326,10 +326,12 @@
                 $(items[i]).css("display", "none");
             }
 
-            //var userText = document.getElementsByClassName("profile");
+            debugger;
 
-            //$(userText[1]).innerHTML =  "adsasdasdas";
-            //$(userText[0]).css("display", "block");
+            var userText = document.getElementsByClassName("profile");
+            $(userText[0]).css("display", "block");
+            userText[1].innerText = user.fullName;
+            userText[1].href = '/user/detail/' + user.userId;
 
         }
 

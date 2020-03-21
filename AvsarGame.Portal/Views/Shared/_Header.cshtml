@@ -32,26 +32,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    @if (SessionManager.Instance.IsAuthenticate()) {
-                        <li class="nav-item profile">
-                            <a class="nav-link profile" href="/User/Detail/@SessionManager.Instance.GetUserId()">@SessionManager.Instance.GetFullName()</a>
-                        </li>
-                    }
-                    @if (!SessionManager.Instance.IsAuthenticate())
-                    {
-                        <li class="nav-item reglog">
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
-                               onclick="showRegister()">
-                                ÜYE OL
-                            </a>
-                        </li>
-                        <li class="nav-item reglog">
-                            <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
-                               data-target="#login-modal">
-                                GİRİŞ
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item profile"style="@PageHelper.DisplayStyle("logged")">
+                        <a class="nav-link profile" href="/User/Detail/@SessionManager.Instance.GetUserId()">@SessionManager.Instance.GetFullName()</a>
+                    </li>
+                    <li class="nav-item reglog" style="display: @PageHelper.DisplayStyle("login")">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
+                           onclick="showRegister()">
+                            ÜYE OL
+                        </a>
+                    </li>
+                    <li class="nav-item reglog" style="display: @PageHelper.DisplayStyle("login")">
+                        <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
+                           data-target="#login-modal">
+                            GİRİŞ
+                        </a>
+                    </li>
                     <li class="nav-item  dropdown dropdown-cart" id="chart">
                         <a class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" href="/Sepetim" role="button" aria-haspopup="true" aria-expanded="false">
                             SEPET

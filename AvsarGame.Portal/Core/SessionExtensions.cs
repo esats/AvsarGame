@@ -40,7 +40,7 @@ namespace AvsarGame.Portal.Core {
         }
 
         public bool IsAuthenticate() {
-            return Context.HttpContext.Request.Cookies["bearer"] != null;
+            return Get("bearer") != null;
         }
 
         public string GetUserId() {
