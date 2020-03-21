@@ -38,5 +38,17 @@ namespace AvsarGame.Portal.Core {
             var value = Context.HttpContext.Session.GetString(key);
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
+
+        public bool IsAuthenticate() {
+            return Context.HttpContext.Request.Cookies["bearer"] != null;
+        }
+
+        public string GetUserId() {
+            return Get("UserId");
+        }
+
+        public string GetFullName() {
+            return Get("FullName");
+        }
     }
 }

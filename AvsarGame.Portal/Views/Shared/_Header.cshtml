@@ -1,4 +1,5 @@
-﻿<style>
+﻿@using AvsarGame.Portal.Core
+<style>
     .li-for-dropdown:hover .dropdown-menu {
         display: block;
     }
@@ -31,20 +32,30 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item profile" @*style="display: none"*@>
-                        <a class="nav-link profile" href="/User/Detail/29d81876-0a7b-458a-8f5e-d73b684471bc">giriş yapan oyuncu</a>
-                    </li>
-                    @*<li class="nav-item reglog">
+                    @if (SessionManager.Instance.IsAuthenticate()) {
+                        <li class="nav-item profile">
+                            <a class="nav-link profile" href="/User/Detail/@SessionManager.Instance.GetUserId()">@SessionManager.Instance.GetFullName()</a>
+                        </li>
+                    }
+                    @if (!SessionManager.Instance.IsAuthenticate())
+                    {
+                        <li class="nav-item reglog">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
-                               onclick="showRegister()">ÜYE OL</a>
+                               onclick="showRegister()">
+                                ÜYE OL
+                            </a>
                         </li>
                         <li class="nav-item reglog">
                             <a class="nav-link" href="#" data-toggle="modal" onclick="showLogin()"
-                               data-target="#login-modal">GİRİŞ</a>
-                        </li>*@
+                               data-target="#login-modal">
+                                GİRİŞ
+                            </a>
+                        </li>
+                    }
                     <li class="nav-item  dropdown dropdown-cart" id="chart">
                         <a class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" href="/Sepetim" role="button" aria-haspopup="true" aria-expanded="false">
-                            SEPET <span id="chartSpan">
+                            SEPET
+                            <span id="chartSpan">
                                 @await Component.InvokeAsync("ChartCount")
                             </span>
                         </a>
@@ -56,12 +67,11 @@
                                             <thead>
                                                 <tr>
                                                     <th class="table-title" id="chartAmount">
-                                                       
+
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="chartDataTable">
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -182,6 +192,15 @@
                 }
             });
         });
+
+        $("#chart").click(function(e) {
+            debugger;
+            var chartCount = document.getElementById("chartSpan").innerHTML.trim();
+            if (chartCount == "(0)") {
+                e.preventDefault();
+            }
+        });
+
     });
 
     function getChartHtml(data) {
@@ -192,6 +211,7 @@
 
         if (data == null) {
             $("#chartDataTable").append("<div><h3> Sepetiniz Boş</h3>Dilerseniz hosting veya domain ürünleri eklemeye başlayabilirsiniz.</div");
+            return;
         }
 
         var totalAmount = data.length;
@@ -205,7 +225,8 @@
                     + data[i].name
                     + '</div>'
                     + '<div>'
-                    + data[i].sellPrice +' (Birim Fiyat)'
+                    + data[i].sellPrice
+                    + ' (Birim Fiyat)'
                     + '</div>'
                     + '<div class="cross"></div>'
                     + '</div>'

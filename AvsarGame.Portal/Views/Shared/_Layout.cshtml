@@ -174,7 +174,7 @@
                                     </div>*@
                                 <div class="form-row form-group">
                                     <div class="col-12">
-                                        <button class="button btn-blue w-100" id="login" type="submit">
+                                        <button class="button btn-blue w-100" id="login">
                                             GİRİŞ YAP
                                         </button>
                                     </div>
@@ -260,7 +260,8 @@
     <script src="~/assest/scripts/app.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#login").click(function () {
+            $("#login").click(function (e) {
+                e.preventDefault();
                 var model = {
                     Password: document.getElementById("current-password").value,
                     Email: document.getElementById("currentEmail").value
@@ -274,18 +275,22 @@
                     data: model,
                     success: function (res) {
                         if (res.isSuccess) {
-                            $('#login-modal').modal('hide');
-                            setUserForHeader(res.value);
-                        } else {
-                            alert("Kullanıcı adı veya şifre hatalı");
-                        }
+                            debugger;
+                            if (res.message == null) {
+                                debugger;
+                                setUserForHeader(res.value);
+                                $('#login-modal').modal('hide');
+                            }
+
+                        } 
                     },
                     error: function (err) {
                         alert("Bir Hata oluştu");
                     }
                 });
             });
-            $("#register").click(function () {
+            $("#register").click(function (e) {
+                e.preventDefault();
                 var model = {
                     Password: document.getElementById("user-password").value,
                     Name: document.getElementById("user-name").value,
@@ -296,15 +301,14 @@
 
                 $.ajax({
                     type: 'post',
-                    url: '/Chart/AddChart',
+                    url: '/User/Register',
                     content: "application/json; charset=utf-8",
                     dataType: 'json',
                     data: model,
                     success: function (res) {
-                        setUserForHeader(res.value);
                         if (res.isSuccess) {
-                            $('#login-modal').modal('hide');
                             setUserForHeader(res.value);
+                            $('#login-modal').modal('hide');
                         } else {
                             alert("Kullanıcı adı veya şifre hatalı");
                         }
@@ -328,6 +332,7 @@
             //$(userText[0]).css("display", "block");
 
         }
+
     </script>
 </body>
 </html>

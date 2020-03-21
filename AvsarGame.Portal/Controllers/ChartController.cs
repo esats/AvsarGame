@@ -15,7 +15,7 @@ namespace AvsarGame.Portal.Controllers {
         public IActionResult Index() {
             var chart = SessionManager.Instance.GetObject<List<GameModel>>("chart");
             if (chart == null) {
-                return null;
+                return RedirectToAction("Index","Home");
             }
 
             return View(chart);

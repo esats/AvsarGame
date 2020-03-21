@@ -14,5 +14,6 @@ namespace AvsarGame.API.Models {
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public UserManagementModel UserModel { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

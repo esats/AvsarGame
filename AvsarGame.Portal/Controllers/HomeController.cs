@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
 using AvsarGame.Portal.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Controllers {
-    public class HomeController : Controller {
+    public class HomeController : BaseController 
+    {
         public IActionResult Index() {
             HomeModel model = new HomeModel();
             model.Announcements = JsonConvert.DeserializeObject<List<AnnouncementModel>>(UiRequestManager.Instance.Get("Announcement", "UiAnnouncementList"));

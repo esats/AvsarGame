@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Controllers {
-    public class UserController : Controller {
+    public class UserController : BaseController {
         public IActionResult Index() {
             return View();
         }
@@ -19,9 +19,15 @@ namespace AvsarGame.Portal.Controllers {
         [HttpPost]
         public JsonResult Register(RegisterModel model) {
             try {
-                var response = JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Register", JsonConvert.SerializeObject(model)));
+                var responseSaving =
+                        JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Register", JsonConvert.SerializeObject(model)));
+                if (responseSaving.IsSuccess) {
+                    SessionManager.Instance.set("bearer", responseSaving.Value.BearerToken);
+                    SessionManager.Instance.set("UserId", responseSaving.Value.Id.ToString());
+                    SessionManager.Instance.set("FullName", responseSaving.Value.FullName.ToString());
+                }
 
-                return Json(response);
+                return Json(responseSaving);
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
@@ -30,10 +36,15 @@ namespace AvsarGame.Portal.Controllers {
         [HttpPost]
         public JsonResult Login(LoginModel model) {
             try {
-                Response<LoggedModel> responseSaving =
+                Response<LoggedModel> response =
                         JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
-                SessionManager.Instance.set("bearer", responseSaving.Value.BearerToken);
-                return Json(new { Success = true, data = responseSaving });
+                if (response.IsSuccess) {
+                    SessionManager.Instance.set("bearer", response.Value.BearerToken);
+                    SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
+                    SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
+                }
+
+                return Json(new { Success = true, data = response });
             } catch (Exception e) {
                 return Json(new { Success = false });
             }
@@ -45,15 +56,13 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult RequestPayment(UserPaymentRequestModel model) 
-        {
+        public JsonResult RequestPayment(UserPaymentRequestModel model) {
             try {
-                var response = JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Register", JsonConvert.SerializeObject(model)));
+                var response = JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Payment", "Sasve", JsonConvert.SerializeObject(model)));
                 return Json(response);
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
-
     }
 }

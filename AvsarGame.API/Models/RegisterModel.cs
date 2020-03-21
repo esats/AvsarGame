@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
     public class RegisterModel :ModelBase<Guid> {
+        public string FullName => Name + Surname;
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }

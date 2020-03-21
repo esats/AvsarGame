@@ -29,6 +29,12 @@ namespace AvsarGame.API.Controllers {
             try {
                 _userPaymentRequest.Add(_mapper.Map<UserPaymentRequest>(model));
             } catch (Exception e) {
+                Log log = new Log();
+                log.Path = "api/Payment/Save";
+                log.Message = e.Message;
+                log.UserId = model.UserId;
+                Logger.Instance.Insert(log);
+
                 response.Value = HttpStatusCode.BadRequest;
                 response.IsSuccess = false;
                 return response;

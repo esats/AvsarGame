@@ -53,11 +53,13 @@ namespace AvsarGame.API.Controllers {
                     
                     appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
 
+                    loggedModel.UserId = new Guid(appUser.Id);
                     loggedModel.Name = appUser.Name;
                     loggedModel.Surname = appUser.Surname;
                     loggedModel.Birthdate = appUser.Birthdate;
                     loggedModel.Age = appUser.Age;
                     loggedModel.BearerToken = appUser.BearerToken;
+
 
                     return new Response<LoggedModel> { IsSuccess = true, Value = loggedModel };
                 } else {
