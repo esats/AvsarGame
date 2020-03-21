@@ -13,4 +13,4 @@ namespace AvsarGame.Entities.Entities {
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
     }
-}
+}   

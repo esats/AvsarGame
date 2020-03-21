@@ -43,5 +43,17 @@ namespace AvsarGame.Portal.Controllers {
         public ActionResult Detail(Guid id) {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult RequestPayment(UserPaymentRequestModel model) 
+        {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Register", JsonConvert.SerializeObject(model)));
+                return Json(response);
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
     }
 }

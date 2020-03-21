@@ -92,7 +92,7 @@ namespace AvsarGame.API.Controllers {
                 response.IsSuccess = false;
                 return response;
             }
-            response.Value = HttpStatusCode.BadRequest;
+            response.Value = HttpStatusCode.OK;
             response.IsSuccess = true;
             return response;
         }

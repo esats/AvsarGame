@@ -45,6 +45,7 @@ namespace AvsarGame.API {
             services.AddTransient<IUserOrderDetail, EfUserOrderDetail>();
             services.AddTransient<IUserOrder, EfUserOrder>();
             services.AddTransient<ILog, EfLog>();
+            services.AddTransient<IUserPaymentRequest, EfIUserPaymentRequest>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = true; //sayı zorunluluğu
