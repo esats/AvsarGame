@@ -3,82 +3,86 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<style>
+    .modal-body div {
+        margin-bottom:2px !important
+    }
+    .modal-body input {
+        margin-bottom:2px !important
+    }
+</style>
 <div class="page-wrapper">
-        <main class="Main">
-            <div style="margin-top:50px"></div>
-            <div class="container">
-                <div class="row section profile-section">
-                    <div class=" col-12 col-lg-3 side">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="nav flex-lg-column flex-row pb-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                    <a class="nav-link active" id="payment-tab" data-toggle="pill" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Bakiye Ve Ödeme</a>
+    <main class="Main">
+        <div style="margin-top: 50px"></div>
+        <div class="container">
+            <div class="row section profile-section">
+                <div class=" col-12 col-lg-3 side">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="nav flex-lg-column flex-row pb-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="payment-tab" data-toggle="pill" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Bakiye Ve Ödeme Bildirme</a>
 
-                                    <a class="nav-link" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim</a>
+                                <a class="nav-link" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim</a>
 
-                                    <a class="nav-link" id="orders-tab" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">Siparişlerim</a>
+                                <a class="nav-link" id="orders-tab" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">Siparişlerim</a>
 
-                                    <a class="nav-link" id="settings-tab" data-toggle="pill" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Ayarlar</a>
-                                </div>
+                                <a class="nav-link" id="settings-tab" data-toggle="pill" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Ayarlar</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-12  profile-container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="section tab-primary">
-                                    <div class="tab-content" id="v-pills-tabContent">
-                                        <div class="tab-pane fade active show" id="payment" role="tabpanel" aria-labelledby="payment-tab">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
-                                                    <a href="#" class="profile-icon-container">
-                                                        <i class="fas fa-lira-sign  fa-2x"></i>
-                                                        <p class="icon-title">Bakiye</p>
-                                                        <p class="icon-title">0.00</p>
-                                                    </a>
-                                                </div>
-                                                @*<div class="col-6 col-sm-4 col-md-3 profile-icon-col">
-                                                    <a href="#" class="profile-icon-container">
-                                                        <i class="far fa-credit-card  fa-2x"></i>
-                                                        <p class="icon-title">Para Yükle</p>
-                                                        <p class="icon-title">(Çok Yakında)</p>
-                                                    </a>
-                                                </div>*@
-                                                <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
-                                                    <a href="#" class="profile-icon-container">
-                                                        <i class="far fa-credit-card  fa-2x"></i>
-                                                        <p class="icon-title">Para Çek</p>
-                                                        <p class="icon-title">(Çok Yakında)</p>
-                                                    </a>
-                                                </div>
+                </div>
+                <div class="col-lg-9 col-12  profile-container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section tab-primary">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade active show" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                                        <div class="row">
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="#" class="profile-icon-container">
+                                                    <i class="fas fa-lira-sign  fa-2x"></i>
+                                                    <p class="icon-title">Bakiye</p>
+                                                    <p class="icon-title">0.00</p>
+                                                </a>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="announce-box announce-danger">
-                                                        <p>
-                                                            Havale/EFT yapıp bildirim yaptıktan sonra onaylanan bakiyenizi burda görebilirsiniz.
-                                                        </p>
-                                                    </div>
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="#" class="profile-icon-container" data-toggle="modal"
+                                                   data-target="#payment-modal">Ödeme Bildir</a>
+                                            </div>
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="#" class="profile-icon-container">
+                                                    <i class="far fa-credit-card  fa-2x"></i>
+                                                    <p class="icon-title">Para Çek</p>
+                                                    <p class="icon-title">(Çok Yakında)</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="announce-box announce-danger">
+                                                    <p>
+                                                        Havale/EFT yapıp bildirim yaptıktan sonra onaylanan bakiyenizi burda görebilirsiniz.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="announce-box announce-danger">
-                                                        <p>
-                                                            Yeni Bildiriminiz Yok
-                                                        </p>
-                                                    </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="announce-box announce-danger">
+                                                    <p>
+                                                        Yeni Bildiriminiz Yok
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
-                                            @await Component.InvokeAsync("UserOrder", new { id = "29d81876-0a7b-458a-8f5e-d73b684471bc" })
-                                        </div>
-                                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                                            4
-                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        @await Component.InvokeAsync("UserOrder", new { id = "29d81876-0a7b-458a-8f5e-d73b684471bc" })
+                                    </div>
+                                    <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                                        4
                                     </div>
                                 </div>
                             </div>
@@ -86,5 +90,163 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
+</div>
+
+<div class="modal fade" id="payment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--Modal cascading tabs-->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+                    <!--Body-->
+                    <div class="modal-body">
+                        <form name="edit_profile" method="post" action="https://www.bynogame.com/odeme/bildirim-sonuc" id="modal-form" class="form w-100 col-12 pl-0 pr-0 pt-0 mt-3 d-flex justify-content-center modal-form" novalidate="novalidate">
+                            <input type="hidden" name="id2" value="116">
+                            <div class="col-md-9 center-block mb-2">
+                                <div class="row no-gutters">
+                                    <div class="form-group col-12  mb-4">
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-12 pl-0 pr-0">
+                                                <label class="control-label mt-0" for="first_name">
+                                                    Adınız
+                                                    Soyadınız
+                                                </label>
+                                                <input type="text" data-toggle="" autocomplete="off" class="form-control pl-3" readonly="readonly" value="" aria-invalid="false">
+                                            </div>
+                                        </div>
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-12 pl-0 pr-0">
+                                                <label class="control-label mt-0">
+                                                    Telefon
+                                                    No (Açıklamaya Yazdığınız)
+                                                </label>
+                                                <input type="text" id="phone-number" class="form-control pl-3" value="">
+                                            </div>
+                                        </div>
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-12 pl-0 pr-0">
+                                                <label class="control-label mt-0">
+                                                    Banka Seçiniz
+                                                </label>
+                                                <select class="form-control" name="bank" id="bank" required="">
+                                                    <option disabled="" selected="" value="">Seçiniz</option>
+                                                    <option value="akbank">Akbank</option>
+                                                    <option value="garanti">Garanti</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters">
+                                    <div class="form-group col-12 pl-0 pr-0">
+                                        <label class="control-label mt-0" for="first_name">
+                                            Ödeme
+                                            Tarihi
+                                        </label>
+                                        <input type="text" id="payment_date" data-toggle="" class="form-control pl-3" autocomplete="off" readonly="readonly" value="21-03-2020" aria-invalid="false">
+                                        <label class="control-label mt-0">
+                                            İşlem
+                                            Türü: &nbsp
+                                        </label>
+                                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                                            <label class="form-check-label">
+                                                <input required="required" autocomplete="off" class="" type="radio" name="primitivePaymentType" value="ATM"> 
+                                                ATM
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                                            <label class="form-check-label">
+                                                <input required="required" class="" type="radio" name="primitivePaymentType" value="Havale">
+                                                Havale
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                                            <label class="form-check-label">
+                                                <input required="required" class="" type="radio" name="primitivePaymentType" value="EFT" >
+                                                EFT
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters">
+                                    <div class="form-group col-12  mb-4">
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-12 pl-0 pr-0">
+                                                <label class="control-label mt-0" >
+                                                    Miktar
+                                                </label>
+                                                <input type="text" id="amount" name="a2" data-toggle="" class="form-control pl-3" value="0,00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                          <div class="form-row form-group">
+                            <div class="col-12">
+                                <button class="button w-100" style="background-color: green; color: white; margin-bottom:10px !important" id="payment-valid" type="submit">
+                                    Ödeme Bildir
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-row form-group">
+                            <div class="col-12">
+                                <button class="button w-100" style="background-color: blue;color:white" id="closeModal" type="submit">
+                                    Kapat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.Content-->
     </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var primitivePaymentType = "";
+
+        $("#closeModal").on("click", function () { $("#payment-modal").modal("hide") });
+
+        $(".ppymnttype").click(function () {
+            primitivePaymentType = this.innerText.trim();
+        });
+
+        $("#payment-valid").click(function () {
+            debugger;
+            var model = {
+                Name: document.getElementById("payment_date").value,
+                Bank: document.getElementById("bank").value,
+                Email: document.getElementById("amount").value,
+                PaymentType: primitivePaymentType,
+                PhoneNumber: document.getElementById("phone-number").value
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/Chart/AddChart',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                success: function (res) {
+                    if (res.isSuccess) {
+                        $('#login-modal').modal('hide');
+                    } else {
+                        alert("Kullanıcı adı veya şifre hatalı");
+                    }
+                },
+                error: function (err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+
+
+
+    });
+
+</script>
