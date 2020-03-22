@@ -22,15 +22,17 @@ namespace AvsarGame.API.Controllers {
         private readonly IUserPaymentRequest _userPaymentRequest;
         private readonly IUserBalance _userBalance;
         private readonly IUserBalanceDetails _userBalanceDetails;
+        private readonly IUserNotification _userNotification;
         private readonly IMapper _mapper;
 
         public UserManagementController(UserManager<ApplicationUser> userManager, IMapper mapper, IUserPaymentRequest userPaymentRequest, IUserBalance userBalance,
-                                        IUserBalanceDetails userBalanceDetails) {
+                                        IUserBalanceDetails userBalanceDetails, IUserNotification userNotification) {
             _userManager = userManager;
             _mapper = mapper;
             _userPaymentRequest = userPaymentRequest;
             _userBalance = userBalance;
             _userBalanceDetails = userBalanceDetails;
+            _userNotification = userNotification;
         }
 
         [HttpGet]
@@ -61,17 +63,16 @@ namespace AvsarGame.API.Controllers {
                 InsertOrUpdateUserBalance(model);
                 paymentRequest.PaymentStatus = (int) PaymentStatus.APPROVED;
                 _userPaymentRequest.Update(paymentRequest);
-                Log log = new Log {
-                        Path = HttpContext.Request.Path,
-                        Message = String.Format("Ödeme isteği onaylandı{0}", model.RequestId),
+              
+                UserNotification notification = new UserNotification() {
                         UserId = model.UserId,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = base.GetUser()
+                        Message = "Ödeme Onaylandı. Bakiyeniz Güncellendi."
                 };
-                Logger.Instance.Insert(log);
+                _userNotification.Add(notification);
+
                 response.IsSuccess = true;
                 response.Value = HttpStatusCode.OK;
-            } catch (TransactionAbortedException e) {
+            } catch (Exception e) {
                 Log log = new Log {
                         Path = HttpContext.Request.Path,
                         Message = e.Message,
@@ -126,6 +127,13 @@ namespace AvsarGame.API.Controllers {
                 InsertOrUpdateUserBalance(model);
                 paymentRequest.PaymentStatus = (int) PaymentStatus.REJECT;
                 _userPaymentRequest.Update(paymentRequest);
+
+                UserNotification notification = new UserNotification() {
+                        UserId = model.UserId,
+                        Message = "Ödeme Reddedildi"
+                };
+                _userNotification.Add(notification);
+
                 response.IsSuccess = true;
                 response.Value = HttpStatusCode.OK;
             } catch (TransactionAbortedException e) {

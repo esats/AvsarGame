@@ -190,7 +190,7 @@
                 RequestId
             }
             swal({
-                    title: "Ödemeyi Onaylamak istediginizden emin misiniz?",
+                    title: "Ödemeyi Red etmek istediginizden emin misiniz?",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "evet",
@@ -202,7 +202,7 @@
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
-                            url: '/Admin/UserPaymentManagement/Approve',
+                            url: '/Admin/UserPaymentManagement/Reject',
                             content: "application/json; charset=utf-8",
                             data: model,
                             dataType: 'json',
