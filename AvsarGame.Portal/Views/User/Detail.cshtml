@@ -213,7 +213,7 @@
         <!--/.Content-->
     </div>
 </div>
-
+    <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
 <script>
     $(document).ready(function() {
         var primitivePaymentType = "";
@@ -255,6 +255,13 @@
             });
         });
 
+        $('#payment_date').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            keyboardNavigation: false,
+            forceParse: false,
+            startDate: new Date()
+        });
     });
 
 </script>
