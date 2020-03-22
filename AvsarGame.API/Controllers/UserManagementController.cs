@@ -58,31 +58,29 @@ namespace AvsarGame.API.Controllers {
         [Route("Approve")]
         public Response<HttpStatusCode> Approve(UserPaymentRequestControlModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
-            try {
-                var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
-                InsertOrUpdateUserBalance(model);
-                paymentRequest.PaymentStatus = (int) PaymentStatus.APPROVED;
-                _userPaymentRequest.Update(paymentRequest);
-              
-                UserNotification notification = new UserNotification() {
-                        UserId = model.UserId,
-                        Message = "Ödeme Onaylandı. Bakiyeniz Güncellendi."
-                };
-                _userNotification.Add(notification);
 
-                response.IsSuccess = true;
-                response.Value = HttpStatusCode.OK;
-            } catch (Exception e) {
-                Log log = new Log {
-                        Path = HttpContext.Request.Path,
-                        Message = e.Message,
-                        UserId = model.UserId,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = base.GetUser()
-                };
-                Logger.Instance.Insert(log);
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
+                    InsertOrUpdateUserBalance(model);
+                    paymentRequest.PaymentStatus = (int) PaymentStatus.APPROVED;
+                    _userPaymentRequest.Update(paymentRequest);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "Ödeme Onaylandı. Bakiyeniz Güncellendi.",
+                            NotificationType = NotificationType.APPROVED,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
                 response.IsSuccess = false;
-                response.Message = e.Message;
                 response.Value = HttpStatusCode.BadRequest;
             }
 
@@ -130,7 +128,10 @@ namespace AvsarGame.API.Controllers {
 
                 UserNotification notification = new UserNotification() {
                         UserId = model.UserId,
-                        Message = "Ödeme Reddedildi"
+                        Message = "Ödeme Reddedildi",
+                        NotificationType = NotificationType.REJECT,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
                 };
                 _userNotification.Add(notification);
 
