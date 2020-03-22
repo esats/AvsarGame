@@ -28,5 +28,15 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
+        [HttpPost]
+        public JsonResult Reject(UserPaymentRequestControlModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "Reject", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }

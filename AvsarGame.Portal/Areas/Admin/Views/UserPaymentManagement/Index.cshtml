@@ -176,6 +176,60 @@
                     }
                 });
         });
+        
+        $(".requestModal .reject").click(function() {
+            debugger;
+            var UserId = $(this).attr('data-user-id');
+            var RequestId = $(this).attr('data-request-id');
+            var modal = "request" + UserId;
+            $("#" + modal).css("display", "none");
+            var row = this.parentElement.parentElement;
+
+            var model = {
+                UserId,
+                RequestId
+            }
+            swal({
+                    title: "Ödemeyi Onaylamak istediginizden emin misiniz?",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "evet",
+                    cancelButtonText: "Hayir",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/Admin/UserPaymentManagement/Approve',
+                            content: "application/json; charset=utf-8",
+                            data: model,
+                            dataType: 'json',
+                            success: function(res) {
+                                if (res.success) {
+                                    if (res.data.isSuccess) {
+                                        debugger
+                                        swal("Basarili!", "Ödeme Reddedildi", "success");
+                                        row.remove();
+                                        $("#" + modal).css("display", "block");
+                                    } else {
+                                        swal("Hata!", "Ödeme Reddilemedi", "error");
+                                        $("#" + modal).css("display", "block");
+                                    }
+                                }
+                            },
+                            error: function(err) {
+                                alert("Beklenmeyen Bir hata oluştu");
+                                $("#" + modal).css("display", "block");
+                            }
+                        });
+                    } else {
+                        swal.close();
+                        $("#" + modal).css("display", "block");
+                    }
+                });
+        });
 
         $("#close").click(function(e) {
             location.reload();

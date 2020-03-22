@@ -12,6 +12,6 @@ namespace AvsarGame.Core {
         APPROVED = 1,
 
         [Description("Red Edildi")]
-        REJECT = 3
+        REJECT = 2
     }
 }

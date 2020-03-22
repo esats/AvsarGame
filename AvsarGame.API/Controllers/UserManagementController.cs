@@ -56,37 +56,33 @@ namespace AvsarGame.API.Controllers {
         [Route("Approve")]
         public Response<HttpStatusCode> Approve(UserPaymentRequestControlModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
-            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew)) {
-                try {
-                    var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
-                    InsertOrUpdateUserBalance(model);
-                    paymentRequest.PaymentStatus = (int) PaymentStatus.APPROVED;
-                    _userPaymentRequest.Update(paymentRequest);
-                    Log log = new Log {
-                            Path = HttpContext.Request.Path,
-                            Message = String.Format("Ödeme isteği onaylandı{0}", model.RequestId),
-                            UserId = model.UserId,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
-                    };
-                    Logger.Instance.Insert(log);
-                    response.IsSuccess = true;
-                    response.Value = HttpStatusCode.OK;
-                    transactionScope.Complete();
-                    transactionScope.Dispose();
-                } catch (TransactionAbortedException e) {
-                    Log log = new Log {
-                            Path = HttpContext.Request.Path,
-                            Message = e.Message,
-                            UserId = model.UserId,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
-                    };
-                    Logger.Instance.Insert(log);
-                    response.IsSuccess = false;
-                    response.Message = e.Message;
-                    response.Value = HttpStatusCode.BadRequest;
-                }
+            try {
+                var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
+                InsertOrUpdateUserBalance(model);
+                paymentRequest.PaymentStatus = (int) PaymentStatus.APPROVED;
+                _userPaymentRequest.Update(paymentRequest);
+                Log log = new Log {
+                        Path = HttpContext.Request.Path,
+                        Message = String.Format("Ödeme isteği onaylandı{0}", model.RequestId),
+                        UserId = model.UserId,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                };
+                Logger.Instance.Insert(log);
+                response.IsSuccess = true;
+                response.Value = HttpStatusCode.OK;
+            } catch (TransactionAbortedException e) {
+                Log log = new Log {
+                        Path = HttpContext.Request.Path,
+                        Message = e.Message,
+                        UserId = model.UserId,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                };
+                Logger.Instance.Insert(log);
+                response.IsSuccess = false;
+                response.Message = e.Message;
+                response.Value = HttpStatusCode.BadRequest;
             }
 
             return response;
@@ -119,6 +115,34 @@ namespace AvsarGame.API.Controllers {
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        [HttpPost]
+        [Route("Reject")]
+        public Response<HttpStatusCode> Reject(UserPaymentRequestControlModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try {
+                var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
+                InsertOrUpdateUserBalance(model);
+                paymentRequest.PaymentStatus = (int) PaymentStatus.REJECT;
+                _userPaymentRequest.Update(paymentRequest);
+                response.IsSuccess = true;
+                response.Value = HttpStatusCode.OK;
+            } catch (TransactionAbortedException e) {
+                Log log = new Log {
+                        Path = HttpContext.Request.Path,
+                        Message = e.Message,
+                        UserId = model.UserId,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                };
+                Logger.Instance.Insert(log);
+                response.IsSuccess = false;
+                response.Message = e.Message;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
         }
     }
 }
