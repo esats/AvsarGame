@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AvsarGame.API.Models {
     public class UserPaymentRequestControlModel {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public int RequestId { get; set; }
     }
 }

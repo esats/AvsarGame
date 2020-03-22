@@ -5,7 +5,7 @@ using AvsarGame.Core.Entities;
 
 namespace AvsarGame.Entities.Entities {
     public class Log : EntityBase<Guid> {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public Guid UserOrderId { get; set; }
         public string Path { get; set; }
         public string Message { get; set; }

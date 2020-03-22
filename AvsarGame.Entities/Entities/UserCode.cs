@@ -5,7 +5,7 @@ using AvsarGame.Core.Entities;
 
 namespace AvsarGame.Entities.Entities {
     public class UserCode : EntityBase<Guid> {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public Guid CampaignId { get; set; }
     }
 }

@@ -58,7 +58,7 @@ namespace AvsarGame.Portal.Controllers {
         [HttpPost]
         public JsonResult RequestPayment(UserPaymentRequestModel model) {
             try {
-                model.UserId = new Guid(SessionManager.Instance.Get("UserId"));
+                model.UserId = SessionManager.Instance.Get("UserId");
                 var response = JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
                 return Json(response);
             } catch (Exception e) {

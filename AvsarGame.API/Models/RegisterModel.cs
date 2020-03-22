@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
-    public class RegisterModel :ModelBase<Guid> {
+    public class RegisterModel :ModelBase<string> {
         public string FullName => Name + Surname;
         public string Name { get; set; }
         public string Surname { get; set; }

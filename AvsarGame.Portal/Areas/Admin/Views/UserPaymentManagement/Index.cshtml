@@ -40,7 +40,7 @@
                 </table>
                 @if (Model != null && Model.Count > 0) {
                     @foreach (var item in Model) {
-                        <div class="modal fade" id="@PageHelper.GetModalId("request",new Guid(item.UserId))" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="@PageHelper.GetModalId("request", new Guid(item.UserId))" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

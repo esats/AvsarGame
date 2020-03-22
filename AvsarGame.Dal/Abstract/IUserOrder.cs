@@ -6,6 +6,6 @@ using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Abstract {
     public interface IUserOrder : IEntityRepository<UserOrder> {
-        List<UserOrder> GetUserOrder(Guid? id);
+        List<UserOrder> GetUserOrder(string id);
     }
 }

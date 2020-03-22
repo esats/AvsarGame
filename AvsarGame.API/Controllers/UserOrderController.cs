@@ -56,7 +56,7 @@ namespace AvsarGame.API.Controllers {
 
         [HttpGet]
         [Route("GetOne")]
-        public List<UserOrdersModel> GetOne(Guid userId) {
+        public List<UserOrdersModel> GetOne(string userId) {
             var userOrders = _userOrder.GetUserOrder(userId);
             List<UserOrdersModel> userOrderList = new List<UserOrdersModel>();
             List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();

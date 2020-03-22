@@ -8,7 +8,7 @@ namespace AvsarGame.API.Models {
     public class UserPaymentRequestModel {
         public int Id { get; set; }
         public string PaymentRequestCode { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public string PrimitivePaymentType { get; set; }
         public Banks Bank { get; set; }
         public string PhoneNumber { get; set; }

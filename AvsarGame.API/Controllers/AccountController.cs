@@ -53,7 +53,7 @@ namespace AvsarGame.API.Controllers {
                     
                     appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
 
-                    loggedModel.UserId = new Guid(appUser.Id);
+                    loggedModel.UserId = appUser.Id;
                     loggedModel.Name = appUser.Name;
                     loggedModel.Surname = appUser.Surname;
                     loggedModel.Birthdate = appUser.Birthdate;
@@ -122,7 +122,7 @@ namespace AvsarGame.API.Controllers {
                         Birthdate = model.Birthdate,
                 };
 
-                if (model.Id != Guid.Empty) {
+                if (model.Id != string.Empty) {
                     var updatedEntity = _userManager.Users.SingleOrDefault(r => r.Id == model.Id.ToString());
                     updatedEntity.Name = model.Name;
                     updatedEntity.Surname = model.Surname;
@@ -144,7 +144,7 @@ namespace AvsarGame.API.Controllers {
                         registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
                         registerModel.Name = model.Name;
                         registerModel.Surname = model.Surname;
-                        registerModel.Id = new Guid(appUser.Id);
+                        registerModel.Id = appUser.Id;
                         response.Value = registerModel;
                         response.IsSuccess = true;
                         return response;
