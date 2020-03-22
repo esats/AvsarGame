@@ -9,10 +9,16 @@ using AvsarGame.Entities.Entities;
 namespace AvsarGame.API.Helpers {
     public class AutoMapperHelper : Profile {
         public AutoMapperHelper() {
-            CreateMap<Games,GameModel>();
+            CreateMap<Games, GameModel>();
             CreateMap<Category, CategoryModel>();
-            CreateMap<ApplicationUser, UserManagementModel>();
+
+            CreateMap<ApplicationUser, UserPaymentManagementModel>()
+                    .ForMember(x => x.UserId, opt => opt.MapFrom(src => src.Id));
+
             CreateMap<UserPaymentRequestModel, UserPaymentRequest>();
+            CreateMap<UserPaymentRequest, UserPaymentRequestModel>();
+
+            CreateMap<UserPaymentManagementModel, ApplicationUser>();
         }
     }
 }

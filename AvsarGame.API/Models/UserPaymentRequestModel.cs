@@ -6,6 +6,7 @@ using AvsarGame.Core;
 
 namespace AvsarGame.API.Models {
     public class UserPaymentRequestModel {
+        public int Id { get; set; }
         public string PaymentRequestCode { get; set; }
         public Guid UserId { get; set; }
         public string PrimitivePaymentType { get; set; }
@@ -13,7 +14,6 @@ namespace AvsarGame.API.Models {
         public string PhoneNumber { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
-        public UserManagementModel UserModel { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

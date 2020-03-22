@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace AvsarGame.API.Models {
-    public class UserManagementModel {
+    public class UserPaymentManagementModel {
+        public string UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }
@@ -13,5 +14,6 @@ namespace AvsarGame.API.Models {
         public string ImageUrl { get; set; }
         public int? Gender { get; set; }
         public DateTime? Birthdate { get; set; }
+        public List<UserPaymentRequestModel> PaymentRequests { get; set; }
     }
 }
