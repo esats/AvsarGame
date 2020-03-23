@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using AvsarGame.Core;
-using AvsarGame.Core.Entities;
 
-namespace AvsarGame.Entities.Entities {
-    public class UserNotification : EntityBase<Guid> {
+namespace AvsarGame.API.Models {
+    public class UserNotificationModel {
         public string UserId { get; set; }
         public string Message { get; set; }
-        public bool IsRead { get; set; }
         public NotificationType NotificationType { get; set; }
     }
 }

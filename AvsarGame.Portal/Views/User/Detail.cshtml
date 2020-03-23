@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel
 @using AvsarGame.Core
 @using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.UserProfilDetailModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +26,7 @@
                             <div class="nav flex-lg-column flex-row pb-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                 <a class="nav-link active" id="payment-tab" data-toggle="pill" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Bakiye Ve Ödeme Bildirme</a>
 
-                                <a class="nav-link" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim</a>
+                                <a class="nav-link" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim (<span style="color: blue">@Model.Notifications</span>)</a>
 
                                 <a class="nav-link" id="orders-tab" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">Siparişlerim</a>
 
@@ -45,7 +46,7 @@
                                                 <a href="#" class="profile-icon-container">
                                                     <i class="fas fa-lira-sign  fa-2x"></i>
                                                     <p class="icon-title">Bakiye</p>
-                                                    <p class="icon-title">0.00</p>
+                                                    <p class="icon-title">@Model.Balance.Balance</p>
                                                 </a>
                                             </div>
                                             <div class="col-6 col-sm-4 col-md-3 profile-icon-col">

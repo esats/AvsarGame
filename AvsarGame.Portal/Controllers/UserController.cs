@@ -51,9 +51,16 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Detail(Guid id) {
-            return View();
+        public ActionResult Detail(string id) {
+            UserProfilDetailModel model = new UserProfilDetailModel();
+            model.Balance =
+                    JsonConvert.DeserializeObject<UserBalanceModel>(UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", id)));
+            model.Notifications =
+                    JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetNotificationUnRead/{0}", id)));
+
+            return View(model);
         }
+
 
         [HttpPost]
         public JsonResult RequestPayment(UserPaymentRequestModel model) {

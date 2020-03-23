@@ -19,6 +19,9 @@ namespace AvsarGame.API.Helpers {
             CreateMap<UserPaymentRequest, UserPaymentRequestModel>();
 
             CreateMap<UserPaymentManagementModel, ApplicationUser>();
+
+            CreateMap<UserNotificationModel, UserNotification>();
+
         }
     }
 }

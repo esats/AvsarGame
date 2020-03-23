@@ -6,5 +6,6 @@ using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Abstract {
     public interface IUserBalance : IEntityRepository<UserBalance> {
+        UserBalance GetBalance(string userId);
     }
 }

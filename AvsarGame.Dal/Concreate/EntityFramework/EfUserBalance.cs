@@ -9,11 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AvsarGame.Dal.Concreate.EntityFramework {
     public class EfUserBalance : EfEntityRepositoryBase<UserBalance, AvsarGameDBcontext>, IUserBalance {
-        //public List<UserOrder> GetUserOrder(Guid? id) {
-        //    using (var context = new AvsarGameDBcontext()) {
-        //       return id == null ? context.UserOrder.Include(x=>x.Orders).ToList() 
-        //                         : context.UserOrder.Include(x=>x.Orders).Where(x=>x.UserId == id).ToList();
-        //    }
-        //}
+        public UserBalance GetBalance(string userId) {
+            using (var context = new AvsarGameDBcontext()) {
+                return context.UserBalance.Include(x => x.Details).FirstOrDefault(x => x.User.Id == userId);
+            }
+        }
     }
 }
