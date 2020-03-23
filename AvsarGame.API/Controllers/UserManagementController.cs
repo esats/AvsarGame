@@ -89,7 +89,8 @@ namespace AvsarGame.API.Controllers {
 
         private void InsertOrUpdateUserBalance(UserPaymentRequestControlModel model) {
             try {
-                var userBalance = _userBalance.GetT(x => x.IsActive == true && x.User.Id == model.UserId.ToString());
+                var userBalance = _userBalance.GetBalance(model.UserId);
+
                 if (userBalance == null) {
                     UserBalance entity = new UserBalance();
                     entity.User.Id = model.UserId.ToString();

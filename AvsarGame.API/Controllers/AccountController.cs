@@ -122,7 +122,7 @@ namespace AvsarGame.API.Controllers {
                         Birthdate = model.Birthdate,
                 };
 
-                if (model.Id != string.Empty) {
+                if (!String.IsNullOrEmpty(model.Id)) {
                     var updatedEntity = _userManager.Users.SingleOrDefault(r => r.Id == model.Id.ToString());
                     updatedEntity.Name = model.Name;
                     updatedEntity.Surname = model.Surname;

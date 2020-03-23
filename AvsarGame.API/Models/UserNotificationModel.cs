@@ -8,6 +8,7 @@ namespace AvsarGame.API.Models {
     public class UserNotificationModel {
         public string UserId { get; set; }
         public string Message { get; set; }
+        public DateTime CreatedDate { get; set; }
         public NotificationType NotificationType { get; set; }
     }
 }

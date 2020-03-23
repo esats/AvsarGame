@@ -22,6 +22,8 @@ namespace AvsarGame.API.Helpers {
 
             CreateMap<UserNotificationModel, UserNotification>();
 
+            CreateMap<UserNotification, UserNotificationModel>();
+
         }
     }
 }

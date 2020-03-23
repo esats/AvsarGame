@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace AvsarGame.API.Models {
     public class UserProfilDetailModel {
         public UserBalanceModel Balance { get; set; }
-        public int Notifications { get; set; }
+        public List<UserNotificationModel> Notifications { get; set; }
+        public int NotificationCount { get; set; }
     }
 }

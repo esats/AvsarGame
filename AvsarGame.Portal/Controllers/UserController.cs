@@ -55,12 +55,14 @@ namespace AvsarGame.Portal.Controllers {
             UserProfilDetailModel model = new UserProfilDetailModel();
             model.Balance =
                     JsonConvert.DeserializeObject<UserBalanceModel>(UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", id)));
-            model.Notifications =
+            model.NotificationCount =
                     JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetNotificationUnRead/{0}", id)));
+
+            model.Notifications =
+                    JsonConvert.DeserializeObject<List<UserNotificationModel>>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
 
             return View(model);
         }
-
 
         [HttpPost]
         public JsonResult RequestPayment(UserPaymentRequestModel model) {
@@ -68,6 +70,17 @@ namespace AvsarGame.Portal.Controllers {
                 model.UserId = SessionManager.Instance.Get("UserId");
                 var response = JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
                 return Json(response);
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult ReadAllNotification(string id) {
+            try {
+                UiRequestManager.Instance.Get(String.Format("UserNotification/ReadAllNotification/{0}", id));
+                return Json(new { Success = true});
+
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }

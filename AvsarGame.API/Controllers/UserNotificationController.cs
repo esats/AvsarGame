@@ -28,10 +28,20 @@ namespace AvsarGame.API.Controllers {
         }
 
         [HttpGet]
-        [Route("GetNotificationDetail/{id}")]
-        public List<UserNotificationModel> GetNotificationDetail(string id) {
-            var notifications = _mapper.Map<List<UserNotificationModel>>(getNotifications(id));
-            return notifications;
+        [Route("GetAllNotificationDetail/{id}")]
+        public List<UserNotificationModel> GetAllNotificationDetail(string id) {
+            var notifications = _mapper.Map<List<UserNotificationModel>>(getNotifications(id)).OrderByDescending(x=>x.CreatedDate);
+            return notifications.ToList();
+        }
+
+        [HttpGet]
+        [Route("ReadAllNotification/{id}")]
+        public void ReadAllNotification(string id) {
+            var notifications = getNotifications(id).Where(x => x.IsRead == false).ToList();
+            foreach (var item in notifications) {
+                item.IsRead = true;
+                _userNotification.Update(item);
+            }
         }
 
         private List<UserNotification> getNotifications(string userId) {

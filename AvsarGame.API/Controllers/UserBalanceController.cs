@@ -22,11 +22,15 @@ namespace AvsarGame.API.Controllers {
         public UserBalanceModel GetBalance(string id) {
             UserBalanceModel model = new UserBalanceModel();
             var userBalance = _userBalance.GetBalance(id);
-            if (userBalance.Details != null) {
-                model.Balance = userBalance.Details.Sum(x => x.Amount);
+            if (userBalance != null) {
+                if (userBalance.Details != null) {
+                    model.Balance = userBalance.Details.Sum(x => x.Amount);
+                }
+            } else {
+                model.Balance = decimal.Zero;
             }
 
-            model.UserId = userBalance.User.Id;
+            model.UserId = id;
             return model;
         }
     }

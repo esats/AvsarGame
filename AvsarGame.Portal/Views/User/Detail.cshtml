@@ -26,7 +26,7 @@
                             <div class="nav flex-lg-column flex-row pb-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                 <a class="nav-link active" id="payment-tab" data-toggle="pill" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Bakiye Ve Ödeme Bildirme</a>
 
-                                <a class="nav-link" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim (<span style="color: blue">@Model.Notifications</span>)</a>
+                                <a class="nav-link" data-id="@Model.Balance.UserId" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim (<span style="color: blue">@Model.NotificationCount</span>)</a>
 
                                 <a class="nav-link" id="orders-tab" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">Siparişlerim</a>
 
@@ -76,11 +76,24 @@
                                     <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="announce-box announce-danger">
-                                                    <p>
-                                                        Yeni Bildiriminiz Yok
-                                                    </p>
-                                                </div>
+                                                @if (Model.Notifications.Count == 0) {
+                                                    <div class="announce-box announce-danger">
+                                                        <p>
+                                                            Yeni Bildiriminiz Yok
+                                                        </p>
+                                                    </div>
+                                                } else {
+                                                    foreach (var item in Model.Notifications) {
+                                                        var css = item.NotificationType == NotificationType.APPROVED ? "green" : "red";
+                                                        <div class="announce-box announce-danger">
+                                                            <p style="color: @css">
+                                                                @item.Message
+                                                            </p>
+                                                            <p style="color:white">@item.CreatedDate.ToString("G") </p>
+                                                        </div>
+                                                    }
+                                                }
+
                                             </div>
                                         </div>
                                     </div>
@@ -214,7 +227,7 @@
         <!--/.Content-->
     </div>
 </div>
-    <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
 <script>
     $(document).ready(function() {
         var primitivePaymentType = "";
@@ -256,12 +269,29 @@
             });
         });
 
-        $('#payment_date').datepicker({
-            format: 'dd/mm/yyyy',
-            autoclose: true,
-            keyboardNavigation: false,
-            forceParse: false,
-            startDate: new Date()
+        //$('#payment_date').datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    autoclose: true,
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    startDate: new Date()
+        //});
+
+        $("#notifications-tab").click(function(e) {
+            var id = $(this).attr("data-id");
+            debugger;
+            $.ajax({
+                type: 'post',
+                url: '/User/ReadAllNotification',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: { id: id },
+                success: function(res) {
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
         });
     });
 

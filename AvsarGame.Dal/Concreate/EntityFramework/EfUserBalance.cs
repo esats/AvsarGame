@@ -11,7 +11,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
     public class EfUserBalance : EfEntityRepositoryBase<UserBalance, AvsarGameDBcontext>, IUserBalance {
         public UserBalance GetBalance(string userId) {
             using (var context = new AvsarGameDBcontext()) {
-                return context.UserBalance.Include(x => x.Details).FirstOrDefault(x => x.User.Id == userId);
+                return context.UserBalance.Include(x=>x.User).Include(x => x.Details).FirstOrDefault(x => x.User.Id == userId);
             }
         }
     }
