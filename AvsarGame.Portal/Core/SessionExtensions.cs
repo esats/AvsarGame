@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Core {
     public class SessionManager : SingletonBase<SessionManager> {
-        internal  HttpContextAccessor _ctx;
+        internal HttpContextAccessor _ctx;
 
         public HttpContextAccessor Context {
             get {
@@ -24,19 +24,21 @@ namespace AvsarGame.Portal.Core {
             return Context.HttpContext.Session.GetString(key);
         }
 
-        public void set(string key,string value) {
-            Context.HttpContext.Session.SetString(key,value);
+        public void set(string key, string value) {
+            Context.HttpContext.Session.SetString(key, value);
         }
 
-        public void SetObject(string key, object value)
-        {
+        public void SetObject(string key, object value) {
             Context.HttpContext.Session.SetString(key, JsonConvert.SerializeObject(value));
         }
 
-        public T GetObject<T>( string key)
-        {
+        public T GetObject<T>(string key) {
             var value = Context.HttpContext.Session.GetString(key);
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
+
+        public void Remove(string key) {
+            Context.HttpContext.Session.Remove(key);
         }
 
         public bool IsAuthenticate() {

@@ -156,12 +156,12 @@
                 });
             }
 
-            //for (var i = 0; i < orders.length; i++) {
-            //    if (orders[i].CharacterName.trim() == "") {
-            //        alert("Lütfen Karakter İsmi Giriniz");
-            //        return;
-            //    }
-            //}
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].CharacterName.trim() == "") {
+                    alert("Lütfen Karakter İsmi Giriniz");
+                    return;
+                }
+            }
 
             $.ajax({
                 contentType: 'application/json; charset=utf-8',
@@ -171,7 +171,7 @@
                 success: function(res) {
                     debugger;
                     if (res.data.isSuccess) {
-                        location.href = "/user/ozet";
+                        location.href = "/sepetim/ozet";
                     } else {
                         if (res.data.value.error == 0) {
                             location.href = "/user/giris";

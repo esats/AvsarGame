@@ -57,17 +57,5 @@ namespace AvsarGame.Portal.Controllers {
             return result.TrimEnd(',');
         }
 
-        [HttpGet]
-        [Route("Ozet")]
-        public ActionResult Summary() {
-            var user = SessionManager.Instance.Get("bearer");
-            if (user == null) {
-                ViewBag.UnAuthencticateUser = true;
-                return View();
-            }
-
-            return View();
-        }
-
     }
 }

@@ -137,7 +137,7 @@ namespace AvsarGame.Portal.Controllers {
                 baseResponse =
                         JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "Save", JsonConvert.SerializeObject(orders)));
 
-                return Json(new { Success = true, baseResponse });
+                return Json(new { Success = true, data = baseResponse });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }

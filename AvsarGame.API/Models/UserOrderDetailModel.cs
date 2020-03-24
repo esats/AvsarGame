@@ -12,11 +12,4 @@ namespace AvsarGame.API.Models {
         public decimal BillingPrice { get; set; }
         public decimal BillingAmount { get; set; }
     }
-
-    public class UserOrderDetailModel2 {
-        public Guid GameId { get; set; }
-        public string CharacterName { get; set; }
-        public decimal BillingPrice { get; set; }
-        public decimal BillingAmount { get; set; }
-    }
 }
