@@ -115,6 +115,7 @@ namespace AvsarGame.Portal.Controllers {
                 if (!SessionManager.Instance.IsAuthenticate()) {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapılın";
+                    response.Error = (int) Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
                     return Json(new { Success = true, data = baseResponse });
@@ -127,14 +128,16 @@ namespace AvsarGame.Portal.Controllers {
 
                 if (totalGameAmount > Balance.Balance) {
                     response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
+                    response.Error = (int) Errors.OUTOFBALANCE;
                     baseResponse.Value = response;
+                    baseResponse.IsSuccess = false;
                     return Json(new { Success = true, data = baseResponse });
                 }
 
                 baseResponse =
                         JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "Save", JsonConvert.SerializeObject(orders)));
 
-                return Json(new { Success = true });
+                return Json(new { Success = true, baseResponse });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }

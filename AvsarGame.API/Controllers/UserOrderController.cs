@@ -17,14 +17,19 @@ namespace AvsarGame.API.Controllers {
     public class UserOrderController : APIControllerBase {
         public readonly IUserOrder _userOrder;
         public readonly IUserOrderDetail _userDetailOrder;
+        public readonly IUserBalance _UserBalance;
+        public readonly IUserBalanceDetails _UserBalanceDetail;
         public readonly IGame _game;
         public readonly IMapper _mapper;
 
-        public UserOrderController(IUserOrder userOrder, IMapper mapper, IUserOrderDetail userDetailOrder, IGame game) {
+        public UserOrderController(IUserOrder userOrder, IMapper mapper, IUserOrderDetail userDetailOrder, IGame game, IUserBalanceDetails userBalanceDetail,
+                                   IUserBalance userBalance) {
             _userOrder = userOrder;
             _mapper = mapper;
             _userDetailOrder = userDetailOrder;
             _game = game;
+            _UserBalanceDetail = userBalanceDetail;
+            _UserBalance = userBalance;
         }
 
         [HttpGet]
@@ -88,6 +93,8 @@ namespace AvsarGame.API.Controllers {
             UserOrderResponseModel response = new UserOrderResponseModel();
             using (var transactionScope = new TransactionScope()) {
                 try {
+                    var userBalance = _UserBalance.GetBalance(base.GetUser());
+
                     UserOrder entity = new UserOrder() {
                             UserId = base.GetUser(),
                             CreatedDate = DateTime.Now,
@@ -105,7 +112,16 @@ namespace AvsarGame.API.Controllers {
                                 CreatedDate = DateTime.Now,
                                 CreatedBy = base.GetUser()
                         };
-                        _userDetailOrder.Add(orderDetail);
+                        var userOrderDetail = _userDetailOrder.Add(orderDetail);
+
+                        UserBalanceDetail detail = new UserBalanceDetail();
+                        detail.Amount = -(item.BillingAmount * item.BillingPrice);
+                        detail.UserOrderDetailId = userOrderDetail.Id;
+                        detail.TransactionDescription = (int) TRANSACTION_DESCIPTION.GAME_MONEY_ORDER;
+                        detail.UserBalanceId = userBalance.Id;
+                        detail.CreatedDate=DateTime.Now;
+                        detail.CreatedBy = base.GetUser();
+                        _UserBalanceDetail.Add(detail);
                     }
 
                     transactionScope.Complete();

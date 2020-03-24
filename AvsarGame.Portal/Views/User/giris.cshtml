@@ -37,7 +37,7 @@
                             </div>*@
                         <div class="form-row form-group">
                             <div class="col-6">
-                                <button class="button btn-blue w-100" id="login">
+                                <button class="button btn-blue w-100" id="userlogin">
                                     GİRİŞ YAP
                                 </button>
                             </div>
@@ -56,9 +56,11 @@
     </main>
 </div>
 
+
+
 <script>
     $(document).ready(function() {
-        $("#login").click(function(e) {
+        $("#userlogin").click(function(e) {
             e.preventDefault();
             var model = {
                 Password: document.getElementById("current-password").value,
