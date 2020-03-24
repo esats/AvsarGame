@@ -33,6 +33,28 @@ namespace AvsarGame.Portal.Controllers {
             }
         }
 
+        [HttpGet]
+        public ActionResult giris() {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult Giris(LoginModel model) {
+            try {
+                Response<LoggedModel> response =
+                        JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
+                if (response.IsSuccess) {
+                    SessionManager.Instance.set("bearer", response.Value.BearerToken);
+                    SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
+                    SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
+                }
+
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false });
+            }
+        }
+
         [HttpPost]
         public JsonResult Login(LoginModel model) {
             try {
@@ -79,8 +101,40 @@ namespace AvsarGame.Portal.Controllers {
         public JsonResult ReadAllNotification(string id) {
             try {
                 UiRequestManager.Instance.Get(String.Format("UserNotification/ReadAllNotification/{0}", id));
-                return Json(new { Success = true});
+                return Json(new { Success = true });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
 
+        [HttpPost]
+        public JsonResult UserOrderRequest([FromBody] List<UserOrderDetailModel> orders) {
+            Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
+            UserOrderResponseModel response = new UserOrderResponseModel();
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    response.RedirectUrl = "/User/login";
+                    response.Message = "Lütfen Giriş Yapılın";
+                    baseResponse.IsSuccess = false;
+                    baseResponse.Value = response;
+                    return Json(new { Success = true, data = baseResponse });
+                }
+
+                var totalGameAmount = orders.Sum(x => x.BillingAmount * x.BillingPrice);
+                UserBalanceModel Balance =
+                        JsonConvert.DeserializeObject<UserBalanceModel>(
+                                UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));
+
+                if (totalGameAmount > Balance.Balance) {
+                    response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
+                    baseResponse.Value = response;
+                    return Json(new { Success = true, data = baseResponse });
+                }
+
+                baseResponse =
+                        JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "Save", JsonConvert.SerializeObject(orders)));
+
+                return Json(new { Success = true });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }

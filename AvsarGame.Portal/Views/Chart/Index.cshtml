@@ -1,7 +1,9 @@
 ﻿@using AvsarGame.API.Models
+@using AvsarGame.Portal.Core
 @model List<AvsarGame.API.Models.GameModel>
 
 @functions {
+
     private decimal Calculated(List<GameModel> model) {
         decimal totalAmount = Decimal.Zero;
         foreach (var item in model) {
@@ -9,6 +11,7 @@
         }
         return totalAmount;
     }
+
 }
 
 @{
@@ -34,31 +37,34 @@
                                         <tr>
                                             <th scope="col">Ürünler</th>
                                             <th scope="col">Ürün Adı</th>
+                                            <th scope="col">Aktarılacak Karakter</th>
                                             <th scope="col">Miktar</th>
                                             <th scope="col">Fiyat</th>
                                             <th scope="col">Toplam</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr class="order">
+                                        @foreach (var item in Model) {
+                                            <tr class="order" data-id="@item.Id">
                                                 <td data-heading="Ürünler">
                                                     <img src="/Uploads/@item.ImageUrl" alt="">
                                                 </td>
                                                 <td scope="row" data-heading="Ürün Adı">@item.Name</td>
+                                                <td scope="row" data-heading="karakter Adı">
+                                                    <input class="characterName" value=""/>
+                                                </td>
                                                 <td data-heading="Miktar">
                                                     <div class="counter-container">
-                                                        <input id="count" style="font-weight: bold; width: 20%" value="1" />
+                                                        <input id="count" class="count" style="font-weight: bold; width: 30%" value="1"/>
                                                     </div>
                                                 </td>
-                                                <td class="priceIt" data-heading="Fiyat">@item.SellPrice</td>
+                                                <td class="priceIt" class="sellPrice" data-heading="Fiyat">@item.SellPrice</td>
                                                 <td class="totalPrice" data-heading="Toplam">@item.SellPrice TL</td>
                                             </tr>
                                         }
                                         <tr class="total-amount">
                                             <td colspan="3" scope="col" data-heading="Ürünler">Toplam Tutar:</td>
-                                            <td colspan="2" scope="col" id="totalAmount" data-heading="Ürün Adı">@Calculated(Model) TL</td>
+                                            <td colspan="3" scope="col" id="totalAmount" data-heading="Ürün Adı">@Calculated(Model) TL</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -87,11 +93,11 @@
                                                         Ödenecek Tutar
                                                         <p>(KDV Dahil)</p>
                                                     </div>
-                                                    <div>
-                                                        960 TL
+                                                    <div id="totalAmountDiv">
+                                                        @Calculated(Model) TL
                                                     </div>
                                                 </div>
-                                                <a class="button btn-blue ml-auto w-100" href="/Sepetim/Ozet">Alışverişi Tamamla</a>  
+                                                <button class="button btn-blue ml-auto w-100" id="gotosummary">Alışverişi Tamamla</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -101,11 +107,11 @@
                     </div>
 
                 </div>
-               
+
             </div>
         </div>
     </main>
-</div>  
+</div>
 
 <script>
     $(document).ready(function() {
@@ -115,17 +121,58 @@
             this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = (counter * itemPrice) + " TL";
             calculatedTotalAmount();
         });
+
+        $("#gotosummary").click(function(e) {
+            var orders = [];
+            var allRows = document.getElementsByClassName("order");
+            for (var i = 0; i < allRows.length; ++i) {
+                var firstRow = $(allRows[i]);
+
+                orders.push({
+                    GameId: firstRow.attr("data-id"),
+                    CharacterName: firstRow[0].getElementsByClassName("characterName")[0].value,
+                    BillingPrice: parseFloat(firstRow[0].getElementsByTagName("td")[4].innerText),
+                    BillingAmount: parseFloat(firstRow[0].getElementsByClassName("count")[0].value)
+                });
+            }
+
+            //for (var i = 0; i < orders.length; i++) {
+            //    if (orders[i].CharacterName.trim() == "") {
+            //        alert("Lütfen Karakter İsmi Giriniz");
+            //        return;
+            //    }
+            //}
+
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                url: '/User/UserOrderRequest',
+                data: JSON.stringify(orders),
+                success: function(res) {
+                    debugger;
+                    if (res) {
+
+                    }
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
     });
 
     function calculatedTotalAmount() {
+        debugger;
         var rows = document.getElementsByClassName("order");
         var totalAmount = 0.00;
         for (var i = 0; i < rows.length; i++) {
-            var amount = parseFloat(rows[i].cells[2].getElementsByTagName("input")[0].value);
-            var price = parseFloat(rows[i].cells[3].innerHTML);
+            var amount = parseFloat(rows[i].cells[3].getElementsByTagName("input")[0].value);
+            var price = parseFloat(rows[i].cells[4].innerHTML);
             totalAmount = totalAmount + (amount * price);
         }
         $("#totalAmount")[0].innerHTML = totalAmount + " TL";
+        $("#totalAmountDiv")[0].innerHTML = totalAmount + " TL";
     }
 
 </script>

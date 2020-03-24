@@ -15,7 +15,7 @@ namespace AvsarGame.Portal.Controllers {
         public IActionResult Index() {
             var chart = SessionManager.Instance.GetObject<List<GameModel>>("chart");
             if (chart == null) {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(chart);
@@ -46,6 +46,7 @@ namespace AvsarGame.Portal.Controllers {
             List<GameModel> list = SessionManager.Instance.GetObject<List<GameModel>>("chart");
             return Json(new { Success = true, data = list });
         }
+
         public string ConvertToString<T>(List<T> Items) {
             string result = string.Empty;
 
@@ -55,11 +56,18 @@ namespace AvsarGame.Portal.Controllers {
 
             return result.TrimEnd(',');
         }
-   
+
         [HttpGet]
         [Route("Ozet")]
         public ActionResult Summary() {
+            var user = SessionManager.Instance.Get("bearer");
+            if (user == null) {
+                ViewBag.UnAuthencticateUser = true;
+                return View();
+            }
+
             return View();
         }
+
     }
 }

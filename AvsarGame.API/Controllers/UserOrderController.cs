@@ -83,7 +83,9 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost]
         [Route("Save")]
-        public ActionResult Save([FromBody] List<UserOrderDetailModel> model) {
+        public Response<UserOrderResponseModel> Save([FromBody] List<UserOrderDetailModel> model) {
+            Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
+            UserOrderResponseModel response = new UserOrderResponseModel();
             using (var transactionScope = new TransactionScope()) {
                 try {
                     UserOrder entity = new UserOrder() {
@@ -98,7 +100,7 @@ namespace AvsarGame.API.Controllers {
                                 UserOrderId = userOrder.Id,
                                 BillingAmount = item.BillingAmount,
                                 BillingPrice = item.BillingPrice,
-                                GameId = item.Game.Id,
+                                GameId = item.GameId,
                                 CharacterName = item.CharacterName,
                                 CreatedDate = DateTime.Now,
                                 CreatedBy = base.GetUser()
@@ -109,17 +111,21 @@ namespace AvsarGame.API.Controllers {
                     transactionScope.Complete();
                 } catch (Exception e) {
                     Log log = new Log {
-                            Path = HttpContext.Request.Path, 
+                            Path = HttpContext.Request.Path,
                             Message = e.Message,
-                            UserId = base.GetUser(), 
+                            UserId = base.GetUser(),
                             CreatedDate = DateTime.Now
                     };
                     Logger.Instance.Insert(log);
-
-                    return StatusCode(404);
+                    response.Message = "Siparişiniz Alınamadı. Sorun üstünde çalışıyoruz lütfen daha sonra tekrar deneyin.";
+                    baseResponse.IsSuccess = false;
+                    return baseResponse;
                 }
 
-                return StatusCode(200);
+                response.Message = "Siparişiniz Alınmıştır. Lütfen Müşteri Hizmetlerimizle iletişime geçiniz.";
+                baseResponse.IsSuccess = true;
+                baseResponse.Value = response;
+                return baseResponse;
             }
         }
     }

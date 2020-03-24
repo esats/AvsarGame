@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Giris";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper">
+    <main class="Main">
+        <div style="margin-top: 50px"></div>
+        <div class="container">
+            <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+                <!--Body-->
+                <div class="modal-body">
+                    <form class="needs-validation" novalidate>
+                        <div class="form-row form-group">
+                            <div class="col-6">
+                                <input type="email" class="form-control validate" id="currentEmail"
+                                       placeholder="Email" required/>
+                            </div>
+                        </div>
+                        <div class="form-row form-group">
+                            <div class="col-6 ">
+                                <div class="pw-container">
+                                    <input type="password" class="form-control validate" id="current-password"
+                                           placeholder="Şifre" required/>
+                                    <div class="pw-icon"></div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="form-row form-group">
+                                <div class="col-12">
+                                    <label class="form-csCheck">
+                                        <input class="form-check-input form-control validate" type="checkbox"
+                                               value="" id="user-remember" required/>
+                                        <span class="form-csCheck-checkmark"></span>
+                                        Beni Hatırla
+                                    </label>
+                                </div>
+                            </div>*@
+                        <div class="form-row form-group">
+                            <div class="col-6">
+                                <button class="button btn-blue w-100" id="login">
+                                    GİRİŞ YAP
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-row form-group">
+                            <div class="col-6">
+                                <button onclick="forgotPw()" class="btn btn-info forgot-pw col-12" style="float: right">
+                                    Şifremi Unuttum
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#login").click(function(e) {
+            e.preventDefault();
+            var model = {
+                Password: document.getElementById("current-password").value,
+                Email: document.getElementById("currentEmail").value
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/Giris',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                success: function(res) {
+                    if (res.success) {
+                        debugger;
+                        if (res.message == null) {
+                        } else {
+                            alert(res.message);
+                        }
+                    }
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+    });
+</script>
