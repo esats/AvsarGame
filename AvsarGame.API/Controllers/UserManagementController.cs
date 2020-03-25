@@ -87,36 +87,6 @@ namespace AvsarGame.API.Controllers {
             return response;
         }
 
-        private void InsertOrUpdateUserBalance(UserPaymentRequestControlModel model) {
-            try {
-                var userBalance = _userBalance.GetBalance(model.UserId);
-
-                if (userBalance == null) {
-                    UserBalance entity = new UserBalance();
-                    entity.User.Id = model.UserId.ToString();
-                    entity.CreatedDate = DateTime.Now;
-                    entity.Balance = 0;
-                    entity.IsActive = true;
-                    entity.CreatedBy = base.GetUser();
-                    userBalance = _userBalance.Add(entity);
-                }
-
-                var paymentDetail = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
-                UserBalanceDetail balanceDetail = new UserBalanceDetail();
-                balanceDetail.Amount = paymentDetail.Amount;
-                balanceDetail.TransactionDescription = (int) TRANSACTION_DESCIPTION.Payment;
-                balanceDetail.UserBalanceId = userBalance.Id;
-                balanceDetail.CreatedBy = base.GetUser();
-                balanceDetail.CreatedDate = DateTime.Now;
-                balanceDetail.IsActive = true;
-
-                _userBalanceDetails.Add(balanceDetail);
-            } catch (Exception e) {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
         [HttpPost]
         [Route("Reject")]
         public Response<HttpStatusCode> Reject(UserPaymentRequestControlModel model) {
@@ -153,6 +123,36 @@ namespace AvsarGame.API.Controllers {
             }
 
             return response;
+        }
+        
+        private void InsertOrUpdateUserBalance(UserPaymentRequestControlModel model) {
+            try {
+                var userBalance = _userBalance.GetBalance(model.UserId);
+
+                if (userBalance == null) {
+                    UserBalance entity = new UserBalance();
+                    entity.User.Id = model.UserId.ToString();
+                    entity.CreatedDate = DateTime.Now;
+                    entity.Balance = 0;
+                    entity.IsActive = true;
+                    entity.CreatedBy = base.GetUser();
+                    userBalance = _userBalance.Add(entity);
+                }
+
+                var paymentDetail = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
+                UserBalanceDetail balanceDetail = new UserBalanceDetail();
+                balanceDetail.Amount = paymentDetail.Amount;
+                balanceDetail.TransactionDescription = (int) TRANSACTION_DESCIPTION.Payment;
+                balanceDetail.UserBalanceId = userBalance.Id;
+                balanceDetail.CreatedBy = base.GetUser();
+                balanceDetail.CreatedDate = DateTime.Now;
+                balanceDetail.IsActive = true;
+
+                _userBalanceDetails.Add(balanceDetail);
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

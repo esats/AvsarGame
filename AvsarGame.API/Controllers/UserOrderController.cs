@@ -1,35 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Core;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvsarGame.API.Controllers {
     [Route("api/UserOrder")]
     [Produces("application/json")]
     public class UserOrderController : APIControllerBase {
-        public readonly IUserOrder _userOrder;
-        public readonly IUserOrderDetail _userDetailOrder;
-        public readonly IUserBalance _UserBalance;
-        public readonly IUserBalanceDetails _UserBalanceDetail;
-        public readonly IGame _game;
-        public readonly IMapper _mapper;
+        private readonly IUserOrder _userOrder;
+        private readonly IUserOrderDetail _userOrderDetail;
+        private readonly IUserBalance _UserBalance;
+        private readonly IUserBalanceDetails _UserBalanceDetail;
+        private readonly IUserNotification _userNotification;
+        private readonly IGame _game;
+        private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public UserOrderController(IUserOrder userOrder, IMapper mapper, IUserOrderDetail userDetailOrder, IGame game, IUserBalanceDetails userBalanceDetail,
-                                   IUserBalance userBalance) {
+                                   IUserBalance userBalance, UserManager<ApplicationUser> userManager, IUserNotification userNotification) {
             _userOrder = userOrder;
             _mapper = mapper;
-            _userDetailOrder = userDetailOrder;
+            _userOrderDetail = userDetailOrder;
             _game = game;
             _UserBalanceDetail = userBalanceDetail;
             _UserBalance = userBalance;
+            _userManager = userManager;
+            _userNotification = userNotification;
         }
 
         [HttpGet]
@@ -37,12 +44,13 @@ namespace AvsarGame.API.Controllers {
         public List<UserOrdersModel> List() {
             var userOrders = _userOrder.GetUserOrder(null);
             List<UserOrdersModel> userOrderList = new List<UserOrdersModel>();
-            List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
 
             foreach (var userOrder in userOrders) {
                 UserOrdersModel userOrderModel = new UserOrdersModel();
-                foreach (var detail in userOrder.Orders) {
+                List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
+                foreach (var detail in userOrder.Orders.Where(x => x.OrderStatus == 0 && x.UserOrderId == userOrder.Id)) {
                     UserOrderDetailModel model = new UserOrderDetailModel();
+                    model.Id = detail.Id;
                     model.UserOrderId = userOrder.Id;
                     model.CharacterName = detail.CharacterName;
                     model.BillingPrice = detail.BillingPrice;
@@ -51,9 +59,12 @@ namespace AvsarGame.API.Controllers {
                     userOrderDetailList.Add(model);
                 }
 
-                userOrderModel.UserId = userOrder.UserId;
-                userOrderModel.Orders = userOrderDetailList;
-                userOrderList.Add(userOrderModel);
+                if (userOrderDetailList.Count > 0) {
+                    userOrderModel.Id = userOrder.Id;
+                    userOrderModel.User = _mapper.Map<UserPaymentManagementModel>(_userManager.FindByIdAsync(userOrder.UserId).Result);
+                    userOrderModel.Orders = userOrderDetailList;
+                    userOrderList.Add(userOrderModel);
+                }
             }
 
             return userOrderList;
@@ -112,14 +123,14 @@ namespace AvsarGame.API.Controllers {
                                 CreatedDate = DateTime.Now,
                                 CreatedBy = base.GetUser()
                         };
-                        var userOrderDetail = _userDetailOrder.Add(orderDetail);
+                        var userOrderDetail = _userOrderDetail.Add(orderDetail);
 
                         UserBalanceDetail detail = new UserBalanceDetail();
                         detail.Amount = -(item.BillingAmount * item.BillingPrice);
                         detail.UserOrderDetailId = userOrderDetail.Id;
                         detail.TransactionDescription = (int) TRANSACTION_DESCIPTION.GAME_MONEY_ORDER;
                         detail.UserBalanceId = userBalance.Id;
-                        detail.CreatedDate=DateTime.Now;
+                        detail.CreatedDate = DateTime.Now;
                         detail.CreatedBy = base.GetUser();
                         _UserBalanceDetail.Add(detail);
                     }
@@ -143,6 +154,69 @@ namespace AvsarGame.API.Controllers {
                 baseResponse.Value = response;
                 return baseResponse;
             }
+        }
+
+        [HttpPost]
+        [Route("Approve")]
+        public Response<HttpStatusCode> Approve(UserOrderRequestModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _userOrderDetail.GetT(x => x.Id == model.OrderId);
+                    updatedEntity.OrderStatus = (int) ORDER_STATUS.APPROVED;
+                    _userOrderDetail.Update(updatedEntity);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "Siparişiniz teslim edilmiştir.",
+                            NotificationType = NotificationType.APPROVED,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("Reject")]
+        public Response<HttpStatusCode> Reject(UserOrderRequestModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _userOrderDetail.GetT(x => x.Id == model.OrderId);
+                    updatedEntity.OrderStatus = (int) ORDER_STATUS.APPROVED;
+                    _userOrderDetail.Update(updatedEntity);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "Siparişiniz teslim edilmiştir.",
+                            NotificationType = NotificationType.APPROVED,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
         }
     }
 }

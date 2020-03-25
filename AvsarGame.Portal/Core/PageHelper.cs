@@ -9,6 +9,10 @@ namespace AvsarGame.Portal.Core {
             var modalId = key + id;
             return modalId;
         }
+        public static string GetModalId(string key,int id) {
+            var modalId = key + id;
+            return modalId;
+        }
 
         public static string Description(Enum value) {
             // get attributes  

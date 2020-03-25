@@ -1,4 +1,5 @@
-﻿@model List<AvsarGame.API.Models.UserOrdersModel>
+﻿@using AvsarGame.Portal.Core
+@model List<AvsarGame.API.Models.UserOrdersModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,80 +7,109 @@
 }
 
 <div class="container-fluid">
-    <h4 class="c-grey-900 mT-10 mB-30">Kullanıcı Siparişleri</h4>
+    <h4 class="c-grey-900 mT-10 mB-30">Ödeme Bildirimleri</h4>
     <div class="row">
         <div class="col-md-12">
             <div class="bgc-white bd bdrs-3 p-20 mB-20">
-                <div class="container">
-                    <button type="button" style="margin-bottom: 10px" class="btn btn-success" data-toggle="modal" data-target="#category">
-                        Yeni Kategori
-                    </button>
-                </div>
                 <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Oyun Adı</th>
-                            <th>Fatura Miktarı</th>
-                            <th>Fatura Fiyatı</th>
+                            <th>Kullanıcı Id</th>
+                            <th>Adı</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
                             <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @*foreach (var item in Model) {
-                            <tr>
-                                <td>@item.UserId</td>
-                                <td>@item.BillingPrice</td>
-                                <td>@item.BillingAmount</td>
-                                <td>
-                                    <button id="Approved" data-id="@item.UserOrderId" class="btn btn-danger">Onayla</button>
-                                    <button id="Reject" data-id="@item.UserOrderId" class="btn btn-danger">Reddet</button>
-                                </td>
-                            </tr>
-                        }*@
+                        @if (Model != null && Model.Count > 0) {
+                            @foreach (var item in Model) {
+                                <tr>
+                                    <td>@item.User.UserId</td>
+                                    <td>@item.User.Name @item.User.Surname</td>
+                                    <td>@item.User.Email</td>
+                                    <td>@item.User.PhoneNumber</td>
+                                    <td>
+                                        <a data-toggle="modal" href="#@PageHelper.GetModalId("request", item.Id)" class="btn btn-success btn-sm">Kontrol Et</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
                     </tbody>
                 </table>
+                @if (Model != null && Model.Count > 0) {
+                    @foreach (var item in Model) {
+                        <div class="modal fade" id="@PageHelper.GetModalId("request", item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">@item.User.Name @item.User.Surname Ödeme Bildirimi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-striped table-bordered requestModal" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Oyun adı</th>
+                                                    <th>Aktarılacak Karakter</th>
+                                                    <th>Fatura Birim Fiyatı</th>
+                                                    <th>Fatura miktarı</th>
+                                                    <th>İşlemler</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tbody>
+                                                    @foreach (var orderDetail in item.Orders.Where(x => x.UserOrderId == item.Id)) {
+                                                        <tr>
+                                                            <td>@orderDetail.Game.Name</td>
+                                                            <td>@orderDetail.CharacterName</td>
+                                                            <td>@orderDetail.BillingPrice</td>
+                                                            <td>@orderDetail.BillingAmount</td>
+                                                            <td>
+                                                                <button data-user-id="@item.User.UserId" data-order-id="@orderDetail.Id" class="btn btn-success accept">Aktardım</button>
+                                                                <button data-user-id="@item.User.UserId" data-order-id="@orderDetail.Id" class="btn btn-danger reject">Reddettim</button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="exampleModalLabel">Yeni Kategori</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Kategori Adı</label>
-                    <input id="Name" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Açıklama</label>
-                    <textarea type="text" id="Description" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Resim</label>
-                    <input type="file" id="Image" class="form-control">
-                </div>
-            </div>
-            <div class="modal-footer border-top-0 d-flex justify-content-center">
-                @*<button>Kaydet</button>*@
-                <input type="button" id="save" class="btn btn-success" value="kaydet"/>
-            </div>
-        </div>
-    </div>
-</div>
+
 <script>
     $(document).ready(function() {
-        $("td #delete").click(function() {
-            var id = $(this).attr('data-id');
-            var btn = this;
+
+        $('#dataTable').DataTable();
+
+        $(".requestModal .accept").click(function() {
+            var UserId = $(this).attr('data-user-id');
+            var OrderId = $(this).attr('data-order-id');
+            var modal = "request" + UserId;
+            $("#" + modal).css("display", "none");
+            var row = this.parentElement.parentElement;
+
+            var model = {
+                UserId,
+                OrderId
+            }
+
             swal({
-                    title: "Kaydı silmek istediginizden emin misiniz?",
-                    //  text: "Deze actie is niet meer te herstellen",
+                    title: "Siparişi aktardığınıza Emin misiniz?",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "evet",
@@ -91,25 +121,90 @@
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
-                            url: '/Admin/Category/Delete',
+                            url: '/Admin/UserOrder/Approve',
                             content: "application/json; charset=utf-8",
-                            data: { id: id },
+                            data: model,
                             dataType: 'json',
                             success: function(res) {
-                                if (res) {
-                                    swal("Basarili!", "Kayıt silindi", "success");
-                                    location.reload();
+                                if (res.success) {
+                                    if (res.data.isSuccess) {
+                                        debugger
+                                        swal("Basarili!", "Sipariş Aktarıldı", "success");
+                                        row.remove();
+                                        $("#" + modal).css("display", "block");
+                                    } else {
+                                        swal("Hata!", "Sipariş Aktarılamadı", "error");
+                                        $("#" + modal).css("display", "block");
+                                    }
                                 }
+                            },
+                            error: function(err) {
+                                alert("Beklenmeyen Bir hata oluştu");
+                                $("#" + modal).css("display", "block");
                             }
                         });
                     } else {
                         swal.close();
+                        $("#" + modal).css("display", "block");
                     }
                 });
         });
 
-        $('#' + dataTable).DataTable({
-            "dom": 'Bfrtip'
+        $(".requestModal .reject").click(function() {
+            var UserId = $(this).attr('data-user-id');
+            var OrderId = $(this).attr('data-order-id');
+            var modal = "request" + UserId;
+            $("#" + modal).css("display", "none");
+            var row = this.parentElement.parentElement;
+
+            var model = {
+                UserId,
+                OrderId
+            }
+            swal({
+                    title: "Siparişi Red etmek istediginizden emin misiniz?",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "evet",
+                    cancelButtonText: "Hayir",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/Admin/UserOrder/Reject',
+                            content: "application/json; charset=utf-8",
+                            data: model,
+                            dataType: 'json',
+                            success: function(res) {
+                                if (res.success) {
+                                    if (res.data.isSuccess) {
+                                        debugger
+                                        swal("Basarili!", "Sipariş Reddedildi", "success");
+                                        row.remove();
+                                        $("#" + modal).css("display", "block");
+                                    } else {
+                                        swal("Hata!", "Sipariş Reddilemedi", "error");
+                                        $("#" + modal).css("display", "block");
+                                    }
+                                }
+                            },
+                            error: function(err) {
+                                alert("Beklenmeyen Bir hata oluştu");
+                                $("#" + modal).css("display", "block");
+                            }
+                        });
+                    } else {
+                        swal.close();
+                        $("#" + modal).css("display", "block");
+                    }
+                });
+        });
+
+        $("#close").click(function(e) {
+            location.reload();
         });
     });
 </script>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
@@ -13,6 +15,26 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         public IActionResult Index() {
             List<UserOrdersModel> model = JsonConvert.DeserializeObject<List<UserOrdersModel>>(UiRequestManager.Instance.Get("UserOrder", "List"));
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult Approve(UserOrderRequestModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "Approve", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Reject(UserOrderRequestModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "Reject", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
         }
     }
 }
