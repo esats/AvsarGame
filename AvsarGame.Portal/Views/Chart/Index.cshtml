@@ -19,6 +19,58 @@
     Layout = "_Layout";
 }
 
+<style>
+    .loader {
+      position: relative;
+      text-align: center;
+      margin: 15px auto 35px auto;
+      z-index: 9999;
+      display: block;
+      width: 80px;
+      height: 80px;
+      border: 10px solid rgba(0, 0, 0, .3);
+      border-radius: 50%;
+      border-top-color: #000;
+      animation: spin 1s ease-in-out infinite;
+      -webkit-animation: spin 1s ease-in-out infinite;
+    }
+
+    @@keyframes spin {
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @@-webkit-keyframes spin {
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    .modal-content {
+      border-radius: 0px;
+      box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-backdrop.show {
+      opacity: 0.75;
+    }
+
+    #output {
+      padding: 25px 15px;
+      background: #222;
+      border: 1px solid #222;
+      max-width: 350px;
+      margin: 35px auto;
+      font-family: 'Roboto', sans-serif !important;
+      p.subtle {
+        color: #555;
+        font-style: italic;
+        font-family: 'Roboto', sans-serif !important;
+      }
+
+</style>
+
 <div class="page-wrapper">
     <main class="Main">
         <div class="container">
@@ -133,6 +185,19 @@
     </div>
 </div>
 
+<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <h3 style="color:green">Siparişiniz alındı. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         $(".total-table #count").on('change', function() {
@@ -169,9 +234,8 @@
                 url: '/User/UserOrderRequest',
                 data: JSON.stringify(orders),
                 success: function(res) {
-                    debugger;
                     if (res.data.isSuccess) {
-                        location.href = "/sepetim/ozet";
+                        openNotifiyModal();
                     } else {
                         if (res.data.value.error == 0) {
                             location.href = "/user/giris";
@@ -199,6 +263,18 @@
         }
         $("#totalAmount")[0].innerHTML = totalAmount + " TL";
         $("#totalAmountDiv")[0].innerHTML = totalAmount + " TL";
+    }
+
+    function openNotifiyModal() {
+        $("#loadMe").modal({
+            backdrop: "static", //remove ability to close modal with click
+            keyboard: false, //remove option to close with keyboard
+            show: true //Display loader!
+        });
+        setTimeout(function() {
+            location.href = "/user/detail";
+            $("#loadMe").modal("hide");
+        }, 3500);
     }
 
 </script>

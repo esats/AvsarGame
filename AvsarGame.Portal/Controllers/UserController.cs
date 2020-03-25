@@ -73,7 +73,12 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Detail(string id) {
+        public ActionResult Detail() {
+            var id = SessionManager.Instance.GetUserId();
+            if (string.IsNullOrEmpty(id)) {
+                return null;
+            }
+
             UserProfilDetailModel model = new UserProfilDetailModel();
             model.Balance =
                     JsonConvert.DeserializeObject<UserBalanceModel>(UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", id)));

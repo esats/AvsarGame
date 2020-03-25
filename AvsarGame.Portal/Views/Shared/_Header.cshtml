@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item profile"style="@PageHelper.DisplayStyle("logged")">
-                        <a class="nav-link profile" href="/User/Detail/@SessionManager.Instance.GetUserId()">@SessionManager.Instance.GetFullName()</a>
+                        <a class="nav-link profile" href="/User/Detail">@SessionManager.Instance.GetFullName()</a>
                     </li>
                     <li class="nav-item reglog" style="display: @PageHelper.DisplayStyle("login")">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
