@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                                         @await Component.InvokeAsync("UserOrder", new {
-                                            id = "29d81876-0a7b-458a-8f5e-d73b684471bc"
+                                            id = Model.Balance.UserId
                                         })
                                     </div>
                                     <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">

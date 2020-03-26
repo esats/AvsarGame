@@ -33,5 +33,11 @@ namespace AvsarGame.Portal.Controllers {
         public ActionResult Test() {
             return View();
         }
+      
+        [Route("odeme-yontemleri")]
+        public IActionResult Methods()
+        {
+            return View();
+        }
     }
 }

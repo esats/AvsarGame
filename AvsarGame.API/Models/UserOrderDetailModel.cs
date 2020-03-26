@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,5 +13,7 @@ namespace AvsarGame.API.Models {
         public string CharacterName { get; set; }
         public decimal BillingPrice { get; set; }
         public decimal BillingAmount { get; set; }
+        public int OrderStatus { get; set; } 
+
     }
 }

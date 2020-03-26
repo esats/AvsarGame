@@ -46,5 +46,18 @@ namespace AvsarGame.Portal.Core {
             }
 
         }
+
+        public static string GetOrderStatusStyle(int status) {
+            if (status==0) {
+                return "yellow";
+            }
+
+            if (status==1) {
+                return "green";
+
+            } else {
+                return "red";
+            }
+        }
     }
 }

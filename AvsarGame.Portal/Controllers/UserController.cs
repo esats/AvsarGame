@@ -80,6 +80,7 @@ namespace AvsarGame.Portal.Controllers {
             }
 
             UserProfilDetailModel model = new UserProfilDetailModel();
+
             model.Balance =
                     JsonConvert.DeserializeObject<UserBalanceModel>(UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", id)));
             model.NotificationCount =
@@ -87,7 +88,6 @@ namespace AvsarGame.Portal.Controllers {
 
             model.Notifications =
                     JsonConvert.DeserializeObject<List<UserNotificationModel>>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
-
             return View(model);
         }
 

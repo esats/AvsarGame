@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using AvsarGame.Core.Entities;
 
@@ -14,8 +15,13 @@ namespace AvsarGame.Entities.Entities {
     }
 
     public enum ORDER_STATUS {
+        [Description("Beklemede")]
         PENDING = 0,
+
+        [Description("Aktarıldı")]
         APPROVED = 1,
+
+        [Description("Reddedildi")]
         REJECT = 2
     }
 }

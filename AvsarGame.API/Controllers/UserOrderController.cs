@@ -67,18 +67,19 @@ namespace AvsarGame.API.Controllers {
                 }
             }
 
-            return userOrderList;
+            return
+                    userOrderList;
         }
 
         [HttpGet]
-        [Route("GetOne")]
-        public List<UserOrdersModel> GetOne(string userId) {
-            var userOrders = _userOrder.GetUserOrder(userId);
-            List<UserOrdersModel> userOrderList = new List<UserOrdersModel>();
+        [Route("GetOne/{id}")]
+        public UserOrdersModel GetOne(string id) {
+            UserOrdersModel userOrderModel = new UserOrdersModel();
             List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
 
-            foreach (var userOrder in userOrders.Where(x => x.UserId == userId)) {
-                UserOrdersModel userOrderModel = new UserOrdersModel();
+            var userOrders = _userOrder.GetUserOrder(id);
+            
+            foreach (var userOrder in userOrders) {
                 foreach (var detail in userOrder.Orders) {
                     UserOrderDetailModel model = new UserOrderDetailModel();
                     model.UserOrderId = userOrder.Id;
@@ -86,15 +87,15 @@ namespace AvsarGame.API.Controllers {
                     model.BillingPrice = detail.BillingPrice;
                     model.BillingAmount = detail.BillingAmount;
                     model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
+                    model.OrderStatus = detail.OrderStatus;
                     userOrderDetailList.Add(model);
                 }
 
                 userOrderModel.UserId = userOrder.UserId;
                 userOrderModel.Orders = userOrderDetailList;
-                userOrderList.Add(userOrderModel);
             }
 
-            return userOrderList;
+            return userOrderModel;
         }
 
         [HttpPost]
@@ -195,7 +196,7 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _userOrderDetail.GetT(x => x.Id == model.OrderId);
-                    updatedEntity.OrderStatus = (int) ORDER_STATUS.APPROVED;
+                    updatedEntity.OrderStatus = (int) ORDER_STATUS.REJECT;
                     _userOrderDetail.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {

@@ -1,4 +1,9 @@
-﻿<div class="container">
+﻿@using AvsarGame.Core
+@using AvsarGame.Entities.Entities
+@using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.UserOrdersModel
+
+<div class="container">
     <div class="section tab-primary">
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -8,115 +13,26 @@
                             <table class="table table-dark responsive-table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Tarih</th>
-                                        <th scope="col">Ürün Adı</th>
-                                        <th scope="col">Toplam</th>
+                                        <th scope="col">Oyun Adı</th>
+                                        <th scope="col">Fiyat</th>
+                                        <th scope="col">Miktar</th>
+                                        <th scope="col">Karakter</th>
+                                        <th scope="col">Durum</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td scope="row" data-heading="No">#343545</td>
-                                        <td data-heading="Tarih">12 Şubat 2020</td>
-                                        <td data-heading="Ürün Adı">Mass Effect Andromeda</td>
-                                        <td data-heading="Toplam">100TL</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td scope="row" data-heading="No">#343545</td>
-                                        <td data-heading="Tarih">12 Şubat 2020</td>
-                                        <td data-heading="Ürün Adı">Mass Effect Andromeda</td>
-                                        <td data-heading="Toplam">100TL</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td scope="row" data-heading="No">#343545</td>
-                                        <td data-heading="Tarih">12 Şubat 2020</td>
-                                        <td data-heading="Ürün Adı">Mass Effect Andromeda</td>
-                                        <td data-heading="Toplam">100TL</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td scope="row" data-heading="No">#343545</td>
-                                        <td data-heading="Tarih">12 Şubat 2020</td>
-                                        <td data-heading="Ürün Adı">Mass Effect Andromeda</td>
-                                        <td data-heading="Toplam">100TL</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td scope="row" data-heading="No">#343545</td>
-                                        <td data-heading="Tarih">12 Şubat 2020</td>
-                                        <td data-heading="Ürün Adı">Mass Effect Andromeda</td>
-                                        <td data-heading="Toplam">100TL</td>
-
-                                    </tr>
-
+                                    @foreach (var item in Model.Orders)
+                                    {
+                                        <tr>
+                                            <td scope="row">@item.Game.Name</td>
+                                            <td>@item.BillingPrice</td>
+                                            <td>@item.BillingAmount</td>
+                                            <td>@item.CharacterName</td>
+                                            <td style="color: @PageHelper.GetOrderStatusStyle(item.OrderStatus)">@PageHelper.Description((ORDER_STATUS)item.OrderStatus)</td>
+                                        </tr>
+                                    }
                                 </tbody>
-
                             </table>
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav aria-label="...">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item pagination-left disabled">
-                                                <a href="#" class="page-link">
-                                                    <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <!-- Generator: sketchtool 63 (101010) - https://sketch.com -->
-                                                        <title>60335B23-74EB-4C6F-9652-C4FAA435BA8D</title>
-                                                        <desc>Created with sketchtool.</desc>
-                                                        <g id="Page-1" stroke="none" stroke-width="1">
-                                                            <g id="left-arrow" transform="translate(-1234.000000, -830.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                                                                <g id="most-popular" transform="translate(164.000000, 825.000000)">
-                                                                    <g id="slider-nav" transform="translate(1070.000000, 5.000000)">
-                                                                        <g id="arrow-right-solid-copy" transform="translate(8.000000, 8.000000) scale(-1, 1) translate(-8.000000, -8.000000) translate(0.000000, 0.000000)">
-                                                                            <path d="M6.78841871,1.09223744 L7.57951002,0.281278539 C7.91447661,-0.0621004566 8.45612472,-0.0621004566 8.78752784,0.281278539 L15.714922,7.37899543 C16.0498886,7.72237443 16.0498886,8.27762557 15.714922,8.6173516 L8.78752784,15.7187215 C8.45256125,16.0621005 7.91091314,16.0621005 7.57951002,15.7187215 L6.78841871,14.9077626 C6.44988864,14.5607306 6.45701559,13.9945205 6.80267261,13.6547945 L11.0966592,9.46118721 L0.855233853,9.46118721 C0.381291759,9.46118721 0,9.07031963 0,8.58447489 L0,7.41552511 C0,6.92968037 0.381291759,6.53881279 0.855233853,6.53881279 L11.0966592,6.53881279 L6.80267261,2.34520548 C6.45345212,2.00547945 6.44632517,1.43926941 6.78841871,1.09223744 Z" id="Path"></path>
-                                                                        </g>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">1</a>
-                                            </li>
-                                            <li class="page-item active">
-                                                <span class="page-link">
-                                                    2
-                                                    <span class="sr-only">(current)</span>
-                                                </span>
-                                            </li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">3</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">4</a>
-                                            </li>
-                                            <li class="page-item pagination-right active">
-                                                <a href="#" class="page-link">
-                                                    <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <!-- Generator: sketchtool 63 (101010) - https://sketch.com -->
-                                                        <title>60335B23-74EB-4C6F-9652-C4FAA435BA8D</title>
-                                                        <desc>Created with sketchtool.</desc>
-                                                        <g id="Page-1" stroke="none" stroke-width="1">
-                                                            <g id="left-arrow" transform="translate(-1234.000000, -830.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                                                                <g id="most-popular" transform="translate(164.000000, 825.000000)">
-                                                                    <g id="slider-nav" transform="translate(1070.000000, 5.000000)">
-                                                                        <g id="arrow-right-solid-copy" transform="translate(8.000000, 8.000000) scale(-1, 1) translate(-8.000000, -8.000000) translate(0.000000, 0.000000)">
-                                                                            <path d="M6.78841871,1.09223744 L7.57951002,0.281278539 C7.91447661,-0.0621004566 8.45612472,-0.0621004566 8.78752784,0.281278539 L15.714922,7.37899543 C16.0498886,7.72237443 16.0498886,8.27762557 15.714922,8.6173516 L8.78752784,15.7187215 C8.45256125,16.0621005 7.91091314,16.0621005 7.57951002,15.7187215 L6.78841871,14.9077626 C6.44988864,14.5607306 6.45701559,13.9945205 6.80267261,13.6547945 L11.0966592,9.46118721 L0.855233853,9.46118721 C0.381291759,9.46118721 0,9.07031963 0,8.58447489 L0,7.41552511 C0,6.92968037 0.381291759,6.53881279 0.855233853,6.53881279 L11.0966592,6.53881279 L6.80267261,2.34520548 C6.45345212,2.00547945 6.44632517,1.43926941 6.78841871,1.09223744 Z" id="Path"></path>
-                                                                        </g>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
