@@ -32,8 +32,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item profile"style="@PageHelper.DisplayStyle("logged")">
-                        <a class="nav-link profile" href="/User/Detail">@SessionManager.Instance.GetFullName()</a>
+                    <li class="nav-item dropdown profile" style="@PageHelper.DisplayStyle("logged")">
+                        <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown" href="profile.html">@SessionManager.Instance.GetFullName()</a>
+                        <div class="dropdown-menu dropdown-menu-right show" style="display: none;">
+                            <a class="dropdown-item" href="/User/Detail">@SessionManager.Instance.GetFullName()</a>
+                            <a class="dropdown-item logout" href="#">Çıkış Yap</a>
+                        </div>
                     </li>
                     <li class="nav-item reglog" style="display: @PageHelper.DisplayStyle("login")">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
