@@ -76,20 +76,24 @@
                                     <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
                                         <div class="row">
                                             <div class="col-12">
-                                                @if (Model.Notifications.Count == 0) {
+                                                @if (Model.Notifications.Count == 0)
+                                                {
                                                     <div class="announce-box announce-danger">
                                                         <p>
                                                             Yeni Bildiriminiz Yok
                                                         </p>
                                                     </div>
-                                                } else {
-                                                    foreach (var item in Model.Notifications) {
+                                                }
+                                                else
+                                                {
+                                                    foreach (var item in Model.Notifications)
+                                                    {
                                                         var css = item.NotificationType == NotificationType.APPROVED ? "green" : "red";
                                                         <div class="announce-box announce-danger">
                                                             <p style="color: @css">
                                                                 @item.Message
                                                             </p>
-                                                            <p style="color:white">@item.CreatedDate.ToString("G") </p>
+                                                            <p style="color: white">@item.CreatedDate.ToString("G") </p>
                                                         </div>
                                                     }
                                                 }
@@ -98,7 +102,8 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
-                                        @await Component.InvokeAsync("UserOrder", new {
+                                        @await Component.InvokeAsync("UserOrder", new
+                                        {
                                             id = Model.Balance.UserId
                                         })
                                     </div>
@@ -130,30 +135,31 @@
                                     <div class="form-group col-12  mb-4">
                                         <div class="row no-gutters">
                                             <div class="form-group col-12 pl-0 pr-0">
-                                                <label class="control-label mt-0" for="first_name">
+                                                <label style="color: #009aff" class="control-label mt-0" for="first_name">
                                                     Adınız
                                                     Soyadınız
                                                 </label>
-                                                <input type="text" data-toggle="" autocomplete="off" class="form-control pl-3" readonly="readonly" value="" aria-invalid="false">
+                                                <input type="text" data-toggle="" autocomplete="off" class="form-control pl-3" readonly="readonly" value="@SessionManager.Instance.GetFullName()" aria-invalid="false">
                                             </div>
                                         </div>
                                         <div class="row no-gutters">
                                             <div class="form-group col-12 pl-0 pr-0">
-                                                <label class="control-label mt-0">
+                                                <label style="color: #009aff" class="control-label mt-0">
                                                     Telefon
                                                     No (Açıklamaya Yazdığınız)
                                                 </label>
                                                 <input type="text" id="phone-number" class="form-control pl-3" value="">
+                                                <span id="error-span-phone-number" style="display: none;color: red"></span>
                                             </div>
                                         </div>
                                         <div class="row no-gutters">
                                             <div class="form-group col-12 pl-0 pr-0">
-                                                <label class="control-label mt-0">
+                                                <label style="color: #009aff" class="control-label mt-0">
                                                     Banka Seçiniz
                                                 </label>
                                                 <select class="form-control" name="bank" id="bank" required="">
-                                                    <option disabled="" selected="" value="">Seçiniz</option>
-                                                    @foreach (var item in (Banks[]) Enum.GetValues(typeof(Banks))) {
+                                                    @foreach (var item in (Banks[])Enum.GetValues(typeof(Banks)))
+                                                    {
                                                         <option value="@item">@PageHelper.Description(item)</option>
                                                     }
                                                 </select>
@@ -163,12 +169,14 @@
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="form-group col-12 pl-0 pr-0">
-                                        <label class="control-label mt-0" for="first_name">
+                                        <label style="color: #009aff" class="control-label mt-0" for="first_name">
                                             Ödeme
                                             Tarihi
                                         </label>
+
                                         <input type="text" id="payment_date" data-toggle="" class="form-control pl-3" autocomplete="off" readonly="readonly" value="21-03-2020" aria-invalid="false">
-                                        <label class="control-label mt-0">
+                                        <span id="error-span-payment-date" style="display: none;color: red"></span>
+                                        <label style="color: #009aff" class="control-label mt-0">
                                             İşlem
                                             Türü: &nbsp
                                         </label>
@@ -190,18 +198,20 @@
                                                 EFT
                                             </label>
                                         </div>
+                                        <span id="error-span-payment-type" style="display: none;color: red"></span>
                                     </div>
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="form-group col-12  mb-4">
                                         <div class="row no-gutters">
                                             <div class="form-group col-12 pl-0 pr-0">
-                                                <label class="control-label mt-0">
+                                                <label style="color: #009aff"class="control-label mt-0">
                                                     Miktar
                                                 </label>
                                                 <input type="text" id="amount" name="a2" data-toggle="" class="form-control pl-3" value="0,00">
                                             </div>
                                         </div>
+                                        <span id="error-span-amount" style="display: none;color: red"></span>
                                     </div>
                                 </div>
                             </div>
@@ -229,18 +239,25 @@
 </div>
 <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
 <script>
-    $(document).ready(function() {
+    var keyValueObject = {
+        errorspanpaymentdate:"Lütfen tarih seçiniz.",
+        errorspanamount:"Lütfen miktarı giriniz",
+        errorspanpaymenttype:"Lütfen ödeme türünü seçiniz",
+        errorspanphonenumber:"Lütfen telefon numarası giriniz"
+    };
+    $(document).ready(function () {
         var primitivePaymentType = "";
+        
 
-        $("#closeModal").on("click", function() {
-            $("#payment-modal").modal("hide")
+        $("#closeModal").on("click", function () {
+            $("#payment-modal").modal("hide");
         });
 
-        $(".ppymnttype").click(function() {
+        $(".ppymnttype").click(function () {
             primitivePaymentType = this.innerText.trim();
         });
 
-        $("#payment-valid").click(function() {
+        $("#payment-valid").click(function () {
             debugger;
             var model = {
                 Date: document.getElementById("payment_date").value,
@@ -250,34 +267,40 @@
                 PhoneNumber: document.getElementById("phone-number").value
             }
 
+            var errors = checkFormValid(model);
+
+            if (errors.length > 0) {
+                return;
+            }
+
             $.ajax({
                 type: 'post',
                 url: '/User/RequestPayment',
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
-                success: function(res) {
+                success: function (res) {
                     if (res.isSuccess) {
                         $('#login-modal').modal('hide');
                     } else {
                         alert("Kullanıcı adı veya şifre hatalı");
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     alert("Bir Hata oluştu");
                 }
             });
         });
 
-        //$('#payment_date').datepicker({
-        //    format: 'dd/mm/yyyy',
-        //    autoclose: true,
-        //    keyboardNavigation: false,
-        //    forceParse: false,
-        //    startDate: new Date()
-        //});
+        $('#payment_date').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            keyboardNavigation: false,
+            forceParse: false,
+            startDate: new Date()
+        });
 
-        $("#notifications-tab").click(function(e) {
+        $("#notifications-tab").click(function (e) {
             var id = $(this).attr("data-id");
             debugger;
             $.ajax({
@@ -286,13 +309,45 @@
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: { id: id },
-                success: function(res) {
+                success: function (res) {
                 },
-                error: function(err) {
+                error: function (err) {
                     alert("Bir Hata oluştu");
                 }
             });
         });
     });
+
+    function checkFormValid(data) {
+        var errorSpan = [];
+        if (data.Date == "" || data.Date == null) {
+            errorSpan.push("error-span-payment-date");
+        }
+        if (data.Amount == "" || data.Amount == null || data.Amount <= 0) {
+            errorSpan.push("error-span-amount");
+        }
+        if (data.PrimitivePaymentType == "" || data.PrimitivePaymentType == null) {
+            errorSpan.push("error-span-payment-type");
+        }
+        if (data.PhoneNumber == "" || data.PhoneNumber == null) {
+            errorSpan.push("error-span-phone-number");
+        }
+        for (var i = 0; i < errorSpan.length; i++) {
+            var key = errorSpan[i].split("-").join("");
+            $(document.getElementById(errorSpan[i])).html(keyValueObject[key]);
+            $(document.getElementById(errorSpan[i])).css("display","block");
+        }
+
+        if (errorSpan.length == 0) {
+            debugger;
+            for (var i = 0; i < 4; i++) {
+                var key = errorSpan[i].split("-").join("");
+                $(document.getElementById(errorSpan[i])).html(keyValueObject[key]);
+                $(document.getElementById(errorSpan[i])).css("display","none");
+            }
+        }
+
+        return errorSpan;
+    }
 
 </script>
