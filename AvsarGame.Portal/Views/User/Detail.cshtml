@@ -169,12 +169,11 @@
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="form-group col-12 pl-0 pr-0">
-                                        <label style="color: #009aff" class="control-label mt-0" for="first_name">
+                                        <label style="color: #009aff" class="control-label mt-0">
                                             Ödeme
                                             Tarihi
                                         </label>
-
-                                        <input type="text" id="payment_date" data-toggle="" class="form-control pl-3" autocomplete="off" readonly="readonly" value="21-03-2020" aria-invalid="false">
+                                        <input type="text" id="payment_date" class="form-control pl-3">
                                         <span id="error-span-payment-date" style="display: none;color: red"></span>
                                         <label style="color: #009aff" class="control-label mt-0">
                                             İşlem
@@ -205,7 +204,7 @@
                                     <div class="form-group col-12  mb-4">
                                         <div class="row no-gutters">
                                             <div class="form-group col-12 pl-0 pr-0">
-                                                <label style="color: #009aff"class="control-label mt-0">
+                                                <label style="color: #009aff" class="control-label mt-0">
                                                     Miktar
                                                 </label>
                                                 <input type="text" id="amount" name="a2" data-toggle="" class="form-control pl-3" value="0,00">
@@ -238,16 +237,24 @@
     </div>
 </div>
 <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <script>
     var keyValueObject = {
-        errorspanpaymentdate:"Lütfen tarih seçiniz.",
-        errorspanamount:"Lütfen miktarı giriniz",
-        errorspanpaymenttype:"Lütfen ödeme türünü seçiniz",
-        errorspanphonenumber:"Lütfen telefon numarası giriniz"
+        errorspanpaymentdate: "Lütfen tarih seçiniz.",
+        errorspanamount: "Lütfen miktarı giriniz",
+        errorspanpaymenttype: "Lütfen ödeme türünü seçiniz",
+        errorspanphonenumber: "Lütfen telefon numarası giriniz"
     };
+    $('#payment_date').datepicker({
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        keyboardNavigation: false,
+        forceParse: false,
+        startDate: new Date()
+    });
     $(document).ready(function () {
         var primitivePaymentType = "";
-        
+
 
         $("#closeModal").on("click", function () {
             $("#payment-modal").modal("hide");
@@ -292,13 +299,7 @@
             });
         });
 
-        $('#payment_date').datepicker({
-            format: 'dd/mm/yyyy',
-            autoclose: true,
-            keyboardNavigation: false,
-            forceParse: false,
-            startDate: new Date()
-        });
+
 
         $("#notifications-tab").click(function (e) {
             var id = $(this).attr("data-id");
@@ -335,7 +336,7 @@
         for (var i = 0; i < errorSpan.length; i++) {
             var key = errorSpan[i].split("-").join("");
             $(document.getElementById(errorSpan[i])).html(keyValueObject[key]);
-            $(document.getElementById(errorSpan[i])).css("display","block");
+            $(document.getElementById(errorSpan[i])).css("display", "block");
         }
 
         if (errorSpan.length == 0) {
@@ -343,7 +344,7 @@
             for (var i = 0; i < 4; i++) {
                 var key = errorSpan[i].split("-").join("");
                 $(document.getElementById(errorSpan[i])).html(keyValueObject[key]);
-                $(document.getElementById(errorSpan[i])).css("display","none");
+                $(document.getElementById(errorSpan[i])).css("display", "none");
             }
         }
 
