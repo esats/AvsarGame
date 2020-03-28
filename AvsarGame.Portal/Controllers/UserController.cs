@@ -119,7 +119,7 @@ namespace AvsarGame.Portal.Controllers {
             try {
                 if (!SessionManager.Instance.IsAuthenticate()) {
                     response.RedirectUrl = "/User/login";
-                    response.Message = "Lütfen Giriş Yapılın";
+                    response.Message = "Lütfen Giriş Yapınız";
                     response.Error = (int) Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
@@ -141,6 +141,8 @@ namespace AvsarGame.Portal.Controllers {
 
                 baseResponse =
                         JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "Save", JsonConvert.SerializeObject(orders)));
+
+                SessionManager.Instance.Remove("chart");
 
                 return Json(new { Success = true, data = baseResponse });
             } catch (Exception e) {

@@ -80,7 +80,7 @@ namespace AvsarGame.API.Controllers {
             var userOrders = _userOrder.GetUserOrder(id);
             
             foreach (var userOrder in userOrders) {
-                foreach (var detail in userOrder.Orders) {
+                foreach (var detail in userOrder.Orders.OrderByDescending(x=>x.CreatedDate)) {
                     UserOrderDetailModel model = new UserOrderDetailModel();
                     model.UserOrderId = userOrder.Id;
                     model.CharacterName = detail.CharacterName;

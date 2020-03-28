@@ -49,6 +49,7 @@
                                 </button>
                             </div>
                         </div>
+                         <span class="login-fail" style="color:white"></span>
                     </form>
                 </div>
             </div>
@@ -73,17 +74,19 @@
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
-                success: function(res) {
+                success: function (res) {
+                    debugger
                     if (res.success) {
-                        debugger;
-                        if (res.message == null) {
-                        } else {
-                            alert(res.message);
+                        if (res.data.isSuccess) {
+                            location.href = "/sepetim"
                         }
-                    }
+                        else {
+                            $(document.getElementsByClassName("login-fail")[0]).html(res.data.message);
+                        }
+                    } 
                 },
-                error: function(err) {
-                    alert("Bir Hata oluştu");
+                error: function (err) {
+                    $(document.getElementsByClassName("login-fail")[0]).html("Bir Hata oluştu");
                 }
             });
         });

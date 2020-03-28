@@ -17,7 +17,6 @@ namespace AvsarGame.API.Base {
         [ApiExplorerSettings(IgnoreApi = true)]
         public string GetUser() {
             var userId = HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).ToList()[1]?.Value;
-            userId = userId == null ? "ebf4e0f2-4734-4ca0-be7b-0a5b5a1e2cbc" : userId;
             return userId;
         }
     }
