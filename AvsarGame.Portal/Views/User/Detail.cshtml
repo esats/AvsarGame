@@ -15,6 +15,8 @@
         margin-bottom: 2px !important
     }
 </style>
+
+
 <div class="page-wrapper">
     <main class="Main">
         <div style="margin-top: 50px"></div>
@@ -208,9 +210,8 @@
                                                     Miktar
                                                 </label>
                                                 <input type="text" id="amount" name="a2" data-toggle="" class="form-control pl-3" value="0"
-                                                     onfocus="if(this.value  == '0') { this.value = ''; } " onblur="if(this.value == '') { this.value = '0'; }"  
-                                                       onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
-                                                       >
+                                                       onfocus="if(this.value  == '0') { this.value = ''; } " onblur="if(this.value == '') { this.value = '0'; }"
+                                                       onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                             </div>
                                         </div>
                                         <span id="error-span-amount" style="display: none;color: red"></span>
@@ -221,6 +222,7 @@
                         <div class="form-row form-group">
                             <div class="col-12">
                                 <button class="button w-100" style="background-color: green; color: white; margin-bottom: 10px !important" id="payment-valid" type="submit">
+                                    <span class="spinner-border spinner-border-sm" style="display:none;float :right" role="status" aria-hidden="true"></span>
                                     Ödeme Bildir
                                 </button>
                             </div>
@@ -239,8 +241,33 @@
         <!--/.Content-->
     </div>
 </div>
+
+<div class="modal fade" id="payment-information-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--Modal cascading tabs-->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+                    <!--Body-->
+                    <div class="modal-body">
+                        <h4>Ödeme talebiniz alındı. Kontrol edildikten sonra hesabınıza aktarılacaktır.</h4>
+                        <div class="form-row form-group">
+                            <div class="col-12">
+                                <button class="button w-100" style="background-color: blue; color: white" id="closeModalpayment" type="submit">
+                                    Kapat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
 <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
 <script>
     var keyValueObject = {
         errorspanpaymentdate: "Lütfen tarih seçiniz.",
@@ -255,12 +282,16 @@
         forceParse: false,
         startDate: new Date()
     });
-     
-    $('#phone-number').mask('(0000) 000 - 00 00');
 
+    $('#phone-number').mask('(0000) 000 - 00 00');
+       
     $(document).ready(function () {
         var primitivePaymentType = "";
-    
+
+        
+        $("#closeModalpayment").on("click", function () {
+            $("#payment-information-modal").modal("hide");
+        });
 
         $("#closeModal").on("click", function () {
             $("#payment-modal").modal("hide");
@@ -271,7 +302,6 @@
         });
 
         $("#payment-valid").click(function () {
-            debugger;
             var model = {
                 Date: document.getElementById("payment_date").value,
                 Bank: document.getElementById("bank").value,
@@ -285,6 +315,8 @@
             if (errors.length > 0) {
                 return;
             }
+            debugger;
+            $(document.getElementsByClassName("spinner-border")[0]).css("display","block");
 
             $.ajax({
                 type: 'post',
@@ -293,14 +325,18 @@
                 dataType: 'json',
                 data: model,
                 success: function (res) {
-                    if (res.isSuccess) {
-                        $('#login-modal').modal('hide');
+                    if (res.data.isSuccess) {
+                        $("#payment-modal").modal("hide");
+                        $('#payment-information-modal').modal('show');
+                        $(document.getElementsByClassName("spinner-border")[0]).css("display","none");
                     } else {
-                        alert("Kullanıcı adı veya şifre hatalı");
+                        alert("Talep Gönderilirken bir hata oluştu");
+                       $(document.getElementsByClassName("spinner-border")[0]).css("display","none");
                     }
                 },
                 error: function (err) {
                     alert("Bir Hata oluştu");
+                    $(document.getElementsByClassName("spinner-border")[0]).css("display","none");
                 }
             });
         });
