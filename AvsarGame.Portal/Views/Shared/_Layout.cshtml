@@ -121,12 +121,12 @@
                                                    value="" id="terms" required />
                                             <span class="form-csCheck-checkmark"></span>
                                         </label>
-                                        <span class="terms">
-                                            <button data-toggle="tab" href="#terms-tab"
+                                        <span class="terms ">
+                                            <input type="checkbox" id="isChecked" />
+                                            <a data-toggle="tab" href="#terms-tab"
                                                href="javascript:void(0)" onclick="showTerms()">
-                                                Kullanım koşullarını
-                                            </button>
-                                            kabul ediyorum
+                                                <span style="color:#009aff!important;background-color: transparent;">Kullanım koşullarını  kabul ediyorum</span>
+                                            </a>
                                         </span>
                                     </div>
                                 </div>
@@ -137,6 +137,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                <span class="login-fail" style="color:white"></span>
                                 <div class="modal-close">Kapat</div>
                             </form>
                         </div>
@@ -181,9 +182,10 @@
                                 </div>
                             </form>
 
-                            <p onclick="forgotPw()" class="text-center forgot-pw">
+                            @*<p onclick="forgotPw()" class="text-center forgot-pw">
                                 Şifremi Unuttum
-                            </p>
+                            </p>*@
+                            <span class="login-fail" style="color:white"></span>
                             <div class="modal-close">Kapat</div>
                         </div>
                     </div>
@@ -266,7 +268,8 @@
                     Password: document.getElementById("current-password").value,
                     Email: document.getElementById("currentEmail").value
                 }
-
+                $(document.getElementsByClassName("login-fail")[0]).html("");
+               
                 $.ajax({
                     type: 'post',
                     url: '/User/Login',
@@ -276,19 +279,21 @@
                     success: function (res) {
                         debugger;
                         if (res.success) {
-                            if (res.message == null) {
+                            if (res.data.isSuccess) {
                                 setUserForHeader(res.data.value);
                                 $('#login-modal').modal('hide');
-                            } else {
-                                alert(res.message);
+                            }
+                            else {
+                                $(document.getElementsByClassName("login-fail")[0]).html(res.data.message);
                             }
                         } 
                     },
                     error: function (err) {
-                        alert("Bir Hata oluştu");
+                        $(document.getElementsByClassName("login-fail")[0]).html("Bir Hata oluştu");
                     }
                 });
             });
+
             $("#register").click(function (e) {
                 e.preventDefault();
                 var model = {
@@ -299,6 +304,11 @@
                     PhoneNumber: document.getElementById("user-phone").value
                 }
 
+                if (!($('#isChecked').is(":checked"))) {
+                   $(document.getElementsByClassName("login-fail")[0]).html("*Lütfen Kullanıcı Sözleşmesini Onaylayın");
+                    return;
+                }
+
                 $.ajax({
                     type: 'post',
                     url: '/User/Register',
@@ -306,15 +316,19 @@
                     dataType: 'json',
                     data: model,
                     success: function (res) {
+                        debugger;
                         if (res.success) {
-                            setUserForHeader(res.value);
-                            $('#login-modal').modal('hide');
-                        } else {
-                            alert("Kullanıcı adı veya şifre hatalı");
-                        }
+                            if (res.data.isSuccess) {
+                                setUserForHeader(res.data.value);
+                                $('#login-modal').modal('hide');
+                            }
+                            else {
+                                $(document.getElementsByClassName("login-fail")[0]).html("*Seçtiğiniz Mail adresi kullanımda");
+                            }
+                        } 
                     },
                     error: function (err) {
-                        alert("Bir Hata oluştu");
+                        $(document.getElementsByClassName("login-fail")[0]).html("Bir Hata oluştu");
                     }
                 });
             });

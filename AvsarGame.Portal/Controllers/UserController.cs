@@ -27,7 +27,7 @@ namespace AvsarGame.Portal.Controllers {
                     SessionManager.Instance.set("FullName", responseSaving.Value.FullName.ToString());
                 }
 
-                return Json(responseSaving);
+                return Json(new { Success = true, data = responseSaving });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }

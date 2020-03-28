@@ -51,11 +51,11 @@ namespace AvsarGame.API {
             services.AddTransient<IUserNotification, EfUserNotification>();
 
             services.Configure<IdentityOptions>(options => {
-                options.Password.RequireDigit = true; //sayı zorunluluğu
-                options.Password.RequireLowercase = true; //küçük harf
+                options.Password.RequireDigit = false; //sayı zorunluluğu
+                options.Password.RequireLowercase = false; //küçük harf
                 options.Password.RequiredLength = 6; //minimum 8 karakter
-                options.Password.RequireNonAlphanumeric = true; //alfanümerik olması
-                options.Password.RequireUppercase = true; //büyük harf zorunluluğu
+                options.Password.RequireNonAlphanumeric = false; //alfanümerik olması
+                options.Password.RequireUppercase = false; //büyük harf zorunluluğu
                 options.Lockout.MaxFailedAccessAttempts = 5; //max hatalı giriş sayısı
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); //kullanıcı ne kadar süre boyunca sisteme giriş yapamasın
                 options.User.RequireUniqueEmail = true;

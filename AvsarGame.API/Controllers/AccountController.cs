@@ -69,44 +69,7 @@ namespace AvsarGame.API.Controllers {
                 return new Response<LoggedModel> { IsSuccess = false, Message = "Bir hata oluştu lütfen sonra tekrar deneyiniz"};
             }
         }
-
-        //[HttpPost("PortalLogin")]
-        //[Authorize(Roles ="admin")]
-        //public async Task<Response<ApplicationUser>> PortalLogin([FromBody]LoginModel model)
-        //{
-        //    try
-        //    {
-        //        var response = new Response<ApplicationUser>();
-        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-        //        if (result.Succeeded)
-        //        {
-        //            var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-
-        //            using (var context = new AvsarGameDBcontext())
-        //            {
-        //                var userRoles = context.UserRoles.SingleOrDefault(x => x.UserId == appUser.Id);
-
-        //                if (userRoles != null)
-        //                {
-        //                    var role = context.Roles.SingleOrDefault(f => f.Id == userRoles.RoleId);
-
-        //                    if (role != null && role.Name == "admin")
-        //                    {
-        //                        appUser.BearerToken = JWTAuth.Instance.GenerateJwtToken(model.Email, appUser);
-        //                        return new Response<ApplicationUser> { IsSuccess = true, Value = appUser };
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string message = ex.Message;
-        //    }
-
-        //    return new Response<ApplicationUser> { IsSuccess = false, Message = "Kullanıcı Adı veya Şifre yanlış" };
-        //}
-
+        
         [HttpPost("Register")]
         public async Task<Response<RegisterModel>> Register([FromBody] RegisterModel model) {
             Response<RegisterModel> response= new Response<RegisterModel>();
@@ -122,44 +85,36 @@ namespace AvsarGame.API.Controllers {
                         Birthdate = model.Birthdate,
                 };
 
-                if (!String.IsNullOrEmpty(model.Id)) {
-                    var updatedEntity = _userManager.Users.SingleOrDefault(r => r.Id == model.Id.ToString());
-                    updatedEntity.Name = model.Name;
-                    updatedEntity.Surname = model.Surname;
-                    updatedEntity.Birthdate = model.Birthdate;
-                    updatedEntity.Email = model.Email;
-                    updatedEntity.UserName = model.Email;
-                    updatedEntity.NormalizedEmail = model.Email;
-                    updatedEntity.PhoneNumber = model.PhoneNumber;
-                    var update = await _userManager.UpdateAsync(updatedEntity);
-                    return null;
-                } else {
-                    var result = await _userManager.CreateAsync(identityUser, model.Password);
+                var result = await _userManager.CreateAsync(identityUser, model.Password);
 
-                    if (result.Succeeded) {
-                        string role = "User";
-                        await _userManager.AddToRoleAsync(identityUser, role);
-                        await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
-                        var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                        registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
-                        registerModel.Name = model.Name;
-                        registerModel.Surname = model.Surname;
-                        registerModel.Id = appUser.Id;
-                        response.Value = registerModel;
-                        response.IsSuccess = true;
-                        return response;
-                    } else {
-                        registerModel.Error = result.Errors;
-                        response.Value = registerModel;
-                        response.IsSuccess = false;
-                        return response;
-                    }
+                if (result.Succeeded) {
+                    string role = "User";
+                    await _userManager.AddToRoleAsync(identityUser, role);
+                    await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
+                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+                    registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
+                    registerModel.Name = model.Name;
+                    registerModel.Surname = model.Surname;
+                    registerModel.Id = appUser.Id;
+                    response.Value = registerModel;
+                    response.IsSuccess = true;
+                    return response;
+                } else {
+                    registerModel.Errors = GetErrorDescription(result.Errors.ToList());
+                    response.Value = registerModel;
+                    response.IsSuccess = false;
+                    return response;
                 }
             } catch (Exception e) {
                 response.IsSuccess = false;
                 response.Exception = e.InnerException;
                 return response;
             }
+        }
+
+        private string GetErrorDescription(List<IdentityError> error)
+        {
+            throw new NotImplementedException();
         }
     }
 }

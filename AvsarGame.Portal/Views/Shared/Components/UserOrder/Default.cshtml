@@ -21,16 +21,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.Orders)
+                                    @if (Model.Orders.Count > 0)
                                     {
-                                        <tr>
-                                            <td scope="row">@item.Game.Name</td>
-                                            <td>@item.BillingPrice</td>
-                                            <td>@item.BillingAmount</td>
-                                            <td>@item.CharacterName</td>
-                                            <td style="color: @PageHelper.GetOrderStatusStyle(item.OrderStatus)">@PageHelper.Description((ORDER_STATUS)item.OrderStatus)</td>
-                                        </tr>
-                                    }
+                                        foreach (var item in Model.Orders)
+                                       {
+                                            <tr>
+                                                <td scope="row">@item.Game.Name</td>
+                                                <td>@item.BillingPrice</td>
+                                                <td>@item.BillingAmount</td>
+                                                <td>@item.CharacterName</td>
+                                                <td style="color: @PageHelper.GetOrderStatusStyle(item.OrderStatus)">@PageHelper.Description((ORDER_STATUS)item.OrderStatus)</td>
+                                            </tr>
+                                        }
+                                }
                                 </tbody>
                             </table>
                         </div>

@@ -19,7 +19,7 @@ namespace AvsarGame.API.Models {
         public int? Gender { get; set; }
         public DateTime? Birthdate { get; set; }
         public string BearerToken { get; set; }
-        public IEnumerable<IdentityError> Error { get; set; }
+        public string Errors { get; set; }
         [JsonIgnore]
         public IFormFile Image { get; set; }
     }
