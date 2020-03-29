@@ -52,7 +52,7 @@ namespace AvsarGame.API.Controllers {
                         await _userManager.AddToRoleAsync(appUser, role);
                     }
                     
-                    appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
+                    appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser, userRoles[0]);
 
                     loggedModel.UserId = appUser.Id;
                     loggedModel.Name = appUser.Name;
@@ -93,7 +93,7 @@ namespace AvsarGame.API.Controllers {
                     await _userManager.AddToRoleAsync(identityUser, role);
                     await _userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim("role", role));
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                    registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser);
+                    registerModel.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser, role);
                     registerModel.Name = model.Name;
                     registerModel.Surname = model.Surname;
                     registerModel.Id = appUser.Id;

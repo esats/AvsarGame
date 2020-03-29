@@ -42,6 +42,7 @@ namespace AvsarGame.API.Controllers {
 
         [HttpGet]
         [Route("List")]
+        [Authorize(Roles = "Admin")]
         public List<UserOrdersModel> List() {
             var userOrders = _userOrder.GetUserOrder(null);
             List<UserOrdersModel> userOrderList = new List<UserOrdersModel>();
