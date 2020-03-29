@@ -90,6 +90,13 @@ namespace AvsarGame.Portal.Controllers {
                     JsonConvert.DeserializeObject<List<UserNotificationModel>>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
             return View(model);
         }
+      
+        [HttpGet]
+        public ActionResult Logout() {
+            UiRequestManager.Instance.Get(String.Format("Account/Logout"));
+            SessionManager.Instance.Clear();
+            return RedirectToAction("Index","Home");
+        }
 
         [HttpPost]
         public JsonResult RequestPayment(UserPaymentRequestModel model) {

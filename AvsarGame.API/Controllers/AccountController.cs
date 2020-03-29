@@ -113,6 +113,8 @@ namespace AvsarGame.API.Controllers {
             }
         }
 
+        [HttpGet]
+        [Route("Logout")]
         public HttpStatusCode Logout()
         {
              _signInManager.SignOutAsync();

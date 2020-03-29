@@ -199,10 +199,23 @@ namespace AvsarGame.API.Controllers {
                     updatedEntity.OrderStatus = (int) ORDER_STATUS.REJECT;
                     _userOrderDetail.Update(updatedEntity);
 
+                    var userBalance = _UserBalance.GetBalance(base.GetUser());
+                    UserBalanceDetail detail = new UserBalanceDetail
+                    {
+                        Amount = updatedEntity.BillingAmount * updatedEntity.BillingPrice,
+                        CreatedBy = base.GetUser(),
+                        CreatedDate =DateTime.Now,
+                        TransactionDescription= (int)TRANSACTION_DESCIPTION.ORDER_REJECT,
+                        UserBalanceId=userBalance.Id,
+                        UserOrderDetailId = updatedEntity.Id
+                    };
+
+                    _UserBalanceDetail.Add(detail);
+
                     UserNotification notification = new UserNotification() {
                             UserId = model.UserId,
-                            Message = "Siparişiniz teslim edilmiştir.",
-                            NotificationType = NotificationType.APPROVED,
+                            Message = "Siparişiniz red edildi. Bakiyeniz geri iade edildi.",
+                            NotificationType = NotificationType.REJECT,
                             CreatedDate = DateTime.Now,
                             CreatedBy = base.GetUser()
                     };
@@ -212,7 +225,7 @@ namespace AvsarGame.API.Controllers {
                     response.Value = HttpStatusCode.OK;
                     trancation.Complete();
                 }
-            } catch (Exception exception) {
+            } catch (Exception e) {
                 response.IsSuccess = false;
                 response.Value = HttpStatusCode.BadRequest;
             }
