@@ -128,7 +128,6 @@
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        debugger
                                         swal("Basarili!", "Sipariş Aktarıldı", "success");
                                         row.remove();
                                         $("#" + modal).css("display", "block");
@@ -181,7 +180,6 @@
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        debugger
                                         swal("Basarili!", "Sipariş Reddedildi", "success");
                                         row.remove();
                                         $("#" + modal).css("display", "block");

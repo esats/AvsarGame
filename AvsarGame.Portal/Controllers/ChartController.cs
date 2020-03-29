@@ -47,6 +47,17 @@ namespace AvsarGame.Portal.Controllers {
             return Json(new { Success = true, data = list });
         }
 
+        [HttpPost]
+        [Route("RemoveChart")]
+        public JsonResult RemoveChart(Guid id) {
+            List<GameModel> list = SessionManager.Instance.GetObject<List<GameModel>>("chart");
+            GameModel model = list.FirstOrDefault(x=>x.Id == id);
+            list.Remove(model);
+            SessionManager.Instance.SetObject("chart",list);
+            return Json(new { Success = true });
+        }
+
+
         public string ConvertToString<T>(List<T> Items) {
             string result = string.Empty;
 

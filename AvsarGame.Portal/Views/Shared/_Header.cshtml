@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item dropdown profile" style="@PageHelper.DisplayStyle("logged")">
-                        <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown" >@SessionManager.Instance.GetFullName()</a>
+                        <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
                         <div class="dropdown-menu dropdown-menu-right show" style="display: none;">
                             <a class="dropdown-item" href="/User/Detail">Profilim</a>
                             <a class="dropdown-item logout" href="#">Çıkış Yap</a>
@@ -87,7 +87,7 @@
                 <span><i class="fa fa-circle"></i>&nbsp;<a style="color: #baff12" href="javascript:;">ANATOLIA GAME OYUN SEKTÖRÜN DE SİZİN YENİ YARDIMCINIZ.</a></span>
             </marquee>
         </div>
-        <hr/>
+        <hr />
         <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
             <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item nav-item2 position-static dropdown li-for-dropdown">
@@ -128,7 +128,7 @@
                                 <div class="d-flex dropdown-image">
                                     <div class="col-6 p-0">
                                         <img class="dropdown-image-img" src="~/assest/img/dropdown-img.png"
-                                             alt=""/>
+                                             alt="" />
                                     </div>
                                     <div class="col-6 d-flex align-items-center">
                                         <p class="dropdown-image-text text-center w-100">
@@ -172,88 +172,109 @@
         </div>
     </div>
 </header>
-
 <script>
-    $(document).ready(function() {
-        $("#chart").hover(function() {
-
-            $.ajax({
-                type: 'GET',
-                url: '/Sepetim/GetChartDetail',
-                dataType: 'json',
-                success: function(res) {
-                    if (res.success) {
-                        getChartHtml(res.data);
-                    }
-                },
-                error: function(err) {
-                    Command: toastr["error"]("Bir Sorun Oluştu");
-                }
-            });
+    $(document).ready(function () {
+        $("#chart").hover(function () {
+            getChartHtml();
         });
 
-        $("#chart").click(function(e) {
-            debugger;
+        $("#chart").click(function (e) {
             var chartCount = document.getElementById("chartSpan").innerHTML.trim();
             if (chartCount == "(0)") {
                 e.preventDefault();
             }
         });
-
     });
 
-    function getChartHtml(data) {
+    function removeChart(id) {
+        $.ajax({
+            type: 'post',
+            url: '/Sepetim/RemoveChart',
+            content: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { id: id },
+            success: function (res) {
+                getChartHtml();
+            },
+            error: function (err) {
+                alert("Bir Hata oluştu");
+            }
+        });
+    }
+
+    function getChartHtml() {
+        $.ajax({
+            type: 'GET',
+            url: '/Sepetim/GetChartDetail',
+            dataType: 'json',
+            success: function (res) {
+                if (res.success) {
+                    GetChart(res.data);
+                }
+            },
+            error: function (err) {
+                Command: toastr["error"]("Bir Sorun Oluştu");
+            }
+        });
+
+    }
+
+    function GetChart(data) {
 
         $("#chartDataTable").empty();
         $("div");
         var products = [];
 
-        if (data == null) {
-            var emptyChartHtml = "<div class='row'><div class='col-12''><div class='table-container'><table class='table table-dark'><tbody><tr><td class='p-5 text-center'>"
-                + "<div class='row align-items-center justify-content-center'><div class='basket'>"
-                + "</div><div><p>Sepetiniz Boş</p></div></div><p class='mt-3'>"
-                + "Alışveriş yapmaya başlayabilirsiniz</p></td></tr></tbody></table></div></div></div>";
-            $("#chartDataTable").append(emptyChartHtml);
+        if (data == null || data.length == 0) {
+            $("#chartAmount").empty();
+            $("#chartDataTable").append(GetEmptyChartHtml());
             return;
         }
-      
+
         var totalAmount = data.length;
 
         for (var i = 0; i < data.length; i++) {
             var product =
-                '<tr>'
-                    + '<td data-heading="Sipariş Özeti">'
-                    + '<div class="d-flex justify-content-between">'
-                    + '<div>'
-                    + data[i].name
-                    + '</div>'
-                    + '<div>'
-                    + data[i].sellPrice
-                    + ' (Birim Fiyat)'
-                    + '</div>'
-                    + '<div class="cross"></div>'
-                    + '</div>'
-                    + '</td>'
-                    + '</tr>';
+                '<tr id="row' + data[i].id + '" >'
+                + '<td data-heading="Sipariş Özeti">'
+                + '<div class="d-flex justify-content-between">'
+                + '<div>'
+                + data[i].name
+                + '</div>'
+                + '<div>'
+                + data[i].sellPrice
+                + ' (Birim Fiyat)'
+                + '</div>'
+                + '<div onClick="removeChart(\'' + data[i].id + '\')" class="cross"></div>'
+                + '</div>'
+                + '</td>'
+                + '</tr>';
             products.push(product);
         }
 
         var total =
             '<tr>'
-                + '<td>'
-                + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
-                + '<a href="/Sepetim" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
-                + 'Alışverişi Tamamla'
-                + '</a>'
-                + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
-                + '</span>'
-                + '</div>'
-                + '</td>'
-                + '</tr>';
+            + '<td>'
+            + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
+            + '<a href="/Sepetim" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
+            + 'Alışverişi Tamamla'
+            + '</a>'
+            + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
+            + '</span>'
+            + '</div>'
+            + '</td>'
+            + '</tr>';
 
         $("#chartDataTable").append(products);
         $("#chartDataTable").append(total);
         $("#chartAmount").html(totalAmount + ' ürün');
     }
 
+    function GetEmptyChartHtml() {
+        var emptyChartHtml = "<div class='row'><div class='col-12''><div class='table-container'><table class='table table-dark'><tbody><tr><td class='p-5 text-center'>"
+            + "<div class='row align-items-center justify-content-center'><div class='basket'>"
+            + "</div><div><p>Sepetiniz Boş</p></div></div><p class='mt-3'>"
+            + "Alışveriş yapmaya başlayabilirsiniz</p></td></tr></tbody></table></div></div></div>";
+        return emptyChartHtml;
+    }
 </script>

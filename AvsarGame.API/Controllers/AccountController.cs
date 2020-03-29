@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
@@ -110,6 +111,13 @@ namespace AvsarGame.API.Controllers {
                 response.Exception = e.InnerException;
                 return response;
             }
+        }
+
+        public HttpStatusCode Logout()
+        {
+             _signInManager.SignOutAsync();
+            
+            return HttpStatusCode.OK;
         }
 
         private string GetErrorDescription(List<IdentityError> error)

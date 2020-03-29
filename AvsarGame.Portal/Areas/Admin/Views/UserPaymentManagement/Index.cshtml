@@ -124,7 +124,6 @@
         });
 
         $(".requestModal .accept").click(function() {
-            debugger;
             var UserId = $(this).attr('data-user-id');
             var RequestId = $(this).attr('data-request-id');
             var modal = "request" + UserId;
@@ -155,7 +154,6 @@
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        debugger
                                         swal("Basarili!", "Ödeme Onaylandı", "success");
                                         row.remove();
                                         $("#" + modal).css("display", "block");
@@ -178,7 +176,6 @@
         });
         
         $(".requestModal .reject").click(function() {
-            debugger;
             var UserId = $(this).attr('data-user-id');
             var RequestId = $(this).attr('data-request-id');
             var modal = "request" + UserId;
@@ -209,7 +206,6 @@
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        debugger
                                         swal("Basarili!", "Ödeme Reddedildi", "success");
                                         row.remove();
                                         $("#" + modal).css("display", "block");

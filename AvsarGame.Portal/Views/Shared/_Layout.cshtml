@@ -315,7 +315,6 @@
                     dataType: 'json',
                     data: model,
                     success: function (res) {
-                        debugger;
                         if (res.success) {
                             if (res.data.isSuccess) {
                                 setUserForHeader(res.data.value);
@@ -338,8 +337,6 @@
             for (var i in items) {
                 $(items[i]).css("display", "none");
             }
-
-            debugger;
 
             var userText = document.getElementsByClassName("profile");
             $(userText[0]).css("display", "block");

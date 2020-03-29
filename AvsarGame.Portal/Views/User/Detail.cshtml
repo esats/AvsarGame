@@ -315,7 +315,6 @@
             if (errors.length > 0) {
                 return;
             }
-            debugger;
             $(document.getElementsByClassName("spinner-border")[0]).css("display","block");
 
             $.ajax({
@@ -343,7 +342,6 @@
 
         $("#notifications-tab").click(function (e) {
             var id = $(this).attr("data-id");
-            debugger;
             $.ajax({
                 type: 'post',
                 url: '/User/ReadAllNotification',

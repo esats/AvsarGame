@@ -52,5 +52,10 @@ namespace AvsarGame.Portal.Core {
         public string GetFullName() {
             return Get("FullName");
         }
+
+        public void Clear()
+        {
+            Context.HttpContext.Session.Clear();
+        }
     }
 }
