@@ -10,6 +10,7 @@ using AvsarGame.API.Models;
 using AvsarGame.Core;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -30,8 +30,9 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseSqlServer(@"Server=.;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer(@"server=167.86.127.181\MSSQLSERVER2012;Initial Catalog=dthamita_;User ID=esatt;password=Esat2121**;");
+                optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
+                //optionsBuilder.UseSqlServer(@"ServerServer=.;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
+                
             }
         }
     }

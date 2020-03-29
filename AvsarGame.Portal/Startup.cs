@@ -17,7 +17,7 @@ namespace AvsarGame.Portal
     {
         public void ConfigureServices(IServiceCollection services) {
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromHours(6);
+                options.IdleTimeout = TimeSpan.FromHours(24);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
