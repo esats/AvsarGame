@@ -87,7 +87,6 @@
                                 <table class="table table-dark responsive-table cart-table total-table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Ürünler</th>
                                             <th scope="col">Ürün Adı</th>
                                             <th scope="col">Aktarılacak Karakter</th>
                                             <th scope="col">Miktar</th>
@@ -98,9 +97,6 @@
                                     <tbody>
                                         @foreach (var item in Model) {
                                             <tr class="order" data-id="@item.Id">
-                                                <td data-heading="Ürünler">
-                                                    <img src="/Uploads/@item.ImageUrl" alt="">
-                                                </td>
                                                 <td scope="row" data-heading="Ürün Adı">@item.Name</td>
                                                 <td scope="row" data-heading="karakter Adı">
                                                     <input class="characterName" value=""/>
@@ -112,6 +108,7 @@
                                                 </td>
                                                 <td class="priceIt" class="sellPrice" data-heading="Fiyat">@item.SellPrice</td>
                                                 <td class="totalPrice" data-heading="Toplam">@item.SellPrice TL</td>
+                                                <td onclick="removeChart('@item.Id')"><button class="button" style="background-color:#d72121;color:white">sepetten çıkar</button></td>
                                             </tr>
                                         }
                                         <tr class="total-amount">
@@ -221,6 +218,10 @@
                 });
             }
 
+            if (orders.length == 0) {
+                return;
+            }
+
             for (var i = 0; i < orders.length; i++) {
                 if (orders[i].CharacterName.trim() == "") {
                     alert("Lütfen Karakter İsmi Giriniz");
@@ -276,4 +277,19 @@
         }, 3500);
     }
 
+    function removeChart(id) {
+        $.ajax({
+            type: 'post',
+            url: '/Sepetim/RemoveChart',
+            content: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { id: id },
+            success: function (res) {
+                location.reload()
+            },
+            error: function (err) {
+                alert("Bir Hata oluştu");
+            }
+        });
+    }
 </script>
