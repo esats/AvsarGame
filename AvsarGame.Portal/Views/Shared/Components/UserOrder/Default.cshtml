@@ -21,19 +21,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model.Orders.Count > 0)
+                                    @if (Model.Orders !=null)
                                     {
-                                        foreach (var item in Model.Orders)
-                                       {
-                                            <tr>
-                                                <td scope="row">@item.Game.Name</td>
-                                                <td>@item.BillingPrice</td>
-                                                <td>@item.BillingAmount</td>
-                                                <td>@item.CharacterName</td>
-                                                <td style="color: @PageHelper.GetOrderStatusStyle(item.OrderStatus)">@PageHelper.Description((ORDER_STATUS)item.OrderStatus)</td>
-                                            </tr>
+                                        @if (Model.Orders.Count > 0)
+                                        {
+                                            foreach (var item in Model.Orders)
+                                            {
+                                                <tr>
+                                                    <td scope="row">@item.Game.Name</td>
+                                                    <td>@item.BillingPrice</td>
+                                                    <td>@item.BillingAmount</td>
+                                                    <td>@item.CharacterName</td>
+                                                    <td style="color: @PageHelper.GetOrderStatusStyle(item.OrderStatus)">@PageHelper.Description((ORDER_STATUS)item.OrderStatus)</td>
+                                                </tr>
+                                            }
                                         }
-                                }
+                                    }
                                 </tbody>
                             </table>
                         </div>

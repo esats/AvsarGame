@@ -104,8 +104,8 @@ namespace AvsarGame.API.Controllers {
         public CategoryGameModel GetCategoryWithGames(string SeoName) {
             CategoryGameModel categoryGameModel = new CategoryGameModel();
             try {
-                var category = _category.GetT(x => x.SeoName == SeoName);
-                var games = _game.GetList(x => x.CategoryId == category.Id);
+                var category = _category.GetT(x => x.SeoName == SeoName && x.IsActive == true);
+                var games = _game.GetList(x => x.CategoryId == category.Id && x.IsActive == true);
              
                 categoryGameModel.Games = _mapper.Map<List<GameModel>>(games);
                 categoryGameModel.Category = _mapper.Map<CategoryModel>(category);
