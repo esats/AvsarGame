@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AvsarGame.API.Controllers {
     [Route("api/Announcement")]
     [Produces("application/json")]
+    [Authorize(Roles = "Admin")]
     public class AnnouncementController : APIControllerBase {
         private readonly IAnnouncement _announcement;
 

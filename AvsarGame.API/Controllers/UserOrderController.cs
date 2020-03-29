@@ -159,6 +159,7 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost]
         [Route("Approve")]
+        [Authorize(Roles = "Admin")]
         public Response<HttpStatusCode> Approve(UserOrderRequestModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
 
@@ -191,6 +192,7 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost]
         [Route("Reject")]
+        [Authorize(Roles = "Admin")]
         public Response<HttpStatusCode> Reject(UserOrderRequestModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
             try {

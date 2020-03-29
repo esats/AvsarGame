@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 namespace AvsarGame.API.Base {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class APIControllerBase : ControllerBase {
         [HttpGet]
         [ApiExplorerSettings(IgnoreApi = true)]

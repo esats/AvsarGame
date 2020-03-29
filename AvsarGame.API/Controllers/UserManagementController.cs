@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AvsarGame.API.Controllers {
     [Route("api/UserManagement")]
+    [Authorize(Roles = "Admin")]
     public class UserManagementController : APIControllerBase {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserPaymentRequest _userPaymentRequest;

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AvsarGame.API.Controllers {
     [Route("api/Category")]
     [Produces("application/json")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : APIControllerBase {
         private readonly ICategory _category;
         private readonly IGame _game;
