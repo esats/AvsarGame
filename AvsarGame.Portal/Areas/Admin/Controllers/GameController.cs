@@ -43,5 +43,13 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
 
             return Json(new { Success = true });
         }
+
+        [HttpGet]
+        public ActionResult Update(Guid id)
+        {
+          GameModel model =
+                    JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(String.Format("Game/GetOne/{0}", id)));
+            return View(model);
+        }
     }
 }

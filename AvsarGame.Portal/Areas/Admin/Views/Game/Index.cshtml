@@ -39,44 +39,63 @@
                                     </td>
                                     <td>
 
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("",item.Id)">
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("gam",item.Id)">
                                             Düzenle
                                         </button>
                                         <button id="delete" data-id="@item.Id" class="btn btn-danger">Sil</button>
                                     </td>
                                 </tr>
-                                @*<div class="modal fade" id="@PageHelper.GetModalId(item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header border-bottom-0">
-                                <h5 class="modal-title" id="exampleModalLabel">Yeni Kategori</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form id="gameForm" asp-antiforgery="false" method="post" enctype="multipart/form-data">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label>Kategori Adı</label>
-                                        <input id="Name" type="text" class="form-control" value="@item.Name">
+                                <div class="modal fade" id="@PageHelper.GetModalId("gam",item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-bottom-0">
+                                                <h5 class="modal-title" id="exampleModalLabel">Yeni Kategori</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label>Kategori Adı</label>
+                                                        <select id="CategoryId" class="form-control">
+                                                            <option value="@item.CategoryId">@item.CategoryName</option>
+                                                            @foreach (var game in Model.Categories)
+                                                            {
+                                                                <option value="@game.Id">@game.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Oyun Adı</label>
+                                                        <input id="Name" type="text" class="form-control" value="@item.Name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Alış Fiyatı</label>
+                                                        <input id="BuyPrice" type="text" class="form-control" value="@item.BuyPrice">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Satış Fiyatı</label>
+                                                        <input id="SellPrice" type="text" class="form-control" value="@item.SellPrice">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Açıklama</label>
+                                                        <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <img style="width: 100px" id="imageUrl" src="/Uploads/@item.ImageUrl" />
+                                                        <label>Resim</label>
+                                                        <input type="file" id="Image" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                                    @*<button>Kaydet</button>*@
+                                                    <input type="button" id="update" data-id="@item.Id" class="btn btn-success" value="kaydet" />
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Açıklama</label>
-                                        <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Resim</label>
-                                        <img style="width: 100px" id="imageUrl" src="/Uploads/@item.ImageUrl"/>
-                                        <input type="file" id="Image" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                    <button id="save" data-id="@item.Id" class="btn btn-success">Kaydet</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>*@
+                                 </div>
                             }
                         }
                     </tbody>
@@ -111,11 +130,11 @@
                     </div>
                     <div class="form-group">
                         <label>Alış Fiyatı</label>
-                        <input id="SellPrice" type="text" class="form-control">
+                        <input id="BuyPrice" type="text" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Satış Fiyatı</label>
-                        <input id="BuyPrice" type="text" class="form-control">
+                        <input id="SellPrice" type="text" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Açıklama</label>
@@ -139,6 +158,32 @@
         $("#save").click(function(e) {
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Image', $('#Image')[0].files[0]);
+            model.append('Name', $('#Name').val());
+            model.append('Description', $('#Description').val());
+            model.append('ImageUrl', $('#imageUrl').val());
+            model.append('CategoryId', $('#CategoryId').val());
+            model.append('BuyPrice', $('#BuyPrice').val());
+            model.append('SellPrice', $('#SellPrice').val());
+
+            $.ajax({
+                type: 'post',
+                url: '/Admin/Game/Save',
+                processData: false,
+                contentType: false,
+                data: model,
+                success: function(response) {
+                    swal("Basarili!", "Kayıt Eklendi", "success");
+                    setTimeout(function(){ location.reload() }, 1000);
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+
+        $(".justify-content-center #update").click(function(e) {
+            var model = new FormData(); // you can consider this as 'data bag'
+            model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[3].files[0]);
             model.append('Name', $('#Name').val());
             model.append('Description', $('#Description').val());
             model.append('ImageUrl', $('#imageUrl').val());

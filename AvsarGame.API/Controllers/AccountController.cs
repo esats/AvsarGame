@@ -101,7 +101,7 @@ namespace AvsarGame.API.Controllers {
                     response.IsSuccess = true;
                     return response;
                 } else {
-                    registerModel.Errors = GetErrorDescription(result.Errors.ToList());
+                    registerModel.Errors = "";
                     response.Value = registerModel;
                     response.IsSuccess = false;
                     return response;
@@ -122,9 +122,9 @@ namespace AvsarGame.API.Controllers {
             return HttpStatusCode.OK;
         }
 
-        private string GetErrorDescription(List<IdentityError> error)
-        {
-            throw new NotImplementedException();
-        }
+        //private string GetErrorDescription(List<IdentityError> error)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

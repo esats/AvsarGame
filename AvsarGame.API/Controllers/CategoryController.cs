@@ -70,9 +70,10 @@ namespace AvsarGame.API.Controllers {
         public ActionResult Save([FromBody] CategoryModel model) {
             try {
                 if (model.Id != Guid.Empty) {
+                    var oldCatedory = _category.GetT(x=>x.Id == model.Id);
                     Category entity = new Category() {
                             Id = model.Id,
-                            ImageUrl = model.ImageUrl,
+                            ImageUrl = model.ImageUrl ?? oldCatedory.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
                             SeoName = UrlExtension.FriendlyUrl(model.Name),

@@ -16,10 +16,12 @@ namespace AvsarGame.API.Controllers {
     [Produces("application/json")]
     public class GameController : APIControllerBase {
         private readonly IGame _game;
+        private readonly ICategory _category;
         private readonly IMapper _mapper;
 
-        public GameController(IGame game, IMapper mapper) {
+        public GameController(IGame game,  ICategory category, IMapper mapper) {
             _game = game;
+            _category = category;
             _mapper = mapper;
         }
 
@@ -28,6 +30,7 @@ namespace AvsarGame.API.Controllers {
         public List<GameModel> List() {
             List<GameModel> list = new List<GameModel>();
             var entities = _game.GetList(x => x.IsActive == true);
+            var categories = _category.GetList(x=>x.IsActive == true);
             foreach (var entity in entities) {
                 GameModel model = new GameModel() {
                         Id = entity.Id,
@@ -35,7 +38,9 @@ namespace AvsarGame.API.Controllers {
                         Description = entity.Description,
                         Name = entity.Name,
                         SellPrice = entity.SellPrice,
-                        BuyPrice = entity.BuyPrice
+                        BuyPrice = entity.BuyPrice,
+                        CategoryId = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).Id,
+                        CategoryName = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).Name,
                 };
                 list.Add(model);
             }
@@ -80,6 +85,7 @@ namespace AvsarGame.API.Controllers {
                         SeoName = entity.SeoName,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice
+                
                 };
                 list.Add(model);
             }
@@ -92,9 +98,10 @@ namespace AvsarGame.API.Controllers {
         public ActionResult Save([FromBody] GameModel model) {
             try {
                 if (model.Id != Guid.Empty) {
+                    var oldGame = _game.GetT(x=>x.Id == model.Id);
                     Games entity = new Games() {
                             Id = model.Id,
-                            ImageUrl = model.ImageUrl,
+                            ImageUrl = model.ImageUrl ?? oldGame.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
@@ -128,11 +135,11 @@ namespace AvsarGame.API.Controllers {
 
         [HttpGet]
         [Route("GetOne/{id}")]
-        public async Task<Response<GameModel>> GetOne(Guid id) {
-            Response<GameModel> bookResponse = new Response<GameModel>();
-            Games entity = await _game.GetTAsync(x => x.Id == id && x.IsActive == true);
+        public GameModel GetOne(Guid id) {
+           GameModel model = new GameModel();
+           model= _mapper.Map<GameModel>(_game.GetT(x => x.Id == id && x.IsActive == true));
 
-            return bookResponse;
+            return model;
         }
 
         [HttpPost]

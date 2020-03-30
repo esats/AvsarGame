@@ -18,6 +18,17 @@
             text-shadow: 0 1px 39px #0088e8, 0 1px 2px rgba(0, 0, 0, .2) !important
         }
     </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161891291-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-161891291-1');
+    </script>
+
+    <script src="//code.jivosite.com/widget/52YoFr6EhE" async></script>
     <script>
         toastr.options = {
             "closeButton": true,
@@ -268,7 +279,7 @@
                     Password: document.getElementById("current-password").value,
                     Email: document.getElementById("currentEmail").value
                 }
-                $(document.getElementsByClassName("login-fail")[0]).html("");
+                $(document.getElementsByClassName("login-fail")[1]).html("");
                
                 $.ajax({
                     type: 'post',
@@ -283,12 +294,12 @@
                                 $('#login-modal').modal('hide');
                             }
                             else {
-                                $(document.getElementsByClassName("login-fail")[0]).html(res.data.message);
+                                $(document.getElementsByClassName("login-fail")[1]).html(res.data.message);
                             }
                         } 
                     },
                     error: function (err) {
-                        $(document.getElementsByClassName("login-fail")[0]).html("Bir Hata oluştu");
+                        $(document.getElementsByClassName("login-fail")[1]).html("Bir Hata oluştu");
                     }
                 });
             });

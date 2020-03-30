@@ -33,13 +33,13 @@
                                 <td><img style="width: 100px;height: 100px" src="/Uploads/@item.ImageUrl" /></td>
                                 <td>
                                     
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("",item.Id)">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("cat",item.Id)">
                                         Düzenle
                                     </button>
                                     <button id="delete" data-id="@item.Id" class="btn btn-danger">Sil</button>
                                 </td>
                             </tr>
-                            @*<div class="modal fade" id="@PageHelper.GetModalId(item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="@PageHelper.GetModalId("cat",item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header border-bottom-0">
@@ -65,12 +65,12 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                                <button id="save" data-id="@item.Id" class="btn btn-success">Kaydet</button>
+                                                <button id="update" data-id="@item.Id" class="btn btn-success">Kaydet</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
                         }
                     </tbody>
                 </table>
@@ -114,6 +114,30 @@
         $("#save").click(function(e) {
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Image', $('#Image')[0].files[0]);
+            model.append('Name', $('#Name').val());
+            model.append('Description', $('#Description').val());
+            model.append('ImageUrl', $('#imageUrl').val());
+
+            $.ajax({
+                type: 'post',
+                url: '/Admin/Category/Save',
+                processData: false,
+                contentType: false,
+                data: model,
+                success: function(response) {
+                    swal("Basarili!", "Kayıt Eklendi", "success");
+                    setTimeout(function(){ location.reload() }, 1000);
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+
+        $(".justify-content-center #update").click(function(e) {
+            debugger;
+            var model = new FormData(); // you can consider this as 'data bag'
+            model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
             model.append('Name', $('#Name').val());
             model.append('Description', $('#Description').val());
             model.append('ImageUrl', $('#imageUrl').val());
