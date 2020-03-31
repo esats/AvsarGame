@@ -175,5 +175,30 @@ namespace AvsarGame.API.Controllers {
 
             return result;
         }
+
+        
+        [HttpGet]
+        [Route("HeaderList")]
+        [AllowAnonymous]
+        public List<GameModel> HeaderList() {
+            List<GameModel> list = new List<GameModel>();
+            var entities = _game.GetList(x => x.IsActive == true);
+            var categories = _category.GetList(x=>x.IsActive == true);
+            foreach (var entity in entities) {
+                GameModel model = new GameModel() {
+                        Id = entity.Id,
+                        ImageUrl = entity.ImageUrl,
+                        Description = entity.Description,
+                        Name = entity.Name,
+                        SellPrice = entity.SellPrice,
+                        BuyPrice = entity.BuyPrice,
+                        CategoryId = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).Id,
+                        CategoryName = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).SeoName,
+                };
+                list.Add(model);
+            }
+
+            return list;
+        }
     }
 }

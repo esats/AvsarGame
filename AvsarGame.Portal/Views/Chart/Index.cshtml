@@ -198,8 +198,8 @@
 <script>
     $(document).ready(function() {
         $(".total-table #count").on('change', function() {
-            var counter = parseFloat(this.value);
-            var itemPrice = parseFloat(this.parentElement.parentElement.parentElement.getElementsByClassName("priceIt")[0].innerHTML);
+            var counter = parseFloat(this.value.replace(",","."));
+            var itemPrice = parseFloat((this.parentElement.parentElement.parentElement.getElementsByClassName("priceIt")[0].innerHTML));
             this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = (counter * itemPrice) + " TL";
             calculatedTotalAmount();
         });
@@ -254,11 +254,12 @@
     });
 
     function calculatedTotalAmount() {
+        debugger;
         var rows = document.getElementsByClassName("order");
         var totalAmount = 0.00;
         for (var i = 0; i < rows.length; i++) {
-            var amount = parseFloat(rows[i].cells[3].getElementsByTagName("input")[0].value);
-            var price = parseFloat(rows[i].cells[4].innerHTML);
+            var amount = parseFloat(rows[i].cells[2].getElementsByTagName("input")[0].value.replace(",","."));
+            var price = parseFloat(rows[i].cells[3].innerHTML);
             totalAmount = totalAmount + (amount * price);
         }
         $("#totalAmount")[0].innerHTML = totalAmount + " TL";

@@ -95,49 +95,9 @@
                     <a class="nav-link dropdown-toggle">
                         OYUNLAR
                     </a>
-
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <div class="row">
-                            <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
-                                <h5 class="dropdown-title list-title led led-below">
-                                    GAMES
-                                </h5>
-                                <a class="dropdown-item list-item" href="payment-methods2.html">Hakkımızda</a>
-                                <a class="dropdown-item list-item" href="#">İletişim</a>
-                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                                <a class="dropdown-item list-item" href="#">İletişim</a>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
-                                <h5 class="dropdown-title list-title led led-below">
-                                    ABOUT
-                                </h5>
-                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                                <a class="dropdown-item list-item" href="#">İletişim</a>
-                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                                <a class="dropdown-item list-item" href="#">İletişim</a>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
-                                <h5 class="dropdown-title list-title led led-below">
-                                    CONTACT
-                                </h5>
-                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                                <a class="dropdown-item list-item" href="#">İletişim</a>
-                                <a class="dropdown-item list-item" href="#">Hakkımızda</a>
-                                <a class="dropdown-item list-item" href="#">İletişim</a>
-                            </div>
-                            <div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
-                                <div class="d-flex dropdown-image">
-                                    <div class="col-6 p-0">
-                                        <img class="dropdown-image-img" src="~/assest/img/dropdown-img.png"
-                                             alt="" />
-                                    </div>
-                                    <div class="col-6 d-flex align-items-center">
-                                        <p class="dropdown-image-text text-center w-100">
-                                            BLACK DESERT RAMESTERED
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            @await Component.InvokeAsync("Header")
                         </div>
                     </div>
                 </li>

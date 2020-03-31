@@ -57,6 +57,7 @@
                                                     <th>Banka</th>
                                                     <th>Tip</th>
                                                     <th>Miktar</th>
+                                                    <th>Açıklama Yazılan Tel</th>
                                                     <th>İşlemler</th>
                                                 </tr>
                                             </thead>
@@ -69,6 +70,7 @@
                                                             <td>@request.Bank</td>
                                                             <td>@request.PrimitivePaymentType</td>
                                                             <td>@request.Amount</td>
+                                                            <td>@request.PhoneNumber</td>
                                                             <td>
                                                                 <button data-user-id="@request.UserId" data-request-id="@request.Id"  class="btn btn-success accept">Kabul Et</button>
                                                                 <button data-user-id="@request.UserId" data-request-id="@request.Id"  class="btn btn-danger reject">Reddet</button>

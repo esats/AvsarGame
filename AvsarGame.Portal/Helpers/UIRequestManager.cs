@@ -24,8 +24,8 @@ namespace AvsarGame.Portal.Helpers {
         }
 
         protected UiRequestManager() {
-            //this.BaseApiUrl = "http://localhost:30667/api";
-            this.BaseApiUrl = "http://api.anatoliagame.com/api";
+            this.BaseApiUrl = "http://localhost:30667/api";
+            //this.BaseApiUrl = "http://api.anatoliagame.com/api";
         }
 
         public string Get(string ControllerName, string actionName, Guid? Id = null) {

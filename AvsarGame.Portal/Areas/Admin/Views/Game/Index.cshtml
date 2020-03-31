@@ -157,7 +157,7 @@
     $(document).ready(function() {
         $("#save").click(function(e) {
             var model = new FormData(); // you can consider this as 'data bag'
-            model.append('Image', $('#Image')[0].files[0]);
+            model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[3].files[0]);
             model.append('Name', $('#Name').val());
             model.append('Description', $('#Description').val());
             model.append('ImageUrl', $('#imageUrl').val());
