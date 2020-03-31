@@ -1,0 +1,257 @@
+﻿@using AvsarGame.API.Models
+@using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.GameModel
+
+@functions {
+
+    private decimal Calculated(GameModel model)
+    {
+        decimal totalAmount = Decimal.Zero;
+      
+        totalAmount = model.BuyPrice;
+        return totalAmount;
+    }
+
+}
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<style>
+    .loader {
+        position: relative;
+        text-align: center;
+        margin: 15px auto 35px auto;
+        z-index: 9999;
+        display: block;
+        width: 80px;
+        height: 80px;
+        border: 10px solid rgba(0, 0, 0, .3);
+        border-radius: 50%;
+        border-top-color: #000;
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
+    }
+
+    @@keyframes spin {
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@-webkit-keyframes spin {
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    .modal-content {
+        border-radius: 0px;
+        box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-backdrop.show {
+        opacity: 0.75;
+    }
+
+    #output {
+        padding: 25px 15px;
+        background: #222;
+        border: 1px solid #222;
+        max-width: 350px;
+        margin: 35px auto;
+        font-family: 'Roboto', sans-serif !important;
+        p .subtle
+
+    {
+        color: #555;
+        font-style: italic;
+        font-family: 'Roboto', sans-serif !important;
+    }
+</style>
+
+<div class="page-wrapper">
+    <main class="Main">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <h3 class="title-primary">Satış YAP</h3>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="col-lg-9 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-dark responsive-table cart-table total-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ürün Adı</th>
+                                            <th scope="col">Aktaracak Karakter</th>
+                                            <th scope="col">Miktar</th>
+                                            <th scope="col">Fiyat</th>
+                                            <th scope="col">Toplam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                   
+                                        <tr class="order" data-id="@Model.Id">
+                                            <td scope="row" data-heading="Ürün Adı">@Model.Name</td>
+                                            <td scope="row" data-heading="karakter Adı">
+                                                <input class="characterName" value="" />
+                                            </td>
+                                            <td data-heading="Miktar">
+                                                <div class="counter-container">
+                                                    <input id="count" class="count" style="font-weight: bold; width: 30%" value="1" />
+                                                </div>
+                                            </td>
+                                            <td class="priceIt" class="sellPrice" data-heading="Fiyat">@Model.BuyPrice</td>
+                                            <td class="totalPrice" data-heading="Toplam">@Model.BuyPrice TL</td>
+                                        </tr>
+                                        <tr class="total-amount">
+                                            <td colspan="3" scope="col" data-heading="Ürünler">Toplam Tutar:</td>
+                                            <td colspan="3" scope="col" id="totalAmount" data-heading="Ürün Adı">@Calculated(Model) TL</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 side">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-dark responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="table-title">
+                                                Yatırılacak tutar
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-heading="Sipariş Özeti">
+                                                <div class="d-flex justify-content-between form-group">
+                                                    <div>
+                                                        Ödenecek Tutar
+                                                        <p>(KDV Dahil)</p>
+                                                    </div>
+                                                    <div id="totalAmountDiv">
+                                                        @Calculated(Model) TL
+                                                    </div>
+                                                </div>
+                                                <button class="button btn-blue ml-auto w-100" id="gotosummary">Satışı Tamamla</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <h3 style="color:green">Satış talebi alındı. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".total-table #count").on('change', function() {
+            var counter = parseFloat(this.value.replace(",","."));
+            var itemPrice = parseFloat((this.parentElement.parentElement.parentElement.getElementsByClassName("priceIt")[0].innerHTML));
+            this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = (counter * itemPrice) + " TL";
+            calculatedTotalAmount();
+        });
+
+        $("#gotosummary").click(function(e) {
+            var orders = [];
+            var allRows = document.getElementsByClassName("order");
+            for (var i = 0; i < allRows.length; ++i) {
+                var firstRow = $(allRows[i]);
+
+                orders.push({
+                    GameId: firstRow.attr("data-id"),
+                    CharacterName: firstRow[0].getElementsByClassName("characterName")[0].value,
+                    BillingPrice: parseFloat(firstRow[0].getElementsByTagName("td")[4].innerText),
+                    BillingAmount: parseFloat(firstRow[0].getElementsByClassName("count")[0].value)
+                });
+            }
+
+            if (orders.length == 0) {
+                return;
+            }
+
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].CharacterName.trim() == "") {
+                    alert("Lütfen Karakter İsmi Giriniz");
+                    return;
+                }
+            }
+
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                url: '/User/UserSellRequest',
+                data: JSON.stringify(orders),
+                success: function(res) {
+                    if (res.data.isSuccess) {
+                        openNotifiyModal();
+                    } else {
+                        if (res.data.value.error == 0) {
+                            location.href = "/user/giris";
+                        }
+                    }
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+    });
+
+    function calculatedTotalAmount() {
+        debugger;
+        var rows = document.getElementsByClassName("order");
+        var totalAmount = 0.00;
+        for (var i = 0; i < rows.length; i++) {
+            var amount = parseFloat(rows[i].cells[2].getElementsByTagName("input")[0].value.replace(",","."));
+            var price = parseFloat(rows[i].cells[3].innerHTML);
+            totalAmount = totalAmount + (amount * price);
+        }
+        $("#totalAmount")[0].innerHTML = totalAmount + " TL";
+        $("#totalAmountDiv")[0].innerHTML = totalAmount + " TL";
+    }
+
+    function openNotifiyModal() {
+        $("#loadMe").modal({
+            backdrop: "static", //remove ability to close modal with click
+            keyboard: false, //remove option to close with keyboard
+            show: true //Display loader!
+        });
+        setTimeout(function() {
+            location.href = "/user/detail";
+            $("#loadMe").modal("hide");
+        }, 3500);
+    }
+
+</script>

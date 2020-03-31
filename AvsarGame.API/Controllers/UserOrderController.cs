@@ -27,9 +27,11 @@ namespace AvsarGame.API.Controllers {
         private readonly IGame _game;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserSell _userSell;
+        private readonly IUserSellDetail _userSellDetail;
 
         public UserOrderController(IUserOrder userOrder, IMapper mapper, IUserOrderDetail userDetailOrder, IGame game, IUserBalanceDetails userBalanceDetail,
-                                   IUserBalance userBalance, UserManager<ApplicationUser> userManager, IUserNotification userNotification) {
+                                   IUserBalance userBalance, UserManager<ApplicationUser> userManager, IUserNotification userNotification, IUserSell userSell, IUserSellDetail userSellDetail) {
             _userOrder = userOrder;
             _mapper = mapper;
             _userOrderDetail = userDetailOrder;
@@ -38,6 +40,8 @@ namespace AvsarGame.API.Controllers {
             _UserBalance = userBalance;
             _userManager = userManager;
             _userNotification = userNotification;
+            _userSell = userSell;
+            _userSellDetail = userSellDetail;
         }
 
         [HttpGet]
@@ -236,5 +240,54 @@ namespace AvsarGame.API.Controllers {
 
             return response;
         }
+
+        [HttpPost]
+        [Route("SaveSell")]
+        public Response<UserOrderResponseModel> SaveSell([FromBody] List<UserOrderDetailModel> model) {
+            Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
+            UserOrderResponseModel response = new UserOrderResponseModel();
+            using (var transactionScope = new TransactionScope()) {
+                try {
+                    UserSell entity = new UserSell() {
+                            UserId = base.GetUser(),
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    var userSell = _userSell.Add(entity);
+
+                    foreach (var item in model) {
+                        UserSellDetail sellDetail = new UserSellDetail() {
+                                UserOrderId = userSell.Id,
+                                BillingAmount = item.BillingAmount,
+                                BillingPrice = item.BillingPrice,
+                                GameId = item.GameId,
+                                CharacterName = item.CharacterName,
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = base.GetUser()
+                        };
+                         _userSellDetail.Add(sellDetail);
+                    }
+
+                    transactionScope.Complete();
+                } catch (Exception e) {
+                    Log log = new Log {
+                            Path = HttpContext.Request.Path,
+                            Message = e.Message,
+                            UserId = base.GetUser(),
+                            CreatedDate = DateTime.Now
+                    };
+                    Logger.Instance.Insert(log);
+                    response.Message = "Satış talebiniz Alınamadı. Sorun üstünde çalışıyoruz lütfen daha sonra tekrar deneyin.";
+                    baseResponse.IsSuccess = false;
+                    return baseResponse;
+                }
+
+                response.Message = "Satış talebiniz Alınmıştır. Lütfen Müşteri Hizmetlerimizle iletişime geçiniz.";
+                baseResponse.IsSuccess = true;
+                baseResponse.Value = response;
+                return baseResponse;
+            }
+        }
+
     }
 }

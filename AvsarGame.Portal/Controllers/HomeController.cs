@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Controllers {
-    public class HomeController : BaseController 
-    {
+    public class HomeController : BaseController {
         public IActionResult Index() {
             HomeModel model = new HomeModel();
             model.Announcements = JsonConvert.DeserializeObject<List<AnnouncementModel>>(UiRequestManager.Instance.Get("Announcement", "UiAnnouncementList"));
@@ -25,7 +24,8 @@ namespace AvsarGame.Portal.Controllers {
 
         [Route("oyun/{Name}")]
         public IActionResult CategoryDetail(string Name) {
-            CategoryGameModel categoryWithGames  = JsonConvert.DeserializeObject<CategoryGameModel>(UiRequestManager.Instance.Get(string.Format("Category/GetCategoryWithGames?SeoName={0}",Name)));
+            CategoryGameModel categoryWithGames =
+                    JsonConvert.DeserializeObject<CategoryGameModel>(UiRequestManager.Instance.Get(string.Format("Category/GetCategoryWithGames?SeoName={0}", Name)));
 
             return View(categoryWithGames);
         }
@@ -35,16 +35,21 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("yardım")]
-
-        public IActionResult Support()
-        {
+        public IActionResult Support() {
             return View();
         }
 
         [Route("odeme-yontemleri")]
-        public IActionResult Methods()
-        {
+        public IActionResult Methods() {
             return View();
+        }
+
+        [Route("satis-yap/{Name}")]
+        public IActionResult Sell(string Name) {
+            GameModel model =
+                    JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(string.Format("Game/GetGameWithGames?SeoName={0}", Name)));
+
+            return View(model);
         }
     }
 }

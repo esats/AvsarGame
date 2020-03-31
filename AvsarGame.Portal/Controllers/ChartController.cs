@@ -57,7 +57,6 @@ namespace AvsarGame.Portal.Controllers {
             return Json(new { Success = true });
         }
 
-
         public string ConvertToString<T>(List<T> Items) {
             string result = string.Empty;
 

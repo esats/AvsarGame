@@ -200,5 +200,22 @@ namespace AvsarGame.API.Controllers {
 
             return list;
         }
+
+        [HttpGet]
+        [Route("GetGameWithGames")]
+        [AllowAnonymous]
+        public GameModel GetGameWithGames(string SeoName) {
+            GameModel gameModel = new GameModel();
+            try {
+                var game = _game.GetT(x => x.SeoName == SeoName && x.IsActive == true);
+             
+                gameModel  = _mapper.Map<GameModel>(game);
+
+            } catch (Exception e) {
+                throw new Exception(e.Message); 
+            }
+
+            return gameModel;
+        }
     }
 }

@@ -156,5 +156,29 @@ namespace AvsarGame.Portal.Controllers {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
+        
+        [HttpPost]
+        public JsonResult UserSellRequest([FromBody]List<UserOrderDetailModel> sells) {
+            Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
+            UserOrderResponseModel response = new UserOrderResponseModel();
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    response.RedirectUrl = "/User/login";
+                    response.Message = "Lütfen Giriş Yapınız";
+                    response.Error = (int) Errors.UNAUTHORIZED;
+                    baseResponse.IsSuccess = false;
+                    baseResponse.Value = response;
+                    return Json(new { Success = true, data = baseResponse });
+                }
+
+                baseResponse =
+                        JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "SaveSell", JsonConvert.SerializeObject(sells)));
+
+                return Json(new { Success = true, data = baseResponse });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }
