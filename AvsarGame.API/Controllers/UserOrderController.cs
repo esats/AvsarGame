@@ -78,6 +78,40 @@ namespace AvsarGame.API.Controllers {
         }
 
         [HttpGet]
+        [Route("Sells")]
+        [Authorize(Roles = "Admin")]
+        public List<UserOrdersModel> Sells() {
+            var userSells = _userSell.GetUserSell(null);
+            List<UserOrdersModel> userOrderList = new List<UserOrdersModel>();
+
+            foreach (var userSell in userSells) {
+                UserOrdersModel userOrderModel = new UserOrdersModel();
+                List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
+                foreach (var detail in userSell.Sells.Where(x => x.OrderStatus == 0 && x.UserSellId == userSell.Id)) {
+                    UserOrderDetailModel model = new UserOrderDetailModel();
+                    model.Id = detail.Id;
+                    model.UserOrderId = userSell.Id;
+                    model.CharacterName = detail.CharacterName;
+                    model.BillingPrice = detail.BillingPrice;
+                    model.BillingAmount = detail.BillingAmount;
+                    model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
+                    userOrderDetailList.Add(model);
+                }
+
+                if (userOrderDetailList.Count > 0) {
+                    userOrderModel.Id = userSell.Id;
+                    userOrderModel.User = _mapper.Map<UserPaymentManagementModel>(_userManager.FindByIdAsync(userSell.UserId).Result);
+                    userOrderModel.Orders = userOrderDetailList;
+                    userOrderList.Add(userOrderModel);
+                }
+            }
+
+            return
+                    userOrderList;
+        }
+
+
+        [HttpGet]
         [Route("GetOne/{id}")]
         public UserOrdersModel GetOne(string id) {
             UserOrdersModel userOrderModel = new UserOrdersModel();
@@ -257,7 +291,7 @@ namespace AvsarGame.API.Controllers {
 
                     foreach (var item in model) {
                         UserSellDetail sellDetail = new UserSellDetail() {
-                                UserOrderId = userSell.Id,
+                                UserSellId = userSell.Id,
                                 BillingAmount = item.BillingAmount,
                                 BillingPrice = item.BillingPrice,
                                 GameId = item.GameId,

@@ -36,5 +36,10 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
+        public IActionResult Sells() {
+            List<UserOrdersModel> model = JsonConvert.DeserializeObject<List<UserOrdersModel>>(UiRequestManager.Instance.Get("UserOrder", "Sells"));
+            return View(model);
+        }
     }
 }
