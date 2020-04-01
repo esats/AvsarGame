@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
+using AvsarGame.API.Helpers;
 using AvsarGame.API.Models;
 using AvsarGame.API.Security;
 using AvsarGame.Dal.Concreate.EntityFramework;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +42,7 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost("Login")]
         public async Task<Response<LoggedModel>> Login([FromBody] LoginModel model) {
+            MailProvider.Instance.Sent();
             try {
                 LoggedModel loggedModel = new LoggedModel();
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
