@@ -12,5 +12,6 @@ namespace AvsarGame.API.Models {
         public DateTime? Birthdate { get; set; }
         public int? Age { get; set; }
         public string BearerToken { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

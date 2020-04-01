@@ -42,13 +42,13 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="form-row form-group">
+                        @*<div class="form-row form-group">
                             <div class="col-6">
                                 <button onclick="forgotPw()" class="btn btn-info forgot-pw col-12" style="float: right">
                                     Şifremi Unuttum
                                 </button>
                             </div>
-                        </div>
+                        </div>*@
                          <span class="login-fail" style="color:white"></span>
                     </form>
                 </div>
@@ -76,8 +76,9 @@
                 data: model,
                 success: function (res) {
                     if (res.success) {
+                        debugger;
                         if (res.data.isSuccess) {
-                            location.href = "/sepetim"
+                            location.href = res.data.value.returnUrl;
                         }
                         else {
                             $(document.getElementsByClassName("login-fail")[0]).html(res.data.message);

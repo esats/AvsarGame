@@ -35,6 +35,11 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         public ActionResult giris() {
+            var bearer = SessionManager.Instance.Get("bearer");
+            if (bearer != null) {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -47,8 +52,9 @@ namespace AvsarGame.Portal.Controllers {
                     SessionManager.Instance.set("bearer", response.Value.BearerToken);
                     SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
                     SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
+                    response.Value.ReturnUrl = SessionManager.Instance.Get("returnUrl");
                 }
-
+                
                 return Json(new { Success = true, data = response });
             } catch (Exception e) {
                 return Json(new { Success = false });
@@ -130,6 +136,7 @@ namespace AvsarGame.Portal.Controllers {
                     response.Error = (int) Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
+                    SessionManager.Instance.set("returnUrl","/sepetim");
                     return Json(new { Success = true, data = baseResponse });
                 }
 

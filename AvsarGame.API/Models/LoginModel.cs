@@ -11,5 +11,6 @@ namespace AvsarGame.API.Models {
         [Required(ErrorMessage = "Lütfen Email Giriniz")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+       
     }
 }

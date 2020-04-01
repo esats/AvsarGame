@@ -138,6 +138,34 @@ namespace AvsarGame.API.Controllers {
             return userOrderModel;
         }
 
+        [HttpGet]
+        [Route("GetUserSell/{id}")]
+        public UserOrdersModel GetUserSell(string id) {
+            UserOrdersModel userSellModel = new UserOrdersModel();
+            List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
+
+            var userSells = _userSell.GetUserSell(id);
+
+            foreach (var userSell in userSells) {
+                foreach (var detail in userSell.Sells.OrderByDescending(x => x.CreatedDate)) {
+                    UserOrderDetailModel model = new UserOrderDetailModel();
+                    model.UserOrderId = userSell.Id;
+                    model.CharacterName = detail.CharacterName;
+                    model.BillingPrice = detail.BillingPrice;
+                    model.BillingAmount = detail.BillingAmount;
+                    model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
+                    model.OrderStatus = detail.OrderStatus;
+                    userOrderDetailList.Add(model);
+                }
+
+                userSellModel.UserId = userSell.UserId;
+                userSellModel.Orders = userOrderDetailList;
+            }
+
+            return userSellModel;
+        }
+
+
         [HttpPost]
         [Route("Save")]
         public Response<UserOrderResponseModel> Save([FromBody] List<UserOrderDetailModel> model) {
