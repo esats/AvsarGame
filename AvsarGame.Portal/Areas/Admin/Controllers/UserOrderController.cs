@@ -41,5 +41,26 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
             List<UserOrdersModel> model = JsonConvert.DeserializeObject<List<UserOrdersModel>>(UiRequestManager.Instance.Get("UserOrder", "Sells"));
             return View(model);
         }
+
+        
+        [HttpPost]
+        public JsonResult ApproveSell(UserOrderRequestModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "ApproveSell", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult RejectSell(UserOrderRequestModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "RejectSell", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }

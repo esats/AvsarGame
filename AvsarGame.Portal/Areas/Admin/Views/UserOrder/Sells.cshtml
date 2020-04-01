@@ -114,7 +114,7 @@
             }
 
             swal({
-                    title: "Siparişi aktardığınıza Emin misiniz?",
+                    title: "İşlemi yaptığınıza Emin misiniz?",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "evet",
@@ -126,18 +126,18 @@
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
-                            url: '/Admin/UserOrder/Approve',
+                            url: '/Admin/UserOrder/ApproveSell',
                             content: "application/json; charset=utf-8",
                             data: model,
                             dataType: 'json',
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        swal("Basarili!", "Sipariş Aktarıldı", "success");
+                                        swal("Basarili!", "Satış Aktarıldı", "success");
                                         row.remove();
                                         $("#" + modal).css("display", "block");
                                     } else {
-                                        swal("Hata!", "Sipariş Aktarılamadı", "error");
+                                        swal("Hata!", "Satış Aktarılamadı", "error");
                                         $("#" + modal).css("display", "block");
                                     }
                                 }
@@ -166,7 +166,7 @@
                 OrderId
             }
             swal({
-                    title: "Siparişi Red etmek istediginizden emin misiniz?",
+                    title: "Satışı Red etmek istediginizden emin misiniz?",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "evet",
@@ -178,18 +178,18 @@
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
-                            url: '/Admin/UserOrder/Reject',
+                            url: '/Admin/UserOrder/RejectSell',
                             content: "application/json; charset=utf-8",
                             data: model,
                             dataType: 'json',
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        swal("Basarili!", "Sipariş Reddedildi", "success");
+                                        swal("Basarili!", "Satışı Reddedildi", "success");
                                         row.remove();
                                         $("#" + modal).css("display", "block");
                                     } else {
-                                        swal("Hata!", "Sipariş Reddilemedi", "error");
+                                        swal("Hata!", "Satışı Reddilemedi", "error");
                                         $("#" + modal).css("display", "block");
                                     }
                                 }

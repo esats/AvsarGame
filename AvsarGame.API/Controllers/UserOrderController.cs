@@ -31,7 +31,8 @@ namespace AvsarGame.API.Controllers {
         private readonly IUserSellDetail _userSellDetail;
 
         public UserOrderController(IUserOrder userOrder, IMapper mapper, IUserOrderDetail userDetailOrder, IGame game, IUserBalanceDetails userBalanceDetail,
-                                   IUserBalance userBalance, UserManager<ApplicationUser> userManager, IUserNotification userNotification, IUserSell userSell, IUserSellDetail userSellDetail) {
+                                   IUserBalance userBalance, UserManager<ApplicationUser> userManager, IUserNotification userNotification, IUserSell userSell,
+                                   IUserSellDetail userSellDetail) {
             _userOrder = userOrder;
             _mapper = mapper;
             _userOrderDetail = userDetailOrder;
@@ -110,7 +111,6 @@ namespace AvsarGame.API.Controllers {
                     userOrderList;
         }
 
-
         [HttpGet]
         [Route("GetOne/{id}")]
         public UserOrdersModel GetOne(string id) {
@@ -118,9 +118,9 @@ namespace AvsarGame.API.Controllers {
             List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
 
             var userOrders = _userOrder.GetUserOrder(id);
-            
+
             foreach (var userOrder in userOrders) {
-                foreach (var detail in userOrder.Orders.OrderByDescending(x=>x.CreatedDate)) {
+                foreach (var detail in userOrder.Orders.OrderByDescending(x => x.CreatedDate)) {
                     UserOrderDetailModel model = new UserOrderDetailModel();
                     model.UserOrderId = userOrder.Id;
                     model.CharacterName = detail.CharacterName;
@@ -242,14 +242,13 @@ namespace AvsarGame.API.Controllers {
                     _userOrderDetail.Update(updatedEntity);
 
                     var userBalance = _UserBalance.GetBalance(base.GetUser());
-                    UserBalanceDetail detail = new UserBalanceDetail
-                    {
-                        Amount = updatedEntity.BillingAmount * updatedEntity.BillingPrice,
-                        CreatedBy = base.GetUser(),
-                        CreatedDate =DateTime.Now,
-                        TransactionDescription= (int)TRANSACTION_DESCIPTION.ORDER_REJECT,
-                        UserBalanceId=userBalance.Id,
-                        UserOrderDetailId = updatedEntity.Id
+                    UserBalanceDetail detail = new UserBalanceDetail {
+                            Amount = updatedEntity.BillingAmount * updatedEntity.BillingPrice,
+                            CreatedBy = base.GetUser(),
+                            CreatedDate = DateTime.Now,
+                            TransactionDescription = (int) TRANSACTION_DESCIPTION.ORDER_REJECT,
+                            UserBalanceId = userBalance.Id,
+                            UserOrderDetailId = updatedEntity.Id
                     };
 
                     _UserBalanceDetail.Add(detail);
@@ -299,7 +298,7 @@ namespace AvsarGame.API.Controllers {
                                 CreatedDate = DateTime.Now,
                                 CreatedBy = base.GetUser()
                         };
-                         _userSellDetail.Add(sellDetail);
+                        _userSellDetail.Add(sellDetail);
                     }
 
                     transactionScope.Complete();
@@ -323,5 +322,93 @@ namespace AvsarGame.API.Controllers {
             }
         }
 
+        [HttpPost]
+        [Route("ApproveSell")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> ApproveSell(UserOrderRequestModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _userSellDetail.GetT(x => x.Id == model.OrderId);
+                    updatedEntity.OrderStatus = (int) ORDER_STATUS.APPROVED;
+                    _userSellDetail.Update(updatedEntity);
+
+                    var userBalance = _UserBalance.GetBalance(model.UserId);
+
+                    if (userBalance == null) {
+                        UserBalance entity = new UserBalance();
+                        entity.User.Id = model.UserId.ToString();
+                        entity.CreatedDate = DateTime.Now;
+                        entity.Balance = 0;
+                        entity.IsActive = true;
+                        entity.CreatedBy = base.GetUser();
+                        userBalance = _UserBalance.Add(entity);
+                    }
+
+                    UserBalanceDetail detail = new UserBalanceDetail {
+                            Amount = updatedEntity.BillingAmount * updatedEntity.BillingPrice,
+                            CreatedBy = base.GetUser(),
+                            CreatedDate = DateTime.Now,
+                            TransactionDescription = (int) TRANSACTION_DESCIPTION.GAME_MONEY_SELL,
+                            UserBalanceId = userBalance.Id,
+                            UserOrderDetailId = updatedEntity.Id
+                    };
+
+                    _UserBalanceDetail.Add(detail);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "Satış Gerçekleştirilmiştir. İlgili bakiye hesabınıza yüklendi.",
+                            NotificationType = NotificationType.APPROVED,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RejectSell")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> RejectSell(UserOrderRequestModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _userSellDetail.GetT(x => x.Id == model.OrderId);
+                    updatedEntity.OrderStatus = (int) ORDER_STATUS.REJECT;
+                    _userSellDetail.Update(updatedEntity);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "Satış işlemi red edildi.",
+                            NotificationType = NotificationType.REJECT,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception e) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
     }
 }

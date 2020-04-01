@@ -15,6 +15,7 @@ namespace AvsarGame.Entities.Entities {
         GAME_MONEY_ORDER = 0,
         ITEM_ORDER = 1,
         Payment = 2,
-        ORDER_REJECT = 3
+        ORDER_REJECT = 3,
+        GAME_MONEY_SELL= 4
     }
 }
