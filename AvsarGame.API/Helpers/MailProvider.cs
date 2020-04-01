@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
@@ -43,19 +44,15 @@ namespace AvsarGame.API.Helpers {
             MailboxAddress from = new MailboxAddress(From,
                     UserAuth);
             message.From.Add(from);
-
             MailboxAddress to = new MailboxAddress("User",
                     "esat.avsr@gmail.com");
             message.To.Add(to);
-
-            message.Subject = "This is email subject";
+            message.Subject = "Tebrikler..";
 
             BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = "<h1>{esat}</h1>";
-            bodyBuilder.TextBody = "Hello World!";
-
-            bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{esat}","salak");
-
+            bodyBuilder.HtmlBody = System.IO.File.ReadAllText(@"..\AvsarGame.API\Helpers\MailTemplate\order.html");
+            bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{TotalAmount}",0.ToString());
+            bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{date}",DateTime.Now.ToString());
             message.Body = bodyBuilder.ToMessageBody();
 
             return message;
