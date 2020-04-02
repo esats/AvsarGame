@@ -105,10 +105,13 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult RequestPayment(UserPaymentRequestModel model) {
+        public async Task<JsonResult> RequestPayment(UserPaymentRequestModel model) {
             try {
                 model.UserId = SessionManager.Instance.Get("UserId");
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
+
+                await UiRequestManager.Instance.PostAsync("MailSender", "SendRequestPaymentMail", JsonConvert.SerializeObject(model));
+
                 return Json(new { Success = false, data = response });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });

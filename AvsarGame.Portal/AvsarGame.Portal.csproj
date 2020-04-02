@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\assest\MailTemplate\order.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\Uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assest\MailTemplate\order.html" />
   </ItemGroup>
 
   <ItemGroup>

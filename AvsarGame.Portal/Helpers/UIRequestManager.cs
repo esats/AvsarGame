@@ -26,6 +26,7 @@ namespace AvsarGame.Portal.Helpers {
         protected UiRequestManager() {
         #if DEBUG
             this.BaseApiUrl = "http://localhost:30667/api";
+            //this.BaseApiUrl = "http://api.anatoliagame.com/api";
         #else
             this.BaseApiUrl = "http://api.anatoliagame.com/api";
         #endif
