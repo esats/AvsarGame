@@ -122,10 +122,9 @@ namespace AvsarGame.Portal.Helpers {
             return response;
         }
 
-        public async Task<string> PostAsync(string ControllerName, string actionName, string Data) {
+        public async Task PostAsync(string ControllerName, string actionName, string Data) {
             string url = this.BaseApiUrl + "/" + ControllerName + "/" + actionName;
-            string response = await HttpRequestManager.Instance.PostAsync(url, actionName, Data);
-            return response;
+            await HttpRequestManager.Instance.PostAsync(url, actionName, Data,BearerToken);
         }
 
         public T Post<T>(string ControllerName, string actionName, string Data) {

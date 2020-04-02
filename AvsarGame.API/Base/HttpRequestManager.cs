@@ -25,8 +25,8 @@ namespace AvsarGame.API.Base {
             return this.SendHttpRequest(Url, actionName, HttpRequestTypesEnum.Post, Data,bearer);
         }
 
-        public async Task<string> PostAsync(string Url, string actionName, string Data) {
-            return await this.SendHttpRequestAsync(Url, actionName, HttpRequestTypesEnum.Post, Data);
+        public async Task<string> PostAsync(string Url, string actionName, string Data, string BearerToken) {
+            return await this.SendHttpRequestAsync(Url, actionName, HttpRequestTypesEnum.Post, Data, BearerToken);
         }
 
         protected string SendHttpRequest(string Url, string actionName, HttpRequestTypesEnum Type, string Data,string token) {
@@ -71,12 +71,14 @@ namespace AvsarGame.API.Base {
             return response;
         }
 
-        public async Task<string> SendHttpRequestAsync(string Url, string actionName, HttpRequestTypesEnum Type, string Data) {
+        public async Task<string> SendHttpRequestAsync(string Url, string actionName, HttpRequestTypesEnum Type, string Data, string BearerToken) {
             string response = null;
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(Url);
             request.Method = Type.ToString().ToUpper();
             request.ContentType = "application/json";
             request.Timeout = Int32.MaxValue;
+            request.Timeout = Int32.MaxValue;
+            request.Headers.Add(HttpRequestHeader.Authorization,"Bearer " + BearerToken);
 
             if (Type == HttpRequestTypesEnum.Post) {
                 Stream requestStream = await request.GetRequestStreamAsync();

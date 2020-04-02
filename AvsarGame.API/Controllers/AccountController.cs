@@ -42,7 +42,6 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost("Login")]
         public async Task<Response<LoggedModel>> Login([FromBody] LoginModel model) {
-            MailProvider.Instance.Sent();
             try {
                 LoggedModel loggedModel = new LoggedModel();
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);

@@ -126,7 +126,7 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult UserOrderRequest([FromBody] List<UserOrderDetailModel> orders) {
+        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders) {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();
             try {
@@ -155,6 +155,8 @@ namespace AvsarGame.Portal.Controllers {
 
                 baseResponse =
                         JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "Save", JsonConvert.SerializeObject(orders)));
+
+                await UiRequestManager.Instance.PostAsync("MailSender", "SendOrderMail", JsonConvert.SerializeObject(orders));
 
                 SessionManager.Instance.Remove("chart");
 

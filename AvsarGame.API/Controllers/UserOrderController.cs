@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using AvsarGame.API.Base;
+using AvsarGame.API.Helpers;
 using AvsarGame.API.Models;
 using AvsarGame.Core;
 using AvsarGame.Dal.Abstract;
@@ -202,8 +203,10 @@ namespace AvsarGame.API.Controllers {
                         detail.CreatedDate = DateTime.Now;
                         detail.CreatedBy = base.GetUser();
                         _UserBalanceDetail.Add(detail);
+                        item.Game = _mapper.Map<GameModel>(_game.GetT(x => x.Id == item.GameId));
                     }
 
+                   
                     transactionScope.Complete();
                 } catch (Exception e) {
                     Log log = new Log {
@@ -221,9 +224,12 @@ namespace AvsarGame.API.Controllers {
                 response.Message = "Siparişiniz Alınmıştır. Lütfen Müşteri Hizmetlerimizle iletişime geçiniz.";
                 baseResponse.IsSuccess = true;
                 baseResponse.Value = response;
+              
+
                 return baseResponse;
             }
         }
+
 
         [HttpPost]
         [Route("Approve")]
