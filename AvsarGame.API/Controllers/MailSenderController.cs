@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -69,6 +70,7 @@ namespace AvsarGame.API.Controllers {
                 throw;
             }
         }
+
         public MimeMessage OrderMailTemplate(MailTemplateModel templateModel) {
             MimeMessage message = new MimeMessage();
 
@@ -81,7 +83,7 @@ namespace AvsarGame.API.Controllers {
             message.Subject = "Tebrikler.." + " " + templateModel.UserModel.Name.ToUpper();
 
             BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = System.IO.File.ReadAllText(@"..\AvsarGame.Portal\wwwroot\assest\MailTemplate\order.html");
+            bodyBuilder.HtmlBody = System.IO.File.ReadAllText(Directory.GetCurrentDirectory() + @"\wwwroot\MailTemplate\order.html");
             bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{TotalAmount}", templateModel.Orders.Sum(x => x.BillingPrice * x.BillingAmount).ToString());
             bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{date}", DateTime.Now.ToString());
             bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{htmlRows}", TableRows(templateModel.Orders));
