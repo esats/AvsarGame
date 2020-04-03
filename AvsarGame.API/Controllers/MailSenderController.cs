@@ -93,10 +93,9 @@ namespace AvsarGame.API.Controllers {
         }
 
         public string TableRows(List<UserOrderDetailModel> items) {
-            var row = "";
+            var rows = "";
             foreach (var item in items) {
-                row += row;
-                row = "<tr>" +
+               var row = "<tr>" +
                       "<td width=\"15%\" align=\"center\">" +
                       "<h3 style=\"line-height: 26px;mso-line-height-rule: exactly; font-family: tahoma, verdana, segoe, sans-serif;font-size: 17px; font-style: normal; font-weight: normal;color: #333333;\">"
                       + _game.GetT(x => x.Id == item.GameId).Name + "</h3>" +
@@ -118,9 +117,10 @@ namespace AvsarGame.API.Controllers {
                       + item.BillingPrice * item.BillingAmount + "</h3>" +
                       "</td>" +
                       "</tr>";
+               rows = row + rows;
             }
 
-            return row;
+            return rows;
         }
     }
 }
