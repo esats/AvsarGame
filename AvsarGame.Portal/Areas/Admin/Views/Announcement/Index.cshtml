@@ -131,6 +131,12 @@
                             content: "application/json; charset=utf-8",
                             data: {id: id},
                             dataType:'json',
+                            beforeSend: function() {
+                                showSpinner();
+                            },
+                            complete: function() {
+                                hideSpinner();
+                            },
                             success: function (res) {
                                 if (res) {
                                     swal("Basarili!", "Kayıt silindi", "success");

@@ -213,6 +213,12 @@
                 type: 'POST',
                 url: '/User/UserSellRequest',
                 data: JSON.stringify(orders),
+                beforeSend: function() {
+                    showSpinner();
+                },
+                complete: function() {
+                    hideSpinner();
+                },
                 success: function(res) {
                     if (res.data.isSuccess) {
                         openNotifiyModal();

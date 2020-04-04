@@ -154,6 +154,12 @@
                     content: "application/json; charset=utf-8",
                     dataType: 'json',
                     data: model,
+                    beforeSend: function() {
+                        showSpinner();
+                    },
+                    complete: function() {
+                        hideSpinner();
+                    },
                     success: function(res) {
                         if (res.success) {
                             location.href = res.returnUrl;

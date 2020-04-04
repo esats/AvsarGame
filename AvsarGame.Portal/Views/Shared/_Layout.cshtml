@@ -17,22 +17,28 @@
         .chartCss {
             text-shadow: 0 1px 39px #0088e8, 0 1px 2px rgba(0, 0, 0, .2) !important
         }
+        .ajaxShowLoader {
+            opacity: 1 !important;
+            display: block !important;
+            background-color: transparent;
+            z-index: 99999;
+        }
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161891291-1"></script>
+    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161891291-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'UA-161891291-1');
-    </script>
+    </script>*@
     <meta name="yandex-verification" content="dca26fb67d502925" />
     <meta name="Keywords" content="Anatolia Game, knight online GB, knight GB, Vega, Sirius, oyun parası cash, knight online pvp" />
     <meta name="Description" content="Anatolia Game yeni açılışa özel en iyi fiyat garantisiyle tüm oyun severlerin yanında, haydi sen de oyna!" />
     <meta name="robots" content="index, follow" />
     <meta name="robots" content="NOODP" />  
-    <script src="//code.jivosite.com/widget/52YoFr6EhE" async></script>
+    @*<script src="//code.jivosite.com/widget/52YoFr6EhE" async></script>*@
     <script>
         toastr.options = {
             "closeButton": true,
@@ -291,6 +297,12 @@
                     content: "application/json; charset=utf-8",
                     dataType: 'json',
                     data: model,
+                    beforeSend: function() {
+                        showSpinner();
+                    },
+                    complete: function() {
+                        hideSpinner();
+                    },
                     success: function (res) {
                         if (res.success) {
                             if (res.data.isSuccess) {
@@ -329,6 +341,12 @@
                     content: "application/json; charset=utf-8",
                     dataType: 'json',
                     data: model,
+                    beforeSend: function() {
+                        showSpinner();
+                    },
+                    complete: function() {
+                        hideSpinner();
+                    },
                     success: function (res) {
                         if (res.success) {
                             if (res.data.isSuccess) {
@@ -358,6 +376,14 @@
             userText[1].innerText = user.fullName;
             userText[1].href = '/user/detail/' + user.userId;
 
+        }
+
+        function showSpinner() {
+            $(document.getElementsByClassName("spinner-wrapper")[0]).addClass("ajaxShowLoader");
+        }
+
+        function hideSpinner() {
+            $(document.getElementsByClassName("spinner-wrapper")[0]).removeClass("ajaxShowLoader");
         }
 
     </script>

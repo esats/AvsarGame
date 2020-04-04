@@ -21,53 +21,55 @@
 
 <style>
     .loader {
-      position: relative;
-      text-align: center;
-      margin: 15px auto 35px auto;
-      z-index: 9999;
-      display: block;
-      width: 80px;
-      height: 80px;
-      border: 10px solid rgba(0, 0, 0, .3);
-      border-radius: 50%;
-      border-top-color: #000;
-      animation: spin 1s ease-in-out infinite;
-      -webkit-animation: spin 1s ease-in-out infinite;
+        position: relative;
+        text-align: center;
+        margin: 15px auto 35px auto;
+        z-index: 9999;
+        display: block;
+        width: 80px;
+        height: 80px;
+        border: 10px solid rgba(0, 0, 0, .3);
+        border-radius: 50%;
+        border-top-color: #000;
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
     }
 
     @@keyframes spin {
-      to {
-        -webkit-transform: rotate(360deg);
-      }
+        to {
+            -webkit-transform: rotate(360deg);
+        }
     }
 
     @@-webkit-keyframes spin {
-      to {
-        -webkit-transform: rotate(360deg);
-      }
+        to {
+            -webkit-transform: rotate(360deg);
+        }
     }
 
     .modal-content {
-      border-radius: 0px;
-      box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+        border-radius: 0px;
+        box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
     }
 
     .modal-backdrop.show {
-      opacity: 0.75;
+        opacity: 0.75;
     }
 
     #output {
-      padding: 25px 15px;
-      background: #222;
-      border: 1px solid #222;
-      max-width: 350px;
-      margin: 35px auto;
-      font-family: 'Roboto', sans-serif !important;
-      p.subtle {
+        padding: 25px 15px;
+        background: #222;
+        border: 1px solid #222;
+        max-width: 350px;
+        margin: 35px auto;
+        font-family: 'Roboto', sans-serif !important;
+    
+
+    p.subtle {
         color: #555;
         font-style: italic;
         font-family: 'Roboto', sans-serif !important;
-      }
+    }
 
 </style>
 
@@ -103,12 +105,16 @@
                                                 </td>
                                                 <td data-heading="Miktar">
                                                     <div class="counter-container">
-                                                        <input id="count" class="count" style="font-weight: bold; width: 30%" value="1"/>
+                                                        <input type="text" id="count" class="count" style="font-weight: bold; width: 35%"value="1"
+                                                               onfocus="if (this.value == '0') { this.value = ''; } " onblur="if (this.value == '') { this.value = '0'; }"
+                                                               onkeyup="if (/[^0-9\.]/g.test(this.value)) { this.value = this.value.replace(/[^0-9\.]/g, '') }">
                                                     </div>
                                                 </td>
                                                 <td class="priceIt" class="sellPrice" data-heading="Fiyat">@item.SellPrice</td>
                                                 <td class="totalPrice" data-heading="Toplam">@item.SellPrice TL</td>
-                                                <td onclick="removeChart('@item.Id')"><button class="button" style="background-color:#d72121;color:white">sepetten çıkar</button></td>
+                                                <td onclick="removeChart('@item.Id')">
+                                                    <button class="button" style="background-color: #d72121; color: white">sepetten çıkar</button>
+                                                </td>
                                             </tr>
                                         }
                                         <tr class="total-amount">
@@ -188,7 +194,7 @@
             <div class="modal-body text-center">
                 <div class="loader"></div>
                 <div clas="loader-txt">
-                    <h3 style="color:green">Siparişiniz alındı. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
+                    <h3 style="color: green">Siparişiniz alındı. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
                 </div>
             </div>
         </div>
@@ -198,9 +204,9 @@
 <script>
     $(document).ready(function() {
         $(".total-table #count").on('change', function() {
-            var counter = parseFloat(this.value.replace(",","."));
+            var counter = parseFloat((this.value.replace(",", ".") == "" ? 0 : this.value.replace(",", ".")));
             var itemPrice = parseFloat((this.parentElement.parentElement.parentElement.getElementsByClassName("priceIt")[0].innerHTML));
-            this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = (counter * itemPrice) + " TL";
+            this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = parseFloat(counter * itemPrice).toFixed(2) + " TL";
             calculatedTotalAmount();
         });
 
@@ -234,6 +240,12 @@
                 type: 'POST',
                 url: '/User/UserOrderRequest',
                 data: JSON.stringify(orders),
+                beforeSend: function() {
+                    showSpinner();
+                },
+                complete: function() {
+                    hideSpinner();
+                },
                 success: function(res) {
                     if (res.data.isSuccess) {
                         openNotifiyModal();
@@ -243,7 +255,7 @@
                         }
                         if (res.data.value.error == 1) {
                             $('#outofbalanceinfo').modal('show');
-                        } 
+                        }
                     }
                 },
                 error: function(err) {
@@ -258,12 +270,13 @@
         var rows = document.getElementsByClassName("order");
         var totalAmount = 0.00;
         for (var i = 0; i < rows.length; i++) {
-            var amount = parseFloat(rows[i].cells[2].getElementsByTagName("input")[0].value.replace(",","."));
+            var amt = rows[i].cells[2].getElementsByTagName("input")[0].value.replace(",", ".");
+            var amount = parseFloat(amt == "" ? 0 : amt);
             var price = parseFloat(rows[i].cells[3].innerHTML);
             totalAmount = totalAmount + (amount * price);
         }
-        $("#totalAmount")[0].innerHTML = totalAmount + " TL";
-        $("#totalAmountDiv")[0].innerHTML = totalAmount + " TL";
+        $("#totalAmount")[0].innerHTML = parseFloat(totalAmount).toFixed(2) + " TL";
+        $("#totalAmountDiv")[0].innerHTML = parseFloat(totalAmount).toFixed(2) + " TL";
     }
 
     function openNotifiyModal() {
@@ -285,10 +298,10 @@
             content: "application/json; charset=utf-8",
             dataType: 'json',
             data: { id: id },
-            success: function (res) {
+            success: function(res) {
                 location.reload()
             },
-            error: function (err) {
+            error: function(err) {
                 alert("Bir Hata oluştu");
             }
         });
