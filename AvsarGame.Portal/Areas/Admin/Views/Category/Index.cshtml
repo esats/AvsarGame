@@ -48,7 +48,6 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form id="categoryForm" asp-antiforgery="false" method="post" enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Kategori Adı</label>
@@ -60,14 +59,13 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Resim</label>
-                                                    <img style="width: 100px" id="imageUrl" src="/Uploads/@item.ImageUrl"/>
+                                                    <img style="width: 100px" data-url="@item.ImageUrl" src="/Uploads/@item.ImageUrl"/>
                                                     <input type="file" id="Image" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                                <button id="update" data-id="@item.Id" class="btn btn-success">Kaydet</button>
+                                                <button id="update" data-url="@item.ImageUrl"  data-id="@item.Id" class="btn btn-success">Kaydet</button>
                                             </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -113,10 +111,9 @@
 
         $("#save").click(function(e) {
             var model = new FormData(); // you can consider this as 'data bag'
-            model.append('Image', $('#Image')[0].files[0]);
-            model.append('Name', $('#Name').val());
-            model.append('Description', $('#Description').val());
-            model.append('ImageUrl', $('#imageUrl').val());
+            model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
+            model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
+            model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
 
             $.ajax({
                 type: 'post',
@@ -132,7 +129,7 @@
                 },
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 1000);
+                    setTimeout(function(){ location.reload() }, 500);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");
@@ -143,10 +140,10 @@
         $(".justify-content-center #update").click(function(e) {
             debugger;
             var model = new FormData(); // you can consider this as 'data bag'
+            model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
-            model.append('Name', $('#Name').val());
-            model.append('Description', $('#Description').val());
-            model.append('ImageUrl', $('#imageUrl').val());
+            model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
+            model.append('ImageUrl', $(this).attr('data-url'));
             model.append('Id', $(this).attr('data-id'));
 
             $.ajax({
@@ -157,7 +154,7 @@
                 data: model,
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 1000);
+                    setTimeout(function(){ location.reload() }, 500);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");

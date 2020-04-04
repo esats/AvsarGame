@@ -83,14 +83,14 @@
                                                         <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <img style="width: 100px" data-url="imageUrl" src="/Uploads/@item.ImageUrl" />
+                                                        <img style="width: 100px" src="/Uploads/@item.ImageUrl" />
                                                         <label>Resim</label>
                                                         <input type="file" id="Image" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer border-top-0 d-flex justify-content-center">
                                                     @*<button>Kaydet</button>*@
-                                                    <input type="button" id="update" data-id="@item.Id" class="btn btn-success" value="kaydet" />
+                                                    <input type="button" id="update" data-url="@item.ImageUrl"  data-id="@item.Id" class="btn btn-success" value="kaydet" />
                                                 </div>
                                             </form>
                                         </div>
