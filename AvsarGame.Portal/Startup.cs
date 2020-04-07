@@ -34,6 +34,7 @@ namespace AvsarGame.Portal
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseStaticFiles();
             app.UseSession();
             app.UseMvc(routes => {

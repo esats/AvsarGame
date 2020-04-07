@@ -36,6 +36,10 @@ namespace AvsarGame.API.Controllers {
             _game = game;
         }
 
+        public MailSenderController() {
+            
+        }
+
         [HttpPost]
         [Route("SendOrderMail")]
         public async Task SendOrderMail([FromBody] List<UserOrderDetailModel> orders) {
@@ -45,17 +49,7 @@ namespace AvsarGame.API.Controllers {
             mailTemplateModel.UserModel = _mapper.Map<UserPaymentManagementModel>(user);
             await SendAsync(mailTemplateModel);
         }
-        
-        [HttpPost]
-        [Route("SendRequestPaymentMail")]
-        public async Task SendRequestPaymentMail([FromBody] UserPaymentRequestModel model) {
-            var user = await _userManager.FindByIdAsync(this.GetUser());
-            MailTemplateModel mailTemplateModel = new MailTemplateModel();
-   
-            //paymentte user ve onayda bir mail sistemi kur
-            await SendAsync(mailTemplateModel);
-        }
-
+       
         public async Task SendAsync(MailTemplateModel templateModel) {
             try {
                 SmtpClient client = new SmtpClient();
@@ -121,6 +115,39 @@ namespace AvsarGame.API.Controllers {
             }
 
             return rows;
+        }
+
+        public async Task SendForgotPasswordMail(string email, string action, string url) {
+            try {
+                SmtpClient client = new SmtpClient();
+                client.Connect(host, port, true);
+                client.Authenticate(UserAuth, Password);
+                var getMail = ForgotPasswordMailTemplate(email,action,url);
+                await client.SendAsync(getMail);
+                await client.DisconnectAsync(true);
+                client.Dispose();
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public MimeMessage ForgotPasswordMailTemplate(string email, string action, string url) {
+            MimeMessage message = new MimeMessage();
+
+            MailboxAddress from = new MailboxAddress(From,
+                    UserAuth);
+            message.From.Add(from);
+            MailboxAddress to = new MailboxAddress("User",
+                    email);
+            message.To.Add(to);
+            message.Subject = "Şifre Sıfırlama isteği";
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = url;
+            message.Body = bodyBuilder.ToMessageBody();
+
+            return message;
         }
     }
 }

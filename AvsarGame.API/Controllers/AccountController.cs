@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -49,11 +48,11 @@ namespace AvsarGame.API.Controllers {
                 if (result.Succeeded) {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
                     var userRoles = await _userManager.GetRolesAsync(appUser);
-                    
+
                     foreach (var role in userRoles) {
                         await _userManager.AddToRoleAsync(appUser, role);
                     }
-                    
+
                     appUser.BearerToken = jwtAuth.GenerateJwtToken(model.Email, appUser, userRoles[0]);
 
                     loggedModel.UserId = appUser.Id;
@@ -63,19 +62,18 @@ namespace AvsarGame.API.Controllers {
                     loggedModel.Age = appUser.Age;
                     loggedModel.BearerToken = appUser.BearerToken;
 
-
                     return new Response<LoggedModel> { IsSuccess = true, Value = loggedModel };
                 } else {
                     return new Response<LoggedModel> { IsSuccess = false, Message = "Kullanıcı Adı veya Şifre yanlış" };
                 }
             } catch (Exception e) {
-                return new Response<LoggedModel> { IsSuccess = false, Message = "Bir hata oluştu lütfen sonra tekrar deneyiniz"};
+                return new Response<LoggedModel> { IsSuccess = false, Message = "Bir hata oluştu lütfen sonra tekrar deneyiniz" };
             }
         }
-        
+
         [HttpPost("Register")]
         public async Task<Response<RegisterModel>> Register([FromBody] RegisterModel model) {
-            Response<RegisterModel> response= new Response<RegisterModel>();
+            Response<RegisterModel> response = new Response<RegisterModel>();
             RegisterModel registerModel = new RegisterModel();
             try {
                 var identityUser = new ApplicationUser {
@@ -117,16 +115,62 @@ namespace AvsarGame.API.Controllers {
 
         [HttpGet]
         [Route("Logout")]
-        public HttpStatusCode Logout()
-        {
-             _signInManager.SignOutAsync();
-            
+        public HttpStatusCode Logout() {
+            _signInManager.SignOutAsync();
+
             return HttpStatusCode.OK;
         }
 
-        //private string GetErrorDescription(List<IdentityError> error)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("ForgotPassword")]
+        public async Task<HttpStatusCode> ForgotPassword([FromBody] ForgotPasswordModel model) {
+            var user = await _userManager.FindByNameAsync(model.Email);
+            //if (user == null || !(await _userManager.IsEmailConfirmedAsync(user))) {
+            //    return HttpStatusCode.BadRequest;
+            //}
+            if (user == null) {
+                return HttpStatusCode.BadRequest;
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+ 
+            var callbackUrl = model.RequestSchema + "/user/ResetPassword?email=" + model.Email + "&token=" + token;
+
+            MailSenderController controller = new MailSenderController();
+            await controller.SendForgotPasswordMail(model.Email, "Reset Password",
+                    $"Linke tıklayarak şifrenizi değiştirebilirsiniz : <a href='{callbackUrl}'>Şifre değiştir</a> bu isteği siz göndermediyseniz hemen müşteri hizmetlerimizden yardım alın");
+
+            return HttpStatusCode.OK;
+        }
+
+        [HttpPost]
+        [Route("ResetPassword")]
+        public Response<HttpStatusCode>ResetPassword([FromBody] ResetPasswordModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try {
+                var user = _userManager.FindByNameAsync(model.Email).Result;
+                if (user == null) {
+                    response.IsSuccess = false;
+                    response.Message = "User bulunamadı";
+                    return response;
+                }
+                var result = _userManager.ResetPasswordAsync(user, model.Token, model.Password).Result;
+                if (result.Succeeded) {
+                    response.IsSuccess = true;
+                    response.Message = "Şifreniz Değiştirildi";
+                    return response;
+                } else {
+                    response.IsSuccess = false;
+                    response.Message = "Şifre yenileme süreniz dolmuştur.";
+                    return response;
+                }
+            } catch (Exception e) {
+                response.IsSuccess = false;
+                response.Message = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+                return response;
+            }
+       
+        }
     }
 }
