@@ -126,7 +126,7 @@ namespace AvsarGame.API.Controllers {
 
             return response;
         }
-        
+
         private void InsertOrUpdateUserBalance(UserPaymentRequestControlModel model) {
             try {
                 var userBalance = _userBalance.GetBalance(model.UserId);

@@ -26,6 +26,7 @@ namespace AvsarGame.API.Helpers {
 
             CreateMap<UserOrderDetail, UserOrderDetailModel>();
 
+            CreateMap<ApplicationUser, RegisterModel>();
         }
     }
 }

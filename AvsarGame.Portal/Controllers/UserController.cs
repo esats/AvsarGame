@@ -94,6 +94,10 @@ namespace AvsarGame.Portal.Controllers {
 
             model.Notifications =
                     JsonConvert.DeserializeObject<List<UserNotificationModel>>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
+
+            model.UserDetail =
+                    JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User","GetUserDetail"));
+
             return View(model);
         }
 

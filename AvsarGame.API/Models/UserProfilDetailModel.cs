@@ -8,6 +8,7 @@ namespace AvsarGame.API.Models {
         public UserBalanceModel Balance { get; set; }
         public List<UserNotificationModel> Notifications { get; set; }
         public List<UserOrdersModel>  UserOrders { get; set; }
+        public RegisterModel  UserDetail { get; set; }
         public int NotificationCount { get; set; }
     }
 }
