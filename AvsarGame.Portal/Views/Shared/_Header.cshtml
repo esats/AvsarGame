@@ -5,7 +5,6 @@
     }
 
     .dropdown-cart:hover .dropdown-menu-right {
-
         display: block;
     }
 </style>
@@ -35,8 +34,8 @@
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item dropdown profile" style="@PageHelper.DisplayStyle("logged")">
                         <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
-                        <div class="dropdown-menu dropdown-menu-right show" style="display: none;">
-                            <a class="dropdown-item" href="/User/Detail">Profilim</a>
+                        <div class="dropdown-menu-right show @PageHelper.GetLoggedProfileStyle()" style="display: none; background-color:white">
+                            <a class="dropdown-item" style="color:#009AFF" href="/User/Detail">Profilim</a>
                             <a class="dropdown-item logout" href="/User/Logout">Çıkış Yap</a>
                         </div>
                     </li>

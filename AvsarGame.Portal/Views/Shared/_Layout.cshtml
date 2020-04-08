@@ -309,7 +309,7 @@
                     success: function (res) {
                         if (res.success) {
                             if (res.data.isSuccess) {
-                                setUserForHeader(res.data.value);
+                                location.reload();
                                 $('#login-modal').modal('hide');
                             }
                             else {
@@ -353,7 +353,7 @@
                     success: function (res) {
                         if (res.success) {
                             if (res.data.isSuccess) {
-                                setUserForHeader(res.data.value);
+                                setHeader(res.data.value);
                                 $('#login-modal').modal('hide');
                             }
                             else {
@@ -396,7 +396,7 @@
             });
         });
 
-        function setUserForHeader(user) {
+        function setHeader(user) {
             var items = document.getElementsByClassName("reglog");
             for (var i in items) {
                 $(items[i]).css("display", "none");

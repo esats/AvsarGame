@@ -59,5 +59,9 @@ namespace AvsarGame.Portal.Core {
                 return "red";
             }
         }
+
+        public static string GetLoggedProfileStyle() {
+            return SessionManager.Instance.IsAuthenticate() ? "dropdown-menu": "";
+        }
     }
 }
