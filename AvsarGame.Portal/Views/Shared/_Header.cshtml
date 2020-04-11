@@ -16,7 +16,7 @@
 
     .headerPageSearch {
         float: left;
-        width: 150% !important;
+        width: 100% !important;
         z-index: 5000;
         overflow-y: scroll;
         padding: 10px;
@@ -64,6 +64,10 @@
         margin-left: 45px;
     }
 
+    .clear {
+        clear: both;
+    }
+
 </style>
 
 <header class="Header">
@@ -80,94 +84,10 @@
                         <input id="headersearch" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." style="color: white !important" autocomplete="off">
                     </div>
                 </form>
-                <div class="headerPageSearch" >
-                    <div id="school-search">
-                        <a class="resp-more-link" href="javascript:;" onclick="SearchView('school')">
-                            <div class="text-muted">Oyunlar <span class="resp-size">17</span><span class="resp-more">daha fazla +</span></div>
-                        </a>
-                        <ul class="list-unstyled pad-top-20" id="headerpagesearchSch">
-                            <!---->
-                            <li class="ng-scope">
-                                <div style="position: absolute;">
-                                    <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
-                                </div>
-                                <div class="schbilgi">
-                                    <a target="_blank" href="/en/stanbul-university">
-                                        <span class="bold"> İstanbul Üniversitesi</span>
-                                    </a>
-                                    <!---->
-                                    <div>
-                                        <!---->
-                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
-                                    </div>
-                                    <!---->
-                                </div>
-                            </li>
-                            <li class="ng-scope">
-                                <div style="position: absolute;">
-                                    <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
-                                </div>
-                                <div class="schbilgi">
-                                    <a target="_blank" href="/en/stanbul-university">
-                                        <span class="bold"> İstanbul Üniversitesi</span>
-                                    </a>
-                                    <!---->
-                                    <div>
-                                        <!---->
-                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
-                                    </div>
-                                    <!---->
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="clear"></div>
-                        <br>
-                    </div>
-                    <div id="school-search">
-                        <a class="resp-more-link" href="javascript:;" onclick="SearchView('school')">
-                            <div class="text-muted">Oyunlar <span class="resp-size">17</span><span class="resp-more">daha fazla +</span></div>
-                        </a>
-                        <ul class="list-unstyled pad-top-20" id="headerpagesearchSch">
-                            <!---->
-                            <li class="ng-scope">
-                                <div style="position: absolute;">
-                                    <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
-                                </div>
-                                <div class="schbilgi">
-                                    <a target="_blank" href="/en/stanbul-university">
-                                        <span class="bold"> İstanbul Üniversitesi</span>
-                                    </a>
-                                    <!---->
-                                    <div>
-                                        <!---->
-                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
-                                    </div>
-                                    <!---->
-                                </div>
-                            </li>
-                            <li class="ng-scope">
-                                <div style="position: absolute;">
-                                    <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
-                                </div>
-                                <div class="schbilgi">
-                                    <a target="_blank" href="/en/stanbul-university">
-                                        <span class="bold"> İstanbul Üniversitesi</span>
-                                    </a>
-                                    <!---->
-                                    <div>
-                                        <!---->
-                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
-                                    </div>
-                                    <!---->
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="clear"></div>
-                        <br>
+                <div class="headerPageSearch" style="display: none">
+                    <div class="loader" style="display: none" ></div>
+                    <div id="headerPageSearch">
+
                     </div>
                 </div>
             </div>
@@ -292,25 +212,25 @@
 
         $("#headersearch").keyup(function(e) {
             if (this.value.length < 3) {
+                $(document.getElementsByClassName("headerPageSearch")[0]).css("display", "none");
                 return;
             }
-             
+            $(document.getElementsByClassName("headerPageSearch")[0]).css("display", "block");
+
             $.ajax({
                 type: 'get',
                 url: '/Home/Search',
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: {term : this.value},
-                //beforeSend: function() {
-                //    showSearchSpinner();
-                //},
-                //complete: function() {
-                //    hideSearchSpinner();
-                //},
+                beforeSend: function() {
+                    showSearchSpinner();
+                },
+                complete: function() {
+                    hideSearchSpinner();
+                },
                 success: function (res) {
-                    if (res.success) {
-                        setSearchHtml(res);
-                    } 
+                   setSearchHtml(res);
                 },
                 error: function (err) {
                     alert("bir hata oluştu")
@@ -355,7 +275,6 @@
     function GetChart(data) {
 
         $("#chartDataTable").empty();
-        $("div");
         var products = [];
 
         if (data == null || data.length == 0) {
@@ -416,16 +335,79 @@
     }
 
     function setSearchHtml(data) {
-        debugger;
-        $("#chartDataTable").empty();
-        $("div");
-        var products = [];
+        $("#headerPageSearch").empty();
 
-        if (data == null || data.length == 0) {
-            $("#chartAmount").empty();
-            $("#chartDataTable").append(GetEmptyChartHtml());
+        if ((data.games == null || data.games.length == 0) && (data.categories == null || data.categories.length == 0)) {
+            $("#headerPageSearch").empty();
+            $("#headerPageSearch").append(getNoResultHtml());
             return;
         }
 
+        if (data.games.length > 0) {
+            var gameSection ="<div id='game-search'>"
+                + "<a href='javascript:;' onclick='SearchView('school')>"
+                + "<div class='text-muted'>Oyunlar<span class='resp-size'>"+data.games.length+"</span><span class='resp-more'>daha fazla +</span></div></a>"
+                + "<ul class='list-unstyled' id='headerpagesearchSch'>"+gameSectionli(data.games)+"</ul><div class='clear'></div><br></div>";
+            $("#headerPageSearch").append(gameSection);
+        }
+
+        if (data.categories.length > 0) {
+            var categorySection ="<div id='category-search'>"
+                + "<a href='javascript:;' onclick='SearchView('school')>"
+                + "<div class='text-muted'>Kategoriler<span class='resp-size'>"+data.categories.length+"</span><span class='resp-more'>daha fazla +</span></div></a>"
+                + "<ul class='list-unstyled' id='headerpagesearchSch'>"+categorySectionli(data.categories)+"</ul></div><div class='clear'></div><br>";
+            $("#headerPageSearch").append(categorySection);
+        }
+
     }
+
+    function gameSectionli(data) {
+        debugger;
+        var games = '';
+        for (var i = 0; i < data.length; i++) {
+            var  game = "<li>"+
+                            "<div style='position: absolute;'>"+
+                            "<img class='school-search-item-logo' style='width: 50px; height: 50px' src='/assest/logos/mainlogo.svg'>"+
+                            "</div><div class='schbilgi'>"+
+                            "<a href=''>"+
+                            "<span class='bold'>"+ data[i].categoryName+"</span></a><div>"+
+                            "<div style='font-size: 11px; color: brown'>"+data[i].name+"</div></div></div>"
+                      + "</li>";
+            games = games + game;
+        }
+        return games;
+    }
+    
+    function categorySectionli(data) {
+        debugger;
+        var games = '';
+        for (var i = 0; i < data.length; i++) {
+            var  game = "<li>"+
+                "<div style='position: absolute;'>"+
+                "<img class='school-search-item-logo' style='width: 50px; height: 50px' src='/assest/logos/mainlogo.svg'>"+
+                "</div><div class='schbilgi'>"+
+                "<a href=''>"+
+                "<span class='bold'>"+ data[i].name+"</span></a><div>"+
+                "</div></div>"
+                + "</li>";
+            games = games + game;
+        }
+        return games;
+    }
+
+    function showSearchSpinner() {
+        $(document.getElementsByClassName("loader")[0]).css("display", "block");
+        $(document.getElementById("headerPageSearch")).css("display","none")
+    }
+
+    function hideSearchSpinner() {
+        $(document.getElementById("headerPageSearch")).css("display", "block");
+        $(document.getElementsByClassName("loader")[0]).css("display", "none");
+    }
+
+    function getNoResultHtml() {
+        var emptyChartHtml = "<h5>aradığın şeyi bulamadık.</h5>";
+        return emptyChartHtml;
+    }
+
 </script>

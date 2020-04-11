@@ -31,12 +31,14 @@ namespace AvsarGame.API.Controllers {
                      select new SearchBasicModel() {
                              Name = o.Name,
                              ImgUrl = o.ImageUrl,
-                             CategoryName = c.Name
+                             CategoryName = c.Name,
+                             SeoName = o.SeoName
                      }).ToList();
 
             model.Categories =  _category.GetList(x => x.Name.Contains(term))
                                          .Select(x=> new SearchBasicModel() {
                                              Name=x.Name,
+                                             SeoName = x.SeoName,
                                              ImgUrl = x.ImageUrl}).ToList();
             return model;
         }

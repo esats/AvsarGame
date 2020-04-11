@@ -13,6 +13,7 @@ namespace AvsarGame.API.Models
 
     public class SearchBasicModel {
         public string Name { get; set; }
+        public string SeoName { get; set; }
         public string CategoryName { get; set; }
         public string ImgUrl { get; set; }
     }
