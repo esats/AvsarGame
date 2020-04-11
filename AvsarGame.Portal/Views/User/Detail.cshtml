@@ -120,17 +120,18 @@
                                     <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
                                         <div class="col-12">
                                             <form class="needs-validation" novalidate="">
-                                                <div class="form-row form-group">
-                                                    <div class="col-12">
-                                                        <button class="ml-auto btn-blue button" type="submit">
-                                                            Bilgilerimi Güncelle
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row ">
+                                          
+                                                <div class="form-row">
                                                     <div class="col-sm-6 col-12 form-group">
-                                                        <label class="label-white" style="color: #009aff!important;text-shadow: 0 1px 12px #0088e8, 0 1px 2px rgba(0,0,0,.2);"  data-error="wrong" data-success="right">Adı soyadı:</label>
-                                                        <label class="label-white" data-error="wrong" data-success="right"> @Model.UserDetail.FullName</label>
+                                                        <label class="label-white" style="color: #009aff!important;text-shadow: 0 1px 12px #0088e8, 0 1px 2px rgba(0,0,0,.2);" data-error="wrong" data-success="right">Adı:</label>
+                                                        <label class="label-white" data-error="wrong" data-success="right"> @Model.UserDetail.Name</label>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-sm-6 col-12 form-group">
+                                                        <label class="label-white" style="color: #009aff!important;text-shadow: 0 1px 12px #0088e8, 0 1px 2px rgba(0,0,0,.2);" data-error="wrong" data-success="right">Soyadı:</label>
+                                                        <label class="label-white" data-error="wrong" data-success="right"> @Model.UserDetail.Surname</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-row ">
@@ -141,8 +142,19 @@
                                                 </div>
                                                 <div class="form-row ">
                                                     <div class="col-sm-6 col-12 form-group">
-                                                        <label class="label-white" style="color: #009aff!important;text-shadow: 0 1px 12px #0088e8, 0 1px 2px rgba(0,0,0,.2);"  data-error="wrong" data-success="right">Telefon Numarası:</label>
+                                                        <label class="label-white" style="color: #009aff!important;text-shadow: 0 1px 12px #0088e8, 0 1px 2px rgba(0,0,0,.2);" data-error="wrong" data-success="right">Telefon Numarası:</label>
                                                         <label class="label-white" data-error="wrong" data-success="right"> @Model.UserDetail.PhoneNumber</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-12 form-group">
+                                                    <div class="col-12">
+                                                        <button type="button" class="ml-auto btn-blue button col-5" style="float: left" data-toggle="modal"
+                                                                data-target="#exampleModal">
+                                                            Bilgilerimi Güncelle
+                                                        </button>
+                                                        <button type="button" class="ml-auto btn-blue button col-4">
+                                                            Şifre değiştir
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -156,6 +168,43 @@
             </div>
         </div>
     </main>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color: #009aff!important;text-shadow: 0 1px 12px #0088e8, 0 1px 2px rgba(0,0,0,.2);" id="exampleModalLabel">Bilgilerimi güncelle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Adı</label>
+                        <input type="text" class="form-control" style="background-color :white !important" id="recipient-name" value="@Model.UserDetail.Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Soyadı</label>
+                        <input type="text" class="form-control" style="background-color :white !important" id="recipient-surname" value="@Model.UserDetail.Surname">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Email</label>
+                        <input type="text" class="form-control" style="background-color :white !important" id="recipient-mail" value="@Model.UserDetail.Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Telefon</label>
+                        <input type="text" class="form-control" style="background-color :white !important" id="recipient-phone" value="@Model.UserDetail.PhoneNumber">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary">Güncelle</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="payment-modal" tabindex="-1" role="dialog" aria-hidden="true">

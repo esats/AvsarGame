@@ -7,6 +7,63 @@
     .dropdown-cart:hover .dropdown-menu-right {
         display: block;
     }
+
+    .main-logo {
+        height: 100% !important;
+        position: absolute;
+        top: 3%;
+    }
+
+    .headerPageSearch {
+        float: left;
+        width: 150% !important;
+        z-index: 5000;
+        overflow-y: scroll;
+        padding: 10px;
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        max-height: 450px;
+        margin-top: 4px;
+        display: inherit;
+        border-radius: 4px
+    }
+
+    .headerPageSearch .text-muted {
+        padding: 10px;
+        font-weight: 700;
+        font-size: 12px;
+        color: #298fbc !important;
+        background-color: #edf0f1;
+    }
+
+    #headerpagesearchSch li {
+        float: left;
+        width: 50%;
+    }
+
+    .headerPageSearch .text-muted .resp-size {
+        color: #fff;
+        background-color: #298fbc;
+        padding: 6px 9px;
+        border-radius: 5px;
+        margin-left: 4px;
+    }
+
+    .headerPageSearch .text-muted .resp-more {
+        color: #7b7f81;
+        float: right;
+    }
+
+    .school-search-item-logo {
+        max-height: 35px;
+        max-width: 35px;
+    }
+
+    .headerPageSearch .schbilgi {
+        margin-left: 45px;
+    }
+
 </style>
 
 <header class="Header">
@@ -14,17 +71,106 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand  mr-auto" href="/">
-                <img src="~/assest/logos/mainlogo.svg" alt="" style="height: 38px; width: 110px">
+                <img src="~/assest/logos/mainlogo.svg" class="main-logo">
             </a>
 
             <div class="form-wrapper ml-auto">
                 <form class="form-inline">
                     <div class="auto-complete w-100">
-                        <input id="header-search" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." autocomplete="off">
+                        <input id="header-search" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." style="color: white !important" autocomplete="off">
                     </div>
 
                 </form>
-                <div class="search-icon ml-auto" data-toggle="search-form"></div>
+                <div class="headerPageSearch">
+                    <div id="school-search">
+                        <a class="resp-more-link" href="javascript:;" onclick="SearchView('school')">
+                            <div class="text-muted">Oyunlar <span class="resp-size">17</span><span class="resp-more">daha fazla +</span></div>
+                        </a>
+                        <ul class="list-unstyled pad-top-20" id="headerpagesearchSch">
+                            <!---->
+                            <li class="ng-scope">
+                                <div style="position: absolute;">
+                                    <!---->
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                </div>
+                                <div class="schbilgi">
+                                    <a target="_blank" href="/en/stanbul-university">
+                                        <span class="bold"> İstanbul Üniversitesi</span>
+                                    </a>
+                                    <!---->
+                                    <div>
+                                        <!---->
+                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </li>
+                            <li class="ng-scope">
+                                <div style="position: absolute;">
+                                    <!---->
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                </div>
+                                <div class="schbilgi">
+                                    <a target="_blank" href="/en/stanbul-university">
+                                        <span class="bold"> İstanbul Üniversitesi</span>
+                                    </a>
+                                    <!---->
+                                    <div>
+                                        <!---->
+                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                        <br>
+                    </div>
+                    <div id="school-search">
+                        <a class="resp-more-link" href="javascript:;" onclick="SearchView('school')">
+                            <div class="text-muted">Oyunlar <span class="resp-size">17</span><span class="resp-more">daha fazla +</span></div>
+                        </a>
+                        <ul class="list-unstyled pad-top-20" id="headerpagesearchSch">
+                            <!---->
+                            <li class="ng-scope">
+                                <div style="position: absolute;">
+                                    <!---->
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                </div>
+                                <div class="schbilgi">
+                                    <a target="_blank" href="/en/stanbul-university">
+                                        <span class="bold"> İstanbul Üniversitesi</span>
+                                    </a>
+                                    <!---->
+                                    <div>
+                                        <!---->
+                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </li>
+                            <li class="ng-scope">
+                                <div style="position: absolute;">
+                                    <!---->
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                </div>
+                                <div class="schbilgi">
+                                    <a target="_blank" href="/en/stanbul-university">
+                                        <span class="bold"> İstanbul Üniversitesi</span>
+                                    </a>
+                                    <!---->
+                                    <div>
+                                        <!---->
+                                        <div class="ng-scope" style="font-size: 11px; color: brown">Istanbul University</div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                        <br>
+                    </div>
+                </div>
             </div>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-label="Toggle navigation">
@@ -34,8 +180,8 @@
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item dropdown profile" style="@PageHelper.DisplayStyle("logged")">
                         <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
-                        <div class="dropdown-menu-right show @PageHelper.GetLoggedProfileStyle()" style="display: none; background-color:white">
-                            <a class="dropdown-item" style="color:#009AFF" href="/User/Detail">Profilim</a>
+                        <div class="dropdown-menu-right show @PageHelper.GetLoggedProfileStyle()" style="display: none; background-color: white">
+                            <a class="dropdown-item" style="color: #009AFF" href="/User/Detail">Profilim</a>
                             <a class="dropdown-item logout" href="/User/Logout">Çıkış Yap</a>
                         </div>
                     </li>
@@ -87,7 +233,7 @@
                 <span><i class="fa fa-circle"></i>&nbsp;<a style="color: #007bff" href="javascript:;">ANATOLIAGAME OYUN SEKTÖRÜNDE SİZİN YENİ YARDIMCINIZ.</a></span>
             </marquee>
         </div>
-        <hr />
+        <hr/>
         <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
             <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item nav-item2 position-static dropdown li-for-dropdown">
@@ -133,12 +279,12 @@
     </div>
 </header>
 <script>
-    $(document).ready(function () {
-        $("#chart").hover(function () {
+    $(document).ready(function() {
+        $("#chart").hover(function() {
             getChartHtml();
         });
 
-        $("#chart").click(function (e) {
+        $("#chart").click(function(e) {
             var chartCount = document.getElementById("chartSpan").innerHTML.trim();
             if (chartCount == "(0)") {
                 e.preventDefault();
@@ -153,10 +299,10 @@
             content: "application/json; charset=utf-8",
             dataType: 'json',
             data: { id: id },
-            success: function (res) {
+            success: function(res) {
                 getChartHtml();
             },
-            error: function (err) {
+            error: function(err) {
                 alert("Bir Hata oluştu");
             }
         });
@@ -167,12 +313,12 @@
             type: 'GET',
             url: '/Sepetim/GetChartDetail',
             dataType: 'json',
-            success: function (res) {
+            success: function(res) {
                 if (res.success) {
                     GetChart(res.data);
                 }
             },
-            error: function (err) {
+            error: function(err) {
                 Command: toastr["error"]("Bir Sorun Oluştu");
             }
         });
@@ -195,35 +341,39 @@
 
         for (var i = 0; i < data.length; i++) {
             var product =
-                '<tr id="row' + data[i].id + '" >'
-                + '<td data-heading="Sipariş Özeti">'
-                + '<div class="d-flex justify-content-between">'
-                + '<div>'
-                + data[i].name
-                + '</div>'
-                + '<div>'
-                + data[i].sellPrice
-                + ' (Birim Fiyat)'
-                + '</div>'
-                + '<div onClick="removeChart(\'' + data[i].id + '\')" class="cross"></div>'
-                + '</div>'
-                + '</td>'
-                + '</tr>';
+                '<tr id="row'
+                    + data[i].id
+                    + '" >'
+                    + '<td data-heading="Sipariş Özeti">'
+                    + '<div class="d-flex justify-content-between">'
+                    + '<div>'
+                    + data[i].name
+                    + '</div>'
+                    + '<div>'
+                    + data[i].sellPrice
+                    + ' (Birim Fiyat)'
+                    + '</div>'
+                    + '<div onClick="removeChart(\''
+                    + data[i].id
+                    + '\')" class="cross"></div>'
+                    + '</div>'
+                    + '</td>'
+                    + '</tr>';
             products.push(product);
         }
 
         var total =
             '<tr>'
-            + '<td>'
-            + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
-            + '<a href="/Sepetim" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
-            + 'Alışverişi Tamamla'
-            + '</a>'
-            + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
-            + '</span>'
-            + '</div>'
-            + '</td>'
-            + '</tr>';
+                + '<td>'
+                + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
+                + '<a href="/Sepetim" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
+                + 'Alışverişi Tamamla'
+                + '</a>'
+                + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
+                + '</span>'
+                + '</div>'
+                + '</td>'
+                + '</tr>';
 
         $("#chartDataTable").append(products);
         $("#chartDataTable").append(total);
