@@ -219,5 +219,17 @@ namespace AvsarGame.Portal.Controllers {
 
             return Json(new { success = true, data = response });
         }
+
+        [HttpPost]
+        public JsonResult Update(RegisterModel model) {
+            try {
+                var responseSaving =
+                        JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
+
+                return Json(new { Success = true, data = responseSaving });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }

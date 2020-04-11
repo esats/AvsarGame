@@ -113,6 +113,37 @@ namespace AvsarGame.API.Controllers {
             }
         }
 
+        [HttpPost("Update")]
+        public async Task<Response<RegisterModel>> Update([FromBody] RegisterModel model) {
+            Response<RegisterModel> response = new Response<RegisterModel>();
+            RegisterModel registerModel = new RegisterModel();
+            try {
+                var user = _userManager.FindByEmailAsync(model.Email).Result;
+                user.UserName = model.Email;
+                user.Email = model.Email;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+         
+                var update = await _userManager.UpdateAsync(user);
+
+                if (update.Succeeded) {
+                    response.IsSuccess = true;
+                    return response;
+                } else {
+                    registerModel.Errors = "";
+                    response.Value = registerModel;
+                    response.IsSuccess = false;
+                    return response;
+                }
+            } catch (Exception e) {
+                response.IsSuccess = false;
+                response.Exception = e.InnerException;
+                return response;
+            }
+        }
+
+
         [HttpGet]
         [Route("Logout")]
         public HttpStatusCode Logout() {

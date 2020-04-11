@@ -202,7 +202,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary">Güncelle</button>
+                <button type="button" id = "update-user" class="btn btn-primary">Güncelle</button>
             </div>
         </div>
     </div>
@@ -352,6 +352,20 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <h3 style="color: green">Bilgileriniz Güncellendi. <br><br><small></small></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
@@ -388,6 +402,56 @@
             primitivePaymentType = this.innerText.trim();
         });
 
+        $("#update-user").click(function () {
+            var model = {
+                Email: document.getElementById("recipient-mail").value,
+                PhoneNumber: document.getElementById("recipient-phone").value,
+                Name: document.getElementById("recipient-name").value,
+                Surname: document.getElementById("recipient-surname").value
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/Update',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                beforeSend: function() {
+                    showSpinner();
+                },
+                complete: function() {
+                    hideSpinner();
+                },
+                success: function (res) {
+                    if (res.data.isSuccess) {
+                        $('#exampleModal').modal('hide');
+                        openNotifiyModal();
+                    } else {
+                        alert("Talep Gönderilirken bir hata oluştu");
+                    }
+                },
+                error: function (err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+
+        $("#notifications-tab").click(function (e) {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                type: 'post',
+                url: '/User/ReadAllNotification',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: { id: id },
+                success: function (res) {
+                },
+                error: function (err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+        
         $("#payment-valid").click(function () {
             var model = {
                 Date: document.getElementById("payment_date").value,
@@ -423,7 +487,7 @@
                         $(document.getElementsByClassName("spinner-border")[0]).css("display","none");
                     } else {
                         alert("Talep Gönderilirken bir hata oluştu");
-                       $(document.getElementsByClassName("spinner-border")[0]).css("display","none");
+                        $(document.getElementsByClassName("spinner-border")[0]).css("display","none");
                     }
                 },
                 error: function (err) {
@@ -433,22 +497,6 @@
             });
         });
 
-        $("#notifications-tab").click(function (e) {
-            var id = $(this).attr("data-id");
-            $.ajax({
-                type: 'post',
-                url: '/User/ReadAllNotification',
-                content: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: { id: id },
-                success: function (res) {
-                },
-                error: function (err) {
-                    alert("Bir Hata oluştu");
-                }
-            });
-        });
-        
         $("#reset-password").click(function (e) {
             debugger;
             e.preventDefault();
@@ -499,6 +547,18 @@
         }
 
         return errorSpan;
+    }
+
+    function openNotifiyModal() {
+        $("#loadMe").modal({
+            backdrop: "static", //remove ability to close modal with click
+            keyboard: false, //remove option to close with keyboard
+            show: true //Display loader!
+        });
+        setTimeout(function() {
+            location.reload();
+            $("#loadMe").modal("hide");
+        }, 3500);
     }
 
 </script>
