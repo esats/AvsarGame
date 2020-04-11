@@ -18,13 +18,13 @@
         float: left;
         width: 100% !important;
         z-index: 5000;
-        overflow-y: scroll;
+        overflow-y: hidden;
         padding: 10px;
         position: absolute;
         background-color: #fff;
         border: 1px solid #e5e5e5;
         max-height: 450px;
-        margin-top: 4px;
+        margin-top: 3px;
         display: inherit;
         border-radius: 4px
     }
@@ -198,6 +198,7 @@
     </div>
 </header>
 <script>
+    var term = "";
     $(document).ready(function() {
         $("#chart").hover(function() {
             getChartHtml();
@@ -210,34 +211,42 @@
             }
         });
 
-        $("#headersearch").keyup(function(e) {
-            if (this.value.length < 3) {
-                $(document.getElementsByClassName("headerPageSearch")[0]).css("display", "none");
-                return;
-            }
-            $(document.getElementsByClassName("headerPageSearch")[0]).css("display", "block");
+        var typingTimer;                //timer identifier
+        var doneTypingInterval = 800;  //time in ms (5 seconds)
 
-            $.ajax({
-                type: 'get',
-                url: '/Home/Search',
-                content: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: {term : this.value},
-                beforeSend: function() {
-                    showSearchSpinner();
-                },
-                complete: function() {
-                    hideSearchSpinner();
-                },
-                success: function (res) {
-                   setSearchHtml(res);
-                },
-                error: function (err) {
-                    alert("bir hata oluştu")
-                }
-            });
+        $("#headersearch").keyup(function(e) {
+            term = this.value;
+            clearTimeout(typingTimer);
+            if (this.value.length >= 3) {
+                typingTimer = setTimeout(callSearch, doneTypingInterval);
+            } else {
+                $(document.getElementsByClassName("headerPageSearch")[0]).css("display", "none");
+            }
         });
     });
+
+    function callSearch() {
+        $(document.getElementsByClassName("headerPageSearch")[0]).css("display", "block");
+        $.ajax({
+            type: 'get',
+            url: '/Home/Search',
+            content: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {term : term},
+            beforeSend: function() {
+                showSearchSpinner();
+            },
+            complete: function() {
+                hideSearchSpinner();
+            },
+            success: function (res) {
+                setSearchHtml(res);
+            },
+            error: function (err) {
+                alert("bir hata oluştu");
+            }
+        });
+    }
 
     function removeChart(id) {
         $.ajax({
@@ -347,7 +356,7 @@
             var gameSection ="<div id='game-search'>"
                 + "<a href='javascript:;' onclick='SearchView('school')>"
                 + "<div class='text-muted'>Oyunlar<span class='resp-size'>"+data.games.length+"</span><span class='resp-more'>daha fazla +</span></div></a>"
-                + "<ul class='list-unstyled' id='headerpagesearchSch'>"+gameSectionli(data.games)+"</ul><div class='clear'></div><br></div>";
+                + "<ul class='list-unstyled' style='padding-top:10px' id='headerpagesearchSch'>"+gameSectionli(data.games)+"</ul><div class='clear'></div><br></div>";
             $("#headerPageSearch").append(gameSection);
         }
 
@@ -362,31 +371,29 @@
     }
 
     function gameSectionli(data) {
-        debugger;
         var games = '';
         for (var i = 0; i < data.length; i++) {
             var  game = "<li>"+
-                            "<div style='position: absolute;'>"+
-                            "<img class='school-search-item-logo' style='width: 50px; height: 50px' src='/assest/logos/mainlogo.svg'>"+
-                            "</div><div class='schbilgi'>"+
-                            "<a href=''>"+
-                            "<span class='bold'>"+ data[i].categoryName+"</span></a><div>"+
-                            "<div style='font-size: 11px; color: brown'>"+data[i].name+"</div></div></div>"
-                      + "</li>";
+                "<div style='position: absolute;'>"+
+                "<img class='school-search-item-logo' style='width: 50px; height: 50px; border-radius: 50%;' src='/Uploads/"+data[i].imgUrl+"'>"+
+                "</div><div class='schbilgi'>"+
+                "<a href='/oyun/"+data[i].categorySeoName+'/' +data[i].seoName+"'>"+
+                "<span class='bold'>"+ data[i].name+"</span></a><div>"+
+                "<div style='font-size: 11px; color: brown'>"+data[i].categoryName+"</div></div></div>"
+                + "</li>";
             games = games + game;
         }
         return games;
     }
     
     function categorySectionli(data) {
-        debugger;
         var games = '';
         for (var i = 0; i < data.length; i++) {
-            var  game = "<li>"+
+            var  game = "<li style='margin-top: 16px; !important';>"+
                 "<div style='position: absolute;'>"+
-                "<img class='school-search-item-logo' style='width: 50px; height: 50px' src='/assest/logos/mainlogo.svg'>"+
+                "<img class='school-search-item-logo' style='width: 50px; height: 50px; border-radius: 50%;' src='/Uploads/"+data[i].imgUrl+"'>"+
                 "</div><div class='schbilgi'>"+
-                "<a href=''>"+
+                "<a href='/oyun/"+data[i].seoName+"'>"+
                 "<span class='bold'>"+ data[i].name+"</span></a><div>"+
                 "</div></div>"
                 + "</li>";

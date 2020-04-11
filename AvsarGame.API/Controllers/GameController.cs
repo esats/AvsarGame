@@ -19,7 +19,7 @@ namespace AvsarGame.API.Controllers {
         private readonly ICategory _category;
         private readonly IMapper _mapper;
 
-        public GameController(IGame game,  ICategory category, IMapper mapper) {
+        public GameController(IGame game, ICategory category, IMapper mapper) {
             _game = game;
             _category = category;
             _mapper = mapper;
@@ -30,7 +30,7 @@ namespace AvsarGame.API.Controllers {
         public List<GameModel> List() {
             List<GameModel> list = new List<GameModel>();
             var entities = _game.GetList(x => x.IsActive == true);
-            var categories = _category.GetList(x=>x.IsActive == true);
+            var categories = _category.GetList(x => x.IsActive == true);
             foreach (var entity in entities) {
                 GameModel model = new GameModel() {
                         Id = entity.Id,
@@ -39,8 +39,8 @@ namespace AvsarGame.API.Controllers {
                         Name = entity.Name,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice,
-                        CategoryId = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).Id,
-                        CategoryName = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).Name,
+                        CategoryId = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Id,
+                        CategoryName = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Name,
                 };
                 list.Add(model);
             }
@@ -85,7 +85,6 @@ namespace AvsarGame.API.Controllers {
                         SeoName = entity.SeoName,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice
-                
                 };
                 list.Add(model);
             }
@@ -98,7 +97,7 @@ namespace AvsarGame.API.Controllers {
         public ActionResult Save([FromBody] GameModel model) {
             try {
                 if (model.Id != Guid.Empty) {
-                    var oldGame = _game.GetT(x=>x.Id == model.Id);
+                    var oldGame = _game.GetT(x => x.Id == model.Id);
                     Games entity = new Games() {
                             Id = model.Id,
                             ImageUrl = model.ImageUrl ?? oldGame.ImageUrl,
@@ -136,9 +135,18 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("GetOne/{id}")]
         public GameModel GetOne(Guid id) {
-           GameModel model = new GameModel();
-           model= _mapper.Map<GameModel>(_game.GetT(x => x.Id == id && x.IsActive == true));
+            GameModel model = new GameModel();
+            model = _mapper.Map<GameModel>(_game.GetT(x => x.Id == id && x.IsActive == true));
 
+            return model;
+        }
+
+        [HttpGet]
+        [Route("GameDetail")]
+        [AllowAnonymous]
+        public GameModel GameDetail([FromQuery] string category, string name) {
+            GameModel model = new GameModel();
+            model = _mapper.Map<GameModel>(_game.GetT(x => x.SeoName == name));
             return model;
         }
 
@@ -176,14 +184,13 @@ namespace AvsarGame.API.Controllers {
             return result;
         }
 
-        
         [HttpGet]
         [Route("HeaderList")]
         [AllowAnonymous]
         public List<GameModel> HeaderList() {
             List<GameModel> list = new List<GameModel>();
             var entities = _game.GetList(x => x.IsActive == true);
-            var categories = _category.GetList(x=>x.IsActive == true);
+            var categories = _category.GetList(x => x.IsActive == true);
             foreach (var entity in entities) {
                 GameModel model = new GameModel() {
                         Id = entity.Id,
@@ -192,8 +199,8 @@ namespace AvsarGame.API.Controllers {
                         Name = entity.Name,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice,
-                        CategoryId = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).Id,
-                        CategoryName = categories.FirstOrDefault(x=>x.Id == entity.CategoryId).SeoName,
+                        CategoryId = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Id,
+                        CategoryName = categories.FirstOrDefault(x => x.Id == entity.CategoryId).SeoName,
                 };
                 list.Add(model);
             }
@@ -208,11 +215,10 @@ namespace AvsarGame.API.Controllers {
             GameModel gameModel = new GameModel();
             try {
                 var game = _game.GetT(x => x.SeoName == SeoName && x.IsActive == true);
-             
-                gameModel  = _mapper.Map<GameModel>(game);
 
+                gameModel = _mapper.Map<GameModel>(game);
             } catch (Exception e) {
-                throw new Exception(e.Message); 
+                throw new Exception(e.Message);
             }
 
             return gameModel;
