@@ -52,5 +52,13 @@ namespace AvsarGame.Portal.Controllers {
 
             return View(model);
         }
+
+        [HttpGet]
+        public JsonResult Search(string term) {
+            SearchModel model =
+                    JsonConvert.DeserializeObject<SearchModel>(UiRequestManager.Instance.Get(string.Format("Search/GetItems?term={0}", term)));
+
+            return Json(model);
+        }
     }
 }

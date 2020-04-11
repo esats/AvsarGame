@@ -77,11 +77,10 @@
             <div class="form-wrapper ml-auto">
                 <form class="form-inline">
                     <div class="auto-complete w-100">
-                        <input id="header-search" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." style="color: white !important" autocomplete="off">
+                        <input id="headersearch" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." style="color: white !important" autocomplete="off">
                     </div>
-
                 </form>
-                <div class="headerPageSearch" style="display: none">
+                <div class="headerPageSearch" >
                     <div id="school-search">
                         <a class="resp-more-link" href="javascript:;" onclick="SearchView('school')">
                             <div class="text-muted">Oyunlar <span class="resp-size">17</span><span class="resp-more">daha fazla +</span></div>
@@ -91,7 +90,7 @@
                             <li class="ng-scope">
                                 <div style="position: absolute;">
                                     <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
                                 </div>
                                 <div class="schbilgi">
                                     <a target="_blank" href="/en/stanbul-university">
@@ -108,7 +107,7 @@
                             <li class="ng-scope">
                                 <div style="position: absolute;">
                                     <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
                                 </div>
                                 <div class="schbilgi">
                                     <a target="_blank" href="/en/stanbul-university">
@@ -135,7 +134,7 @@
                             <li class="ng-scope">
                                 <div style="position: absolute;">
                                     <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
                                 </div>
                                 <div class="schbilgi">
                                     <a target="_blank" href="/en/stanbul-university">
@@ -152,7 +151,7 @@
                             <li class="ng-scope">
                                 <div style="position: absolute;">
                                     <!---->
-                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/logo.svg">
+                                    <!----><img alt="Studyaway" class="CollegeLogo school-search-item-logo" style="width: 50px; height: 50px" src="/assest/logos/mainlogo.svg">
                                 </div>
                                 <div class="schbilgi">
                                     <a target="_blank" href="/en/stanbul-university">
@@ -247,23 +246,23 @@
                     </div>
                 </li>
                 @*<li class="nav-item nav-item2">
-                        <a class="nav-link" href="products.html">KNIGHT ONLINE</a>
-                    </li>*@
+            <a class="nav-link" href="products.html">KNIGHT ONLINE</a>
+        </li>*@
                 <li class="nav-item nav-item2" style="margin-left: 530px">
                     <a class="nav-link" href="/odeme-yontemleri">Ödeme Yöntemleri</a>
                 </li>
                 @*<li class="nav-item nav-item2">
-                        <a class="nav-link" href="games.html">WAX (VGO)</a>
-                    </li>*@
+            <a class="nav-link" href="games.html">WAX (VGO)</a>
+        </li>*@
                 @*<li class="nav-item nav-item2">
-                        <a class="nav-link" href="orders.html">STEAM</a>
-                    </li>*@
+            <a class="nav-link" href="orders.html">STEAM</a>
+        </li>*@
                 <li class="nav-item nav-item2">
                     <a class="nav-link" href="/yardım">Yardım</a>
                 </li>
                 @*<li class="nav-item nav-item2">
-                        <a class="nav-link" href="payment-methods.html">İletişim</a>
-                    </li>*@
+            <a class="nav-link" href="payment-methods.html">İletişim</a>
+        </li>*@
             </ul>
         </nav>
         <div class="search-form-wrapper">
@@ -289,6 +288,34 @@
             if (chartCount == "(0)") {
                 e.preventDefault();
             }
+        });
+
+        $("#headersearch").keyup(function(e) {
+            if (this.value.length < 3) {
+                return;
+            }
+             
+            $.ajax({
+                type: 'get',
+                url: '/Home/Search',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: {term : this.value},
+                //beforeSend: function() {
+                //    showSearchSpinner();
+                //},
+                //complete: function() {
+                //    hideSearchSpinner();
+                //},
+                success: function (res) {
+                    if (res.success) {
+                        setSearchHtml(res);
+                    } 
+                },
+                error: function (err) {
+                    alert("bir hata oluştu")
+                }
+            });
         });
     });
 
@@ -386,5 +413,19 @@
             + "</div><div><p>Sepetiniz Boş</p></div></div><p class='mt-3'>"
             + "Alışveriş yapmaya başlayabilirsiniz</p></td></tr></tbody></table></div></div></div>";
         return emptyChartHtml;
+    }
+
+    function setSearchHtml(data) {
+        debugger;
+        $("#chartDataTable").empty();
+        $("div");
+        var products = [];
+
+        if (data == null || data.length == 0) {
+            $("#chartAmount").empty();
+            $("#chartDataTable").append(GetEmptyChartHtml());
+            return;
+        }
+
     }
 </script>
