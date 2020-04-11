@@ -147,12 +147,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-12 form-group">
+                                                    <input hidden="hidden" id="user-mail" value="@Model.UserDetail.Email"/>
                                                     <div class="col-12">
                                                         <button type="button" class="ml-auto btn-blue button col-5" style="float: left" data-toggle="modal"
                                                                 data-target="#exampleModal">
                                                             Bilgilerimi Güncelle
                                                         </button>
-                                                        <button type="button" class="ml-auto btn-blue button col-4">
+                                                        <button type="button" data-mail="@Model.UserDetail.Email" id="reset-password" class="ml-auto btn-blue button col-4">
                                                             Şifre değiştir
                                                         </button>
                                                     </div>
@@ -350,6 +351,7 @@
         <!--/.Content-->
     </div>
 </div>
+
 <script src="~/assest/scripts/bootstrap-datepicker.min.js"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
@@ -443,6 +445,34 @@
                 },
                 error: function (err) {
                     alert("Bir Hata oluştu");
+                }
+            });
+        });
+        
+        $("#reset-password").click(function (e) {
+            debugger;
+            e.preventDefault();
+            var model = {
+                Email: document.getElementById("user-mail").value
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/ForgotPassword',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                beforeSend: function() {
+                    showSpinner();
+                },
+                complete: function() {
+                    hideSpinner();
+                },
+                success: function (res) {
+                    alert("Şifre değiştirme talebiniz mailinize gönderilmiştir.");
+                },
+                error: function (err) {
+                    alert("Bir hata oluştu.");
                 }
             });
         });

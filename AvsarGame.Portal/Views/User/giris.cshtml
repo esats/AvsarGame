@@ -84,7 +84,11 @@
                     if (res.success) {
                         debugger;
                         if (res.data.isSuccess) {
-                            location.href = res.data.value.returnUrl;
+                            if (res.data.value.returnUrl != null) {
+                                location.href = res.data.value.returnUrl;
+                            } else {
+                                location.href = '/';
+                            }
                         }
                         else {
                             $(document.getElementsByClassName("login-fail")[0]).html(res.data.message);

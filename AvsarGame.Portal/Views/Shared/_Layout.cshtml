@@ -25,7 +25,61 @@
             background-color: transparent;
             z-index: 99999;
         }
+
+        .loader {
+            position: relative;
+            text-align: center;
+            margin: 15px auto 35px auto;
+            z-index: 9999;
+            display: block;
+            width: 80px;
+            height: 80px;
+            border: 10px solid rgba(0, 0, 0, .3);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 1s ease-in-out infinite;
+            -webkit-animation: spin 1s ease-in-out infinite;
+        }
+
+        @@keyframes spin {
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @@-webkit-keyframes spin {
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        .modal-content {
+            border-radius: 0px;
+            box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.75;
+        }
+
+        #output {
+            padding: 25px 15px;
+            background: #222;
+            border: 1px solid #222;
+            max-width: 350px;
+            margin: 35px auto;
+            font-family: 'Roboto', sans-serif !important;
+    
+
+        p.subtle {
+            color: #555;
+            font-style: italic;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
     </style>
+
+
      @*Global site tag (gtag.js) - Google Analytics*@ 
     @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161891291-1"></script>
         <script>
@@ -387,7 +441,7 @@
                         hideSpinner();
                     },
                     success: function (res) {
-                        $(document.getElementsByClassName("forgotPW-fail")[0]).html("Şifreniz değiştirilme talebiniz  alınmıştır. Lütfen mail adresinizi kontrol ediniz.");
+                        $(document.getElementsByClassName("forgotPW-fail")[0]).html("Şifreniz yenileme talebiniz  alınmıştır. Lütfen mailinizi kontrol ediniz.");
                     },
                     error: function (err) {
                         $(document.getElementsByClassName("forgotPW-fail")[0]).html("Bir Hata oluştu");
