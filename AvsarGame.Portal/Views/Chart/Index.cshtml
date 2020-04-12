@@ -180,6 +180,13 @@
                     return;
                 }
             }
+           
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].BillingAmount == 0) {
+                    alert("Lütfen Miktar Giriniz");
+                    return;
+                }
+            }
 
             $.ajax({
                 contentType: 'application/json; charset=utf-8',
@@ -212,7 +219,6 @@
     });
 
     function calculatedTotalAmount() {
-        debugger;
         var rows = document.getElementsByClassName("order");
         var totalAmount = 0.00;
         for (var i = 0; i < rows.length; i++) {

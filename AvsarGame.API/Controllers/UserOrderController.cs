@@ -121,7 +121,7 @@ namespace AvsarGame.API.Controllers {
             var userOrders = _userOrder.GetUserOrder(id);
 
             foreach (var userOrder in userOrders) {
-                foreach (var detail in userOrder.Orders.OrderByDescending(x => x.CreatedDate)) {
+                foreach (var detail in userOrder.Orders) {
                     UserOrderDetailModel model = new UserOrderDetailModel();
                     model.UserOrderId = userOrder.Id;
                     model.CharacterName = detail.CharacterName;
@@ -129,6 +129,7 @@ namespace AvsarGame.API.Controllers {
                     model.BillingAmount = detail.BillingAmount;
                     model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
                     model.OrderStatus = detail.OrderStatus;
+                    model.CreatedDate = detail.CreatedDate;
                     userOrderDetailList.Add(model);
                 }
 
@@ -148,7 +149,7 @@ namespace AvsarGame.API.Controllers {
             var userSells = _userSell.GetUserSell(id);
 
             foreach (var userSell in userSells) {
-                foreach (var detail in userSell.Sells.OrderByDescending(x => x.CreatedDate)) {
+                foreach (var detail in userSell.Sells) {
                     UserOrderDetailModel model = new UserOrderDetailModel();
                     model.UserOrderId = userSell.Id;
                     model.CharacterName = detail.CharacterName;
@@ -156,6 +157,7 @@ namespace AvsarGame.API.Controllers {
                     model.BillingAmount = detail.BillingAmount;
                     model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
                     model.OrderStatus = detail.OrderStatus;
+                    model.CreatedDate = detail.CreatedDate;
                     userOrderDetailList.Add(model);
                 }
 
@@ -229,7 +231,6 @@ namespace AvsarGame.API.Controllers {
                 return baseResponse;
             }
         }
-
 
         [HttpPost]
         [Route("Approve")]
