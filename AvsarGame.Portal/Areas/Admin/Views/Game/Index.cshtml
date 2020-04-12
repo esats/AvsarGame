@@ -1,5 +1,12 @@
 ﻿@using AvsarGame.Portal.Core
 @model AvsarGame.Portal.Models.GamePageModel
+
+@functions {
+    private string GetChecked(bool val) {
+       return val ? "checked" : "";
+    }
+
+}
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -87,6 +94,24 @@
                                                         <label>Resim</label>
                                                         <input type="file" id="Image" class="form-control">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label>Sıralamadaki yeri</label>
+                                                        <input id="OrderNo" type="text" value="@item.OrderNo" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                                                            <label class="form-check-label">
+                                                                <input required="required" @GetChecked(item.SellButtonEnabled) class="sellBtnEnabled" type="checkbox">
+                                                                Satış butonu aktif
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                                                            <label class="form-check-label">
+                                                                <input required="required" @GetChecked(item.BuyButtonEnabled)  class="buyBtnEnabled" type="checkbox">
+                                                                Alış butonu aktif
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer border-top-0 d-flex justify-content-center">
                                                     @*<button>Kaydet</button>*@
@@ -119,7 +144,8 @@
                     <div class="form-group">
                         <label>Kategori Adı</label>
                         <select id="CategoryId" class="form-control">
-                            @foreach (var game in Model.Categories) {
+                            @foreach (var game in Model.Categories)
+                            {
                                 <option value="@game.Id">@game.Name</option>
                             }
                         </select>
@@ -144,6 +170,24 @@
                         <label>Resim</label>
                         <input type="file" id="Image" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label>Sıralamadaki yeri</label>
+                        <input id="OrderNo" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                            <label class="form-check-label">
+                                <input required="required" class="sellBtnEnabled" type="checkbox">
+                                Satış butonu aktif
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline mb-4 ppymnttype">
+                            <label class="form-check-label">
+                                <input required="required" class="buyBtnEnabled" type="checkbox">
+                                Alış butonu aktif
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer border-top-0 d-flex justify-content-center">
                     @*<button>Kaydet</button>*@
@@ -164,6 +208,9 @@
             model.append('CategoryId', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
             model.append('BuyPrice',  $(this.parentElement.parentElement.getElementsByTagName("input")[1]).val());
             model.append('SellPrice', $(this.parentElement.parentElement.getElementsByTagName("input")[2]).val());
+            model.append('SellButtonEnabled',this.parentElement.parentElement.getElementsByClassName("sellBtnEnabled")[0].checked);
+            model.append('BuyButtonEnabled',this.parentElement.parentElement.getElementsByClassName("buyBtnEnabled")[0].checked);
+            model.append('OrderNo', $(this.parentElement.parentElement.getElementsByTagName("input")[4]).val());
 
             $.ajax({
                 type: 'post',
@@ -197,6 +244,9 @@
             model.append('BuyPrice',  $(this.parentElement.parentElement.getElementsByTagName("input")[1]).val());
             model.append('SellPrice', $(this.parentElement.parentElement.getElementsByTagName("input")[2]).val());
             model.append('Id', $(this).attr('data-id'));
+            model.append('SellButtonEnabled',this.parentElement.parentElement.getElementsByClassName("sellBtnEnabled")[0].checked);
+            model.append('BuyButtonEnabled',this.parentElement.parentElement.getElementsByClassName("buyBtnEnabled")[0].checked);
+            model.append('OrderNo', $(this.parentElement.parentElement.getElementsByTagName("input")[4]).val());
 
             $.ajax({
                 type: 'post',

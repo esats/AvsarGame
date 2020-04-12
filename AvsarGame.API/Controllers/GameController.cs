@@ -39,6 +39,9 @@ namespace AvsarGame.API.Controllers {
                         Name = entity.Name,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice,
+                        BuyButtonEnabled = entity.BuyButtonEnabled,
+                        SellButtonEnabled = entity.SellButtonEnabled,
+                        OrderNo = entity.OrderNo,
                         CategoryId = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Id,
                         CategoryName = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Name,
                 };
@@ -62,7 +65,10 @@ namespace AvsarGame.API.Controllers {
                         Name = entity.Name,
                         SeoName = entity.SeoName,
                         SellPrice = entity.SellPrice,
-                        BuyPrice = entity.BuyPrice
+                        BuyPrice = entity.BuyPrice,
+                        BuyButtonEnabled = entity.BuyButtonEnabled,
+                        SellButtonEnabled = entity.SellButtonEnabled,
+                        OrderNo = entity.OrderNo
                 };
                 list.Add(model);
             }
@@ -107,6 +113,9 @@ namespace AvsarGame.API.Controllers {
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
                             CategoryId = model.CategoryId,
+                            BuyButtonEnabled = model.BuyButtonEnabled,
+                            SellButtonEnabled = model.SellButtonEnabled,
+                            OrderNo = model.OrderNo,
                             ModifiedBy = base.GetUser(),
                             ModifiedDate = DateTime.Now
                     };
@@ -119,6 +128,9 @@ namespace AvsarGame.API.Controllers {
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
                             SellPrice = model.SellPrice,
                             BuyPrice = model.BuyPrice,
+                            BuyButtonEnabled = model.BuyButtonEnabled,
+                            SellButtonEnabled = model.SellButtonEnabled,
+                            OrderNo = model.OrderNo,
                             CategoryId = model.CategoryId,
                             CreatedDate = DateTime.Now,
                             CreatedBy = base.GetUser()

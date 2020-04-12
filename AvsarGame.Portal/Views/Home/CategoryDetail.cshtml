@@ -17,7 +17,7 @@
                     </p>
                 </div>
             </div>
-            <div class="row section" style=" display: none;">
+            <div class="row section" style="display: none;">
                 <div class="col-12">
                     <div class="banner-container">
                         <img class="banner-img" src="https://cdn2-www.gamerevolution.com/assets/uploads/2012/03/file_2409_ME3.jpg" alt="">
@@ -44,8 +44,7 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-12 order-lg-2 order-1 product-container">
-                    @foreach (var game in Model.Games)
-                    {
+                    @foreach (var game in Model.Games.OrderBy(x=>x.OrderNo)) {
                         <div class="row product">
                             <div class="col-md-3 col-sm-5 col-12">
                                 <div class="product-img-container">
@@ -83,8 +82,12 @@
                                 </div>
                                 <div class="row align-items-end h-100">
                                     <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
-                                        <a  class="button btn-outline mr-4" href="/satis-yap/@game.SeoName">Satış Yap</a>
-                                        <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id ="buy" class="button btn-blue">Satın Al</button>
+                                        @if (game.SellButtonEnabled) {
+                                            <a class="button btn-outline mr-4" href="/satis-yap/@game.SeoName">Satış Yap</a>
+                                        }
+                                        @if (game.BuyButtonEnabled) {
+                                            <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue">Satın Al</button>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +103,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="tab-content">
-                <div class="tab-pane fade terms-link"  role="tabpanel">
+                <div class="tab-pane fade terms-link" role="tabpanel">
                     <!--Body-->
                     <div class="modal-body">
                         <form class="needs-validation" novalidate>
@@ -111,7 +114,7 @@
                                         Miktar
                                     </label>
                                     <input type="email" id="amount" class="form-control"
-                                           placeholder="Miktar" required />
+                                           placeholder="Miktar" required/>
                                 </div>
                             </div>
                             <div class="form-row form-group">
@@ -141,7 +144,7 @@
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
-                success: function (res) {
+                success: function(res) {
                     if (res.success) {
                         $("#chart")[0].classList.remove("passive");
                         $("#chart")[0].getElementsByTagName('a')[0].classList.add("chartCss");
@@ -152,11 +155,11 @@
                         Command: toastr["error"]("Ürün sepete eklenemedi");
                     }
                 },
-                error: function (err) {
+                error: function(err) {
                     Command: toastr["error"]("Ürün sepete eklenemedi");
                 }
             });
         });
     });
- 
+
 </script>

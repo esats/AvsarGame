@@ -19,7 +19,9 @@ namespace AvsarGame.API.Models {
         public decimal SellPrice { get; set; }
         public decimal BuyPrice { get; set; }
         public string Count { get; set; }
-
+        public bool SellButtonEnabled { get; set; }
+        public bool BuyButtonEnabled { get; set; }
+        public int OrderNo { get; set; }
         [JsonIgnore]
         public IFormFile Image { get; set; }
     }

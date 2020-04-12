@@ -32,8 +32,12 @@
                     </div>
                     <div class="col-12" style="float: right">
                         <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
-                            <a class="button btn-outline mr-4" href="/satis-yap/@Model.SeoName">Satış Yap</a>
-                            <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-blue">Satın Al</button>
+                            @if (Model.SellButtonEnabled) {
+                                <a class="button btn-outline mr-4" href="/satis-yap/@Model.SeoName">Satış Yap</a>
+                            }
+                            @if (Model.BuyButtonEnabled) {
+                                <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="buy" class="button btn-blue">Satın Al</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -41,7 +45,6 @@
         </div>
     </div>
 </main>
-
 
 <script>
     $(document).ready(function() {
@@ -54,7 +57,7 @@
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
-                success: function (res) {
+                success: function(res) {
                     if (res.success) {
                         $("#chart")[0].classList.remove("passive");
                         $("#chart")[0].getElementsByTagName('a')[0].classList.add("chartCss");
@@ -65,7 +68,7 @@
                         Command: toastr["error"]("Ürün sepete eklenemedi");
                     }
                 },
-                error: function (err) {
+                error: function(err) {
                     Command: toastr["error"]("Ürün sepete eklenemedi");
                 }
             });
