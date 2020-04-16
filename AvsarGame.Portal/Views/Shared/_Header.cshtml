@@ -31,8 +31,8 @@
 
     .headerPageSearch .text-muted {
         padding: 10px;
-        font-weight: 700;
-        font-size: 12px;
+        font-weight: 500;
+        font-size: 15px;
         color: #298fbc !important;
         background-color: #edf0f1;
     }
@@ -68,6 +68,10 @@
         clear: both;
     }
 
+    .input-search {
+        box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .04), 0 5px 15px 0 rgba(0, 138, 229, .3) !important;
+        color: white !important
+    }
 </style>
 
 <header class="Header">
@@ -81,11 +85,11 @@
             <div class="form-wrapper ml-auto">
                 <form class="form-inline">
                     <div class="auto-complete w-100">
-                        <input id="headersearch" class="form-control d-lg-inline-block d-none w-100" type="search" placeholder="Arama..." style="color: white !important" autocomplete="off">
+                        <input id="headersearch" class="form-control d-lg-inline-block d-none w-100 input-search" type="search" style="border: 1px solid rgba(0, 154, 255, .8) !important;" placeholder="Arama..." autocomplete="off">
                     </div>
                 </form>
                 <div class="headerPageSearch" style="display: none">
-                    <div class="loader" style="display: none" ></div>
+                    <div class="loader" style="display: none"></div>
                     <div id="headerPageSearch">
 
                     </div>
@@ -161,13 +165,20 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <div class="row">
-                            @await Component.InvokeAsync("Header")
+                            @await Component.InvokeAsync("HeaderCategory")
                         </div>
                     </div>
                 </li>
-                @*<li class="nav-item nav-item2">
-            <a class="nav-link" href="products.html">KNIGHT ONLINE</a>
-        </li>*@
+                <li class="nav-item nav-item2 position-static dropdown li-for-dropdown">
+                    <a class="nav-link dropdown-toggle">
+                        KNIGHT ONLINE
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <div class="row">
+                           @await Component.InvokeAsync("Header")
+                        </div>
+                    </div>
+                </li>
                 <li class="nav-item nav-item2" style="margin-left: 530px">
                     <a class="nav-link" href="/odeme-yontemleri">Ödeme Yöntemleri</a>
                 </li>
@@ -211,8 +222,8 @@
             }
         });
 
-        var typingTimer;                //timer identifier
-        var doneTypingInterval = 800;  //time in ms (5 seconds)
+        var typingTimer; //timer identifier
+        var doneTypingInterval = 800; //time in ms (5 seconds)
 
         $("#headersearch").keyup(function(e) {
             term = this.value;
@@ -232,17 +243,17 @@
             url: '/Home/Search',
             content: "application/json; charset=utf-8",
             dataType: 'json',
-            data: {term : term},
+            data: { term: term },
             beforeSend: function() {
                 showSearchSpinner();
             },
             complete: function() {
                 hideSearchSpinner();
             },
-            success: function (res) {
+            success: function(res) {
                 setSearchHtml(res);
             },
-            error: function (err) {
+            error: function(err) {
                 alert("bir hata oluştu");
             }
         });
@@ -353,18 +364,26 @@
         }
 
         if (data.games.length > 0) {
-            var gameSection ="<div id='game-search'>"
+            var gameSection = "<div id='game-search'>"
                 + "<a href='javascript:;' onclick='SearchView('school')>"
-                + "<div class='text-muted'>Oyunlar<span class='resp-size'>"+data.games.length+"</span><span class='resp-more'>daha fazla +</span></div></a>"
-                + "<ul class='list-unstyled' style='padding-top:10px' id='headerpagesearchSch'>"+gameSectionli(data.games)+"</ul><div class='clear'></div><br></div>";
+                + "<div class='text-muted'>Oyunlar<span class='resp-size'>"
+                + data.games.length
+                + "</span><span class='resp-more'>daha fazla +</span></div></a>"
+                + "<ul class='list-unstyled' style='padding-top:10px' id='headerpagesearchSch'>"
+                + gameSectionli(data.games)
+                + "</ul><div class='clear'></div><br></div>";
             $("#headerPageSearch").append(gameSection);
         }
 
         if (data.categories.length > 0) {
-            var categorySection ="<div id='category-search'>"
+            var categorySection = "<div id='category-search'>"
                 + "<a href='javascript:;' onclick='SearchView('school')>"
-                + "<div class='text-muted'>Kategoriler<span class='resp-size'>"+data.categories.length+"</span><span class='resp-more'>daha fazla +</span></div></a>"
-                + "<ul class='list-unstyled' id='headerpagesearchSch'>"+categorySectionli(data.categories)+"</ul></div><div class='clear'></div><br>";
+                + "<div class='text-muted'>Kategoriler<span class='resp-size'>"
+                + data.categories.length
+                + "</span><span class='resp-more'>daha fazla +</span></div></a>"
+                + "<ul class='list-unstyled' id='headerpagesearchSch'>"
+                + categorySectionli(data.categories)
+                + "</ul></div><div class='clear'></div><br>";
             $("#headerPageSearch").append(categorySection);
         }
 
@@ -373,29 +392,45 @@
     function gameSectionli(data) {
         var games = '';
         for (var i = 0; i < data.length; i++) {
-            var  game = "<li>"+
-                "<div style='position: absolute;'>"+
-                "<img class='school-search-item-logo' style='width: 50px; height: 50px; border-radius: 50%;' src='/Uploads/"+data[i].imgUrl+"'>"+
-                "</div><div class='schbilgi'>"+
-                "<a href='/oyun/"+data[i].categorySeoName+'/' +data[i].seoName+"'>"+
-                "<span class='bold'>"+ data[i].name+"</span></a><div>"+
-                "<div style='font-size: 11px; color: brown'>"+data[i].categoryName+"</div></div></div>"
+            var game = "<li>"
+                + "<div style='position: absolute;'>"
+                + "<img class='school-search-item-logo' style='width: 50px; height: 50px; border-radius: 50%;' src='/Uploads/"
+                + data[i].imgUrl
+                + "'>"
+                + "</div><div class='schbilgi'>"
+                + "<a href='/oyun/"
+                + data[i].categorySeoName
+                + '/'
+                + data[i].seoName
+                + "'>"
+                + "<span class='bold'>"
+                + data[i].name
+                + "</span></a><div>"
+                + "<div style='font-size: 11px; color: brown'>"
+                + data[i].categoryName
+                + "</div></div></div>"
                 + "</li>";
             games = games + game;
         }
         return games;
     }
-    
+
     function categorySectionli(data) {
         var games = '';
         for (var i = 0; i < data.length; i++) {
-            var  game = "<li style='margin-top: 16px; !important';>"+
-                "<div style='position: absolute;'>"+
-                "<img class='school-search-item-logo' style='width: 50px; height: 50px; border-radius: 50%;' src='/Uploads/"+data[i].imgUrl+"'>"+
-                "</div><div class='schbilgi'>"+
-                "<a href='/oyun/"+data[i].seoName+"'>"+
-                "<span class='bold'>"+ data[i].name+"</span></a><div>"+
-                "</div></div>"
+            var game = "<li style='margin-top: 16px; !important';>"
+                + "<div style='position: absolute;'>"
+                + "<img class='school-search-item-logo' style='width: 50px; height: 50px; border-radius: 50%;' src='/Uploads/"
+                + data[i].imgUrl
+                + "'>"
+                + "</div><div class='schbilgi'>"
+                + "<a href='/oyun/"
+                + data[i].seoName
+                + "'>"
+                + "<span class='bold'>"
+                + data[i].name
+                + "</span></a><div>"
+                + "</div></div>"
                 + "</li>";
             games = games + game;
         }
@@ -404,7 +439,7 @@
 
     function showSearchSpinner() {
         $(document.getElementsByClassName("loader")[0]).css("display", "block");
-        $(document.getElementById("headerPageSearch")).css("display","none")
+        $(document.getElementById("headerPageSearch")).css("display", "none")
     }
 
     function hideSearchSpinner() {

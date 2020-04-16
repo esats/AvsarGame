@@ -55,6 +55,7 @@ namespace AvsarGame.Portal.Controllers {
         [Route("satis-yap/{Name}")]
         public IActionResult Sell(string Name) {
             SessionManager.Instance.set("returnUrl","/satis-yap/"+Name);
+            SessionManager.Instance.Remove("chart");
             GameModel model =
                     JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(string.Format("Game/GetGameWithGames?SeoName={0}", Name)));
 
@@ -68,5 +69,6 @@ namespace AvsarGame.Portal.Controllers {
 
             return Json(model);
         }
+
     }
 }

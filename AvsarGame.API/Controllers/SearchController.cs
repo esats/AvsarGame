@@ -25,7 +25,7 @@ namespace AvsarGame.API.Controllers {
         [Route("GetItems")]
         public SearchModel GetItems(string term) {
             SearchModel model= new SearchModel();
-            model.Games = (from g in _game.GetList(x => x.Name.Contains(term))
+            model.Games = (from g in _game.GetList(x => x.Name.Contains(term) && x.IsActive)
                      join c in _category.GetList()
                              on g.CategoryId equals c.Id
                      select new SearchBasicModel() {
@@ -36,7 +36,7 @@ namespace AvsarGame.API.Controllers {
                              CategoryName = c.Name,
                      }).ToList();
 
-            model.Categories =  _category.GetList(x => x.Name.Contains(term))
+            model.Categories =  _category.GetList(x => x.Name.Contains(term) && x.IsActive)
                                          .Select(x=> new SearchBasicModel() {
                                              Name=x.Name,
                                              SeoName = x.SeoName,

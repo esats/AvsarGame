@@ -96,7 +96,7 @@ namespace AvsarGame.Portal.Controllers {
                     JsonConvert.DeserializeObject<List<UserNotificationModel>>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
 
             model.UserDetail =
-                    JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User","GetUserDetail"));
+                    JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
 
             return View(model);
         }
@@ -109,12 +109,13 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public async Task<JsonResult> RequestPayment(UserPaymentRequestModel model) {
+        public JsonResult RequestPayment(UserPaymentRequestModel model) {
             try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Lütfen giriş yapınız" });
+                }
                 model.UserId = SessionManager.Instance.Get("UserId");
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
-
-                await UiRequestManager.Instance.PostAsync("MailSender", "SendRequestPaymentMail", JsonConvert.SerializeObject(model));
 
                 return Json(new { Success = false, data = response });
             } catch (Exception e) {
@@ -209,7 +210,7 @@ namespace AvsarGame.Portal.Controllers {
         public ActionResult ResetPassword(string email, string token) {
             ResetPasswordModel resetPasswordModel = new ResetPasswordModel();
             resetPasswordModel.Email = email;
-            resetPasswordModel.Token = token.Replace(" ","+");
+            resetPasswordModel.Token = token.Replace(" ", "+");
             return View(resetPasswordModel);
         }
 
@@ -223,6 +224,10 @@ namespace AvsarGame.Portal.Controllers {
         [HttpPost]
         public JsonResult Update(RegisterModel model) {
             try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+                }
+
                 var responseSaving =
                         JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
 

@@ -180,7 +180,7 @@ namespace AvsarGame.API.Controllers {
         [Route("GetGames")]
         public List<GameModel> GetGames(string gamesId) {
             var ids = ConvertToStringList(gamesId);
-            var games = _mapper.Map<List<GameModel>>(_game.GetList().Where(x => ids.Contains(x.Id)).ToList());
+            var games = _mapper.Map<List<GameModel>>(_game.GetList(x => x.IsActive == true).Where(x => ids.Contains(x.Id)).ToList());
             return games;
         }
 

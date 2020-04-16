@@ -131,5 +131,25 @@ namespace AvsarGame.API.Controllers {
 
             return StatusCode(200);
         }
+
+        [HttpGet]
+        [Route("HeaderCategories")]
+        [AllowAnonymous]
+        public List<CategoryModel> HeaderCategories() {
+            List<CategoryModel> list = new List<CategoryModel>();
+            var entities = _category.GetList(x => x.IsActive == true);
+            foreach (var entity in entities) {
+                CategoryModel model = new CategoryModel() {
+                        ImageUrl = entity.ImageUrl,
+                        Description = entity.Description,
+                        Name = entity.Name,
+                        SeoName = entity.SeoName,
+                        Id = entity.Id
+                };
+                list.Add(model);
+            }
+
+            return list;
+        }
     }
 }

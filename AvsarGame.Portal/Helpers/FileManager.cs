@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace AvsarGame.Portal.Helpers {
             var path = Path.Combine(
                     "wwwroot", "Uploads"
             );
-
+            
             var pathToData = Path.GetFullPath(Path.Combine(path, id + "-" + file.FileName));
             using (var stream = new FileStream(pathToData, FileMode.Create)) {
                 file.CopyToAsync(stream).Wait();
@@ -22,4 +23,7 @@ namespace AvsarGame.Portal.Helpers {
             return id + "-"+ file.FileName;
         }
     }
+
+
+
 }

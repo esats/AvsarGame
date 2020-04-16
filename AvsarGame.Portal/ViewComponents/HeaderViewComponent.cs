@@ -17,5 +17,10 @@ namespace AvsarGame.Portal.ViewComponents
 
             return View(games);
         }
+        public IViewComponentResult Categories() {
+            List<GameModel> games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "HeaderList"));
+
+            return View(games);
+        }
     }
 }
