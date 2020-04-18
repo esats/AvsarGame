@@ -8,7 +8,9 @@
     <Folder Include="wwwroot\Uploads\1520x500\" />
     <Folder Include="wwwroot\Uploads\255x270\" />
     <Folder Include="wwwroot\Uploads\305x500\" />
-    <Folder Include="wwwroot\Uploads\213x207\" />
+    <Folder Include="wwwroot\Uploads\235x400\" />
+    <Folder Include="wwwroot\Uploads\184x200\" />
+    <Folder Include="wwwroot\Uploads\184x140\" />
     <Folder Include="wwwroot\Uploads\orj\" />
   </ItemGroup>
 

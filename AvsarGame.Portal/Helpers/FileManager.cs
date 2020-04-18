@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
+using AvsarGame.Core;
+using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -26,23 +28,29 @@ namespace AvsarGame.Portal.Helpers {
             BlobManager manager = new BlobManager();
             CloudBlobContainer container = await manager.CreateFolderAsync();
 
-;           var pathToData1520 = Path.GetFullPath(Path.Combine(path, "1520x500", fileName));
-            var pathToData255 = Path.GetFullPath(Path.Combine(path, "255x270", fileName));
-            var pathToData180 = Path.GetFullPath(Path.Combine(path, "305x500", fileName));
-            var pathToData213 = Path.GetFullPath(Path.Combine(path, "213x207", fileName));
+;           var EXTRALARGE = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.EXTRALARGE), fileName));
+            var LARGE = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.LARGE), fileName));
+            var LARGE_MAIN = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.LARGE_MAIN), fileName));
+            var MEDIUM = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.MEDIUM), fileName));
+            var SMALL = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.SMALL), fileName));
+            var EXTRASMALL = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.EXTRASMALL), fileName));
             var pathToDataOrg = Path.GetFullPath(Path.Combine(path, "orj", fileName));
 
             using (var stream = new FileStream(pathToDataOrg, FileMode.Create)) {
                 file.CopyTo(stream);
                 stream.Dispose();
                 await SaveToCloud(container, manager,
-                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = pathToData1520, Width = 1520, Height = 500, SubFolderName = "1520x500",FileName = fileName});
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = EXTRALARGE, Width = 1520, Height = 500, SubFolderName = PageHelper.Description(ImageFolder.EXTRALARGE),FileName = fileName});
                 await SaveToCloud(container, manager,
-                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = pathToData255, Width = 255, Height = 270, SubFolderName = "255x270",FileName = fileName });
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = LARGE, Width = 255, Height = 270, SubFolderName = PageHelper.Description(ImageFolder.LARGE),FileName = fileName });
                 await SaveToCloud(container, manager,
-                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = pathToData180, Width = 305, Height = 500, SubFolderName = "350x500",FileName = fileName });
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = LARGE_MAIN, Width = 305, Height = 500, SubFolderName = PageHelper.Description(ImageFolder.LARGE_MAIN),FileName = fileName });
                 await SaveToCloud(container, manager,
-                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = pathToData213, Width = 213, Height = 207, SubFolderName = "213x207",FileName = fileName });
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = MEDIUM, Width = 213, Height = 207, SubFolderName = PageHelper.Description(ImageFolder.MEDIUM),FileName = fileName });
+                await SaveToCloud(container, manager,
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = SMALL, Width = 184, Height = 200, SubFolderName = PageHelper.Description(ImageFolder.SMALL),FileName = fileName });
+                await SaveToCloud(container, manager,
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = EXTRASMALL, Width = 184, Height = 140, SubFolderName = PageHelper.Description(ImageFolder.EXTRASMALL),FileName = fileName });
             }
 
             return fileName;

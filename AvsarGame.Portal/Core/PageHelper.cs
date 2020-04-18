@@ -63,5 +63,10 @@ namespace AvsarGame.Portal.Core {
         public static string GetLoggedProfileStyle() {
             return SessionManager.Instance.IsAuthenticate() ? "dropdown-menu": "";
         }
+
+        public static string GetImageUrl(string imageUrl, string folder) {
+             string storageUrl ="https://anatoliagm.blob.core.windows.net/uploads/";
+             return storageUrl + folder + "/" + imageUrl;
+        }
     }
 }
