@@ -1,4 +1,6 @@
-﻿@model AvsarGame.API.Models.CategoryGameModel
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.CategoryGameModel
 
 @{
     ViewData["Title"] = "Index";
@@ -20,7 +22,7 @@
             <div class="row section" style="display: none;">
                 <div class="col-12">
                     <div class="banner-container">
-                        <img class="banner-img" src="https://cdn2-www.gamerevolution.com/assets/uploads/2012/03/file_2409_ME3.jpg" alt="">
+                        @*<img class="banner-img" src="https://cdn2-www.gamerevolution.com/assets/uploads/2012/03/file_2409_ME3.jpg" alt="">*@
                         <div class="notification notification-bottom">
                             20 Mart 2020'de Sizlerle!
                         </div>
@@ -31,7 +33,7 @@
                 <div class="order-lg-1 order-2 col-12 col-lg-3 recommended side">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-lg-12">
-                            <img class="recommended-img mt-3 mb-5" src="/Uploads/@Model.Category.ImageUrl" alt="">
+                            <img class="recommended-img mt-3 mb-5" src="@PageHelper.GetImageUrl(Model.Category.ImageUrl,ImageFolder.LARGE)" alt="">
                         </div>
                         <div class="col-12 col-sm-6 col-lg-12">
                             <div class="title-secondary led led-below">Açıklama</div>
@@ -48,7 +50,7 @@
                         <div class="row product">
                             <div class="col-md-3 col-sm-5 col-12">
                                 <div class="product-img-container">
-                                    <img src="/Uploads/@game.ImageUrl" alt="" class="product-img">
+                                    <img src="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.SMALL)" alt="" class="product-img">
                                     <div class="notification notification-top-left">
                                         @*%20 indirim*@
                                     </div>

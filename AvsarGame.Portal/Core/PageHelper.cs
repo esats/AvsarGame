@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AvsarGame.Core;
 
 namespace AvsarGame.Portal.Core {
     public static class PageHelper {
@@ -64,9 +65,9 @@ namespace AvsarGame.Portal.Core {
             return SessionManager.Instance.IsAuthenticate() ? "dropdown-menu": "";
         }
 
-        public static string GetImageUrl(string imageUrl, string folder) {
+        public static string GetImageUrl(string imageUrl, ImageFolder folder) {
              string storageUrl ="https://anatoliagm.blob.core.windows.net/uploads/";
-             return storageUrl + folder + "/" + imageUrl;
+             return storageUrl + Description(folder) + "/" + imageUrl;
         }
     }
 }

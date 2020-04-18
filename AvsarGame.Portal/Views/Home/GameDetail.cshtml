@@ -1,4 +1,6 @@
-﻿@model AvsarGame.API.Models.GameModel
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.GameModel
 @{
     ViewData["Title"] = "GameDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,7 +18,7 @@
             <div class="col-12 col-lg-3 side">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-12">
-                        <img class="recommended-img  mb-5" src="/Uploads/@Model.ImageUrl" alt="">
+                        <img class="recommended-img  mb-5" src="@PageHelper.GetImageUrl(Model.ImageUrl,ImageFolder.LARGE)" alt="">
                     </div>
                 </div>
             </div>

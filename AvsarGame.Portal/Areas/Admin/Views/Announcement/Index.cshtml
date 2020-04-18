@@ -1,4 +1,5 @@
-﻿@using AvsarGame.Portal.Core
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
 @model IEnumerable<AvsarGame.API.Models.AnnouncementModel>
 @{
     ViewData["Title"] = "Index";
@@ -32,7 +33,7 @@
                                 <td>@item.Title</td>
                                 <td>@item.Description</td>
                                 <td>@item.Content</td>
-                                <td><img style="width: 100px;height: 100px" src="/Uploads/@item.ImageUrl" /></td>
+                                <td><img style="width: 100px;height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)" /></td>
                                 <td>
 
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("",item.Id)">

@@ -1,4 +1,6 @@
-﻿@model AvsarGame.Portal.Models.HomeModel
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model AvsarGame.Portal.Models.HomeModel
 
 @{
     ViewData["Title"] = "Index";
@@ -24,7 +26,7 @@
                                 </p>
                             </div>
                         </div>
-                        <img src="/Uploads/@item.ImageUrl" alt=""/>
+                        <img src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRALARGE)" alt=""/>
                     </div>
                 }
             </div>
@@ -50,7 +52,7 @@
                 @foreach (var item in Model.Categories)
                 {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="~/Uploads/@item.ImageUrl" alt="" />
+                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.LARGE_MAIN)" alt="" />
                         <div class="showcase-info">
                             <label class="name">@item.Name</label>
                             <label class="name" style="float: right;cursor: pointer;"><a href="/oyun/@item.SeoName">Fiyatlara bak</a></label>
@@ -76,7 +78,7 @@
                 @foreach (var item in Model.NewGames)
                 {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="/Uploads/@item.ImageUrl" alt="" />
+                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.LARGE_MAIN)" alt="" />
                         <div class="showcase-info">
                             <p class="name">@item.Name</p>
                             <p class="price">@item.SellPrice TL</p>

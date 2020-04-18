@@ -1,4 +1,5 @@
-﻿@using AvsarGame.Portal.Core
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
 @model AvsarGame.Portal.Models.GamePageModel
 
 @functions {
@@ -42,7 +43,7 @@
                                     <td>@item.SellPrice</td>
                                     <td>@item.Description</td>
                                     <td>
-                                        <img style="width: 100px; height: 100px" src="/Uploads/@item.ImageUrl"/>
+                                        <img style="width: 100px; height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)"/>
                                     </td>
                                     <td>
 
@@ -90,7 +91,7 @@
                                                         <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <img style="width: 100px" src="/Uploads/@item.ImageUrl" />
+                                                        <img style="width: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)" />
                                                         <label>Resim</label>
                                                         <input type="file" id="Image" class="form-control">
                                                     </div>
