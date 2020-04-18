@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Uploads\" />
+    <Folder Include="wwwroot\Uploads\1520x500\" />
+    <Folder Include="wwwroot\Uploads\255x270\" />
+    <Folder Include="wwwroot\Uploads\305x500\" />
+    <Folder Include="wwwroot\Uploads\213x207\" />
+    <Folder Include="wwwroot\Uploads\orj\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +17,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
   <ItemGroup>

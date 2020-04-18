@@ -19,10 +19,10 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Save(CategoryModel model) {
+        public async Task<JsonResult> Save(CategoryModel model) {
             try {
                 if (model.Image != null) {
-                    model.ImageUrl = FileManager.Instance.Save(model.Image);
+                    model.ImageUrl =await FileManager.Instance.Save(model.Image);
                 }
                 var response = UiRequestManager.Instance.Post("Category", "Save", JsonConvert.SerializeObject(model));
             } catch (Exception e) {

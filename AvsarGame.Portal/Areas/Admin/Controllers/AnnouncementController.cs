@@ -20,10 +20,10 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Save(AnnouncementModel model) {
+        public async Task<JsonResult> Save(AnnouncementModel model) {
             try {
                 if (model.Image != null) {
-                    model.ImageUrl = FileManager.Instance.Save(model.Image);
+                    model.ImageUrl = await FileManager.Instance.Save(model.Image);
                 }
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Announcement", "Save", JsonConvert.SerializeObject(model)));
                 return Json(response);
