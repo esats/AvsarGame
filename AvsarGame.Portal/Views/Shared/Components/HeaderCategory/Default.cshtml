@@ -1,27 +1,29 @@
-﻿@model List<AvsarGame.API.Models.CategoryModel>
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model List<AvsarGame.API.Models.CategoryModel>
 
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
     <h5 class="dropdown-title list-title led led-below">
     </h5>
-    @foreach (var game in Model.Take(6))
+    @foreach (var category in Model.Take(6))
     {
-        <a class="dropdown-item list-item" href="/oyun/@game.SeoName">@game.Name</a>
+        <a class="dropdown-item list-item" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.LARGE_MAIN)" href="/oyun/@category.SeoName">@category.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
     <h5 class="dropdown-title list-title led led-below">
     </h5>
-    @foreach (var game in Model.Skip(6).Take(6))
+    @foreach (var category in Model.Skip(6).Take(6))
     {
-        <a class="dropdown-item list-item" href="/oyun/@game.SeoName">@game.Name</a>
+        <a class="dropdown-item list-item" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.LARGE_MAIN)" href="/oyun/@category.SeoName">@category.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
     <h5 class="dropdown-title list-title led led-below">
     </h5>
-    @foreach (var game in Model.Skip(12).Take(6))
+    @foreach (var category in Model.Skip(12).Take(6))
     {
-        <a class="dropdown-item list-item" href="/oyun/@game.SeoName">@game.Name</a>
+        <a class="dropdown-item list-item" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.LARGE_MAIN)" href="/oyun/@category.SeoName">@category.Name</a>
     }
 </div>
 

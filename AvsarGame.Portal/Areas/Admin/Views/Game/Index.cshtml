@@ -3,11 +3,14 @@
 @model AvsarGame.Portal.Models.GamePageModel
 
 @functions {
+    string name = "";
+    string description = "";
     private string GetChecked(bool val) {
-       return val ? "checked" : "";
+        return val ? "checked" : "";
     }
 
 }
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -36,24 +39,30 @@
                     </thead>
                     <tbody>
                         @if (Model.Games != null && Model.Games.Count > 0) {
+                            int countck = 1;
                             @foreach (var item in Model.Games) {
+                           
+                                {
+                                    name = "editor" + countck;
+                                    description = "editor" + countck;
+                                }
                                 <tr>
                                     <td>@item.Name</td>
                                     <td>@item.BuyPrice</td>
                                     <td>@item.SellPrice</td>
                                     <td>@item.Description</td>
                                     <td>
-                                        <img style="width: 100px; height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)"/>
+                                        <img style="width: 100px; height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRASMALL)"/>
                                     </td>
                                     <td>
 
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("gam",item.Id)">
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("gam", item.Id)">
                                             Düzenle
                                         </button>
                                         <button id="delete" data-id="@item.Id" class="btn btn-danger">Sil</button>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="@PageHelper.GetModalId("gam",item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="@PageHelper.GetModalId("gam", item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header border-bottom-0">
@@ -68,8 +77,7 @@
                                                         <label>Kategori Adı</label>
                                                         <select id="CategoryId" class="form-control">
                                                             <option value="@item.CategoryId">@item.CategoryName</option>
-                                                            @foreach (var game in Model.Categories)
-                                                            {
+                                                            @foreach (var game in Model.Categories) {
                                                                 <option value="@game.Id">@game.Name</option>
                                                             }
                                                         </select>
@@ -88,10 +96,12 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Açıklama</label>
-                                                        <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
+                                                        <textarea name="@name" id="@description" rows="10" cols="80">
+                                                            @Html.Raw(item.Description)
+                                                        </textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <img style="width: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)" />
+                                                        <img style="width: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRASMALL)"/>
                                                         <label>Resim</label>
                                                         <input type="file" id="Image" class="form-control">
                                                     </div>
@@ -108,7 +118,7 @@
                                                         </div>
                                                         <div class="form-check form-check-inline mb-4 ppymnttype">
                                                             <label class="form-check-label">
-                                                                <input required="required" @GetChecked(item.BuyButtonEnabled)  class="buyBtnEnabled" type="checkbox">
+                                                                <input required="required" @GetChecked(item.BuyButtonEnabled) class="buyBtnEnabled" type="checkbox">
                                                                 Alış butonu aktif
                                                             </label>
                                                         </div>
@@ -116,12 +126,13 @@
                                                 </div>
                                                 <div class="modal-footer border-top-0 d-flex justify-content-center">
                                                     @*<button>Kaydet</button>*@
-                                                    <input type="button" id="update" data-url="@item.ImageUrl"  data-id="@item.Id" class="btn btn-success" value="kaydet" />
+                                                    <input type="button" id="update" data-url="@item.ImageUrl" data-id="@item.Id" class="btn btn-success" value="kaydet"/>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                 </div>
+                                </div>
+                                countck++;
                             }
                         }
                     </tbody>
@@ -145,8 +156,7 @@
                     <div class="form-group">
                         <label>Kategori Adı</label>
                         <select id="CategoryId" class="form-control">
-                            @foreach (var game in Model.Categories)
-                            {
+                            @foreach (var game in Model.Categories) {
                                 <option value="@game.Id">@game.Name</option>
                             }
                         </select>
@@ -165,7 +175,7 @@
                     </div>
                     <div class="form-group">
                         <label>Açıklama</label>
-                        <textarea type="text" id="Description" class="form-control"></textarea>
+                        <textarea name="editorI" id="Description" rows="10" cols="80"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Resim</label>
@@ -207,10 +217,10 @@
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
             model.append('CategoryId', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
-            model.append('BuyPrice',  $(this.parentElement.parentElement.getElementsByTagName("input")[1]).val());
+            model.append('BuyPrice', $(this.parentElement.parentElement.getElementsByTagName("input")[1]).val());
             model.append('SellPrice', $(this.parentElement.parentElement.getElementsByTagName("input")[2]).val());
-            model.append('SellButtonEnabled',this.parentElement.parentElement.getElementsByClassName("sellBtnEnabled")[0].checked);
-            model.append('BuyButtonEnabled',this.parentElement.parentElement.getElementsByClassName("buyBtnEnabled")[0].checked);
+            model.append('SellButtonEnabled', this.parentElement.parentElement.getElementsByClassName("sellBtnEnabled")[0].checked);
+            model.append('BuyButtonEnabled', this.parentElement.parentElement.getElementsByClassName("buyBtnEnabled")[0].checked);
             model.append('OrderNo', $(this.parentElement.parentElement.getElementsByTagName("input")[4]).val());
 
             $.ajax({
@@ -227,7 +237,9 @@
                 },
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 1000);
+                    setTimeout(function() {
+                        location.reload()
+                    }, 1000);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");
@@ -236,17 +248,19 @@
         });
 
         $(".justify-content-center #update").click(function(e) {
+            debugger
+            CKEDITOR.instances.editor1.getData() hangi editördern geliyorsa onu algılamalı
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[3].files[0]);
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
             model.append('ImageUrl', $(this).attr('data-url'));
             model.append('CategoryId', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
-            model.append('BuyPrice',  $(this.parentElement.parentElement.getElementsByTagName("input")[1]).val());
+            model.append('BuyPrice', $(this.parentElement.parentElement.getElementsByTagName("input")[1]).val());
             model.append('SellPrice', $(this.parentElement.parentElement.getElementsByTagName("input")[2]).val());
             model.append('Id', $(this).attr('data-id'));
-            model.append('SellButtonEnabled',this.parentElement.parentElement.getElementsByClassName("sellBtnEnabled")[0].checked);
-            model.append('BuyButtonEnabled',this.parentElement.parentElement.getElementsByClassName("buyBtnEnabled")[0].checked);
+            model.append('SellButtonEnabled', this.parentElement.parentElement.getElementsByClassName("sellBtnEnabled")[0].checked);
+            model.append('BuyButtonEnabled', this.parentElement.parentElement.getElementsByClassName("buyBtnEnabled")[0].checked);
             model.append('OrderNo', $(this.parentElement.parentElement.getElementsByTagName("input")[4]).val());
 
             $.ajax({
@@ -263,7 +277,9 @@
                 },
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 1000);
+                    setTimeout(function() {
+                        location.reload()
+                    }, 1000);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");
@@ -304,6 +320,18 @@
                     }
                 });
         });
+
+
+
+        CKEDITOR.replace( 'editorI', {
+        } );
+        var count ='@Model.Games.Count()';
+
+        for (var i = 1; i <= count; i++) {
+            var name = "editor" + i;
+            CKEDITOR.replace( name, {
+            } );
+        }
 
     });
 </script>
