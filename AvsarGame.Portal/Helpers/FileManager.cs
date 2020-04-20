@@ -42,7 +42,7 @@ namespace AvsarGame.Portal.Helpers {
                 await SaveToCloud(container, manager,
                         new CloudModel() { OrginalFile = pathToDataOrg, FilePath = EXTRALARGE, Width = 1520, Height = 500, SubFolderName = PageHelper.Description(ImageFolder.EXTRALARGE),FileName = fileName});
                 await SaveToCloud(container, manager,
-                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = LARGE, Width = 255, Height = 270, SubFolderName = PageHelper.Description(ImageFolder.LARGE),FileName = fileName });
+                        new CloudModel() { OrginalFile = pathToDataOrg, FilePath = LARGE, Width = 160, Height = 270, SubFolderName = PageHelper.Description(ImageFolder.LARGE),FileName = fileName });
                 await SaveToCloud(container, manager,
                         new CloudModel() { OrginalFile = pathToDataOrg, FilePath = LARGE_MAIN, Width = 305, Height = 500, SubFolderName = PageHelper.Description(ImageFolder.LARGE_MAIN),FileName = fileName });
                 await SaveToCloud(container, manager,

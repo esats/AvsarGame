@@ -26,7 +26,7 @@
                                 </p>
                             </div>
                         </div>
-                        <img src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRALARGE)" alt=""/>
+                        <img src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRALARGE)" alt=""/>
                     </div>
                 }
             </div>
@@ -49,13 +49,14 @@
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper showcase">
                 <!-- Slides -->
-                @foreach (var item in Model.Categories)
-                {
+                @foreach (var item in Model.Categories) {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.LARGE_MAIN)" alt="" />
+                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.LARGE_MAIN)" alt=""/>
                         <div class="showcase-info">
                             <label class="name">@item.Name</label>
-                            <label class="name" style="float: right;cursor: pointer;"><a href="/oyun/@item.SeoName">Fiyatlara bak</a></label>
+                            <label class="name" style="float: right; cursor: pointer;">
+                                <a href="/oyun/@item.SeoName">Fiyatlara bak</a>
+                            </label>
                         </div>
                     </div>
                 }
@@ -75,10 +76,9 @@
         <div id="best-seller-slider" class=" swiper-container has-arrows">
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper showcase">
-                @foreach (var item in Model.NewGames)
-                {
+                @foreach (var item in Model.NewGames) {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.LARGE_MAIN)" alt="" />
+                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.LARGE_MAIN)" alt=""/>
                         <div class="showcase-info">
                             <p class="name">@item.Name</p>
                             <p class="price">@item.SellPrice TL</p>

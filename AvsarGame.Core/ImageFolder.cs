@@ -11,7 +11,7 @@ namespace AvsarGame.Core {
         [Description("235x400")]
         LARGE = 1,
 
-        [Description("255x270")]
+        [Description("160x270")]
         LARGE_MAIN = 5,
 
         [Description("305x500")]
