@@ -7,7 +7,7 @@
     </h5>
     @foreach (var game in Model.Take(4))
     {
-        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.LARGE_MAIN)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
@@ -15,22 +15,23 @@
     </h5>
     @foreach (var game in Model.Skip(4).Take(4))
     {
-        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.LARGE_MAIN)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
     }
 </div>
-<div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
+<div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">    
     <h5 class="dropdown-title list-title led led-below">
     </h5>
+
     @foreach (var game in Model.Skip(8).Take(4))
     {
-        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.LARGE_MAIN)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
     }
 </div>
 
-<div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
+<div class="col-3 col-md-3 offset-lg-1 col-lg-3 mb-4 mb-lg-0">
     <div class="d-flex dropdown-image">
-        <div class="col-12 p-0" id="imgapp">
-
+        <div class="col-3" id="imgapp">
+            <img src="https://anatoliagm.blob.core.windows.net/uploads/184x140/c2c536a1-b215-43d8-b8b3-4e7a629b83bcgame1.jpeg"/>
         </div>
     </div>
 </div>

@@ -51,7 +51,7 @@
                 <!-- Slides -->
                 @foreach (var item in Model.Categories) {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.LARGE_MAIN)" alt=""/>
+                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
                         <div class="showcase-info">
                             @*<label class="name">@item.Name</label>
                             <label class="name" style="float: right; cursor: pointer;">
@@ -82,7 +82,7 @@
             <div class="swiper-wrapper showcase">
                 @foreach (var item in Model.NewGames) {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.LARGE_MAIN)" alt=""/>
+                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
                         <div class="showcase-info">
                             <p class="name">@item.Name</p>
                             <p class="price">@item.SellPrice TL</p>

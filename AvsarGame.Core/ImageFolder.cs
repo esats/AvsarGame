@@ -12,10 +12,10 @@ namespace AvsarGame.Core {
         LARGE = 1,
 
         [Description("160x270")]
-        LARGE_MAIN = 5,
+        MEDIUM = 5,
 
         [Description("305x500")]
-        MEDIUM = 2,
+        LARGE_MAIN = 2,
 
         [Description("184x200")]
         SMALL = 3,
