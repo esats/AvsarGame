@@ -37,7 +37,8 @@ namespace AvsarGame.API.Controllers {
                         ImageUrl = entity.ImageUrl,
                         Description = entity.Description,
                         Name = entity.Name,
-                        Id = entity.Id
+                        Id = entity.Id,
+                        Type = entity.Type
                 };
                 list.Add(model);
             }
@@ -78,7 +79,8 @@ namespace AvsarGame.API.Controllers {
                             Name = model.Name,
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
                             ModifiedBy = base.GetUser(),
-                            ModifiedDate = DateTime.Now
+                            ModifiedDate = DateTime.Now,
+                            Type = model.Type
                     };
                     _category.Update(entity);
                 } else {
@@ -88,7 +90,8 @@ namespace AvsarGame.API.Controllers {
                             Name = model.Name,
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
                             CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
+                            CreatedBy = base.GetUser(),
+                            Type = model.Type
                     };
                     _category.Add(entity);
                 }

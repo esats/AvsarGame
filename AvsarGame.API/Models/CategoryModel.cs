@@ -12,7 +12,9 @@ namespace AvsarGame.API.Models {
         public string SeoName { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
-        public string Count { get; set; }
+        public int Count { get; set; }
+        public int Type { get; set; }
+
         [JsonIgnore]
         public IFormFile Image { get; set; }
     }

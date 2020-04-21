@@ -26,21 +26,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
+                        @foreach (var item in Model) {
                             <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Description</td>
-                                <td><img style="width: 100px;height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)" /></td>
                                 <td>
-                                    
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("cat",item.Id)">
+                                    <img style="width: 100px; height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRASMALL)"/>
+                                </td>
+                                <td>
+
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("cat", item.Id)">
                                         Düzenle
                                     </button>
                                     <button id="delete" data-id="@item.Id" class="btn btn-danger">Sil</button>
                                 </td>
                             </tr>
-                            <div class="modal fade" id="@PageHelper.GetModalId("cat",item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="@PageHelper.GetModalId("cat", item.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header border-bottom-0">
@@ -49,24 +50,37 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Kategori Adı</label>
-                                                    <input id="Name" type="text" class="form-control" value="@item.Name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Açıklama</label>
-                                                    <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Resim</label>
-                                                    <img style="width: 100px" data-url="@item.ImageUrl" src="@PageHelper.GetImageUrl(item.ImageUrl,ImageFolder.EXTRASMALL)"/>
-                                                    <input type="file" id="Image" class="form-control">
-                                                </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Kategori Adı</label>
+                                                <input id="Name" type="text" class="form-control" value="@item.Name">
                                             </div>
-                                            <div class="modal-footer border-top-0 d-flex justify-content-center">
-                                                <button id="update" data-url="@item.ImageUrl"  data-id="@item.Id" class="btn btn-success">Kaydet</button>
+                                            <div class="form-group">
+                                                <label>Açıklama</label>
+                                                <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Resim</label>
+                                                <img style="width: 100px" data-url="@item.ImageUrl" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRASMALL)"/>
+                                                <input type="file" id="Image" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Kategori Tipi</label>
+                                                <select id="type" class="form-control">
+                                                    @if (item.Type == 1) {
+                                                        <option value="1" selected="selected">Knight Online</option>
+                                                        <option value="0">Diğer Kategori</option>
+                                                    } else {
+                                                        <option value="1">Knight Online</option>
+                                                        <option value="0" selected="selected">Diğer Kategori</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                                            <button id="update" data-url="@item.ImageUrl" data-id="@item.Id" class="btn btn-success">Kaydet</button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -100,6 +114,13 @@
                     <input type="file" id="Image" class="form-control">
                 </div>
             </div>
+            <div class="form-group">
+                <label>Kategori Tipi</label>
+                <select id="type" class="form-control">
+                    <option value="1">Knight Online</option>
+                    <option value="0">Diğer Kategori</option>
+                </select>
+            </div>
             <div class="modal-footer border-top-0 d-flex justify-content-center">
                 @*<button>Kaydet</button>*@
                 <input type="button" id="save" class="btn btn-success" value="kaydet"/>
@@ -115,6 +136,7 @@
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
+            model.append('Type', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
 
             $.ajax({
                 type: 'post',
@@ -130,7 +152,9 @@
                 },
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 500);
+                    setTimeout(function() {
+                        location.reload()
+                    }, 500);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");
@@ -146,7 +170,7 @@
             model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
             model.append('ImageUrl', $(this).attr('data-url'));
             model.append('Id', $(this).attr('data-id'));
-
+            model.append('Type', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
             $.ajax({
                 type: 'post',
                 url: '/Admin/Category/Save',
@@ -155,7 +179,9 @@
                 data: model,
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function(){ location.reload() }, 500);
+                    setTimeout(function() {
+                        location.reload()
+                    }, 500);
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");
@@ -163,7 +189,7 @@
             });
         });
 
-        $("td #delete").click(function () {
+        $("td #delete").click(function() {
             var id = $(this).attr('data-id');
             var btn = this;
             swal({
@@ -176,21 +202,21 @@
                     closeOnConfirm: true,
                     closeOnCancel: true
                 },
-                function (isConfirm) {
+                function(isConfirm) {
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
                             url: '/Admin/Category/Delete',
                             content: "application/json; charset=utf-8",
-                            data: {id: id},
-                            dataType:'json',
+                            data: { id: id },
+                            dataType: 'json',
                             beforeSend: function() {
                                 showSpinner();
                             },
                             complete: function() {
                                 hideSpinner();
                             },
-                            success: function (res) {
+                            success: function(res) {
                                 if (res) {
                                     swal("Basarili!", "Kayıt silindi", "success");
                                     location.reload();

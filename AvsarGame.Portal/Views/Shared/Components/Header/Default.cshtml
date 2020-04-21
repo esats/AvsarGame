@@ -30,20 +30,21 @@
 
 <div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
     <div class="d-flex dropdown-image">
-        <div class="col-12 p-0">
-            <img class="dropdown-image-img" src="~/assest/img/header_1.jpg"
-                 alt="" />
+        <div class="col-12 p-0" id="imgapp">
+       
         </div>
     </div>
 </div>
 
 <script>
-    //$(document).ready(function () {
-    //    $(".hoverOn").hover(function () {
-    //        var url = $(this).attr("data-url");
-    //        var aa = "<img class='dropdown-image-img' src='" + url + "' />";
-    //        $("#imgapp").append("<p style='color:white'>adsasdasdsd </p>");
-    //    });
-    //});
+    $(document).ready(function () {
+        $(".hoverOn").hover(function () {
+            debugger;
+            var url = $(this).attr("data-url");
+            var img = document.createElement('img');
+            img.src = url;
+            document.getElementById("imgapp").appendChild(img)
+        });
+    });
 
 </script>

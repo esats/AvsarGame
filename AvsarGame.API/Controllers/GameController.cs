@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Core;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -201,8 +202,8 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public List<GameModel> HeaderList() {
             List<GameModel> list = new List<GameModel>();
-            var entities = _game.GetList(x => x.IsActive == true);
-            var categories = _category.GetList(x => x.IsActive == true);
+            var category = _category.GetT(x => x.IsActive == true && x.Type == (int) GameType.KNIGHTONLINE);
+            var entities = _game.GetList(x => x.IsActive == true && x.CategoryId == category.Id);
             foreach (var entity in entities) {
                 GameModel model = new GameModel() {
                         Id = entity.Id,
@@ -211,8 +212,8 @@ namespace AvsarGame.API.Controllers {
                         Name = entity.Name,
                         SellPrice = entity.SellPrice,
                         BuyPrice = entity.BuyPrice,
-                        CategoryId = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Id,
-                        CategoryName = categories.FirstOrDefault(x => x.Id == entity.CategoryId).SeoName,
+                        CategoryId = category.Id,
+                        CategoryName = category.SeoName
                 };
                 list.Add(model);
             }
