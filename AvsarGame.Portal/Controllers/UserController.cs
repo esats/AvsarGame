@@ -114,6 +114,7 @@ namespace AvsarGame.Portal.Controllers {
                 if (!SessionManager.Instance.IsAuthenticate()) {
                     return Json(new { Success = false, Message = "Lütfen giriş yapınız" });
                 }
+
                 model.UserId = SessionManager.Instance.Get("UserId");
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
 
@@ -230,7 +231,7 @@ namespace AvsarGame.Portal.Controllers {
 
                 var responseSaving =
                         JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
-
+                SessionManager.Instance.set("FullName", model.Name + " " + model.Surname);
                 return Json(new { Success = true, data = responseSaving });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
