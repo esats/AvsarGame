@@ -15,7 +15,7 @@ namespace AvsarGame.Portal.Controllers {
         public IActionResult Index() {
             HomeModel model = new HomeModel();
             model.Announcements = JsonConvert.DeserializeObject<List<AnnouncementModel>>(UiRequestManager.Instance.Get("Announcement", "UiAnnouncementList"));
-            model.Games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "UiGameList"));
+            //model.Games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "UiGameList"));
             model.NewGames = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "NewGames"));
             model.Categories = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "UiCategoryList"));
 

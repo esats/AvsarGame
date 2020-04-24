@@ -11,6 +11,7 @@ using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AvsarGame.API.Controllers {
     [Route("api/Game")]
@@ -19,11 +20,13 @@ namespace AvsarGame.API.Controllers {
         private readonly IGame _game;
         private readonly ICategory _category;
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
 
-        public GameController(IGame game, ICategory category, IMapper mapper) {
+        public GameController(IGame game, ICategory category, IMapper mapper, IMemoryCache cache) {
             _game = game;
             _category = category;
             _mapper = mapper;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -57,21 +60,27 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public List<GameModel> UiGameList() {
             List<GameModel> list = new List<GameModel>();
-            var entities = _game.GetList(x => x.IsActive == true);
-            foreach (var entity in entities) {
-                GameModel model = new GameModel() {
-                        Id = entity.Id,
-                        ImageUrl = entity.ImageUrl,
-                        Description = entity.Description,
-                        Name = entity.Name,
-                        SeoName = entity.SeoName,
-                        SellPrice = entity.SellPrice,
-                        BuyPrice = entity.BuyPrice,
-                        BuyButtonEnabled = entity.BuyButtonEnabled,
-                        SellButtonEnabled = entity.SellButtonEnabled,
-                        OrderNo = entity.OrderNo
-                };
-                list.Add(model);
+            if (_cache.Get("uigamelist") == null) {
+                var entities = _game.GetList(x => x.IsActive == true);
+                foreach (var entity in entities) {
+                    GameModel model = new GameModel() {
+                            Id = entity.Id,
+                            ImageUrl = entity.ImageUrl,
+                            Description = entity.Description,
+                            Name = entity.Name,
+                            SeoName = entity.SeoName,
+                            SellPrice = entity.SellPrice,
+                            BuyPrice = entity.BuyPrice,
+                            BuyButtonEnabled = entity.BuyButtonEnabled,
+                            SellButtonEnabled = entity.SellButtonEnabled,
+                            OrderNo = entity.OrderNo
+                    };
+                    list.Add(model);
+                }
+
+                _cache.Set("uigamelist", list);
+            } else {
+                list = _cache.Get<List<GameModel>>("uigamelist");
             }
 
             return list;
@@ -82,18 +91,24 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public List<GameModel> NewGames() {
             List<GameModel> list = new List<GameModel>();
-            var entities = _game.GetList(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate);
-            foreach (var entity in entities) {
-                GameModel model = new GameModel() {
-                        Id = entity.Id,
-                        ImageUrl = entity.ImageUrl,
-                        Description = entity.Description,
-                        Name = entity.Name,
-                        SeoName = entity.SeoName,
-                        SellPrice = entity.SellPrice,
-                        BuyPrice = entity.BuyPrice
-                };
-                list.Add(model);
+            if (_cache.Get("newgames") == null) {
+                var entities = _game.GetList(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate);
+                foreach (var entity in entities) {
+                    GameModel model = new GameModel() {
+                            Id = entity.Id,
+                            ImageUrl = entity.ImageUrl,
+                            Description = entity.Description,
+                            Name = entity.Name,
+                            SeoName = entity.SeoName,
+                            SellPrice = entity.SellPrice,
+                            BuyPrice = entity.BuyPrice
+                    };
+                    list.Add(model);
+                }
+
+                _cache.Set("newgames", list);
+            } else {
+                list = _cache.Get<List<GameModel>>("newgames");
             }
 
             return list;
@@ -141,6 +156,10 @@ namespace AvsarGame.API.Controllers {
             } catch (Exception e) {
                 return StatusCode(404);
             }
+
+            _cache.Remove("uigamelist");
+            _cache.Remove("newgames");
+            _cache.Remove("headerknightgame");
 
             return StatusCode(200);
         }
@@ -202,20 +221,26 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public List<GameModel> HeaderList() {
             List<GameModel> list = new List<GameModel>();
-            var category = _category.GetT(x => x.IsActive == true && x.Type == (int) GameType.KNIGHTONLINE);
-            var entities = _game.GetList(x => x.IsActive == true && x.CategoryId == category.Id);
-            foreach (var entity in entities) {
-                GameModel model = new GameModel() {
-                        Id = entity.Id,
-                        ImageUrl = entity.ImageUrl,
-                        Description = entity.Description,
-                        Name = entity.Name,
-                        SellPrice = entity.SellPrice,
-                        BuyPrice = entity.BuyPrice,
-                        CategoryId = category.Id,
-                        CategoryName = category.SeoName
-                };
-                list.Add(model);
+            if (_cache.Get("headerknightgame") == null) {
+                var category = _category.GetT(x => x.IsActive == true && x.Type == (int) GameType.KNIGHTONLINE);
+                var entities = _game.GetList(x => x.IsActive == true && x.CategoryId == category.Id);
+                foreach (var entity in entities) {
+                    GameModel model = new GameModel() {
+                            Id = entity.Id,
+                            ImageUrl = entity.ImageUrl,
+                            Description = entity.Description,
+                            Name = entity.Name,
+                            SellPrice = entity.SellPrice,
+                            BuyPrice = entity.BuyPrice,
+                            CategoryId = category.Id,
+                            CategoryName = category.SeoName
+                    };
+                    list.Add(model);
+                }
+
+                _cache.Set("headerknightgame", "list");
+            } else {
+                list = _cache.Get<List<GameModel>>("headerknightgame");
             }
 
             return list;

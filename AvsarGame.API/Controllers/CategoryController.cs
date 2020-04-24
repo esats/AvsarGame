@@ -11,6 +11,7 @@ using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AvsarGame.API.Controllers {
     [Route("api/Category")]
@@ -20,11 +21,13 @@ namespace AvsarGame.API.Controllers {
         private readonly ICategory _category;
         private readonly IGame _game;
         private readonly IMapper _mapper;
+        private IMemoryCache _cache;
 
-        public CategoryController(ICategory category, IGame game, IMapper mapper) {
+        public CategoryController(ICategory category, IGame game, IMapper mapper, IMemoryCache cache) {
             _category = category;
             _game = game;
             _mapper = mapper;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -51,16 +54,22 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public List<CategoryModel> UiCategoryList() {
             List<CategoryModel> list = new List<CategoryModel>();
-            var entities = _category.GetList(x => x.IsActive == true);
-            foreach (var entity in entities) {
-                CategoryModel model = new CategoryModel() {
-                        ImageUrl = entity.ImageUrl,
-                        Description = entity.Description,
-                        Name = entity.Name,
-                        SeoName = entity.SeoName,
-                        Id = entity.Id
-                };
-                list.Add(model);
+            if (_cache.Get("uicategorylist") == null) {
+                var entities = _category.GetList(x => x.IsActive == true);
+                foreach (var entity in entities) {
+                    CategoryModel model = new CategoryModel() {
+                            ImageUrl = entity.ImageUrl,
+                            Description = entity.Description,
+                            Name = entity.Name,
+                            SeoName = entity.SeoName,
+                            Id = entity.Id
+                    };
+                    list.Add(model);
+                }
+
+                _cache.Set("uicategorylist", list);
+            } else {
+                list = _cache.Get<List<CategoryModel>>("uicategorylist");
             }
 
             return list;
@@ -71,7 +80,7 @@ namespace AvsarGame.API.Controllers {
         public ActionResult Save([FromBody] CategoryModel model) {
             try {
                 if (model.Id != Guid.Empty) {
-                    var oldCatedory = _category.GetT(x=>x.Id == model.Id);
+                    var oldCatedory = _category.GetT(x => x.Id == model.Id);
                     Category entity = new Category() {
                             Id = model.Id,
                             ImageUrl = model.ImageUrl ?? oldCatedory.ImageUrl,
@@ -98,6 +107,7 @@ namespace AvsarGame.API.Controllers {
             } catch (Exception e) {
                 return StatusCode(404);
             }
+            _cache.Remove("uicategorylist");
 
             return StatusCode(200);
         }
@@ -110,12 +120,11 @@ namespace AvsarGame.API.Controllers {
             try {
                 var category = _category.GetT(x => x.SeoName == SeoName && x.IsActive == true);
                 var games = _game.GetList(x => x.CategoryId == category.Id && x.IsActive == true);
-             
+
                 categoryGameModel.Games = _mapper.Map<List<GameModel>>(games);
                 categoryGameModel.Category = _mapper.Map<CategoryModel>(category);
-
             } catch (Exception e) {
-                 throw new Exception(e.Message); 
+                throw new Exception(e.Message);
             }
 
             return categoryGameModel;

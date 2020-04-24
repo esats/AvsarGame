@@ -51,17 +51,18 @@
                 <!-- Slides -->
                 @foreach (var item in Model.Categories) {
                     <div class="swiper-slide showcase-item">
-                        <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
-                        <div class="showcase-info">
-                            @*<label class="name">@item.Name</label>
-                            <label class="name" style="float: right; cursor: pointer;">
-                                <a href="/oyun/@item.SeoName">Fiyatlara bak</a>
-                            </label>*@
+                        <a href="/oyun/@item.SeoName">
+                            <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
                             <div class="showcase-info">
-                                <p class="name">@item.Name</p>
-                                <p class="price"> <a href="/oyun/@item.SeoName">Fiyatlara bak</a></p>
+                       @*<label class="name">@item.Name</label>
+                    <label class="name" style="float: right; cursor: pointer;">
+                        <a href="/oyun/@item.SeoName">Fiyatlara bak</a>
+                    </label>*@
+                                <div class="showcase-info">
+                                    <p class="name">@item.Name</p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 }
             </div>
