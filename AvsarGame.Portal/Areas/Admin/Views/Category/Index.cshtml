@@ -177,6 +177,12 @@
                 processData: false,
                 contentType: false,
                 data: model,
+                beforeSend: function() {
+                    showSpinner();
+                },
+                complete: function() {
+                    hideSpinner();
+                },
                 success: function(response) {
                     swal("Basarili!", "Kayıt Eklendi", "success");
                     setTimeout(function() {
