@@ -238,7 +238,7 @@ namespace AvsarGame.API.Controllers {
                     list.Add(model);
                 }
 
-                _cache.Set("headerknightgame", "list");
+                _cache.Set("headerknightgame", list);
             } else {
                 list = _cache.Get<List<GameModel>>("headerknightgame");
             }
