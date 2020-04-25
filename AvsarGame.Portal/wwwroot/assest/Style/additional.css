@@ -1,0 +1,32 @@
+
+/* Additional css */
+
+.shop-section .showcase-item{
+   text-align: center;
+    background: rgba(0,0,0,.2);
+    border-radius: 5px;
+}
+.shop-section .showcase-item:hover .showcase-img{
+    transform: none;
+}
+.shop-section .showcase-img{
+    width:198px;
+    height: 90px;
+}
+.shop-section .showcase-item .name:last-child{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: rgba(0,0,0,0.2);
+}
+
+.shop-section .showcase-img{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.tab-content .showcase-img{
+    width: 198px;   
+}
+.product-container .product-img{
+    height: 140px;
+}

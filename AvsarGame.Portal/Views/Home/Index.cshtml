@@ -35,6 +35,38 @@
             <div class="swiper-pagination container"></div>
         </div>
     </div>
+	   <div class="section container shop-section">
+        <div class="row mb-3">
+            <div class="col-lg-11 col-md-10 col-9">
+                <h3 class="title-secondary led led-before">Pazar</h3>
+            </div>
+        </div>
+            <div class="showcase">
+                   <div class="row">
+                @foreach (var item in Model.Categories) {
+
+                        <div class="col">
+                             <div class=" showcase-item">
+                        <a href="/oyun/@item.SeoName">
+                            <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
+                            <div class="showcase-info">
+                       <label class="name">@item.Name</label>
+                    <label class="name" style="float: right; cursor: pointer;">
+                        <a href="/oyun/@item.SeoName">Fiyatlara bak</a>
+                    </label>
+                                <div class="showcase-info">
+                                    <p class="name">@item.Name</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                        </div>
+
+
+                }
+                   </div>
+            </div>
+    </div>
     	<div class="section container tab-products">
 			<div class="row align-items-center">
 				<div class="col-12 d-flex align-items-center">
@@ -88,10 +120,10 @@
 										aria-labelledby="dota2-title">
 										<div class="card-body">
 											<div class="row showcase">
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">Corrupted Armor of the Winter Rose</p>
@@ -99,10 +131,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">Encore</p>
@@ -110,10 +142,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">Inscribed Armor of Unblinking Eternity</p>
@@ -121,10 +153,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">Pit Boss Prospector Helm</p>
@@ -132,10 +164,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="notification notification-top">%20 İndirim</div>
 														<div class="showcase-info">
@@ -144,10 +176,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">The Song of Swiftguard - Shield</p>
@@ -155,10 +187,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">Legacy of a Lost Age - Belt</p>
@@ -166,10 +198,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="showcase-info">
 															<p class="name">Mandate of the Nameless - Wings</p>
@@ -177,10 +209,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="notification notification-top">%20 İndirim</div>
 														<div class="showcase-info">
@@ -190,10 +222,10 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+												<div class="col">
 													<div class="showcase-item">
 														<div class="showcase-img"
-															style="background-image: url('./assets/img/halo4.jpg')">
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
 														</div>
 														<div class="notification notification-top">%20 İndirim</div>
 														<div class="showcase-info">
