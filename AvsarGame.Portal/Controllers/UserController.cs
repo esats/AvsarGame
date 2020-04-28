@@ -18,6 +18,15 @@ namespace AvsarGame.Portal.Controllers {
         public IActionResult DetailOrkun () {
             return View ();
         }
+        public IActionResult ilanCsOrkun () {
+            return View ();
+        }
+        public IActionResult ilanKnightOrkun () {
+            return View ();
+        }
+        public IActionResult filtreOrkun () {
+            return View ();
+        }
 
         [HttpPost]
         public JsonResult Register (RegisterModel model) {
