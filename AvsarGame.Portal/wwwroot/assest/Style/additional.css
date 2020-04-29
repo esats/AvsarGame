@@ -15,9 +15,14 @@
 .shop-section .showcase-item:hover .showcase-img{
     transform: none;
 }
+.shop-section .showcase-item{
+    width: 198px;
+}
 .shop-section .showcase-img{
-    width:198px;
-    height: 90px;
+    width: 100% !important;
+    height: 90px !important;
+    background-size: cover !important;
+    background-position: center center !important;
 }
 .shop-section .showcase-item .name:last-child{
     padding-top: 10px;
@@ -30,8 +35,13 @@
     border-bottom-right-radius: 0;
 }
 
-.tab-content .showcase-img{
-    width: 198px;   
+.tab-products .showcase-item:hover{
+    transform: none;
+}
+
+.tab-products .tab-content .showcase-img{
+    width: 198px; 
+    height: 150px;  
 }
 .product-container .product-img{
     height: 140px;
@@ -271,3 +281,13 @@ form input.form-control::placeholder {
 {
     background-color: rgba(255, 255, 255, 0.9);
 }
+
+.filter-page .shop-section{
+    margin-top:70px;
+}
+
+#shop-slider .showcase-item:hover{
+    transform: none;
+}
+
+ 
