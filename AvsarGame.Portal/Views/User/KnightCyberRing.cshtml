@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-2  ad-options mb-5">
                     <a href="/user/ilan/knightitem" style="cursor:pointer" class="text-white">Item</a>
-                </div>    
+                </div>
                 <div class="col-12" style="border:1px solid">
                     <form action="" class="row ad-form">
                         <div class="col-12 form-group" style="margin-top: 10px;">
@@ -91,52 +91,7 @@
                                 </div>
                                 <div class="col-lg-10 col-12">
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                    <div style="background-image: url('https://source.unsplash.com/random/300x300')"
-                                                         class="loaded-img"></div>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div id="drag-drop-area"></div>
                                     </div>
                                 </div>
                             </div>
@@ -152,16 +107,16 @@
                                         </textarea>
                                 </div>
                                 @*<div class="col-sm-2 col-12">
-                            <label class="label-white" for="desc-msg">Hazır Mesajlar:</label>
+                                        <label class="label-white" for="desc-msg">Hazır Mesajlar:</label>
 
-                            <div class="form-select">
-                                <select class="form-control" name="desc-msg" id="desc-msg" required>
-                                    <option disabled selected value="">Seçiniz</option>
-                                    <option value="1">Hemen teslim</option>
-                                    <option value="2">Pazarlık payı vardır</option>
-                                </select>
-                            </div>
-                        </div>*@
+                                        <div class="form-select">
+                                            <select class="form-control" name="desc-msg" id="desc-msg" required>
+                                                <option disabled selected value="">Seçiniz</option>
+                                                <option value="1">Hemen teslim</option>
+                                                <option value="2">Pazarlık payı vardır</option>
+                                            </select>
+                                        </div>
+                                    </div>*@
                             </div>
                         </div>
                         <div class="col-12 form-group">
@@ -267,63 +222,71 @@
                                     <label class="label-white">arası</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 form-group hoursdr" style="display:none">
-                            <div class="row align-items-center">
-                                <div class="col-lg-2 col-12">
-                                    <label class="label-white">Hafta sonu Teslim Saati:</label>
-                                </div>
-                                <div class="col-lg-2 col-12">
-                                    <div class="form-select">
-                                        <select class="form-control" name="hs-time1" id="hs-time1">
-                                            <option disabled selected value="">0</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1 col-12">
-                                    <label class="label-white">ile</label>
-                                </div>
-                                <div class="col-lg-2 col-12">
-                                    <div class="form-select">
-                                        <select class="form-control" name="hs-time2" id="hs-time2">
-                                            <option disabled selected value="">0</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1 col-12">
-                                    <label class="label-white">arası</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 form-group">
-                            <div class="row align-items-center">
-                                <div class="col-lg-10 col-12">
-                                    <label class="form-csCheck text-white ">
-                                        <input class="form-check-input form-control" type="checkbox" value=""
-                                               id="accept" required />
-                                        <span class="form-csCheck-checkmark"></span>
-                                        Item satış koşullarını kabul ediyorum.
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 form-group">
-                            <div class="row align-items-center">
-                                <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
-                                    <button class="button btn-blue w-100" type="submit">
-                                        Yayınla
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </main>
 </div>
+<div class="col-12 form-group hoursdr" style="display:none">
+    <div class="row align-items-center">
+        <div class="col-lg-2 col-12">
+            <label class="label-white">Hafta sonu Teslim Saati:</label>
+        </div>
+        <div class="col-lg-2 col-12">
+            <div class="form-select">
+                <select class="form-control" name="hs-time1" id="hs-time1">
+                    <option disabled selected value="">0</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-1 col-12">
+            <label class="label-white">ile</label>
+        </div>
+        <div class="col-lg-2 col-12">
+            <div class="form-select">
+                <select class="form-control" name="hs-time2" id="hs-time2">
+                    <option disabled selected value="">0</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-1 col-12">
+            <label class="label-white">arası</label>
+        </div>
+    </div>
+</div>
+<div class="col-12 form-group">
+    <div class="row align-items-center">
+        <div class="col-lg-10 col-12">
+            <label class="form-csCheck text-white ">
+                <input class="form-check-input form-control" type="checkbox" value=""
+                       id="accept" required />
+                <span class="form-csCheck-checkmark"></span>
+                Item satış koşullarını kabul ediyorum.
+            </label>
+        </div>
+    </div>
+</div>
+<div class="col-12 form-group">
+    <div class="row align-items-center">
+        <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
+            <button class="button btn-blue w-100" type="submit">
+                Yayınla
+            </button>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+
+<script>
+    var uppy = Uppy.Core()
+        .use(Uppy.Dashboard, {
+            inline: true,
+            target: '#drag-drop-area'
+        })
+</script>
