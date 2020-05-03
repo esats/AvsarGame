@@ -21,9 +21,25 @@ namespace AvsarGame.Portal.Controllers {
         public IActionResult ilanCsOrkun () {
             return View ();
         }
-        public IActionResult ilanKnightOrkun () {
+
+        [Route("user/ilan/knightcyberring")]
+        public IActionResult KnightCyberRing () {
+            var bearer = SessionManager.Instance.Get ("bearer");
+            if (bearer == null) {
+                return RedirectToAction ("giris", "User");
+            }
             return View ();
         }
+
+        [Route("user/ilan/knightitem")]
+        public IActionResult KnightItem () {
+            var bearer = SessionManager.Instance.Get ("bearer");
+            if (bearer == null) {
+                return RedirectToAction ("giris", "User");
+            }
+            return View ();
+        }
+
         public IActionResult filtreOrkun () {
             return View ();
         }
