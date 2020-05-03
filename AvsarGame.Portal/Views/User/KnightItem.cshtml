@@ -8,10 +8,10 @@
         <div class="container">
             <div class="row section justify-content-center" style="margin-top:20px ">
                 <div class="col-md-2  ad-options mb-5">
-                    <a href="/user/ilan/knightcyberring" style="cursor:pointer !important "  class="text-white">Cypher Ring</a>
+                    <a href="#" class="text-white" style="color: #007bff !important;">Cypher Ring</a>
                 </div>
                 <div class="col-md-2  ad-options mb-5">
-                    <a href="#" style="color: #007bff !important">Item</a>
+                    <a href="/user/ilan/knightitem" style="cursor:pointer" class="text-white">Item</a>
                 </div>
                 <div class="col-12" style="border:1px solid">
                     <form action="" class="row ad-form">
@@ -91,52 +91,7 @@
                                 </div>
                                 <div class="col-lg-10 col-12">
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                    <div style="background-image: url('https://source.unsplash.com/random/300x300')"
-                                                         class="loaded-img"></div>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-6 mb-3">
-                                            <div class="file-container">
-                                                <div class="file-img-container">
-                                                    <i class="fas fa-plus fa-2x text-white"></i>
-                                                </div>
-                                                <div class="file-input-container">
-                                                    <input accept="image/jpg, image/jpeg, image/png" name="files"
-                                                           type="file">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div id="drag-drop-area"></div>
                                     </div>
                                 </div>
                             </div>
@@ -327,3 +282,12 @@
         </div>
     </main>
 </div>
+
+<script>
+    var uppy = Uppy.Core()
+        .use(Uppy.Dashboard, {
+            inline: true,
+            target: '#drag-drop-area',
+            height: '400px'
+        });
+</script>
