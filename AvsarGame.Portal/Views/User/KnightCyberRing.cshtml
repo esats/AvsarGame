@@ -326,11 +326,15 @@
     $(document).ready(function () {
         $("#addCyberAddversiment").click(function () {
             var  model = serializeArrayToJson($('#getFormByName form').serializeArray());
-            model.Files = GetImages(uppy.getFiles());
-            debugger;
-            var formData = new FormData(); // you can consider this as 'data bag'
+
+            var formData = new FormData(); 
             for ( const [key,value] of Object.entries(model) ) {
                 formData.append(key, value);
+            }
+
+            var files = uppy.getFiles();
+            for (var i = 0; i < files.length; i++) {
+                formData.append("Files", files[i].data);    
             }
 
             $.ajax({
@@ -370,7 +374,7 @@
         select.appendChild(option);
 
         
-        for (var j = 1; j < 11; j++) {
+        for (var j = 10; j > 1; j--) {
             var opt2 = document.createElement("option");
             opt2.text = "83 Reb+" +j;
             opt2.value ="83 Reb+" +j;
@@ -410,11 +414,5 @@
         return jsonObj;
     }
 
-    function GetImages(images) {
-        var imgs = [];
-        for (var i = 0; i < images.length; i++) {
-            imgs.push(images[i].data)
-        }
-        return imgs;
-    }
+   
 </script>
