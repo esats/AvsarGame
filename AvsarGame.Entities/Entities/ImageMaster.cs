@@ -5,7 +5,7 @@ using AvsarGame.Core.Entities;
 
 namespace AvsarGame.Entities.Entities {
     public class ImageMaster : EntityBase<int> {
-        public int KnightCyberRingId { get; set; }
+        public int AdversimentId { get; set; }
         public int Type { get; set; }
         public ICollection<ImagesDetail> Images { get; set; }
     }

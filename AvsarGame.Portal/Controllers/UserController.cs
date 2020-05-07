@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Core;
 using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -277,19 +278,15 @@ namespace AvsarGame.Portal.Controllers {
                     return Json(new { Success = false, Message = "Birşeyler ters gitti" });
                 }
 
+                var response =
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Adversiment", "AddKnightCyberRing", JsonConvert.SerializeObject(model)));
 
-                var responseSaving =
-                        JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
+                await FileManager.Instance.SaveAll(model.Files, response,ImageType.KNIGHT_ONLINE_CYBERRING);
 
-               await FileManager.Instance.SaveAll(model.Files,responseSaving.Value.Id);
-
-
-                return Json(new { Success = true, data = responseSaving });
+                return Json(new { Success = true, data = true });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
-
-            return null;
         }
     }
 }
