@@ -23,6 +23,9 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         public virtual DbSet<UserNotification> UserNotifications { get; set; }
         public virtual DbSet<UserSell> UserSell { get; set; }
         public virtual DbSet<UserSellDetail> UserSellDetail { get; set; }
+        public virtual DbSet<KnightCyberRing> KnightCyberRing { get; set; }
+        public virtual DbSet<ImageMaster> ImageMaster { get; set; }
+        public virtual DbSet<ImagesDetail> ImagesDetail { get; set; }
 
         public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options) {
         }

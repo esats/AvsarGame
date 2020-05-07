@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Controllers {
-
     public class UserController : BaseController {
         public IActionResult Index() {
             return View();
@@ -272,19 +271,24 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model) {
-            //try {
-            //    if (!SessionManager.Instance.IsAuthenticate ()) {
-            //        return Json (new { Success = false, Message = "Birşeyler ters gitti" });
-            //    }
+        public async Task<JsonResult> AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model) {
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+                }
 
-            //    var responseSaving =
-            //            JsonConvert.DeserializeObject<Response<RegisterModel>> (UiRequestManager.Instance.Post ("Account", "Update", JsonConvert.SerializeObject (model)));
-            //    SessionManager.Instance.set ("FullName", model.Name + " " + model.Surname);
-            //    return Json (new { Success = true, data = responseSaving });
-            //} catch (Exception e) {
-            //    return Json (new { Success = false, Message = "Birşeyler ters gitti" });
-            //}
+
+                var responseSaving =
+                        JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
+
+               await FileManager.Instance.SaveAll(model.Files,responseSaving.Value.Id);
+
+
+                return Json(new { Success = true, data = responseSaving });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+
             return null;
         }
     }

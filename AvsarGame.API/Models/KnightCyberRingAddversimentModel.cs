@@ -18,6 +18,7 @@ namespace AvsarGame.API.Models
         public double Price { get; set; }
         public string SellTimeEarly { get; set; }
         public string SellTimeLate { get; set; }
+        public int ImageMasterId { get; set; }
         public List<IFormFile> Files { get; set; }
     }
 }
