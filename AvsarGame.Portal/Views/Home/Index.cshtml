@@ -177,7 +177,7 @@
 										aria-labelledby="dota2-title">
 										<div class="card-body">
 											<div class="row showcase">
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -188,7 +188,29 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
+													<div class="showcase-item">
+														<div class="showcase-img"
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
+														</div>
+														<div class="showcase-info">
+															<p class="name">Corrupted Armor of the Winter Rose</p>
+															<p class="price">7.08 TL</p>
+														</div>
+													</div>
+												</div>
+												<div class="showcase-item-wrapper">
+													<div class="showcase-item">
+														<div class="showcase-img"
+															style="background-image: url('https://source.unsplash.com/random/200x270')">
+														</div>
+														<div class="showcase-info">
+															<p class="name">Corrupted Armor of the Winter Rose</p>
+															<p class="price">7.08 TL</p>
+														</div>
+													</div>
+												</div>
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -199,7 +221,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -210,7 +232,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -221,7 +243,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -233,7 +255,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -244,7 +266,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -255,7 +277,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -266,7 +288,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -279,7 +301,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="showcase-item-wrapper">
 													<div class="showcase-item">
 														<div class="showcase-img"
 															style="background-image: url('https://source.unsplash.com/random/200x270')">
@@ -396,7 +418,7 @@
                    <div class="row">
                 @foreach (var item in Model.Categories) {
 
-                        <div class="col">
+                        <div class="showcase-item-wrapper">
                              <div class=" showcase-item">
                         <a href="/oyun/@item.SeoName">
                             <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
@@ -430,7 +452,7 @@
             <div class="showcase">
                 <div class="row">
                 @foreach (var item in Model.NewGames.Take(12)) {
-                     <div class="col">
+                     <div class="showcase-item-wrapper">
                     <div class="showcase-item">
                         <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
                         @* <div class="showcase-info">
