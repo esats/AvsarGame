@@ -8,10 +8,10 @@
         <div class="container">
             <div class="row section justify-content-center" style="margin-top: 20px">
                 <div class="col-md-2  ad-options mb-5">
-                    <a href="#" class="text-white" style="color: #007bff !important;">Cypher Ring</a>
+                    <a href="/user/ilan/knighcyberring" class="text-white">Cypher Ring</a>
                 </div>
                 <div class="col-md-2  ad-options mb-5">
-                    <a href="/user/ilan/knightitem" style="cursor: pointer" class="text-white">Item</a>
+                    <a href="#" style="cursor: pointer" style="color: #007bff !important;">Item</a>
                 </div>
                 <div class="col-12" id="getFormByName" style="border: 1px solid">
                     <form action="" class="row ad-form" id="cyberform">
@@ -52,33 +52,9 @@
                                 <div class="col-lg-2 col-12">
                                     <label class="label-white">Karakter Özellikleri</label>
                                 </div>
-                                <div class="col-lg-2 col-12">
+                                <div class="col-lg-4 col-12">
                                     <div class="form-select">
-                                        <select class="form-control" name="CharacterFeature" id="race" required>
-                                            <option disabled selected value="">Human / Karus</option>
-                                            <option value="human">Human</option>
-                                            <option value="karus">Karus</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-12">
-                                    <div class="form-select">
-                                        <select class="form-control" name="CharacterType" id="type" required>
-                                            <option disabled selected value="">Karakter Türü</option>
-                                            <option value="mage">Mage</option>
-                                            <option value="warrior">Warrior</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-12">
-                                    <div class="form-select">
-                                        <select class="form-control" name="Percent" id="percent" required>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-12">
-                                    <div class="form-select">
-                                        <select class="form-control" name="Level" id="level" required>
+                                        <select class="form-control" name="Plus" id="plus" required>
                                         </select>
                                     </div>
                                 </div>
@@ -271,7 +247,6 @@
                 formData.append(key, value);
             }
 
-            debugger;
             if ($('#accepttime').is(":checked")) {
                 formData.append("SellTimeEarly", 00);
                 formData.append("SellTimeLate", 24);
@@ -309,7 +284,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/User/AddKnightCyberRingAddversiment',
+                url: '/User/AddKnightItemAddversiment',
                 processData: false,
                 contentType: false,
                 data: formData,
@@ -332,7 +307,6 @@
             });
         });
         FillLevel();
-        FillPercent();
     });
 
     function openNotifiyModal() {
@@ -348,41 +322,18 @@
     }
 
     function FillLevel() {
-        var select = document.getElementById("level");
+        var select = document.getElementById("plus");
         var option = document.createElement("option");
-        option.text = "Level";
+        option.text = "Artı Kaç";
         option.value = "";
         select.appendChild(option);
 
-        for (var j = 10; j > 1; j--) {
-            var opt2 = document.createElement("option");
-            opt2.text = "83 Reb+" + j;
-            opt2.value = "83 Reb+" + j;
-            select.appendChild(opt2);
-        }
-
-        for (var i = 84; i > 50; i--) {
+        for (var i = 10; i > 1; i--) {
             var opt = document.createElement("option");
-            opt.text = i;
-            opt.value = i;
+            opt.text = "+" + i;
+            opt.value = "+" + i;
             select.appendChild(opt);
         }
-    }
-
-    function FillPercent() {
-        var select = document.getElementById("percent");
-        var option = document.createElement("option");
-        option.text = "Yüzde";
-        option.value = " %";
-        select.appendChild(option);
-
-        for (var j = 99; j > 0; j--) {
-            var opt2 = document.createElement("option");
-            opt2.text = j;
-            opt2.value = j;
-            select.appendChild(opt2);
-        }
-
     }
 
     function serializeArrayToJson(serializedArray) {

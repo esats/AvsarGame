@@ -290,7 +290,7 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddKnightItemAddversiment(KnightCyberRingAddversimentModel model) {
+        public async Task<JsonResult> AddKnightItemAddversiment(KnightItemAddversimentModel model) {
             try {
                 if (!SessionManager.Instance.IsAuthenticate()) {
                     return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
