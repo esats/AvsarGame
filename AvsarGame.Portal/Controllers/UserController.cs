@@ -274,15 +274,32 @@ namespace AvsarGame.Portal.Controllers {
         [HttpPost]
         public async Task<JsonResult> AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model) {
             try {
-                return Json(true);
                 if (!SessionManager.Instance.IsAuthenticate()) {
-                    return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+                    return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
                 }
 
                 var response =
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Adversiment", "AddKnightCyberRing", JsonConvert.SerializeObject(model)));
 
                 await FileManager.Instance.SaveAll(model.Files, response,ImageType.KNIGHT_ONLINE_CYBERRING);
+
+                return Json(new { Success = true, data = true });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddKnightItemAddversiment(KnightCyberRingAddversimentModel model) {
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
+                }
+
+                var response =
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Adversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
+
+                await FileManager.Instance.SaveAll(model.Files, response,ImageType.KNIGHT_ONLINE_ITEM);
 
                 return Json(new { Success = true, data = true });
             } catch (Exception e) {

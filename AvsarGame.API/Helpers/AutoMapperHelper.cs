@@ -27,8 +27,13 @@ namespace AvsarGame.API.Helpers {
             CreateMap<UserOrderDetail, UserOrderDetailModel>();
 
             CreateMap<ApplicationUser, RegisterModel>();
+
             CreateMap<KnightCyberRing, KnightCyberRingAddversimentModel>();
             CreateMap<KnightCyberRingAddversimentModel, KnightCyberRing>();
+
+            
+            CreateMap<KnightItem, KnightItemAddversimentModel>();
+            CreateMap<KnightItemAddversimentModel, KnightItem>();
         }
     }
 }

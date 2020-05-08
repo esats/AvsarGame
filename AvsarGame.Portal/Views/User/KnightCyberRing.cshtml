@@ -18,6 +18,16 @@
 <div class="col-12 form-group" style="margin-top: 10px;">
     <div class="row align-items-center">
         <div class="col-lg-2 col-12">
+            <label class="label-white">Başlık:</label>
+        </div>
+        <div class="col-lg-10 col-12">
+            <input type="text" name="Title" class="form-control" id="title" required>
+        </div>
+    </div>
+</div>
+<div class="col-12 form-group"> 
+    <div class="row align-items-center">
+        <div class="col-lg-2 col-12">
             <label class="label-white">Server Seç</label>
         </div>
         <div class="col-lg-10 col-12">
@@ -53,7 +63,10 @@
         </div>
         <div class="col-lg-2 col-12">
             <div class="form-select">
-                <select class="form-control" name="Level" id="level" required>
+                <select class="form-control" name="CharacterType" id="type" required>
+                    <option disabled selected value="">Karakter Türü</option>
+                    <option value="mage">Mage</option>
+                    <option value="warrior">Warrior</option>
                 </select>
             </div>
         </div>
@@ -65,25 +78,13 @@
         </div>
         <div class="col-lg-2 col-12">
             <div class="form-select">
-                <select class="form-control" name="CharacterType" id="type" required>
-                    <option disabled selected value="">Karakter Türü</option>
-                    <option value="mage">Mage</option>
-                    <option value="warrior">Warrior</option>
+                <select class="form-control" name="Level" id="level" required>
                 </select>
             </div>
         </div>
     </div>
 </div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Başlık:</label>
-        </div>
-        <div class="col-lg-10 col-12">
-            <input type="text" name="Title" class="form-control" id="title" required>
-        </div>
-    </div>
-</div>
+
 <div class="col-12 form-group">
     <div class="row align-items-center">
         <div class="col-lg-2 col-12">
@@ -118,7 +119,7 @@
             <label class="label-white">Hesabınıza Geçecek Tutar</label>
         </div>
         <div class="col-lg-2 col-12">
-            <input type="text" class="form-control"
+            <input disabled="disabled" type="text" class="form-control"
                    id="priceTotal">
         </div>
     </div>
@@ -215,9 +216,9 @@
         <div class="col-lg-10 col-12">
             <label class="form-csCheck text-white ">
                 <input class="form-check-input form-control" type="checkbox"
-                       id="acceptReq" />
+                       id="acceptReq"/>
                 <span class="form-csCheck-checkmark"></span>
-                <a href="#" onclick="showadversimentterm()" data-toggle="modal" 
+                <a href="#" onclick="showadversimentterm()" data-toggle="modal"
                    data-target="#adversimentterm-modal">
                     Item satış koşullarını kabul ediyorum.
                 </a>
@@ -261,7 +262,8 @@
         });
 
     $(document).ready(function() {
-        $("#addCyberAddversiment").click(function() {
+        $("#addCyberAddversiment").click(function(e) {
+            e.preventDefault();
             var model = serializeArrayToJson($('#getFormByName form').serializeArray());
 
             var formData = new FormData();
@@ -274,8 +276,8 @@
                 formData.append("SellTimeEarly", 00);
                 formData.append("SellTimeLate", 24);
             } else {
-                formData.append("SellTimeEarly", $('#hi-time1').val());
-                formData.append("SellTimeLate", $('#hi-time2').val());
+                formData.append("SellTimeEarly",  $("#hs-time1").val());
+                formData.append("SellTimeLate", $('#hs-time2').val());
             }
 
             var form = document.getElementById('cyberform');

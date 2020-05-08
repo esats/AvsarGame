@@ -52,6 +52,7 @@ namespace AvsarGame.API {
             services.AddTransient<IUserSell, EfUserSell>();
             services.AddTransient<IUserSellDetail, EfUserSellDetail>();
             services.AddTransient<IKnightCyberRing,EfKnightCyberRing>();
+            services.AddTransient<IKnightItem,EfKnightItem>();
             services.AddTransient<IImageMaster, EfImageMaster>();
             services.AddTransient<IImageDetail, EfImageDetail>();
 

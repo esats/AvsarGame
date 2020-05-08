@@ -5,6 +5,6 @@ using AvsarGame.Core.DataAccess;
 using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Abstract {
-    public interface IKnightItem : IEntityRepository<KnightItem> {
+    public interface IKnightCyberRing : IEntityRepository<KnightCyberRing> {
     }
 }
