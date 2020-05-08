@@ -11,6 +11,9 @@
     <Folder Include="wwwroot\Uploads\235x400\" />
     <Folder Include="wwwroot\Uploads\184x200\" />
     <Folder Include="wwwroot\Uploads\184x140\" />
+    <Folder Include="wwwroot\Uploads\200x90\" />
+    <Folder Include="wwwroot\Uploads\550x318\" />
+    <Folder Include="wwwroot\Uploads\198x150\" />
     <Folder Include="wwwroot\Uploads\orj\" />
   </ItemGroup>
 

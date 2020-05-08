@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace AvsarGame.API.Models
-{
-    public class KnightCyberRingAddversimentModel
-    {
+namespace AvsarGame.API.Models {
+    public class KnightCyberRingAddversimentModel {
         public string Title { get; set; }
         public string Content { get; set; }
         public string ServerName { get; set; }

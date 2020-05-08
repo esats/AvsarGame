@@ -96,8 +96,9 @@ namespace AvsarGame.Portal.Helpers {
                 BlobManager manager = new BlobManager();
                 CloudBlobContainer container = await manager.CreateFolderAsync();
 
-                var LARGE_MAIN = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.LARGE_MAIN), fileName));
-                var SMALL = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.SMALL), fileName));
+                var MAINADD = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.MAINADD), fileName));
+                var DETAILADD = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.DETAILADD), fileName));
+                var FILTERADD = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.FILTERADD), fileName));
 
                 var pathToDataOrg = Path.GetFullPath(Path.Combine(path, "orj", fileName));
 
@@ -106,12 +107,17 @@ namespace AvsarGame.Portal.Helpers {
                     stream.Dispose();
                     await SaveToCloud(container, manager,
                             new CloudModel() {
-                                    OrginalFile = pathToDataOrg, FilePath = LARGE_MAIN, Width = 305, Height = 500, SubFolderName = PageHelper.Description(ImageFolder.MEDIUM),
+                                    OrginalFile = pathToDataOrg, FilePath = MAINADD, Width = 198, Height = 150, SubFolderName = PageHelper.Description(ImageFolder.MAINADD),
                                     FileName = fileName
                             });
                     await SaveToCloud(container, manager,
                             new CloudModel() {
-                                    OrginalFile = pathToDataOrg, FilePath = SMALL, Width = 184, Height = 200, SubFolderName = PageHelper.Description(ImageFolder.SMALL),
+                                    OrginalFile = pathToDataOrg, FilePath = DETAILADD, Width = 550, Height = 318, SubFolderName = PageHelper.Description(ImageFolder.DETAILADD),
+                                    FileName = fileName
+                            });
+                    await SaveToCloud(container, manager,
+                            new CloudModel() {
+                                    OrginalFile = pathToDataOrg, FilePath = FILTERADD, Width = 200, Height = 90, SubFolderName = PageHelper.Description(ImageFolder.FILTERADD),
                                     FileName = fileName
                             });
                 }

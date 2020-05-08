@@ -21,6 +21,15 @@ namespace AvsarGame.Core {
         SMALL = 3,
 
         [Description("184x140")]
-        EXTRASMALL = 4
+        EXTRASMALL = 4,
+
+        [Description("198x150")]
+        MAINADD = 6,
+
+        [Description("550x318")]
+        DETAILADD = 7,
+
+        [Description("200x90")]
+        FILTERADD = 8
     }
 }
