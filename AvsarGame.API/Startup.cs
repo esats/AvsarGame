@@ -51,6 +51,9 @@ namespace AvsarGame.API {
             services.AddTransient<IUserNotification, EfUserNotification>();
             services.AddTransient<IUserSell, EfUserSell>();
             services.AddTransient<IUserSellDetail, EfUserSellDetail>();
+            services.AddTransient<IKnightCyberRing,EfKnightCyberRing>();
+            services.AddTransient<IImageMaster, EfImageMaster>();
+            services.AddTransient<IImageDetail, EfImageDetail>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = false; //sayı zorunluluğu
