@@ -18,6 +18,8 @@ namespace AvsarGame.Portal.Controllers {
             //model.Games = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "UiGameList"));
             model.NewGames = JsonConvert.DeserializeObject<List<GameModel>>(UiRequestManager.Instance.Get("Game", "NewGames"));
             model.Categories = JsonConvert.DeserializeObject<List<CategoryModel>>(UiRequestManager.Instance.Get("Category", "UiCategoryList"));
+            model.KnightCyberItems = JsonConvert.DeserializeObject<List<KnightCyberRingAddversimentModel>>(UiRequestManager.Instance.Get("Addversiment", "UiKnightCyberList"));
+            model.KnightItems = JsonConvert.DeserializeObject<List<KnightItemAddversimentModel>>(UiRequestManager.Instance.Get("Addversiment", "UiKnightItemList"));
 
             return View(model);
         }

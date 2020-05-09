@@ -92,7 +92,7 @@ namespace AvsarGame.API.Controllers {
         public List<GameModel> NewGames() {
             List<GameModel> list = new List<GameModel>();
             if (_cache.Get("newgames") == null) {
-                var entities = _game.GetList(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate);
+                var entities = _game.GetList(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate).Take(12);
                 foreach (var entity in entities) {
                     GameModel model = new GameModel() {
                             Id = entity.Id,

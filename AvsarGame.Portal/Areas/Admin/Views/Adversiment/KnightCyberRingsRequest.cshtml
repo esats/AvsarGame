@@ -38,7 +38,8 @@
                                     <td>@item.Sub.Email</td>
                                     <td>@item.Sub.PhoneNumber</td>
                                     <td>@item.Base.Title</td>
-                                    <td>@item.Base.Content</td>
+                                    <td>
+                                        <textarea cols="12" rows="6">@item.Base.Content</textarea>
                                     <td>@item.Base.Price</td>
                                     <td>@item.Base.Level</td>
                                     <td>
@@ -143,7 +144,7 @@
             swal({
                     title: "ilanı Red etmek istediginizden emin misiniz?",
                     showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
+                    confirmButtonColor: "#4caf50",
                     confirmButtonText: "evet",
                     cancelButtonText: "Hayir",
                     closeOnConfirm: true,

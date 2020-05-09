@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<div class="col-12 form-group"> 
+<div class="col-12 form-group">
     <div class="row align-items-center">
         <div class="col-lg-2 col-12">
             <label class="label-white">Server Seç</label>
@@ -84,7 +84,6 @@
         </div>
     </div>
 </div>
-
 <div class="col-12 form-group">
     <div class="row align-items-center">
         <div class="col-lg-2 col-12">
@@ -113,14 +112,13 @@
             <label class="label-white">Fiyat Belirle</label>
         </div>
         <div class="col-lg-2 col-12">
-            <input type="number" id="price" class="form-control" name="Price" required>
+            <input type="number" id="price" class="form-control" name="Price" required/>
         </div>
         <div class="col-lg-3 col-12 offset-lg-1 offset-0">
             <label class="label-white">Hesabınıza Geçecek Tutar</label>
         </div>
         <div class="col-lg-2 col-12">
-            <input disabled="disabled" type="text" class="form-control"
-                   id="priceTotal">
+            <input disabled="disabled" type="text" class="form-control" id="priceTotal"/>
         </div>
     </div>
 </div>
@@ -276,7 +274,7 @@
                 formData.append("SellTimeEarly", 00);
                 formData.append("SellTimeLate", 24);
             } else {
-                formData.append("SellTimeEarly",  $("#hs-time1").val());
+                formData.append("SellTimeEarly", $("#hs-time1").val());
                 formData.append("SellTimeLate", $('#hs-time2').val());
             }
 
@@ -293,7 +291,7 @@
                 alert('Lütfen en az bir resim seçiniz!');
                 return 0;
             }
-            if (files.length >8) {
+            if (files.length > 8) {
                 alert('Lütfen en az bir resim seçiniz!');
                 return 0;
             }
@@ -321,7 +319,8 @@
                 },
                 success: function(res) {
                     if (res) {
-                        openNotifiyModal();
+                        //openNotifiyModal();
+                        alert("ok")
                     } else {
                         alert("Talep Gönderilirken bir hata oluştu");
                     }
@@ -395,7 +394,7 @@
     }
 
     $("#price").on('change', function() {
-        $("#priceTotal")[0].value = (parseFloat(this.value)* 0.97).toFixed(2) ;
+        $("#priceTotal")[0].value = (parseFloat(this.value) * 0.97).toFixed(2);
     });
 
     $("#accepttime").on('change', function() {

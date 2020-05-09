@@ -25,30 +25,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model != null && Model.Count > 0)
-                        {
-                            @foreach (var item in Model)
-                            {
+                        @if (Model != null && Model.Count > 0) {
+                            @foreach (var item in Model) {
                                 <tr class="requestrow">
                                     <td>@item.Sub.Name @item.Sub.Surname</td>
                                     <td>@item.Sub.Email</td>
                                     <td>@item.Sub.PhoneNumber</td>
                                     <td>@item.Base.Title</td>
-                                    <td>@item.Base.Content</td>
+                                    <td>
+                                        <textarea cols="12" rows="6">@item.Base.Content</textarea>
+                                    </td>
                                     <td>@item.Base.Price</td>
                                     <td>
                                         <ul style="list-style: none;">
-                                            @foreach (var url in item.Base.FileUrls)
-                                            {
+                                            @foreach (var url in item.Base.FileUrls) {
                                                 var u = "https://anatoliagm.blob.core.windows.net/uploads/200x90/" + url;
 
-                                                <li><img src="@u" style="width: 100px; margin: 4px; display: inline;" /></li>
-
+                                                <li>
+                                                    <img src="@u" style="width: 100px; margin: 4px; display: inline;"/>
+                                                </li>
                                             }
                                         </ul>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success btn-sm accept" data-add-id="@item.Base.Id" data-user-id="@item.Sub.UserId" style="margin-bottom: 10px;color: white">Kabul et</a>
+                                        <a class="btn btn-success btn-sm accept" data-add-id="@item.Base.Id" data-user-id="@item.Sub.UserId" style="margin-bottom: 10px; color: white">Kabul et</a>
                                         <a class="btn btn-danger btn-sm reject" data-add-id="@item.Base.Id" data-user-id="@item.Sub.UserId" style="color: white">Reddet</a>
                                     </td>
                                 </tr>
@@ -64,9 +64,9 @@
 <script>
     $(document).ready(function() {
 
-        $('#dataTable').DataTable( {
+        $('#dataTable').DataTable({
             "scrollX": true
-        } );
+        });
 
         $(".requestrow .accept").click(function() {
             debugger;
@@ -80,9 +80,10 @@
                 UserId
             }
 
-            swal({  title: "İlanı kabul etmek istediğinizden Emin misiniz?",
+            swal({
+                    title: "İlanı kabul etmek istediğinizden Emin misiniz?",
                     showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
+                    confirmButtonColor: "#4caf50",
                     confirmButtonText: "evet",
                     cancelButtonText: "Hayir",
                     closeOnConfirm: true,
@@ -105,10 +106,10 @@
                             success: function(res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        swal("Basarili!", "Sipariş Aktarıldı", "success");
+                                        swal("Basarili!", "İlan yayınlandı", "success");
                                         row.remove();
                                     } else {
-                                        swal("Hata!", "Sipariş Aktarılamadı", "error");
+                                        swal("Hata!", "İlan yayınlandı", "error");
                                     }
                                 }
                             },

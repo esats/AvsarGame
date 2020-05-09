@@ -27,7 +27,7 @@ namespace AvsarGame.API.Controllers {
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AddversimentController(IKnightCyberRing knightCyberRing, IMapper mapper, IKnightItem knightItem, UserManager<ApplicationUser> userManager, IImageMaster image,
-                                     IUserNotification notification) {
+                                      IUserNotification notification) {
             _KnightCyberRing = knightCyberRing;
             _mapper = mapper;
             _knightItem = knightItem;
@@ -110,6 +110,50 @@ namespace AvsarGame.API.Controllers {
             }
         }
 
+        [HttpGet]
+        [Route("UiKnightCyberList")]
+        [AllowAnonymous]
+        public List<KnightCyberRingAddversimentModel> UiKnightCyberList() {
+            List<KnightCyberRingAddversimentModel> list =
+                    new List<KnightCyberRingAddversimentModel>();
+            try {
+                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
+                foreach (var item in cyberAdds) {
+                    KnightCyberRingAddversimentModel model = new KnightCyberRingAddversimentModel();
+                    model = _mapper.Map<KnightCyberRingAddversimentModel>(item);
+                    model.FileUrls = GetFiles(item.Id, (int) ImageType.KNIGHT_ONLINE_CYBERRING);
+                    list.Add(model);
+                }
+
+                return list;
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("UiKnightItemList")]
+        [AllowAnonymous]
+        public List<KnightItemAddversimentModel> UiKnightItemList() {
+            List<KnightItemAddversimentModel> list =
+                    new List<KnightItemAddversimentModel>();
+            try {
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
+                foreach (var item in cyberAdds) {
+                    KnightItemAddversimentModel model = new KnightItemAddversimentModel();
+                    model = _mapper.Map<KnightItemAddversimentModel>(item);
+                    model.FileUrls = GetFiles(item.Id, (int) ImageType.KNIGHT_ONLINE_ITEM);
+                    list.Add(model);
+                }
+
+                return list;
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         [HttpPost]
         [Route("ApproveCyberRing")]
         [Authorize(Roles = "Admin")]
@@ -175,7 +219,7 @@ namespace AvsarGame.API.Controllers {
             return response;
         }
 
-                [HttpPost]
+        [HttpPost]
         [Route("ApproveKnightItem")]
         [Authorize(Roles = "Admin")]
         public Response<HttpStatusCode> ApproveKnightItem(AdminAddversimentModel model) {

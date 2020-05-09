@@ -345,7 +345,7 @@ namespace AvsarGame.Portal.Controllers
                 }
 
                 var response =
-                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Adversiment", "AddKnightCyberRing", JsonConvert.SerializeObject(model)));
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightCyberRing", JsonConvert.SerializeObject(model)));
 
                 await FileManager.Instance.SaveAll(model.Files, response, ImageType.KNIGHT_ONLINE_CYBERRING);
 
@@ -365,7 +365,7 @@ namespace AvsarGame.Portal.Controllers
                 }
 
                 var response =
-                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Adversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
 
                 await FileManager.Instance.SaveAll(model.Files, response,ImageType.KNIGHT_ONLINE_ITEM);
 

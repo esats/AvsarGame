@@ -10,5 +10,7 @@ namespace AvsarGame.Portal.Models {
         public List<GameModel> Games { get; set; }
         public List<GameModel> NewGames { get; set; }
         public List<AnnouncementModel> Announcements { get; set; }
+        public List<KnightCyberRingAddversimentModel> KnightCyberItems { get; set; }
+        public List<KnightItemAddversimentModel> KnightItems { get; set; }
     }
 }

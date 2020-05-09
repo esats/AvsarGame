@@ -55,7 +55,7 @@ namespace AvsarGame.API.Controllers {
         public List<CategoryModel> UiCategoryList() {
             List<CategoryModel> list = new List<CategoryModel>();
             if (_cache.Get("uicategorylist") == null) {
-                var entities = _category.GetList(x => x.IsActive == true);
+                var entities = _category.GetList(x => x.IsActive == true).Take(12);
                 foreach (var entity in entities) {
                     CategoryModel model = new CategoryModel() {
                             ImageUrl = entity.ImageUrl,
