@@ -6,6 +6,6 @@ using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Concreate.EntityFramework {
-    public class EfKnightCyberRing : EfEntityRepositoryBase<KnightCyberRing, AvsarGameDBcontext>, IKnightCyberRing {
+    public class EfKnightItem : EfEntityRepositoryBase<KnightItem, AvsarGameDBcontext>, IKnightItem {
     }
 }

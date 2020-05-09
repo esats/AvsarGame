@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Text;
 
 namespace AvsarGame.Core {
-    public enum AdversimentStatus {
+    public enum AddversimentStatus {
         [Description("Beklemede")]
         SUSPEND = 0,
 

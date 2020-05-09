@@ -34,6 +34,9 @@ namespace AvsarGame.API.Helpers {
             
             CreateMap<KnightItem, KnightItemAddversimentModel>();
             CreateMap<KnightItemAddversimentModel, KnightItem>();
+
+            CreateMap<ApplicationUser, UserSummaryModel>()
+                    .ForMember(x => x.UserId, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

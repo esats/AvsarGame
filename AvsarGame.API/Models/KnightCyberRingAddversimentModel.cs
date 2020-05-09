@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
     public class KnightCyberRingAddversimentModel {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public string ServerName { get; set; }
@@ -20,6 +21,7 @@ namespace AvsarGame.API.Models {
         public string CreatedBy { get; set; }
         public int ImageMasterId { get; set; }
         public string UserId { get; set; }
+        public List<string> FileUrls { get; set; }
 
         [JsonIgnore]
         public List<IFormFile> Files { get; set; }
