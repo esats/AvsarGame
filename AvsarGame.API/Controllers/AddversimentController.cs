@@ -175,6 +175,71 @@ namespace AvsarGame.API.Controllers {
             return response;
         }
 
+                [HttpPost]
+        [Route("ApproveKnightItem")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> ApproveKnightItem(AdminAddversimentModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _knightItem.GetT(x => x.Id == model.AddversimentId);
+                    updatedEntity.status = (int) AddversimentStatus.APPROVED;
+                    _knightItem.Update(updatedEntity);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "ilanınız yayınlanmıştır.",
+                            NotificationType = NotificationType.APPROVED,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    _notification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RejectKnightItem")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> RejectKnightItem(AdminAddversimentModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _knightItem.GetT(x => x.Id == model.AddversimentId);
+                    updatedEntity.status = (int) AddversimentStatus.REJECT;
+                    _knightItem.Update(updatedEntity);
+
+                    UserNotification notification = new UserNotification() {
+                            UserId = model.UserId,
+                            Message = "ilanınız reddedilmiştir. Lütfen müşteri temsilcilerimizle iletişime geçiniz.",
+                            NotificationType = NotificationType.REJECT,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = base.GetUser()
+                    };
+                    _notification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
         private List<string> GetFiles(int id, int type) {
             return _image.GetImages(id, type);
         }

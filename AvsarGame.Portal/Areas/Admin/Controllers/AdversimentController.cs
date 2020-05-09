@@ -45,5 +45,26 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
+        [HttpPost]
+        public JsonResult ApproveKnightItem(AdminAddversimentModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Addversiment", "ApproveKnightItem", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+
+        public JsonResult RejectKnightItem(AdminAddversimentModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Addversiment", "RejectKnightItem", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }
