@@ -11,9 +11,6 @@ namespace AvsarGame.Core {
         [Description("235x400")]
         LARGE = 1,
 
-        [Description("160x270")]
-        MEDIUM = 5,
-
         [Description("305x500")]
         LARGE_MAIN = 2,
 
@@ -22,6 +19,9 @@ namespace AvsarGame.Core {
 
         [Description("184x140")]
         EXTRASMALL = 4,
+        
+        [Description("160x270")]
+        MEDIUM = 5,
 
         [Description("198x150")]
         MAINADD = 6,

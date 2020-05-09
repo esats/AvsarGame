@@ -7,7 +7,7 @@
     </h5>
     @foreach (var category in Model.Take(6))
     {
-        <a class="dropdown-item list-item" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@category.SeoName">@category.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.SMALL)" href="/oyun/@category.SeoName">@category.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
@@ -15,7 +15,7 @@
     </h5>
     @foreach (var category in Model.Skip(6).Take(6))
     {
-        <a class="dropdown-item list-item" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@category.SeoName">@category.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.SMALL)" href="/oyun/@category.SeoName">@category.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
@@ -23,15 +23,24 @@
     </h5>
     @foreach (var category in Model.Skip(12).Take(6))
     {
-        <a class="dropdown-item list-item" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@category.SeoName">@category.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(category.ImageUrl,ImageFolder.SMALL)" href="/oyun/@category.SeoName">@category.Name</a>
     }
+    <a class="dropdown-item list-item" href="/">Tüm Oyunlar</a>
 </div>
 
 <div class="col-12 col-md-6 offset-lg-1 col-lg-5 mb-4 mb-lg-0">
-    <div class="d-flex dropdown-image">
-        <div class="col-12 p-0">
-            <img class="dropdown-image-img" src="~/assest/img/header_1.jpg"
-                 alt="" />
+    <div>
+        <div class="col-6 p-0">
+            <img class="dropdown-image-img imgtest" src="">
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $(".hoverOn").hover(function () {
+            var url = $(this).attr("data-url");
+            $('.imgtest').attr('src', url);
+        });
+    });
+</script>
