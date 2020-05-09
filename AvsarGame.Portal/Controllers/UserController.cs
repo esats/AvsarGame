@@ -11,24 +11,31 @@ using AvsarGame.Portal.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace AvsarGame.Portal.Controllers {
-    public class UserController : BaseController {
-        public IActionResult Index() {
+namespace AvsarGame.Portal.Controllers
+{
+    public class UserController : BaseController
+    {
+        public IActionResult Index()
+        {
             return View();
         }
 
-        public IActionResult DetailOrkun() {
+        public IActionResult DetailOrkun()
+        {
             return View();
         }
 
-        public IActionResult ilanCsOrkun() {
+        public IActionResult ilanCsOrkun()
+        {
             return View();
         }
 
         [Route("user/ilan/knightcyberring")]
-        public IActionResult KnightCyberRing() {
+        public IActionResult KnightCyberRing()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
@@ -36,40 +43,55 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("user/ilan/knightitem")]
-        public IActionResult KnightItem() {
+        public IActionResult KnightItem()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
             return View();
         }
 
-        public IActionResult filtreOrkun() {
+        public IActionResult filtreOrkun()
+        {
+            return View();
+        }
+
+        public IActionResult oyunlarOrkun()
+        {
             return View();
         }
 
         [HttpPost]
-        public JsonResult Register(RegisterModel model) {
-            try {
+        public JsonResult Register(RegisterModel model)
+        {
+            try
+            {
                 var responseSaving =
                         JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Register", JsonConvert.SerializeObject(model)));
-                if (responseSaving.IsSuccess) {
+                if (responseSaving.IsSuccess)
+                {
                     SessionManager.Instance.set("bearer", responseSaving.Value.BearerToken);
                     SessionManager.Instance.set("UserId", responseSaving.Value.Id.ToString());
                     SessionManager.Instance.set("FullName", responseSaving.Value.FullName.ToString());
                 }
 
                 return Json(new { Success = true, data = responseSaving });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpGet]
-        public ActionResult giris() {
+        public ActionResult giris()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer != null) {
+            if (bearer != null)
+            {
                 return RedirectToAction("Index", "Home");
             }
 
@@ -77,11 +99,14 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Giris(LoginModel model) {
-            try {
+        public JsonResult Giris(LoginModel model)
+        {
+            try
+            {
                 Response<LoggedModel> response =
                         JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
-                if (response.IsSuccess) {
+                if (response.IsSuccess)
+                {
                     SessionManager.Instance.set("bearer", response.Value.BearerToken);
                     SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
                     SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
@@ -89,32 +114,41 @@ namespace AvsarGame.Portal.Controllers {
                 }
 
                 return Json(new { Success = true, data = response });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false });
             }
         }
 
         [HttpPost]
-        public JsonResult Login(LoginModel model) {
-            try {
+        public JsonResult Login(LoginModel model)
+        {
+            try
+            {
                 Response<LoggedModel> response =
                         JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
-                if (response.IsSuccess) {
+                if (response.IsSuccess)
+                {
                     SessionManager.Instance.set("bearer", response.Value.BearerToken);
                     SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
                     SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
                 }
 
                 return Json(new { Success = true, data = response });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false });
             }
         }
 
         [HttpGet]
-        public ActionResult Detail() {
+        public ActionResult Detail()
+        {
             var id = SessionManager.Instance.GetUserId();
-            if (string.IsNullOrEmpty(id)) {
+            if (string.IsNullOrEmpty(id))
+            {
                 return null;
             }
 
@@ -135,16 +169,20 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Logout() {
+        public ActionResult Logout()
+        {
             UiRequestManager.Instance.Get(String.Format("Account/Logout"));
             SessionManager.Instance.Clear();
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public JsonResult RequestPayment(UserPaymentRequestModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public JsonResult RequestPayment(UserPaymentRequestModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen giriş yapınız" });
                 }
 
@@ -152,30 +190,39 @@ namespace AvsarGame.Portal.Controllers {
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
 
                 return Json(new { Success = false, data = response });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public JsonResult ReadAllNotification(string id) {
-            try {
+        public JsonResult ReadAllNotification(string id)
+        {
+            try
+            {
                 UiRequestManager.Instance.Get(String.Format("UserNotification/ReadAllNotification/{0}", id));
                 return Json(new { Success = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders) {
+        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders)
+        {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapınız";
-                    response.Error = (int) Errors.UNAUTHORIZED;
+                    response.Error = (int)Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
                     SessionManager.Instance.set("returnUrl", "/sepetim");
@@ -187,9 +234,10 @@ namespace AvsarGame.Portal.Controllers {
                         JsonConvert.DeserializeObject<UserBalanceModel>(
                                 UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));
 
-                if (totalGameAmount > Balance.Balance) {
+                if (totalGameAmount > Balance.Balance)
+                {
                     response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
-                    response.Error = (int) Errors.OUTOFBALANCE;
+                    response.Error = (int)Errors.OUTOFBALANCE;
                     baseResponse.Value = response;
                     baseResponse.IsSuccess = false;
                     return Json(new { Success = true, data = baseResponse });
@@ -203,20 +251,25 @@ namespace AvsarGame.Portal.Controllers {
                 SessionManager.Instance.Remove("chart");
 
                 return Json(new { Success = true, data = baseResponse });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public JsonResult UserSellRequest([FromBody] List<UserOrderDetailModel> sells) {
+        public JsonResult UserSellRequest([FromBody] List<UserOrderDetailModel> sells)
+        {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapınız";
-                    response.Error = (int) Errors.UNAUTHORIZED;
+                    response.Error = (int)Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
                     return Json(new { Success = true, data = baseResponse });
@@ -227,13 +280,16 @@ namespace AvsarGame.Portal.Controllers {
                                 UiRequestManager.Instance.Post("UserOrder", "SaveSell", JsonConvert.SerializeObject(sells)));
 
                 return Json(new { Success = true, data = baseResponse });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model) {
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model)
+        {
             model.RequestSchema = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.ToString();
             await UiRequestManager.Instance.PostAsync("Account", "ForgotPassword", JsonConvert.SerializeObject(model));
             return Json(true);
@@ -241,7 +297,8 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Produces("application/json")]
-        public ActionResult ResetPassword(string email, string token) {
+        public ActionResult ResetPassword(string email, string token)
+        {
             ResetPasswordModel resetPasswordModel = new ResetPasswordModel();
             resetPasswordModel.Email = email;
             resetPasswordModel.Token = token.Replace(" ", "+");
@@ -249,16 +306,20 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public ActionResult ResetPassword([FromBody] ResetPasswordModel model) {
+        public ActionResult ResetPassword([FromBody] ResetPasswordModel model)
+        {
             var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Account", "ResetPassword", JsonConvert.SerializeObject(model)));
 
             return Json(new { success = true, data = response });
         }
 
         [HttpPost]
-        public JsonResult Update(RegisterModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public JsonResult Update(RegisterModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Birşeyler ters gitti" });
                 }
 
@@ -266,25 +327,32 @@ namespace AvsarGame.Portal.Controllers {
                         JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
                 SessionManager.Instance.set("FullName", model.Name + " " + model.Surname);
                 return Json(new { Success = true, data = responseSaving });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
-                    return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
+        public async Task<JsonResult> AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
+                    return Json(new { Success = false, Message = "Birşeyler ters gitti" });
                 }
 
                 var response =
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Adversiment", "AddKnightCyberRing", JsonConvert.SerializeObject(model)));
 
-                await FileManager.Instance.SaveAll(model.Files, response,ImageType.KNIGHT_ONLINE_CYBERRING);
+                await FileManager.Instance.SaveAll(model.Files, response, ImageType.KNIGHT_ONLINE_CYBERRING);
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
