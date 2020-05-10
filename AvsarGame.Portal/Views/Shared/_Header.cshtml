@@ -183,15 +183,25 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item nav-item2" style="margin-left: 530px">
+                <li class="nav-item nav-item2 position-static dropdown li-for-dropdown">
+                    <a class="nav-link dropdown-toggle">
+                        KNIGHT ITEM & RING
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <div class="row">
+                            @await Component.InvokeAsync("ItemSkin")
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item nav-item2" style="margin-left: 322px">
                     <a class="nav-link" href="/odeme-yontemleri">Ödeme Yöntemleri</a>
                 </li>
                 @*<li class="nav-item nav-item2">
-                    <a class="nav-link" href="games.html">WAX (VGO)</a>
-                </li>*@
+            <a class="nav-link" href="games.html">WAX (VGO)</a>
+        </li>*@
                 @*<li class="nav-item nav-item2">
-                    <a class="nav-link" href="orders.html">STEAM</a>
-                </li>*@
+            <a class="nav-link" href="orders.html">STEAM</a>
+        </li>*@
                 <li class="nav-item nav-item2">
                     <a class="nav-link" href="/yardım">Yardım</a>
                 </li>

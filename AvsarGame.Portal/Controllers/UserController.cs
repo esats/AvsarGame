@@ -17,10 +17,6 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        public IActionResult DetailOrkun() {
-            return View();
-        }
-
         public IActionResult ilanCsOrkun() {
             return View();
         }
@@ -42,10 +38,6 @@ namespace AvsarGame.Portal.Controllers {
                 return RedirectToAction("giris", "User");
             }
 
-            return View();
-        }
-
-        public IActionResult filtreOrkun() {
             return View();
         }
 

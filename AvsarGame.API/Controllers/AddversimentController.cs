@@ -313,6 +313,32 @@ namespace AvsarGame.API.Controllers {
             return cybers;
         }
 
+        [HttpGet]
+        [Route("FilerKnightCyberRings")]
+        [AllowAnonymous]
+        public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilerKnightCyberRings() {
+            List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
+                    new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
+
+
+            try {
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
+                var users = _userManager.Users.ToList();
+                foreach (var item in cyberAdds) {
+                    BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
+                    model.Base = _mapper.Map<KnightItemAddversimentModel>(item);
+                    model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+                    model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
+                    list.Add(model);
+                }
+
+                return list;
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         private List<string> GetFiles(int id, int type) {
             return _image.GetImages(id, type);
         }

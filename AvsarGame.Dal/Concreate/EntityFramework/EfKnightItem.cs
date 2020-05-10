@@ -7,5 +7,6 @@ using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Concreate.EntityFramework {
     public class EfKnightItem : EfEntityRepositoryBase<KnightItem, AvsarGameDBcontext>, IKnightItem {
+
     }
 }
