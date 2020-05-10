@@ -284,6 +284,22 @@ namespace AvsarGame.API.Controllers {
             return response;
         }
 
+        [Route("KnightCyberDetail/{id}")]
+        [AllowAnonymous]
+        public AddversimentDetailModel KnightCyberDetail(int Id) {
+            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id));
+            model.FileUrls =  GetFiles(Id, (int) ImageType.KNIGHT_ONLINE_CYBERRING);
+            return model;
+        }
+
+        [Route("KnightItemDetail/{id}")]
+        [AllowAnonymous]
+        public AddversimentDetailModel KnightItemDetail(int Id) {
+            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id));
+            model.FileUrls =  GetFiles(Id, (int) ImageType.KNIGHT_ONLINE_ITEM);
+            return model;
+        }
+
         private List<string> GetFiles(int id, int type) {
             return _image.GetImages(id, type);
         }

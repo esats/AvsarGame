@@ -37,6 +37,10 @@ namespace AvsarGame.API.Helpers {
 
             CreateMap<ApplicationUser, UserSummaryModel>()
                     .ForMember(x => x.UserId, opt => opt.MapFrom(src => src.Id));
+            
+            CreateMap<KnightCyberRing, AddversimentDetailModel>();
+            CreateMap<KnightItem, AddversimentDetailModel>();
+
         }
     }
 }

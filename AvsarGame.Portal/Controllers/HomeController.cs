@@ -35,7 +35,7 @@ namespace AvsarGame.Portal.Controllers {
         [Route("oyun/{category}/{name}")]
         public IActionResult GameDetail(string category, string Name) {
             GameModel model =
-                    JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(string.Format("Game/GameDetail?category={0}&name={1}", category,Name)));
+                    JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(string.Format("Game/GameDetail?category={0}&name={1}", category, Name)));
 
             return View(model);
         }
@@ -56,7 +56,7 @@ namespace AvsarGame.Portal.Controllers {
 
         [Route("satis-yap/{Name}")]
         public IActionResult Sell(string Name) {
-            SessionManager.Instance.set("returnUrl","/satis-yap/"+Name);
+            SessionManager.Instance.set("returnUrl", "/satis-yap/" + Name);
             SessionManager.Instance.Remove("chart");
             GameModel model =
                     JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(string.Format("Game/GetGameWithGames?SeoName={0}", Name)));
@@ -72,5 +72,20 @@ namespace AvsarGame.Portal.Controllers {
             return Json(model);
         }
 
+        [Route("ilan/knight-item/detay/{Id}")]
+        public ActionResult KnightItemDetail(int Id) {
+            AddversimentDetailModel model =
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightItemDetail/{0}", Id)));
+
+            return View("AddversimentDetail",model);
+        }
+
+        [Route("ilan/knight-cyber-ring/detay/{Id}")]
+        public ActionResult KnightCyberDetail(int Id) {
+            AddversimentDetailModel model =
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightCyberDetail/{0}", Id)));
+
+            return View("AddversimentDetail",model);
+        }
     }
 }

@@ -149,6 +149,7 @@
 
 <script>
     $(document).ready(function() {
+        
         $(".total-table #count").on('change', function() {
             var counter = parseFloat((this.value.replace(",", ".") == "" ? 0 : this.value.replace(",", ".")));
             var itemPrice = parseFloat((this.parentElement.parentElement.parentElement.getElementsByClassName("priceIt")[0].innerHTML));

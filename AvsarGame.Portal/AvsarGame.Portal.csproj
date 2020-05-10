@@ -14,7 +14,7 @@
     <Folder Include="wwwroot\Uploads\200x90\" />
     <Folder Include="wwwroot\Uploads\550x318\" />
     <Folder Include="wwwroot\Uploads\198x150\" />
-    <Folder Include="wwwroot\Uploads\200x270\" />
+    <Folder Include="wwwroot\Uploads\550x400\" />
     <Folder Include="wwwroot\Uploads\orj\" />
   </ItemGroup>
 
@@ -32,15 +32,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\assest\Style\bootstrap.min.css">
+    <Content Update="wwwroot\assest\style\bootstrap.min.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="wwwroot\assest\Style\main.min.css">
+    <Content Update="wwwroot\assest\style\main.min.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="wwwroot\assest\Style\swiper.min.css">
+    <Content Update="wwwroot\assest\style\swiper.min.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

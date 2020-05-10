@@ -1,0 +1,139 @@
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model AddversimentDetailModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #example {
+        width: 100%;
+        height: 404px;
+        color: white;
+    }
+
+    @@media (max-width: 640px) {
+
+    #example .crs-bar-roll-current {
+        width: 38px;
+        height: 38px;
+    }
+
+    #example .crs-bar-roll-item {
+        width: 30px;
+        height: 30px;
+    }
+    }
+
+</style>
+
+
+<div class="page-wrapper new-detail">
+    <main class="Main">
+        <div class="container">
+
+            <div class="row section">
+                <div class="col-12 col-lg-6 side">
+                    <div class="row">
+                        @*<div class="col-12 col-sm-6 col-lg-12">
+                            <img class="recommended-img  mb-5" src="@PageHelper.GetImageUrl(Model.FileUrls[0],ImageFolder.DETAILADD)" alt="" />
+                        </div>*@
+                        <div id="example" class="crs-wrap">
+                            <div class="crs-screen">
+                                <div class="crs-screen-roll">
+                                    @foreach (var item in Model.FileUrls) {
+                                        <div class="recommended-img  mb-5" style="background-image: url(@PageHelper.GetImageUrl(item, ImageFolder.DETAILADD))">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="crs-bar">
+                                <div class="crs-bar-roll-current"></div>
+                                <div class="crs-bar-roll-wrap">
+                                    <div class="crs-bar-roll">
+                                        @foreach (var item in Model.FileUrls) {
+                                            <div class="crs-bar-roll-item" style="background-image: url(@PageHelper.GetImageUrl(item, ImageFolder.DETAILADD))"></div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="title-primary led led-before mb-4 mt-0">
+                                @Model.Title
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <p class="details">Server Seçimi: @Model.ServerName</p>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <p class="details">Server Seçimi: @Model.Level</p>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <p class="details">Server Seçimi: @Model.Plus</p>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <p class="details">Server Seçimi: @Model.CharacterFeature</p>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <p class="details">Server Seçimi: @Model.CharacterType</p>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <p class="details">Server Seçimi: @Model.Percent</p>
+                                </div>
+                            </div>
+                            <p class="amount" style="color: #009aff">₺4000</p>
+                            <button class="button btn-blue w-100 mt-4" type="submit">
+                                SATIN AL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="col-12 col-lg-6">
+                    <div class="announce-box">
+                        <i class="fas fa-comment-dots fa-2x mr-3"></i>
+                        <p>Ürün Açıklaması</p>
+                    </div>
+                    <p class="details">@Model.Content</p>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="announce-box">
+                        <i class="fas fa-award fa-2x mr-3"></i>
+                        <p>Ek Bilgiler</p>
+                    </div>
+                    <div class="detail-icon d-inline-block">
+                        <i class="fas fa-truck" style="color: white"></i>
+                    </div>
+                    <div class="text-white d-inline-block">
+                        Bu ürün 24 saat içerisinde teslim
+                        edilmektedir.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    $("#example").camRollSlider();
+
+    $(document).ready(function () {
+    });
+</script>
