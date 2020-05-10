@@ -24,6 +24,7 @@ namespace AvsarGame.API.Models {
         public string UserId { get; set; }
         public string Plus { get; set; }
         public int DetailType { get; set; }
+        public int Status { get; set; }
         public List<string> FileUrls { get; set; }
         [JsonIgnore]
         public List<IFormFile> Files { get; set; }

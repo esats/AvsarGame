@@ -8,7 +8,7 @@ namespace AvsarGame.Core {
         [Description("Beklemede")]
         SUSPEND = 0,
 
-        [Description("Onaylandı")]
+        [Description("Yayında")]
         APPROVED = 1,
 
         [Description("Red Edildi")]

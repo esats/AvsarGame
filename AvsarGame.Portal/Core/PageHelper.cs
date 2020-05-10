@@ -6,11 +6,12 @@ using AvsarGame.Core;
 
 namespace AvsarGame.Portal.Core {
     public static class PageHelper {
-        public static string GetModalId(string key,Guid id) {
+        public static string GetModalId(string key, Guid id) {
             var modalId = key + id;
             return modalId;
         }
-        public static string GetModalId(string key,int id) {
+
+        public static string GetModalId(string key, int id) {
             var modalId = key + id;
             return modalId;
         }
@@ -36,38 +37,61 @@ namespace AvsarGame.Portal.Core {
             var token = SessionManager.Instance.Get("bearer");
             if (token == null) {
                 if (state == "login") {
-                     return "block";
+                    return "block";
                 }
+
                 return "none";
             } else {
                 if (state == "logged") {
                     return "block";
                 }
+
                 return "none";
             }
-
         }
 
         public static string GetOrderStatusStyle(int status) {
-            if (status==0) {
+            if (status == 0) {
                 return "yellow";
             }
 
-            if (status==1) {
+            if (status == 1) {
                 return "green";
+            } else {
+                return "red";
+            }
+        }
 
+        public static string GetAddversimentStatusStyle(int status) {
+            if (status == 0) {
+                return "yellow";
+            }
+
+            if (status == 1) {
+                return "green";
             } else {
                 return "red";
             }
         }
 
         public static string GetLoggedProfileStyle() {
-            return SessionManager.Instance.IsAuthenticate() ? "dropdown-menu": "";
+            return SessionManager.Instance.IsAuthenticate() ? "dropdown-menu" : "";
         }
 
         public static string GetImageUrl(string imageUrl, ImageFolder folder) {
-             string storageUrl ="https://anatoliagm.blob.core.windows.net/uploads/";
-             return storageUrl + Description(folder) + "/" + imageUrl;
+            string storageUrl = "https://anatoliagm.blob.core.windows.net/uploads/";
+            return storageUrl + Description(folder) + "/" + imageUrl;
+        }
+
+        public static string GetAddversimentHref(AddversimentType itemDetailType, int itemId) {
+            switch ((int)itemDetailType) {
+                case 1:
+                    return "/ilan/knight-cyber-ring/detay/" + itemId;
+                case 2:
+                    return "/ilan/knight-item/detay/" + itemId;
+            }
+
+            return "";
         }
     }
 }

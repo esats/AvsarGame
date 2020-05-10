@@ -77,7 +77,7 @@ namespace AvsarGame.Portal.Helpers {
             return fileName;
         }
 
-        public async Task<int> SaveAll(List<IFormFile> files, int adversimentId, ImageType type) {
+        public async Task<int> SaveAll(List<IFormFile> files, int adversimentId, AddversimentType type) {
             ImageMasterModel masterModel = new ImageMasterModel();
             masterModel.AdversimentId = adversimentId;
             masterModel.Type = (int) type;
