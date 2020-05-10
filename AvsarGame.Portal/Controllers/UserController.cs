@@ -144,6 +144,7 @@ namespace AvsarGame.Portal.Controllers
         }
 
         [HttpGet]
+        [Route("{Name}")]
         public ActionResult Detail()
         {
             var id = SessionManager.Instance.GetUserId();
@@ -373,6 +374,15 @@ namespace AvsarGame.Portal.Controllers
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
+        }
+
+        [HttpGet]
+        [Route("{name}/ilanlarim")]
+        public ActionResult UserAddversiment() {
+            var Balance =
+                    JsonConvert.DeserializeObject<List<AddversimentDetailModel>>(
+                            UiRequestManager.Instance.Get(String.Format("Addversiment/GetUserAddversiment/{0}", SessionManager.Instance.GetUserId())));
+            return View(Balance);
         }
     }
 }

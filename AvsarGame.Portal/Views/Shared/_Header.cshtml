@@ -113,7 +113,7 @@
                     <li class="nav-item dropdown profile" style="@PageHelper.DisplayStyle("logged")">
                         <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
                         <div class="dropdown-menu-right show @PageHelper.GetLoggedProfileStyle()" style="display: none; background-color: white">
-                            <a class="dropdown-item" style="color: #009AFF;" href="/User/Detail">Profilim</a>
+                            <a class="dropdown-item" style="color: #009AFF;" href="@UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())">Profilim</a>
                             <a class="dropdown-item logout" href="/User/Logout">Çıkış Yap</a>
                         </div>
                     </li>

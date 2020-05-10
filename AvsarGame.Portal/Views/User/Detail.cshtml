@@ -30,7 +30,7 @@
 
                                 <a class="nav-link" data-id="@Model.Balance.UserId" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Bildirimlerim (<span style="color: blue">@Model.NotificationCount</span>)</a>
 
-                                <a class="nav-link" id="ilan-tab" data-toggle="pill" href="#ilan" role="tab" aria-controls="ilan" aria-selected="false">İlan ver</a>
+                                <a class="nav-link" id="ilan-tab" data-toggle="pill" href="#ilan" role="tab" aria-controls="ilan" aria-selected="false">İlan İşlemlerim</a>
 
                                 <a class="nav-link" id="orders-tab" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">Siparişlerim</a>
 
@@ -113,6 +113,12 @@
                                     <div class="tab-pane fade" id="ilan" role="tabpanel" aria-labelledby="ilan-tab">
                                         <div class="row">
                                             <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="/@UrlExtension.FriendlyUrl(Model.UserDetail.FullName)/ilanlarim" class="profile-icon-container">
+                                                    <i class="fas fa-lira-sign  fa-2x"></i>
+                                                    <p class="icon-title">ilanlarım</p>
+                                                </a>
+                                            </div>  
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
                                                 <a href="/user/ilan/knightcyberring" class="profile-icon-container">
                                                     <i class="fas fa-lira-sign  fa-2x"></i>
                                                     <p class="icon-title">Knight Online Cyber Ring</p>
@@ -124,12 +130,12 @@
                                                     <p class="icon-title">Knight Online Item</p>
                                                 </a>
                                             </div>
-                                            @*<div class="col-6 col-sm-4 col-md-3 profile-icon-col">
-                                                <a href="#" class="profile-icon-container">
-                                                    <i class="fas fa-lira-sign  fa-2x"></i>
-                                                    <p class="icon-title">CS-GO</p>
-                                                </a>
-                                            </div>*@
+                                           @*<div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                            <a href="#" class="profile-icon-container">
+                                                <i class="fas fa-lira-sign  fa-2x"></i>
+                                                <p class="icon-title">CS-GO</p>
+                                            </a>
+                                        </div>*@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
