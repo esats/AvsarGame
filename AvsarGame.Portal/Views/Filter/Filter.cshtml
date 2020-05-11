@@ -1,4 +1,7 @@
-﻿@{
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model AvsarGame.Portal.Models.BaseFilterModel
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -161,19 +164,23 @@
                     </form>
                 </div>
                 <div class="col-lg-9 col-12">
-                    <div class="row showcase">
+                    <div class="row showcase">  
                         <div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
-                            <a href="">
-                                <div class="showcase-item">
-                                    <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random200x90')"></div>
-                                    <div class="notification notification-top">%20 İndirim</div>
-                                    <div class="showcase-info">
-                                        <p class="name">Halo 4</p>
-                                        <p class="price-before">100 TL</p>
-                                        <p class="price">80 TL</p>
+                            @foreach (var item in Model.Data)
+                            {
+                                <a href="">
+                                    <div class="showcase-item">
+                                        <div class="showcase-img" style="background-image: url(@PageHelper.GetImageUrl(item.Base.FileUrls[0],ImageFolder.FILTERADD))"></div>
+                                        @*<div class="notification notification-top">%20 İndirim</div>*@
+                                        <div class="showcase-info">
+                                            <p class="name">@item.Base.ServerName</p>
+                                            <p class="name">@item.Base.Title</p>
+                                            @*<p class="price-before">100 TL</p>*@
+                                            <p class="price">@item.Base.Price TL</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>
@@ -196,9 +203,10 @@
     });
 
     function PrepareFilterAndGo() {
-        var server = $('#server').val();
-        var characterFeature = $('#characterFeature').val();
-        var charactertype = $('#characterType').val();
+        debugger;
+        var server = $('#server').val() == null ? "" : $('#server').val();
+        var characterFeature = $('#characterFeature').val() == null ? "" : $('#characterFeature').val();
+        var charactertype = $('#characterType').val() == null ? "" : $('#characterType').val();
         var mintl = document.getElementById("mintl").value;
         var maxtl = document.getElementById("maxtl").value;
         var word = document.getElementById("searchContent").value;
@@ -206,8 +214,8 @@
                     "server="+server+"&"+
                     "characterFeature="+characterFeature+"&"+
                     "charactertype="+charactertype+"&"+
-                    "min="+mintl+"&"+
-                    "max="+maxtl+"&"+
+                    "mintl="+mintl+"&"+
+                    "maxtl="+maxtl+"&"+
                     "word="+word;
         location.href = url;
     }

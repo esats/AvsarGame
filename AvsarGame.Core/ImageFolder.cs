@@ -29,7 +29,7 @@ namespace AvsarGame.Core {
         [Description("550x400")]
         DETAILADD = 7,
 
-        [Description("200x90")]
+        [Description("200x175")]
         FILTERADD = 8
     }
 }

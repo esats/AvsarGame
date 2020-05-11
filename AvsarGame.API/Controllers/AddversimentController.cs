@@ -316,10 +316,10 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("FilerKnightCyberRings")]
         [AllowAnonymous]
-        public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilerKnightCyberRings(
+        public List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> FilerKnightCyberRings(
                 string server, string characterFeature, string charactertype, double mintl, double maxtl, string word) {
-            List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
-                    new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
+            List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> list =
+                    new List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>>();
             FilterDataModel filter = new FilterDataModel();
             filter.Server = server;
             filter.CharacterFeature = characterFeature;
@@ -332,8 +332,8 @@ namespace AvsarGame.API.Controllers {
                 var cyberAdds = _KnightCyberRing.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
-                    BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
-                    model.Base = _mapper.Map<KnightItemAddversimentModel>(item);
+                    BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>();
+                    model.Base = _mapper.Map<KnightCyberRingAddversimentModel>(item);
                     model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
                     model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
                     list.Add(model);

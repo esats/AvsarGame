@@ -117,7 +117,7 @@ namespace AvsarGame.Portal.Helpers {
                             });
                     await SaveToCloud(container, manager,
                             new CloudModel() {
-                                    OrginalFile = pathToDataOrg, FilePath = FILTERADD, Width = 200, Height = 90, SubFolderName = PageHelper.Description(ImageFolder.FILTERADD),
+                                    OrginalFile = pathToDataOrg, FilePath = FILTERADD, Width = 200, Height = 175, SubFolderName = PageHelper.Description(ImageFolder.FILTERADD),
                                     FileName = fileName
                             });
                 }

@@ -8,6 +8,6 @@ using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Abstract {
     public interface IKnightCyberRing : IEntityRepository<KnightCyberRing> {
-        IQueryable<KnightCyberRing> GetFilterData(FilterDataModel filter);
+        List<KnightCyberRing> GetFilterData(FilterDataModel filter);
     }
 }
