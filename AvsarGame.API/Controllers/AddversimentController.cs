@@ -327,9 +327,9 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-            _KnightCyberRing.GetFilterData(filter);
+
             try {
-                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
+                var cyberAdds = _KnightCyberRing.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
