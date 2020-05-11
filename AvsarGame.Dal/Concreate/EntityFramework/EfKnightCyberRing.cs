@@ -7,58 +7,68 @@ using AvsarGame.Core.DataAccess.EntityFramework;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
 using System.Linq.Dynamic;
+using AvsarGame.API.Models;
+
 namespace AvsarGame.Dal.Concreate.EntityFramework {
     public class EfKnightCyberRing : EfEntityRepositoryBase<KnightCyberRing, AvsarGameDBcontext>, IKnightCyberRing {
-        public IQueryable<KnightCyberRing> GetExampleQuery(AvsarGameDBcontext context) {
-            var expression = GetExpression(context);
-
-            // Store the filter as a dynamic query.
-            return context.KnightCyberRing.Where(expression);
-        }
-        public List<string> GetImages(int addversimentId, int type) {
+        public IQueryable<KnightCyberRing> GetFilterData(FilterDataModel model) {
             using (var context = new AvsarGameDBcontext()) {
-                context.KnightCyberRing.Where(x => "");
+                var expression = GetExpression(context, model);
+                return context.KnightCyberRing.Where(expression);
             }
         }
 
-        protected Expression<Func<KnightCyberRing, bool>> GetExpression(AvsarGameDBcontext context) {
-            var startTime = DateTimeOffset.Parse("2019-08-04");
+        internal Expression<Func<KnightCyberRing, bool>> GetExpression(AvsarGameDBcontext context, FilterDataModel model) {
+            var ftParameter = Expression.Parameter(typeof(KnightCyberRing), "x"); // ft =>
 
-            // We want to build the expression for the "Where" clause
+            var serverNameProperty = Expression.Property(ftParameter, "ServerName");
 
-            // Example of Query we will eventually run.
-            // _context.FilmEntities.Where(f => _context.FilmTimeEntities.Any(ft => ft.FilmId == f.Id &amp;&amp; ft.StartTime >= startTime));
+            var characterFeatureProperty = Expression.Property(ftParameter, "CharacterFeature");
 
-            var fParameter = Expression.Parameter(typeof(FilmEntity), "f"); // f =>
+            var characterTypeProperty = Expression.Property(ftParameter, "CharacterFeature");
 
-            // Create the FilmTime Entities Query
-            var ftQueryExpression = context.Set<FilmTimeEntity>().AsQueryable().Expression; // _context.FilmTimeEntities
+            var minPriceProp = Expression.Property(ftParameter, "Price"); // ft.StartTime
 
-            // Build up the Any part of the query from Film Times
-            var ftParameter = Expression.Parameter(typeof(FilmTimeEntity), "ft"); // ft =>
-            var ftFilmIdProperty = Expression.Property(ftParameter, "FilmId"); // ft.FilmId
-            var ftFilmIdEquals = Expression.Equal(ftFilmIdProperty, Expression.Property(fParameter, "Id")); // ft.FilmId == f.Id
+            var maxPriceProp = Expression.Property(ftParameter, "Price"); // ft.StartTime
 
-            var ftStartTimeProperty = Expression.Property(ftParameter, "StartTime"); // ft.StartTime
-            var ftStartTimeEquals = Expression.GreaterThanOrEqual(ftStartTimeProperty, Expression.Constant(startTime)); // ft.StartTime >= startTime
+            BinaryExpression min = null;
+            BinaryExpression max= null;
+            BinaryExpression serverName= null;
+            BinaryExpression characterType= null;
+            BinaryExpression characterFeature= null;
 
-            // Builds up the AND expression
-            var ftFullQueryExpression = Expression.AndAlso(ftFilmIdEquals, ftStartTimeEquals); // ft => ft.FilmId == f.Id &amp;&amp; ft.StartTime >= startTime
+            if (Math.Abs(model.MinPrice) > 0) {
+                min = Expression.GreaterThanOrEqual(minPriceProp, Expression.Constant(model.MinPrice)); // ft.StartTime >= endTime
+            }
 
-            // Make the Lambda Expression for Film Time
-            var ftLambda = Expression.Lambda<Func<FilmTimeEntity, bool>>(ftFullQueryExpression, ftParameter);
+            if (Math.Abs(model.MaxPrice) > 0) {
+                max = Expression.LessThanOrEqual(maxPriceProp, Expression.Constant(model.MaxPrice));
+            }
 
-            // Join in an ANY statement
-            var anyMethod = typeof(Queryable).GetMethods().FirstOrDefault(method => method.Name == "Any" & amp;
-            &amp;
-            method.GetParameters().Count() == 2); // Use reflection to find the ANY method
-            var anyFilmTimeMethod = anyMethod.MakeGenericMethod(typeof(FilmTimeEntity)); // Any is a generic method, so create a method specific to FilmTimeEntity
+            if (!string.IsNullOrEmpty(model.Server)) {
+                serverName = Expression.Equal(serverNameProperty, Expression.Constant(model.Server));
+            }
 
-            var anyCall =
-                    Expression.Call(anyFilmTimeMethod, ftQueryExpression,
-                            ftLambda); // (f => _context.FilmTimeEntities.Any(ft => ft.FilmId == f.Id &amp;&amp; ft.StartTime >= startTime)
+            if (!string.IsNullOrEmpty(model.CharacterFeature)) {
+                characterType = Expression.Equal(characterFeatureProperty, Expression.Constant(model.CharacterFeature));
+            }
 
-            return Expression.Lambda<Func<FilmEntity, bool>>(anyCall, fParameter);
+            if (!string.IsNullOrEmpty(model.CharacterType)) {
+                characterFeature = Expression.Equal(characterTypeProperty, Expression.Constant(model.CharacterType));
+            }
+
+            //var methodInfo = typeof(string).GetMethod("Contains", new Type[] { typeof(string) }); // Contains Method
+            //var member = Expression.Property(ftParameter, "Title"); //Cx.ay
+            //var constant = Expression.Constant(model.Word);
+            //Expression body = Expression.Call(Expression.Constant(model.Word), methodInfo, member);
+            //var finalExpression2 = Expression.Lambda<Func<KnightCyberRing, bool>>(body, ftParameter);
+
+            var finalExpression = Expression.AndAlso(min, max);
+            var finalExpression2 = Expression.AndAlso(finalExpression, serverName);
+            var finalExpression3 = Expression.AndAlso(finalExpression2, characterType);
+            var finalExpression4 = Expression.AndAlso(finalExpression3, characterFeature);
+
+            return Expression.Lambda<Func<KnightCyberRing, bool>>(finalExpression4, ftParameter);
         }
     }
 }

@@ -288,16 +288,16 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public AddversimentDetailModel KnightCyberDetail(int Id) {
             var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id));
-            model.DetailType = (int)AddversimentType.KNIGHT_ONLINE_CYBERRING;
-            model.FileUrls =  GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+            model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
+            model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
             return model;
         }
-        
+
         [Route("KnightItemDetail/{id}")]
         public AddversimentDetailModel KnightItemDetail(int Id) {
             var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id));
-            model.DetailType = (int)AddversimentType.KNIGHT_ONLINE_ITEM;
-            model.FileUrls =  GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+            model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
+            model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
             return model;
         }
 
@@ -305,10 +305,10 @@ namespace AvsarGame.API.Controllers {
         [AllowAnonymous]
         public List<AddversimentDetailModel> GetUserAddversiment(string Id) {
             var cybers = _mapper.Map<List<AddversimentDetailModel>>(_KnightCyberRing.GetList(x => x.IsActive == true && x.UserId == Id));
-            cybers.ForEach(x=>x.DetailType = (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
-            var items = _mapper.Map<List<AddversimentDetailModel>>(_knightItem.GetList(x => x.IsActive == true && x.UserId == Id));
-            items.ForEach(x=>x.DetailType = (int)AddversimentType.KNIGHT_ONLINE_ITEM);
-            cybers.AddRange(items);
+            cybers.ForEach(x => x.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+            var knightitems = _mapper.Map<List<AddversimentDetailModel>>(_knightItem.GetList(x => x.IsActive == true && x.UserId == Id));
+            knightitems.ForEach(x => x.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+            cybers.AddRange(knightitems);
 
             return cybers;
         }
@@ -316,11 +316,18 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("FilerKnightCyberRings")]
         [AllowAnonymous]
-        public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilerKnightCyberRings() {
+        public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilerKnightCyberRings(
+                string server, string characterFeature, string charactertype, double mintl, double maxtl, string word) {
             List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
-
-
+            FilterDataModel filter = new FilterDataModel();
+            filter.Server = server;
+            filter.CharacterFeature = characterFeature;
+            filter.CharacterType = charactertype;
+            filter.MinPrice = mintl;
+            filter.MaxPrice = maxtl;
+            filter.Word = word;
+            _KnightCyberRing.GetFilterData(filter);
             try {
                 var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
                 var users = _userManager.Users.ToList();
