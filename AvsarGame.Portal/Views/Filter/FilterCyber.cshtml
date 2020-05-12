@@ -1,0 +1,213 @@
+﻿@using AvsarGame.Core
+@using AvsarGame.Portal.Core
+@model AvsarGame.Portal.Models.BaseFilterModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper filter-page">
+    <main class="Main">
+        <div class="container">
+            @if (1 == 0) {
+                <div class="section container shop-section">
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-8">
+                            <h3 class="title-secondary led led-before mb-0">Yeni Çıkanlar</h3>
+                        </div>
+                    </div>
+                    <div id="shop-slider" class=" swiper-container has-arrows">
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper showcase">
+                            <!-- Slides -->
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random/200x90')"></div>
+                                <div class="showcase-info">
+                                    <p class="name">Tom Glancy's Ghost</p>
+                                    <p class="price">50 TL</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random/200x90')"></div>
+                                <div class="showcase-info">
+                                    <p class="name">Dark Souls Remastered</p>
+                                    <p class="price">100 TL</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide showcase-item">
+                                <div class="swiper-slide showcase-item-inner">
+                                    <div class="showcase-img" style="background-image: url('./assets/img/skyrim.jpg')"></div>
+                                    <div class="showcase-info">
+                                        <p class="name">Skyrim</p>
+                                        <p class="price">80 TL</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random/200x90')"></div>
+                                <div class="notification notification-top">%20 İndirim</div>
+                                <div class="showcase-info">
+                                    <p class="name">Halo 4</p>
+                                    <p class="price-before">100 TL</p>
+                                    <p class="price">80 TL</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random/200x90')"></div>
+                                <div class="showcase-info">
+                                    <p class="name">Dark Souls Remastered</p>
+                                    <p class="price">100 TL</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide showcase-item">
+                                <div class="swiper-slide showcase-item-inner">
+                                    <div class="showcase-img" style="background-image: url('./assets/img/skyrim.jpg')"></div>
+                                    <div class="showcase-info">
+                                        <p class="name">Skyrim</p>
+                                        <p class="price">80 TL</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random/200x90')"></div>
+                                <div class="notification notification-top">%20 İndirim</div>
+                                <div class="showcase-info">
+                                    <p class="name">Halo 4</p>
+                                    <p class="price-before">100 TL</p>
+                                    <p class="price">80 TL</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-info">
+                                    <div class="showcase-img" style="background-image: url('https://source.unsplash.com/random/200x90')"></div>
+                                    <p class="name">Halo 4</p>
+                                    <p class="price">80 TL</p>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide showcase-item">
+                                <div class="showcase-img" style="background-image: url('./assets/img/halo4.jpg')"></div>
+                                <div class="notification notification-top">%20 İndirim</div>
+                                <div class="showcase-info">
+                                    <p class="name">Halo 4</p>
+                                    <p class="price-before">100 TL</p>
+                                    <p class="price">80 TL</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-lg-9 col-12 offset-lg-3">
+                    <div class="row">
+                        <div class="col-lg-3 col-6 pr-xl-0 form-group">
+                            <div class="form-select">
+                                <select class="form-control onchange" name="bank" id="server" required>
+                                    <option disabled selected value="">Server</option>
+                                    <option value="Ares">Ares</option>
+                                    <option value="Diez">Diez</option>
+                                    <option value="Rosetta">Rosetta</option>
+                                    <option value="Destan">Destan</option>
+                                    <option value="Vega">Vega</option>
+                                    <option value="Altar">Altar</option>
+                                    <option value="Olympia">Olympia</option>
+                                    <option value="Gordion">Gordion</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6 pr-xl-0 form-group">
+                            <div class="form-select">
+                                <select class="form-control onchange" name="bank" id="characterFeature" required>
+                                    <option disabled selected value="">Human / Karus</option>
+                                    <option value="human">Human</option>
+                                    <option value="karus">Karus</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6 pr-xl-0 form-group">
+                            <div class="form-select">
+                                <select class="form-control onchange" name="bank" id="characterType" required>
+                                    <option disabled selected value="">Karakter Türü</option>
+                                    <option value="mage">Mage</option>
+                                    <option value="warrior">Warrior</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row section shop-section">
+                <div class="col-12 col-lg-3 side">
+                    <form class="row">
+                        <div class="col-12 form-group">
+                            <div class="search-wrapper">
+                                <input type="search" class="form-control" id="searchContent"
+                                       placeholder="Aranacak Kelime">
+                                <i class="fas fa-search search-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 form-group">
+                            <input type="number" class="form-control" id="mintl"
+                                   placeholder="min. TL">
+                        </div>
+                        <div class="col-6 form-group">
+                            <input type="number" class="form-control" id="maxtl"
+                                   placeholder="max. TL">
+                        </div>
+                        <div class="col-12">
+                            <button class="button btn-blue w-100" id="makemefilter">
+                                Filtrele
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-9 col-12">
+                    <div class="row showcase">
+                        @foreach (var item in Model.Data) {
+                            <div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+                                <a href="#">
+                                    <div class="showcase-item">
+                                        <div class="showcase-img" style="background-image: url(@PageHelper.GetImageUrl(item.Base.FileUrls[0], ImageFolder.FILTERADD))"></div>
+                                        <div class="showcase-info">
+                                            <p class="name">@item.Base.ServerName</p>
+                                            <p class="name text-white">@item.Base.Title</p>
+                                            @*<p class="price-before">100 TL</p>*@
+                                            <p class="price">@item.Base.Price TL</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#makemefilter").click(function(e) {
+            debugger;
+            e.preventDefault();
+            PrepareFilterAndGo();
+        });
+
+        $(".onchange").change(function(e) {
+            PrepareFilterAndGo();
+        });
+    });
+
+    function PrepareFilterAndGo() {
+        var server = $('#server').val() == null ? "" : $('#server').val();
+        var characterFeature = $('#characterFeature').val() == null ? "" : $('#characterFeature').val();
+        var charactertype = $('#characterType').val() == null ? "" : $('#characterType').val();
+        var mintl = document.getElementById("mintl").value;
+        var maxtl = document.getElementById("maxtl").value;
+        var word = document.getElementById("searchContent").value;
+        var url = "/ilanlar/knight-cyber-rings?" + "server=" + server + "&" + "characterFeature=" + characterFeature + "&" + "charactertype=" + charactertype + "&" + "mintl=" + mintl + "&" + "maxtl=" + maxtl + "&" + "word=" + word;
+        location.href = url;
+    }
+</script>

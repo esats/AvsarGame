@@ -316,7 +316,7 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("FilerKnightCyberRings")]
         [AllowAnonymous]
-        public List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> FilerKnightCyberRings(
+        public List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> FilterKnightCyberRings(
                 string server, string characterFeature, string charactertype, double mintl, double maxtl, string word) {
             List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>>();
@@ -334,6 +334,38 @@ namespace AvsarGame.API.Controllers {
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>();
                     model.Base = _mapper.Map<KnightCyberRingAddversimentModel>(item);
+                    model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+                    model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
+                    list.Add(model);
+                }
+
+                return list;
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("FilterKnightItems")]
+        [AllowAnonymous]
+        public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilterKnightItems(
+                string server, string arti, double mintl, double maxtl, string word) {
+            List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
+                    new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
+            FilterDataModel filter = new FilterDataModel();
+            filter.Server = server;
+            filter.Plus = arti;
+            filter.MinPrice = mintl;
+            filter.MaxPrice = maxtl;
+            filter.Word = word;
+
+            try {
+                var knightitems = _knightItem.GetFilterData(filter).ToList();
+                var users = _userManager.Users.ToList();
+                foreach (var item in knightitems) {
+                    BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
+                    model.Base = _mapper.Map<KnightItemAddversimentModel>(item);
                     model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
                     model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
                     list.Add(model);

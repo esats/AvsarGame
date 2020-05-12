@@ -8,6 +8,7 @@ namespace AvsarGame.API.Models {
         public string Server { get; set; }
         public string CharacterFeature { get; set; }
         public string CharacterType { get; set; }
+        public string Plus { get; set; }
         public double MinPrice { get; set; }
         public double MaxPrice { get; set; }
         public string Word { get; set; }

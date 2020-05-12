@@ -21,7 +21,7 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        [Route("user/ilan/knightcyberring")]
+        [Route("/ilan-ver/knightcyberring")]
         public IActionResult KnightCyberRing() {
             var bearer = SessionManager.Instance.Get("bearer");
             if (bearer == null) {
@@ -31,7 +31,7 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        [Route("user/ilan/knightitem")]
+        [Route("/ilan-ver/knightitem")]
         public IActionResult KnightItem() {
             var bearer = SessionManager.Instance.Get("bearer");
             if (bearer == null) {
