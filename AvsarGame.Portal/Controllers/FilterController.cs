@@ -27,7 +27,7 @@ namespace AvsarGame.Portal.Controllers {
             filter.CharacterFeature = characterFeature;
             filter.CharacterType = charactertype;
             filter.Word = word;
-
+            model.Filter = filter;
             return View(model);
         }
 

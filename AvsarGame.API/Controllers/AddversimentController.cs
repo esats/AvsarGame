@@ -314,7 +314,7 @@ namespace AvsarGame.API.Controllers {
         }
 
         [HttpGet]
-        [Route("FilerKnightCyberRings")]
+        [Route("FilterKnightCyberRings")]
         [AllowAnonymous]
         public List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> FilterKnightCyberRings(
                 string server, string characterFeature, string charactertype, double mintl, double maxtl, string word) {

@@ -104,34 +104,46 @@
                     <div class="row">
                         <div class="col-lg-3 col-6 pr-xl-0 form-group">
                             <div class="form-select">
-                                <select class="form-control onchange" name="bank" id="server" required>
-                                    <option disabled selected value="">Server</option>
-                                    <option value="Ares">Ares</option>
-                                    <option value="Diez">Diez</option>
-                                    <option value="Rosetta">Rosetta</option>
-                                    <option value="Destan">Destan</option>
-                                    <option value="Vega">Vega</option>
-                                    <option value="Altar">Altar</option>
-                                    <option value="Olympia">Olympia</option>
-                                    <option value="Gordion">Gordion</option>
+                                <select class="form-control onchange" id="server" required>
+                                    @foreach (var item in Model.Servers) {
+                                        <option value="@item">@item</option>
+                                    }
+
+                                    @if (string.IsNullOrEmpty(Model.Filter.Server)) {
+                                        <option disabled selected value="">Server</option>
+                                    } else {
+                                        <option selected value="@Model.Filter.Server">@Model.Filter.Server</option>
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-3 col-6 pr-xl-0 form-group">
                             <div class="form-select">
                                 <select class="form-control onchange" name="bank" id="characterFeature" required>
-                                    <option disabled selected value="">Human / Karus</option>
-                                    <option value="human">Human</option>
-                                    <option value="karus">Karus</option>
+                                    @foreach (var item in Model.CharacterFeature) {
+                                        <option value="@item">@item</option>
+                                    }
+
+                                    @if (string.IsNullOrEmpty(Model.Filter.CharacterFeature)) {
+                                    <option disabled selected value="">Human/Karus</option>
+                                    } else {
+                                        <option selected value="@Model.Filter.CharacterFeature">@Model.Filter.CharacterFeature</option>
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-3 col-6 pr-xl-0 form-group">
                             <div class="form-select">
                                 <select class="form-control onchange" name="bank" id="characterType" required>
-                                    <option disabled selected value="">Karakter Türü</option>
-                                    <option value="mage">Mage</option>
-                                    <option value="warrior">Warrior</option>
+                                    @foreach (var item in Model.CharacterType) {
+                                        <option value="@item">@item</option>
+                                    }
+
+                                    @if (string.IsNullOrEmpty(Model.Filter.CharacterType)) {
+                                        <option disabled selected value="">Karakter Türü</option>
+                                    } else {
+                                        <option selected value="@Model.Filter.CharacterType">@Model.Filter.CharacterType</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -166,7 +178,7 @@
                 <div class="col-lg-9 col-12">
                     <div class="row showcase">
                         @foreach (var item in Model.Data) {
-                            <div class="col-xl-3 col-md-4 col-12 col-sm-6 showcase-column">
+                            <div class="col-xl-3 col-md-4 col-12 col-sm-6">
                                 <a href="#">
                                     <div class="showcase-item">
                                         <div class="showcase-img" style="background-image: url(@PageHelper.GetImageUrl(item.Base.FileUrls[0], ImageFolder.FILTERADD))"></div>
