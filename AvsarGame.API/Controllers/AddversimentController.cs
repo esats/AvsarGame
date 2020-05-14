@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -294,6 +295,7 @@ namespace AvsarGame.API.Controllers {
         }
 
         [Route("KnightItemDetail/{id}")]
+        [AllowAnonymous]
         public AddversimentDetailModel KnightItemDetail(int Id) {
             var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
@@ -317,7 +319,7 @@ namespace AvsarGame.API.Controllers {
         [Route("FilterKnightCyberRings")]
         [AllowAnonymous]
         public List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> FilterKnightCyberRings(
-                string server, string characterFeature, string charactertype, double mintl, double maxtl, string word) {
+                string server, string characterFeature, string charactertype, double mintl, double maxtl, string word,int orderby) {
             List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>>();
             FilterDataModel filter = new FilterDataModel();
@@ -327,7 +329,7 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-
+            filter.OrderByDescription  = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
             try {
                 var cyberAdds = _KnightCyberRing.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
@@ -350,7 +352,7 @@ namespace AvsarGame.API.Controllers {
         [Route("FilterKnightItems")]
         [AllowAnonymous]
         public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilterKnightItems(
-                string server, string arti, double mintl, double maxtl, string word) {
+                string server, string arti, double mintl, double maxtl, string word,int orderby) {
             List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
             FilterDataModel filter = new FilterDataModel();
@@ -359,7 +361,7 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-
+            filter.OrderByDescription  = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
             try {
                 var knightitems = _knightItem.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
@@ -381,5 +383,27 @@ namespace AvsarGame.API.Controllers {
         private List<string> GetFiles(int id, int type) {
             return _image.GetImages(id, type);
         }
+
+        public static string GetDescription<T>(T enumValue) 
+                where T : struct, IConvertible
+        {
+            if (!typeof(T).IsEnum)
+                return null;
+
+            var description = enumValue.ToString();
+            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+
+            if (fieldInfo != null)
+            {
+                var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                if (attrs != null && attrs.Length > 0)
+                {
+                    description = ((DescriptionAttribute)attrs[0]).Description;
+                }
+            }
+
+            return description;
+        }
+
     }
 }

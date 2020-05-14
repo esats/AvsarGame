@@ -12,5 +12,7 @@ namespace AvsarGame.API.Models {
         public double MinPrice { get; set; }
         public double MaxPrice { get; set; }
         public string Word { get; set; }
+        public int OrderBy { get; set; }
+        public string OrderByDescription { get; set; }
     }
 }

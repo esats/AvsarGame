@@ -45,7 +45,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
                 sql = sql.Substring(0, sql.Length - 4);
             }
 
-            return sql;
+            return sql + " " + model.OrderByDescription;
         }
     }
 }
