@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Core;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -150,6 +151,29 @@ namespace AvsarGame.API.Controllers {
         public List<CategoryModel> HeaderCategories() {
             List<CategoryModel> list = new List<CategoryModel>();
             var entities = _category.GetList(x => x.IsActive == true);
+            foreach (var entity in entities) {
+                CategoryModel model = new CategoryModel() {
+                        ImageUrl = entity.ImageUrl,
+                        Description = entity.Description,
+                        Name = entity.Name,
+                        SeoName = entity.SeoName,
+                        Id = entity.Id
+                };
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        
+        [HttpGet]
+        [Route("AllCategories")]
+        [AllowAnonymous]
+        public List<CategoryModel> AllCategories(int orderby) {
+            List<CategoryModel> list = new List<CategoryModel>();
+            FilterDataModel filter = new FilterDataModel();
+            filter.OrderByDescription  = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
+            var entities = _category.GetCategoriesByFilter(filter);
             foreach (var entity in entities) {
                 CategoryModel model = new CategoryModel() {
                         ImageUrl = entity.ImageUrl,
