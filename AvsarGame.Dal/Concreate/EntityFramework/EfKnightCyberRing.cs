@@ -7,7 +7,6 @@ using System.Text;
 using AvsarGame.Core.DataAccess.EntityFramework;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
-using System.Linq.Dynamic;
 using AvsarGame.API.Models;
 using Dapper;
 
