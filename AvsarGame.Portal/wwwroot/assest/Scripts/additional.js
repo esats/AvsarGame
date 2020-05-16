@@ -41,3 +41,11 @@ var newsSwiper = new Swiper("#shop-slider", {
         delay: 10000,
     },
 });
+
+$('.comment-toggle').on('click', function () {
+    $('.comment-wrapper.answer').toggle()
+})
+
+$('.nav-item.notifications').on('click', function () {
+    $('.dropdown-menu.notification-list').toggle()
+})
