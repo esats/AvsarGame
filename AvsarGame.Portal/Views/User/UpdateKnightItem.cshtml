@@ -225,14 +225,6 @@
             height: '400px'
         });
 
-    //uppy.addFile({
-    //    name: '353735009.jpg', // file name
-    //    type: 'image/jpeg', // file type
-    //    data: 'https://static1.bigstockphoto.com/3/5/3/large1500/353735009.jpg', // file blob
-    //    source: 'remote', // optional, determines the source of the file, for example, Instagram
-    //    isRemote: true // optional, set to true if actual file is not in the browser, but on some remote server, for example, when using companion in combination with Instagram
-    //});
-
     $(document).ready(function () {
         $("#addCyberAddversiment").click(function (e) {
             e.preventDefault();
@@ -260,10 +252,6 @@
             }
 
             var files = uppy.getFiles();
-            if (files.length < 1) {
-                alert('Lütfen en az bir resim seçiniz!');
-                return 0;
-            }
             if (files.length > 8) {
                 alert('Lütfen en az bir resim seçiniz!');
                 return 0;
@@ -280,7 +268,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/User/AddKnightItemAddversiment',
+                url: '/User/UpdateKnightItemAddversiment',
                 processData: false,
                 contentType: false,
                 data: formData,
@@ -318,10 +306,19 @@
 
     $(window).on("load", function() {
         FillLevel();
+        var is24HourDelivery = '@Model.Detail.Is24HoursDelivery';
+        var sellTimeEarly = '@Model.Detail.SellTimeEarly';
+        var sellTimeLate = '@Model.Detail.SellTimeLate';
+        if (is24HourDelivery != "True") {
+            $('#accepttime')[0].checked = false;
+            $(document.getElementsByClassName("hoursdr")[0]).css("display", "block");
+            $('#leaveCode').val('14');
+            $("#hs-time1").val(sellTimeEarly);
+            $("#hs-time2").val(sellTimeLate);
+        } 
     });
 
     function FillLevel() {
-        debugger
         var select = document.getElementById("plus");
         var option = document.createElement("option");
         option.text = "Artı Kaç";

@@ -27,6 +27,9 @@ namespace AvsarGame.API.Controllers {
             ImageMaster entity = new ImageMaster();
             entity.AdversimentId = model.AdversimentId;
             entity.Type = model.Type;
+            var oldRecord = _imageMaster.GetT(x => x.AdversimentId == model.AdversimentId && x.Type == model.Type && x.IsActive == true);
+            oldRecord.IsActive = false;
+            _imageMaster.Update(oldRecord);
             entity.CreatedDate  = DateTime.Now;
             entity.CreatedBy = base.GetUser();
             return _imageMaster.Add(entity).Id;

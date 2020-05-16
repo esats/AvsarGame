@@ -340,12 +340,32 @@ namespace AvsarGame.Portal.Controllers {
             if (Id == 0) {
                 return null;
             }
+
             UpdateAddversimentModel baseModel = new UpdateAddversimentModel();
             AddversimentDetailModel model =
                     JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightCyberDetail/{0}", Id)));
             baseModel.Detail = model;
 
             return View(baseModel);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateKnightItemAddversiment(KnightItemAddversimentModel model) {
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
+                }
+
+                var response =
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
+                if (model.Files.Count > 0) {
+                    await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_ITEM);
+                }
+
+                return Json(new { Success = true, data = true });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
         }
 
         //[HttpGet]
