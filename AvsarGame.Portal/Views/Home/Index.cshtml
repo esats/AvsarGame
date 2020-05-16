@@ -144,7 +144,7 @@
         </div>
         <div id="news-slider" class="">
             <!-- Additional required wrapper -->
-            <div class="showcase">
+            <div class="showcase name-inside">
                 <!-- Slides -->
                 <div class="row">
                     @foreach (var item in Model.Categories) {
@@ -157,9 +157,7 @@
                                             <label class="name" style="float: right; cursor: pointer;">
                                                 <a href="/oyun/@item.SeoName">Fiyatlara bak</a>
                                             </label>*@
-                                        @* <div class="showcase-info">
-                                                <p class="name">@item.Name</p>
-                                            </div> *@
+                                        <p class="name">@item.Name</p>
                                     </div>
                                 </a>
                             </div>
