@@ -79,7 +79,7 @@ namespace AvsarGame.Portal.Core {
         }
 
         public static string GetImageUrl(string imageUrl, ImageFolder folder) {
-            string storageUrl = "https://anatoliagm.blob.core.windows.net/uploads/";
+            string storageUrl = "https://anatolssiagm.blob.core.windows.net/uploads/";
             return storageUrl + Description(folder) + "/" + imageUrl;
         }
 
@@ -100,6 +100,17 @@ namespace AvsarGame.Portal.Core {
                     return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())  + "/knight-cyber-ring/duzenle/" + itemId;
                 case 2:
                     return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/knight-item/duzenle/" + itemId;
+            }
+
+            return "";
+        }
+
+        public static string GetAddversimentDeleteHref(AddversimentType itemDetailType, int itemId) {
+            switch ((int) itemDetailType) {
+                case 1:
+                    return  "/knight-cyber-ring/delete/" + itemId;
+                case 2:
+                    return  "/knight-item/delete/" + itemId;
             }
 
             return "";

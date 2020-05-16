@@ -47,7 +47,9 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
                     sql += "(Title like " + "'%" + model.Word + "%'" + " OR  Content like " + "'%" + model.Word + "%') AND ";
                 }
 
-                sql = sql.Substring(0, sql.Length - 4);
+                sql += "IsActive = 1"; 
+            } else {
+                sql += " WHERE IsActive =1";
             }
 
             return sql + " " + model.OrderByDescription;

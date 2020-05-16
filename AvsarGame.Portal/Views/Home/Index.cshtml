@@ -153,10 +153,6 @@
                                 <a href="/oyun/@item.SeoName">
                                     <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
                                     <div class="showcase-info">
-                                        @*<label class="name">@item.Name</label>
-                                            <label class="name" style="float: right; cursor: pointer;">
-                                                <a href="/oyun/@item.SeoName">Fiyatlara bak</a>
-                                            </label>*@
                                         <p class="name">@item.Name</p>
                                     </div>
                                 </a>
@@ -175,16 +171,18 @@
         </div>
         <div id="best-seller-slider" class=" ">
             <!-- Additional required wrapper -->
-            <div class="showcase">
+            <div class="showcase name-inside">
                 <div class="row">
-                    @foreach (var item in Model.NewGames.Take(12)) {
+                    @foreach (var item in Model.NewGames.Take(12))
+                    {
                         <div class="showcase-item-wrapper">
-                            <div class="showcase-item">
-                                <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
-                                @* <div class="showcase-info">
+                            <div class=" showcase-item">
+                                <a href="/oyun/@item.SeoName">
+                                    <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
+                                    <div class="showcase-info">
                                         <p class="name">@item.Name</p>
-                                        <p class="price">@item.SellPrice TL</p>
-                                    </div> *@
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     }

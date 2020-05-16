@@ -9,7 +9,8 @@
         <div class="container">
             <div class="row section justify-content-center" style="margin-top: 20px">
                 <div class="col-12" id="getFormByName" style="border: 1px solid">
-                    <form action="" class="row ad-form" id="cyberform">
+                    <form action="" class="row ad-form" id="cyberform"> 
+                        <input value="@Model.Detail.Id" hidden="hidden" name="Id"/>
                         <div class="col-12 form-group" style="margin-top: 10px;">
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-12">
@@ -93,7 +94,7 @@
                                 <div class="col-lg-10 col-12">
                                     <label class="form-csCheck text-white ">
                                         <input class="form-check-input form-control" type="checkbox" checked="checked"
-                                               id="accepttime" required />
+                                               id="accepttime" required/>
                                         <span class="form-csCheck-checkmark"></span>
                                         24 Saat Teslimat
                                     </label>
@@ -180,7 +181,7 @@
                                 <div class="col-lg-10 col-12">
                                     <label class="form-csCheck text-white ">
                                         <input class="form-check-input form-control" type="checkbox"
-                                               id="acceptReq" />
+                                               id="acceptReq"/>
                                         <span class="form-csCheck-checkmark"></span>
                                         <a href="#" onclick="showadversimentterm()" data-toggle="modal"
                                            data-target="#adversimentterm-modal">
@@ -193,7 +194,7 @@
                         <div class="col-12 form-group">
                             <div class="row align-items-center">
                                 <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
-                                    <input class="button btn-blue w-100" style="cursor: pointer" id="addCyberAddversiment" value="Yayınla" />
+                                    <input class="button btn-blue w-100" style="cursor: pointer" id="addCyberAddversiment" value="Yayınla"/>
                                 </div>
                             </div>
                         </div>

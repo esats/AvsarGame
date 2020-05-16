@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AvsarGame.Portal.Models.UpdateAddversimentModel
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,13 +10,14 @@
             <div class="row section justify-content-center" style="margin-top: 20px">
                 <div class="col-12" id="getFormByName" style="border: 1px solid">
                     <form action="" class="row ad-form" id="cyberform">
+                      <input value="@Model.Detail.Id" hidden="hidden" name="Id" />
                         <div class="col-12 form-group" style="margin-top: 10px;">
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-12">
                                     <label class="label-white">Başlık:</label>
                                 </div>
                                 <div class="col-lg-10 col-12">
-                                    <input type="text" name="Title" class="form-control" id="title" required>
+                                    <input type="text" name="Title" class="form-control" id="title" value="@Model.Detail.Title" required>
                                 </div>
                             </div>
                         </div>
@@ -26,16 +28,8 @@
                                 </div>
                                 <div class="col-lg-10 col-12">
                                     <div class="form-select">
-                                        <select class="form-control" name="ServerName" id="url" required>
-                                            <option disabled selected value="">Server Seçiniz</option>
-                                            <option value="Ares">Ares</option>
-                                            <option value="Diez">Diez</option>
-                                            <option value="Rosetta">Rosetta</option>
-                                            <option value="Destan">Destan</option>
-                                            <option value="Vega">Vega</option>
-                                            <option value="Altar">Altar</option>
-                                            <option value="Olympia">Olympia</option>
-                                            <option value="Gordion">Gordion</option>
+                                        <select class="form-control" name="ServerName" id="url" required asp-for="@Model.Detail.ServerName" asp-items="@Model.Servers">
+                                            <option disabled="disabled" value="">Server Seçiniz</option>
                                         </select>
                                     </div>
                                 </div>
@@ -48,19 +42,15 @@
                                 </div>
                                 <div class="col-lg-2 col-12">
                                     <div class="form-select">
-                                        <select class="form-control" name="CharacterFeature" id="race" required>
-                                            <option disabled selected value="">Human / Karus</option>
-                                            <option value="human">Human</option>
-                                            <option value="karus">Karus</option>
+                                        <select class="form-control" name="CharacterFeature" id="race" required asp-for="@Model.Detail.CharacterFeature" asp-items="@Model.CharacterFeature">
+                                            <option disabled="disabled" value="">Human/Karus</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-12">
                                     <div class="form-select">
-                                        <select class="form-control" name="CharacterType" id="type" required>
-                                            <option disabled selected value="">Karakter Türü</option>
-                                            <option value="mage">Mage</option>
-                                            <option value="warrior">Warrior</option>
+                                        <select class="form-control" name="CharacterType" id="type" required asp-for="@Model.Detail.CharacterType" asp-items="@Model.CharacterType">
+                                            <option disabled value="">Karakter Türü</option>
                                         </select>
                                     </div>
                                 </div>
@@ -96,7 +86,7 @@
                                     <label class="label-white">Açıklama:</label>
                                 </div>
                                 <div class="col-lg-8 col-12">
-                                    <textarea name="Content" rows="9" class="form-control" id="description" required></textarea>
+                                    <textarea name="Content" rows="9" class="form-control" id="description" required>@Model.Detail.Content</textarea>
                                 </div>
                             </div>
                         </div>
@@ -106,13 +96,13 @@
                                     <label class="label-white">Fiyat Belirle</label>
                                 </div>
                                 <div class="col-lg-2 col-12">
-                                    <input type="number" id="price" class="form-control" name="Price" required />
+                                    <input type="number" id="price" class="form-control" name="Price" required value="@Model.Detail.Price" />
                                 </div>
                                 <div class="col-lg-3 col-12 offset-lg-1 offset-0">
                                     <label class="label-white">Hesabınıza Geçecek Tutar</label>
                                 </div>
                                 <div class="col-lg-2 col-12">
-                                    <input disabled="disabled" type="text" class="form-control" id="priceTotal" />
+                                    <input disabled="disabled" type="text" class="form-control" id="priceTotal" value="@Model.Detail.PriceWithComission" />
                                 </div>
                             </div>
                         </div>
@@ -281,10 +271,6 @@
             }
 
             var files = uppy.getFiles();
-            if (files.length < 1) {
-                alert('Lütfen en az bir resim seçiniz!');
-                return 0;
-            }
             if (files.length > 8) {
                 alert('Lütfen en az bir resim seçiniz!');
                 return 0;
@@ -301,7 +287,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/User/AddKnightCyberRingAddversiment',
+                url: '/User/UpdateKnightCyberAddversiment',
                 processData: false,
                 contentType: false,
                 data: formData,
@@ -345,11 +331,15 @@
         option.text = "Level";
         option.value = "";
         select.appendChild(option);
+        var selected = '@Model.Detail.Level';
 
         for (var j = 10; j > 1; j--) {
             var opt2 = document.createElement("option");
             opt2.text = "83 Reb+" + j;
             opt2.value = "83 Reb+" + j;
+            if (selected == j) {
+                opt2.selected = true;
+            }
             select.appendChild(opt2);
         }
 
@@ -357,21 +347,42 @@
             var opt = document.createElement("option");
             opt.text = i;
             opt.value = i;
+            if (selected == i) {
+                opt.selected = true;
+            }
             select.appendChild(opt);
         }
     }
 
+    
+    $(window).on("load", function() {
+        FillLevel();
+        var is24HourDelivery = '@Model.Detail.Is24HoursDelivery';
+        var sellTimeEarly = '@Model.Detail.SellTimeEarly';
+        var sellTimeLate = '@Model.Detail.SellTimeLate';
+        if (is24HourDelivery != "True") {
+            $('#accepttime')[0].checked = false;
+            $(document.getElementsByClassName("hoursdr")[0]).css("display", "block");
+            $('#leaveCode').val('14');
+            $("#hs-time1").val(sellTimeEarly);
+            $("#hs-time2").val(sellTimeLate);
+        } 
+    });
     function FillPercent() {
         var select = document.getElementById("percent");
         var option = document.createElement("option");
         option.text = "Yüzde";
         option.value = " %";
         select.appendChild(option);
+        var selected = '@Model.Detail.Percent';
 
         for (var j = 99; j > 0; j--) {
             var opt2 = document.createElement("option");
             opt2.text = j;
             opt2.value = j;
+            if (selected == j) {
+                opt2.selected = true;
+            }
             select.appendChild(opt2);
         }
 

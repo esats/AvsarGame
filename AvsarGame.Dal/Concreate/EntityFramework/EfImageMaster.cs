@@ -13,7 +13,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
             using (var context = new AvsarGameDBcontext()) {
                 return context.ImageMaster
                               .Include(x => x.Images)
-                              .FirstOrDefault(x => x.Type == type && x.AdversimentId == addversimentId)
+                              .FirstOrDefault(x => x.Type == type && x.AdversimentId == addversimentId && x.IsActive)
                               ?.Images.Select(x => x.ImageUrl).ToList();
             }
         }

@@ -43,6 +43,10 @@ namespace AvsarGame.API.Controllers {
             try {
                 model.CreatedBy = base.GetUser();
                 model.UserId = base.GetUser();
+                if (model.Id > 0) {
+                    return _KnightCyberRing.Update(_mapper.Map<KnightCyberRing>(model)).Id;
+                }
+
                 return _KnightCyberRing.Add(_mapper.Map<KnightCyberRing>(model)).Id;
             } catch (Exception e) {
                 Console.WriteLine(e);
@@ -56,6 +60,10 @@ namespace AvsarGame.API.Controllers {
             try {
                 model.CreatedBy = base.GetUser();
                 model.UserId = base.GetUser();
+                if (model.Id > 0) {
+                    return _knightItem.Update(_mapper.Map<KnightItem>(model)).Id;
+                }
+
                 return _knightItem.Add(_mapper.Map<KnightItem>(model)).Id;
             } catch (Exception e) {
                 Console.WriteLine(e);
@@ -288,7 +296,7 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightCyberDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightCyberDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id));
+            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
             return model;
@@ -297,7 +305,7 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightItemDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightItemDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id));
+            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
             return model;
@@ -319,7 +327,7 @@ namespace AvsarGame.API.Controllers {
         [Route("FilterKnightCyberRings")]
         [AllowAnonymous]
         public List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> FilterKnightCyberRings(
-                string server, string characterFeature, string charactertype, double mintl, double maxtl, string word,int orderby) {
+                string server, string characterFeature, string charactertype, double mintl, double maxtl, string word, int orderby) {
             List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>>();
             FilterDataModel filter = new FilterDataModel();
@@ -329,7 +337,7 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-            filter.OrderByDescription  = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
+            filter.OrderByDescription = GetDescription<FilterOrderBy>((FilterOrderBy) orderby);
             try {
                 var cyberAdds = _KnightCyberRing.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
@@ -352,7 +360,7 @@ namespace AvsarGame.API.Controllers {
         [Route("FilterKnightItems")]
         [AllowAnonymous]
         public List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> FilterKnightItems(
-                string server, string arti, double mintl, double maxtl, string word,int orderby) {
+                string server, string arti, double mintl, double maxtl, string word, int orderby) {
             List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
             FilterDataModel filter = new FilterDataModel();
@@ -361,7 +369,7 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-            filter.OrderByDescription  = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
+            filter.OrderByDescription = GetDescription<FilterOrderBy>((FilterOrderBy) orderby);
             try {
                 var knightitems = _knightItem.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
@@ -384,5 +392,22 @@ namespace AvsarGame.API.Controllers {
             return _image.GetImages(id, type);
         }
 
+        
+        [Route("DeleteKnightItem/{id}")]
+        public bool DeleteKnightItem(int Id) {
+            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED);
+            entity.IsActive = false;
+            _knightItem.Update(entity);
+            return true;
+        }
+
+           
+        [Route("DeleteKnightCyber/{id}")]
+        public bool DeleteKnightCyber(int Id) {
+            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED);
+            entity.IsActive = false;
+            _KnightCyberRing.Update(entity);
+            return true;
+        }
     }
 }
