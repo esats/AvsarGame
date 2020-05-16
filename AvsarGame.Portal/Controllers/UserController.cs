@@ -8,6 +8,7 @@ using AvsarGame.API.Models;
 using AvsarGame.Core;
 using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
+using AvsarGame.Portal.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -317,5 +318,58 @@ namespace AvsarGame.Portal.Controllers {
                             UiRequestManager.Instance.Get(String.Format("Addversiment/GetUserAddversiment/{0}", SessionManager.Instance.GetUserId())));
             return View(Balance);
         }
+
+        [HttpGet]
+        [Route("{name}/knight-item/duzenle/{Id}")]
+        public ActionResult UpdateKnightItem(int Id = 0) {
+            if (Id == 0) {
+                return null;
+            }
+
+            UpdateAddversimentModel baseModel = new UpdateAddversimentModel();
+            AddversimentDetailModel model =
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightItemDetail/{0}", Id)));
+            baseModel.Detail = model;
+
+            return View(baseModel);
+        }
+
+        [HttpGet]
+        [Route("{name}/knight-cyber-ring/duzenle/{Id}")]
+        public ActionResult UpdateKnightCyber(int Id) {
+            if (Id == 0) {
+                return null;
+            }
+            UpdateAddversimentModel baseModel = new UpdateAddversimentModel();
+            AddversimentDetailModel model =
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightCyberDetail/{0}", Id)));
+            baseModel.Detail = model;
+
+            return View(baseModel);
+        }
+
+        //[HttpGet]
+        //[Route("{name}/knight-item/duzenle/{Id}")]
+        //public JsonResult UpdateKnightIten(int Id) {
+        //    return View();
+        //}
+
+        //[HttpGet]
+        //[Route("{name}/knight-cyber-ring/duzenle/{Id")]
+        //public JsonResult UpdateKnightCyber(int Id) {
+        //    return View();
+        //}
+
+        //[HttpGet]
+        //[Route("{name}/knight-item/duzenle/{Id}")]
+        //public JsonResult UpdateKnightIten(int Id) {
+        //    return View();
+        //}
+
+        //[HttpGet]
+        //[Route("{name}/knight-cyber-ring/duzenle/{Id")]
+        //public JsonResult UpdateKnightCyber(int Id) {
+        //    return View();
+        //}
     }
 }

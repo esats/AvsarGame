@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.API.Models {
     public class AddversimentDetailModel {
+
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
@@ -17,6 +18,13 @@ namespace AvsarGame.API.Models {
         public int Level { get; set; }
         public int Percent { get; set; }
         public double Price { get; set; }
+
+        public double PriceWithComission {
+            get {
+                return Price * 0.97;
+            }
+        }
+
         public string SellTimeEarly { get; set; }
         public string SellTimeLate { get; set; }
         public string CreatedBy { get; set; }

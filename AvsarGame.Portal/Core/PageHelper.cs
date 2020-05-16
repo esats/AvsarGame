@@ -84,7 +84,7 @@ namespace AvsarGame.Portal.Core {
         }
 
         public static string GetAddversimentHref(AddversimentType itemDetailType, int itemId) {
-            switch ((int)itemDetailType) {
+            switch ((int) itemDetailType) {
                 case 1:
                     return "/ilan/knight-cyber-ring/detay/" + itemId;
                 case 2:
@@ -93,5 +93,17 @@ namespace AvsarGame.Portal.Core {
 
             return "";
         }
+
+        public static string GetAddversimentUpdateHref(AddversimentType itemDetailType, int itemId) {
+            switch ((int) itemDetailType) {
+                case 1:
+                    return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())  + "/knight-cyber-ring/duzenle/" + itemId;
+                case 2:
+                    return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/knight-item/duzenle/" + itemId;
+            }
+
+            return "";
+        }
     }
 }
+

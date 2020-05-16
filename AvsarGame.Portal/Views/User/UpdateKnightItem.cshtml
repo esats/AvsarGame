@@ -1,0 +1,363 @@
+﻿@model AvsarGame.Portal.Models.UpdateAddversimentModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-wrapper addAdsUrl">
+    <main class="Main">
+        <div class="container">
+            <div class="row section justify-content-center" style="margin-top: 20px">
+                <div class="col-12" id="getFormByName" style="border: 1px solid">
+                    <form action="" class="row ad-form" id="cyberform">
+                        <div class="col-12 form-group" style="margin-top: 10px;">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Başlık:</label>
+                                </div>
+                                <div class="col-lg-10 col-12">
+                                    <input type="text" name="Title" value="@Model.Detail.Title" class="form-control" id="title" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Server Seç</label>
+                                </div>
+                                <div class="col-lg-10 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="ServerName" id="url" required asp-for="@Model.Detail.ServerName" asp-items="@Model.Servers">
+                                            <option value="">Server Seçiniz</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Karakter Özellikleri</label>
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="Plus" id="plus" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Resim yükle:</label>
+                                </div>
+                                <div class="col-lg-10 col-12">
+                                    <div class="row">
+                                        <div style="margin-left: 12px;" id="drag-drop-area"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-start">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Açıklama:</label>
+                                </div>
+                                <div class="col-lg-8 col-12">
+                                    <textarea name="Content" rows="9" class="form-control" id="description" required>@Model.Detail.Content</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Fiyat Belirle</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <input type="number" id="price" class="form-control" name="Price" required value="@Model.Detail.Price">
+                                </div>
+                                <div class="col-lg-3 col-12 offset-lg-1 offset-0">
+                                    <label class="label-white">Hesabınıza Geçecek Tutar</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <input disabled="disabled" type="text" class="form-control"
+                                           id="priceTotal" value="@Model.Detail.PriceWithComission">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-10 col-12">
+                                    <label class="form-csCheck text-white ">
+                                        <input class="form-check-input form-control" type="checkbox" checked="checked"
+                                               id="accepttime" required />
+                                        <span class="form-csCheck-checkmark"></span>
+                                        24 Saat Teslimat
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group hoursdr" style="display: none">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Teslim Saati:</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="hs-time1" id="hs-time1">
+                                            <option disabled selected value="">0</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-12">
+                                    <label class="label-white">ile</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="hs-time2" id="hs-time2">
+                                            <option disabled selected value="">0</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-12">
+                                    <label class="label-white">arası</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-10 col-12">
+                                    <label class="form-csCheck text-white ">
+                                        <input class="form-check-input form-control" type="checkbox"
+                                               id="acceptReq" />
+                                        <span class="form-csCheck-checkmark"></span>
+                                        <a href="#" onclick="showadversimentterm()" data-toggle="modal"
+                                           data-target="#adversimentterm-modal">
+                                            Item satış koşullarını kabul ediyorum.
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
+                                    <input class="button btn-blue w-100" style="cursor: pointer" id="addCyberAddversiment" value="Yayınla" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <h3 style="color: green">ilan onayından sonra yayınlanacaktır. <br><br><small>profilinize yönlendiriliyorsunuz..</small></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var uppy = Uppy.Core()
+        .use(Uppy.Dashboard, {
+            inline: true,
+            target: '#drag-drop-area',
+            height: '400px'
+        });
+
+    //uppy.addFile({
+    //    name: '353735009.jpg', // file name
+    //    type: 'image/jpeg', // file type
+    //    data: 'https://static1.bigstockphoto.com/3/5/3/large1500/353735009.jpg', // file blob
+    //    source: 'remote', // optional, determines the source of the file, for example, Instagram
+    //    isRemote: true // optional, set to true if actual file is not in the browser, but on some remote server, for example, when using companion in combination with Instagram
+    //});
+
+    $(document).ready(function () {
+        $("#addCyberAddversiment").click(function (e) {
+            e.preventDefault();
+            var model = serializeArrayToJson($('#getFormByName form').serializeArray());
+
+            var formData = new FormData();
+            for (const [key, value] of Object.entries(model)) {
+                formData.append(key, value);
+            }
+
+            if ($('#accepttime').is(":checked")) {
+                formData.append("SellTimeEarly", 00);
+                formData.append("SellTimeLate", 24);
+            } else {
+                formData.append("SellTimeEarly", $("#hs-time1").val());
+                formData.append("SellTimeLate", $('#hs-time2').val());
+            }
+
+            var form = document.getElementById('cyberform');
+            for (var i = 0; i < form.elements.length; i++) {
+                if (form.elements[i].value === '' && form.elements[i].hasAttribute('required')) {
+                    alert('Lütfen gerekli alanları doldurun!');
+                    return 0;
+                }
+            }
+
+            var files = uppy.getFiles();
+            if (files.length < 1) {
+                alert('Lütfen en az bir resim seçiniz!');
+                return 0;
+            }
+            if (files.length > 8) {
+                alert('Lütfen en az bir resim seçiniz!');
+                return 0;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                formData.append("Files", files[i].data);
+            }
+
+            if (!($('#acceptReq').is(":checked"))) {
+                alert('Lütfen Kullanıcı Sözleşmesini Onaylayın!');
+                return 0;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/AddKnightItemAddversiment',
+                processData: false,
+                contentType: false,
+                data: formData,
+                beforeSend: function () {
+                    showSpinner();
+                },
+                complete: function () {
+                    hideSpinner();
+                },
+                success: function (res) {
+                    if (res) {
+                        openNotifiyModal();
+                    } else {
+                        alert("Talep Gönderilirken bir hata oluştu");
+                    }
+                },
+                error: function (err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+    });
+
+    function openNotifiyModal() {
+        $("#loadMe").modal({
+            backdrop: "static", //remove ability to close modal with click
+            keyboard: false, //remove option to close with keyboard
+            show: true //Display loader!
+        });
+        setTimeout(function () {
+            location.href = "/user/detail";
+            $("#loadMe").modal("hide");
+        }, 3500);
+    }
+
+    $(window).on("load", function() {
+        FillLevel();
+    });
+
+    function FillLevel() {
+        debugger
+        var select = document.getElementById("plus");
+        var option = document.createElement("option");
+        option.text = "Artı Kaç";
+        option.value = "";
+        select.appendChild(option);
+        var selected = '@Model.Detail.Plus.Replace("+","")';
+        for (var i = 10; i > 1; i--) {
+            var opt = document.createElement("option");
+            opt.text = "+" + i;
+            opt.value = "+" + i;
+            if (selected == i) {
+                opt.selected = true;
+            }
+            select.appendChild(opt);
+        }
+    }
+
+    function serializeArrayToJson(serializedArray) {
+        var jsonObj = {};
+        $.map(serializedArray, function (n, i) {
+            jsonObj[n.name] = n.value;
+        });
+
+        return jsonObj;
+    }
+
+    $("#price").on('change', function () {
+        $("#priceTotal")[0].value = (parseFloat(this.value) * 0.97).toFixed(2);
+    });
+
+    $("#accepttime").on('change', function () {
+        if (!($('#accepttime').is(":checked"))) {
+            $(document.getElementsByClassName("hoursdr")[0]).css("display", "block");
+        } else {
+            $(document.getElementsByClassName("hoursdr")[0]).css("display", "none");
+        }
+    });
+
+</script>

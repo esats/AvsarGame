@@ -44,15 +44,15 @@
                                                 <td style="color: @PageHelper.GetAddversimentStatusStyle(item.Status)">@PageHelper.Description((AddversimentStatus)item.Status)</td>
                                                 <td scope="col"><a href="@PageHelper.GetAddversimentHref((AddversimentType)item.DetailType,item.Id)">İlana git</a></td>
                                                 <td scope="col">
-                                                    <button class="btn btn-blue">
+                                                    <a href="/@PageHelper.GetAddversimentUpdateHref((AddversimentType)item.DetailType,item.Id)" class="btn btn-blue">
                                                         Düzenle
-                                                    </button>
-                                                    <button class="btn btn-blue">
+                                                    </a>
+                                                    <a class="btn btn-blue" f>
                                                         Pasife Al
-                                                    </button>
-                                                    <button class="btn btn-danger">
+                                                    </a>
+                                                    <a class="btn btn-danger">
                                                         Sil 
-                                                    </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             }
