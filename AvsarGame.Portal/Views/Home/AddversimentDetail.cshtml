@@ -24,7 +24,7 @@
             height: 30px;
         }
     }
-    /*.comment-body {
+    /*.maincomment {
         border: solid 1px white
     }*/
 </style>
@@ -195,87 +195,104 @@
         </div>
         <div class="container">
             <h3 class="title-secondary led led-before d-flex align-items-center"> <i class="fas fa-comment-dots mr-3"></i> Yorumlar</h3>
-            <div class="row">
-                <div class="col-12">
-                    <div class="announce-box announce-danger">
-                        <p>
-                            Hiç yorum bulunmamaktadır.
-                        </p>
+            @if (Model.Comments.Count == 0)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <div class="announce-box announce-danger">
+                            <p>
+                                Hiç yorum bulunmamaktadır.
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row comment-wrapper">
-                <div class="comment-body col-12">
-                    <p class="comment">
-                       yorum 1
-                    </p>
-                </div>
-                <div class="comment-options col-12 d-flex justify-content-between">
-                    <div class="comment-icons row w-100">
-                        <div class="col-12 col-sm-6 d-flex">
-                            <div class="icon-group">
-                                @*<div class="icon-group-inner">
-                                    <i class="fas fa-thumbs-up"></i>
-                                    <span>25</span>
-                                </div>*@
-                                <div class="icon-group-inner">
-                                    <i class="fas fa-comment-dots comment-toggle"></i>
-                                    <span>70</span>
+            }
+            else
+            {
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="row comment-wrapper">
+                        <div class="comment-body maincomment col-12">
+                            <p class="comment">
+                                @comment.Comment.Content
+                            </p>
+                        </div>
+                        <div class="comment-options col-12 d-flex justify-content-between">
+                            <div class="comment-icons row w-100">
+                                <div class="col-12 col-sm-6 d-flex">
+                                    <div class="icon-group">
+                                        <div class="icon-group-inner">
+                                            <i class="fas fa-comment-dots comment-toggle"></i>
+                                            <span>@comment.Answers.Count</span>
+                                        </div>
+                                        <div class="icon-group-inner">
+                                            <a>
+                                                <i class="fas fa-comments"></i>
+                                                <span>Cevap ver</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 comment-info d-flex justify-content-sm-end">
+                                    <div class="comment-date">@comment.Comment.CreatedDate</div>
+                                    @*<div class="comment-hour">20:20</div>*@
+                                    <a class="author" href="#">@comment.Comment.User.FullName</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 comment-info d-flex justify-content-sm-end">
-                            <div class="comment-date">16.02.20</div>
-                            <div class="comment-hour">20:20</div>
-                            <a class="author" href="#">Lorem, ipsum.</a>
-                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row comment-wrapper answer">
-                <div class="comment-body col-12">
-                    <p class="comment">
-                        yorum 2
-                    </p>
-                </div>
-                <div class="comment-options col-12 d-flex justify-content-between">
-                    <div class="comment-icons row w-100">
-                        <div class="col-12 col-sm-6 d-flex">
-                            <div class="icon-group">
-                                @*<div class="icon-group-inner">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>25</span>
-                        </div>*@
+                    if (comment.Answers.Count > 0)
+                    {
+                        <div class="row comment-wrapper answer">
+                            @foreach (var item in comment.Answers)
+                            {
+                                <div class="comment-body col-12">
+                                    <p class="comment">
+                                        @item.Content
+                                    </p>
+                                </div>
+                                <div class="comment-options col-12 d-flex justify-content-between">
+                                    <div class="comment-icons row w-100">
+                                        <div class="col-12 col-sm-6 d-flex">
+                                            <div class="icon-group">
+                                                @*<div class="icon-group-inner">
+                                                <i class="fas fa-thumbs-up"></i>
+                                                <span>25</span>
+                                            </div>*@
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 comment-info d-flex justify-content-sm-end">
+                                            <div class="comment-date">@item.CreatedDate</div>
+                                            <a class="author" href="#">@item.User.FullName</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            <div class="comment-options col-12 d-flex justify-content-between">
+                                <div class="col-12 mt-3">
+                                    <textarea rows="2" spellcheck="false" class="form-control" id="description"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="ml-auto mt-3 btn-blue button" id="giveanswer">
+                                    cevap ver
+                                </button>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 comment-info d-flex justify-content-sm-end">
-                            <div class="comment-date">16.02.20</div>
-                            <div class="comment-hour">20:20</div>
-                            <a class="author" href="#">Lorem, ipsum.</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="comment-options col-12 d-flex justify-content-between">
+                    }
+                }
+                <div class="row">
                     <div class="col-12 mt-3">
-                        <textarea rows="2" spellcheck="false" class="form-control" id="description"></textarea>
+                        <textarea rows="2" spellcheck="false" class="form-control" id="Comment"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button class="ml-auto mt-3 btn-blue button" id="makecomment">
+                            Yorum Yap
+                        </button>
                     </div>
                 </div>
-                <div class="col-12">
-                    <button class="ml-auto mt-3 btn-blue button" id="giveanswer">
-                        cevap ver
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 mt-3">
-                    <textarea rows="2" spellcheck="false" class="form-control" id="Comment"></textarea>
-                </div>
-                <div class="col-12">
-                    <button class="ml-auto mt-3 btn-blue button" id="makecomment">
-                        Yorum Yap
-                    </button>
-                </div>
-            </div>
+            }
         </div>
     </main>
 </div>
@@ -299,11 +316,12 @@
                 dataType: 'json',
                 data: model,
                 success: function (res) {
+                    debugger;
                     if (res.isSuccess) {
                         location.reload();
                     } else {
                         if (res.message == "Yetkisiz") {
-                            $('#login').modal('show');
+                            $('#login-modal').modal('show');
                         } else {
                             alert("bir hata oluştu. Lütfen birazdan tekrar deneyin");
                         }

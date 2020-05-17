@@ -27,7 +27,6 @@ namespace AvsarGame.API.Controllers {
         private readonly IComment _comment;
         private readonly ISubComment _subComment;
         private readonly IUserComment _userComment;
-        private readonly IUserNotification _userNotification;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -455,6 +454,7 @@ namespace AvsarGame.API.Controllers {
                 comment.Content = model.Content;
                 comment.CreatedDate = DateTime.Now;
                 comment.CreatedBy = base.GetUser();
+                comment.UserId = base.GetUser();
                 _comment.Add(comment);
 
                 UserComment userComment = new UserComment();
@@ -469,7 +469,7 @@ namespace AvsarGame.API.Controllers {
                     notification.UserId = base.GetUser();
                     notification.NotificationAddversimentId = model.AddversimentId;
                     notification.NotificationAddversimentType = model.AddversimentType;
-                    _userNotification.Add(notification);
+                    _notification.Add(notification);
                 }
 
                 response.Value = HttpStatusCode.OK;

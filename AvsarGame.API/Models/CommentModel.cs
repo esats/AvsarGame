@@ -16,5 +16,6 @@ namespace AvsarGame.API.Models {
         public int CommentId { get; set; }
         public int SubCommentId { get; set; }
         public UserSummaryModel User { get; set; }
+        public virtual DateTime? CreatedDate { get; set; }
     }
 }
