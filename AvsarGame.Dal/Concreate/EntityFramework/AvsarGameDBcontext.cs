@@ -27,6 +27,8 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         public virtual DbSet<KnightItem> KnightItem { get; set; }
         public virtual DbSet<ImageMaster> ImageMaster { get; set; }
         public virtual DbSet<ImagesDetail> ImagesDetail { get; set; }
+        public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<UserComment> UserComment { get; set; }
 
         public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options) {
         }

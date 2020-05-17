@@ -10,5 +10,7 @@ namespace AvsarGame.Entities.Entities {
         public string Message { get; set; }
         public bool IsRead { get; set; }
         public NotificationType NotificationType { get; set; }
+        public int NotificationAddversimentId { get; set; }
+        public int NotificationAddversimentType { get; set; }
     }
 }
