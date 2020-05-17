@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[GetNotificationList]
+	 @AddversimentId INT = 0 
+	,@AddversimentType INT= 0
+	,@SubCommentId INT = 0
+AS
+BEGIN
+SELECT DISTINCT * FROM (
+	SELECT CreatedBy FROM Comment WHERE AddversimentId=@AddversimentId AND AddversimentType = @AddversimentType
+	UNION ALL
+	SELECT CreatedBy FROM KnightCyberRing WHERE Id = @AddversimentId
+	UNION ALL
+	SELECT CreatedBy FROM KnightItem WHERE Id = @AddversimentId
+	) AS K
+END

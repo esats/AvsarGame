@@ -41,6 +41,14 @@ namespace AvsarGame.API.Helpers {
             CreateMap<KnightCyberRing, AddversimentDetailModel>();
             CreateMap<KnightItem, AddversimentDetailModel>();
 
+            CreateMap<CommentModel, Comment>();
+            CreateMap<Comment, CommentModel>();
+
+            
+            CreateMap<CommentModel, SubComment>();
+            CreateMap<SubComment, CommentModel>();
+
+
         }
     }
 }

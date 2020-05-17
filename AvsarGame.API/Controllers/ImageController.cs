@@ -28,9 +28,12 @@ namespace AvsarGame.API.Controllers {
             entity.AdversimentId = model.AdversimentId;
             entity.Type = model.Type;
             var oldRecord = _imageMaster.GetT(x => x.AdversimentId == model.AdversimentId && x.Type == model.Type && x.IsActive == true);
-            oldRecord.IsActive = false;
-            _imageMaster.Update(oldRecord);
-            entity.CreatedDate  = DateTime.Now;
+            if (oldRecord != null) {
+                oldRecord.IsActive = false;
+                _imageMaster.Update(oldRecord);
+            }
+
+            entity.CreatedDate = DateTime.Now;
             entity.CreatedBy = base.GetUser();
             return _imageMaster.Add(entity).Id;
         }
@@ -41,7 +44,7 @@ namespace AvsarGame.API.Controllers {
             ImagesDetail entity = new ImagesDetail();
             entity.ImageMasterId = model.ImageMasterId;
             entity.ImageUrl = model.ImageUrl;
-            entity.CreatedDate  = DateTime.Now;
+            entity.CreatedDate = DateTime.Now;
             entity.CreatedBy = base.GetUser();
             _imagesDetail.Add(entity);
         }

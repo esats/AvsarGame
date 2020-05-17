@@ -8,5 +8,6 @@ namespace AvsarGame.Entities.Entities {
         public int CommentId { get; set; }
         public string UserId { get; set; }
         public string Content { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -15,7 +15,9 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
     public class EfComment : EfEntityRepositoryBase<Comment, AvsarGameDBcontext>, IComment {
         public List<Comment> GetCommentWithSubComments(int addversimentId, int addversimentType) {
             using (var context = new AvsarGameDBcontext()) {
-                return context.Comment.Include(x => x.SubComments).Where(x => x.AddversimentId == addversimentId && x.AddversimentType == addversimentType).ToList();
+                return context.Comment.Include(x => x.SubComments)
+                    .Where(x => x.AddversimentId == addversimentId && x.AddversimentType == addversimentType)
+                    .ToList();
             }
         }
 

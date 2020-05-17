@@ -306,8 +306,36 @@ namespace AvsarGame.API.Controllers {
             var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
-
+            model.Comments = GetCommentWithUser(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
             return model;
+        }
+
+        private List<BaseCommentModel> GetCommentWithUser(int addversimentId, int addversimentType) {
+            List<BaseCommentModel> list = new List<BaseCommentModel>();
+            var users =  _userManager.Users.ToList();
+            var comments = _comment.GetCommentWithSubComments(addversimentId, addversimentType);
+       
+            foreach (var item in comments) {
+                BaseCommentModel bases = new BaseCommentModel();
+                List<CommentModel> subs = new List<CommentModel>();
+                CommentModel baseComment = new CommentModel();
+
+                baseComment = _mapper.Map<CommentModel>(item);
+                baseComment.User = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
+
+                foreach (var sub in item.SubComments) {
+                    CommentModel subCommentModel = new CommentModel();
+                    subCommentModel = _mapper.Map<CommentModel>(item);
+                    subCommentModel.User = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == sub.UserId));
+                    subs.Add(subCommentModel);
+                }
+
+                bases.Comment = baseComment;
+                bases.Answers = subs;
+                list.Add(bases);
+            }
+
+            return list;
         }
 
         [Route("KnightItemDetail/{id}")]
@@ -316,7 +344,7 @@ namespace AvsarGame.API.Controllers {
             var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
-            var comments = _mapper.Map<CommentModel>(_comment.GetCommentWithSubComments(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM));
+
             return model;
         }
 
@@ -420,35 +448,35 @@ namespace AvsarGame.API.Controllers {
         [HttpPost]
         public Response<HttpStatusCode> AddComment(CommentModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
-                try {
-                    Comment comment = new Comment();
-                    comment.AddversimentId = model.AddversimentId;
-                    comment.AddversimentType = model.AddversimentType;
-                    comment.Content = model.Content;
-                    comment.CreatedDate = DateTime.Now;
-                    comment.CreatedBy = base.GetUser();
-                    var saved = _comment.Add(comment);
+            try {
+                Comment comment = new Comment();
+                comment.AddversimentId = model.AddversimentId;
+                comment.AddversimentType = model.AddversimentType;
+                comment.Content = model.Content;
+                comment.CreatedDate = DateTime.Now;
+                comment.CreatedBy = base.GetUser();
+                _comment.Add(comment);
 
-                    UserComment userComment = new UserComment();
-                    userComment.CommentId = saved.Id;
-                    userComment.UserId = base.GetUser();
-                    _userComment.Add(userComment);
+                UserComment userComment = new UserComment();
+                userComment.CommentId = comment.Id;
+                userComment.UserId = base.GetUser();
+                _userComment.Add(userComment);
 
-                    var notificationList = GetNotificationList(model);
-                    foreach (var item in notificationList) {
-                        UserNotification notification = new UserNotification();
-                        notification.Message = "Gönderiye Yorum Yapıldı";
-                        notification.UserId = base.GetUser();
-                        notification.NotificationAddversimentId = model.AddversimentId;
-                        notification.NotificationAddversimentType = model.AddversimentType;
-                        _userNotification.Add(notification);
-                    }
+                var notificationList = GetNotificationList(model);
+                foreach (var item in notificationList) {
+                    UserNotification notification = new UserNotification();
+                    notification.Message = "Gönderiye Yorum Yapıldı";
+                    notification.UserId = base.GetUser();
+                    notification.NotificationAddversimentId = model.AddversimentId;
+                    notification.NotificationAddversimentType = model.AddversimentType;
+                    _userNotification.Add(notification);
+                }
 
-                    response.Value = HttpStatusCode.OK;
-                    response.IsSuccess = true;
-                } catch (Exception e) {
-                    response.Value = HttpStatusCode.BadRequest;
-                    response.IsSuccess = false;
+                response.Value = HttpStatusCode.OK;
+                response.IsSuccess = true;
+            } catch (Exception e) {
+                response.Value = HttpStatusCode.BadRequest;
+                response.IsSuccess = false;
             }
 
             return response;

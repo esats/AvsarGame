@@ -4,6 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace AvsarGame.API.Models {
+    public class BaseCommentModel {
+        public CommentModel Comment { get; set; }
+        public List<CommentModel> Answers { get; set; }
+    }
+
     public class CommentModel {
         public string Content { get; set; }
         public int AddversimentId { get; set; }

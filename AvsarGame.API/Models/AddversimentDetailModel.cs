@@ -29,7 +29,7 @@ namespace AvsarGame.API.Models {
         [JsonIgnore]
         public List<IFormFile> Files { get; set; }
         [JsonIgnore]
-        public List<CommentModel> Comments { get; set; }
+        public List<BaseCommentModel> Comments { get; set; }
         public double PriceWithComission {
             get {
                 return Price * 0.97;
