@@ -393,16 +393,33 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("/knight-cyber-ring/delete/{Id}")]
-        public ActionResult DeleteKnightIteö(int Id) {
+        public ActionResult DeleteKnightItem(int Id) {
             UiRequestManager.Instance.Get(string.Format("Addversiment/DeleteKnightCyber/{0}", Id));
-            return Redirect("/"+UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())+"/ilanlarim");
+            return Redirect("/" + UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/ilanlarim");
         }
 
         [HttpGet]
         [Route("/knight-item/delete/{Id}")]
         public ActionResult DeleteKnightCyber(int Id) {
             UiRequestManager.Instance.Get(string.Format("Addversiment/DeleteKnightItem/{0}", Id));
-            return Redirect("/"+UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())+"/ilanlarim");
+            return Redirect("/" + UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/ilanlarim");
+        }
+
+        public JsonResult MakeComment(CommentModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            var bearer = SessionManager.Instance.Get("bearer");
+            if (bearer == null) {
+                response.Value = HttpStatusCode.Unauthorized;
+                response.IsSuccess = false;
+                response.Message = "Yetkisiz";
+                return Json(response);
+            }
+
+            response =
+                    JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Addversiment", "AddComment", JsonConvert.SerializeObject(model)));
+
+            return Json(response);
         }
     }
 }

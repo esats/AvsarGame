@@ -55,6 +55,9 @@ namespace AvsarGame.API {
             services.AddTransient<IKnightItem,EfKnightItem>();
             services.AddTransient<IImageMaster, EfImageMaster>();
             services.AddTransient<IImageDetail, EfImageDetail>();
+            services.AddTransient<IUserComment, EfUserComment>();
+            services.AddTransient<IComment, EfComment>();
+            services.AddTransient<ISubComment, EfSubComment>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = false; //sayı zorunluluğu

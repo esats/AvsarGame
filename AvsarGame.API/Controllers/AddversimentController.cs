@@ -24,17 +24,24 @@ namespace AvsarGame.API.Controllers {
         private readonly IKnightItem _knightItem;
         private readonly IImageMaster _image;
         private readonly IUserNotification _notification;
+        private readonly IComment _comment;
+        private readonly ISubComment _subComment;
+        private readonly IUserComment _userComment;
+        private readonly IUserNotification _userNotification;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AddversimentController(IKnightCyberRing knightCyberRing, IMapper mapper, IKnightItem knightItem, UserManager<ApplicationUser> userManager, IImageMaster image,
-                                      IUserNotification notification) {
+                                      IUserNotification notification, IComment comment, ISubComment subComment, IUserComment userComment) {
             _KnightCyberRing = knightCyberRing;
             _mapper = mapper;
             _knightItem = knightItem;
             _userManager = userManager;
             _image = image;
             _notification = notification;
+            _comment = comment;
+            _subComment = subComment;
+            _userComment = userComment;
         }
 
         [HttpPost]
@@ -296,23 +303,24 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightCyberDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightCyberDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED));
+            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+
             return model;
         }
 
         [Route("KnightItemDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightItemDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED));
+            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+            var comments = _mapper.Map<CommentModel>(_comment.GetCommentWithSubComments(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM));
             return model;
         }
 
         [Route("GetUserAddversiment/{id}")]
-        [AllowAnonymous]
         public List<AddversimentDetailModel> GetUserAddversiment(string Id) {
             var cybers = _mapper.Map<List<AddversimentDetailModel>>(_KnightCyberRing.GetList(x => x.IsActive == true && x.UserId == Id));
             cybers.ForEach(x => x.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
@@ -392,22 +400,62 @@ namespace AvsarGame.API.Controllers {
             return _image.GetImages(id, type);
         }
 
-        
         [Route("DeleteKnightItem/{id}")]
         public bool DeleteKnightItem(int Id) {
-            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED);
+            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED);
             entity.IsActive = false;
             _knightItem.Update(entity);
             return true;
         }
 
-           
         [Route("DeleteKnightCyber/{id}")]
         public bool DeleteKnightCyber(int Id) {
-            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int)AddversimentStatus.APPROVED);
+            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED);
             entity.IsActive = false;
             _KnightCyberRing.Update(entity);
             return true;
+        }
+
+        [Route("AddComment")]
+        [HttpPost]
+        public Response<HttpStatusCode> AddComment(CommentModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+                try {
+                    Comment comment = new Comment();
+                    comment.AddversimentId = model.AddversimentId;
+                    comment.AddversimentType = model.AddversimentType;
+                    comment.Content = model.Content;
+                    comment.CreatedDate = DateTime.Now;
+                    comment.CreatedBy = base.GetUser();
+                    var saved = _comment.Add(comment);
+
+                    UserComment userComment = new UserComment();
+                    userComment.CommentId = saved.Id;
+                    userComment.UserId = base.GetUser();
+                    _userComment.Add(userComment);
+
+                    var notificationList = GetNotificationList(model);
+                    foreach (var item in notificationList) {
+                        UserNotification notification = new UserNotification();
+                        notification.Message = "Gönderiye Yorum Yapıldı";
+                        notification.UserId = base.GetUser();
+                        notification.NotificationAddversimentId = model.AddversimentId;
+                        notification.NotificationAddversimentType = model.AddversimentType;
+                        _userNotification.Add(notification);
+                    }
+
+                    response.Value = HttpStatusCode.OK;
+                    response.IsSuccess = true;
+                } catch (Exception e) {
+                    response.Value = HttpStatusCode.BadRequest;
+                    response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        private List<string> GetNotificationList(CommentModel model) {
+            return _comment.GetNotificationList(model.AddversimentId, model.AddversimentType);
         }
     }
 }

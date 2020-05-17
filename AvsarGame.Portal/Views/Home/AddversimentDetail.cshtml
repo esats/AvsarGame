@@ -24,7 +24,9 @@
             height: 30px;
         }
     }
-
+    /*.comment-body {
+        border: solid 1px white
+    }*/
 </style>
 
 <div class="page-wrapper new-detail">
@@ -33,22 +35,22 @@
             <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;"
                  src="https://vikings.help/users/vikings/imgExtCatalog/big/m106.png">
             <div class="breadcrumb">
-                <a href="#" class="active">Browse</a>
-                <a href="#">Compare</a>
-                <a href="#">Order Confirmation</a>
-                <a href="#">Checkout</a>
+                <a href="/">anasayfa</a>
+                <a href="#">ilanlar</a>
+                <a href="#" class="active">@PageHelper.Description((AddversimentType)Model.DetailType)</a>
             </div>
         </div>
     </div>
     <main class="Main">
         <div class="container">
-
             <div class="row section">
                 <div class="col-12 col-lg-6 side">
                     <div class="row">
                         @*<div class="col-12 col-sm-6 col-lg-12">
-                                <img class="recommended-img  mb-5" src="@PageHelper.GetImageUrl(Model.FileUrls[0],ImageFolder.DETAILADD)" alt="" />
-                            </div>*@
+                            <img class="recommended-img  mb-5" src="@PageHelper.GetImageUrl(Model.FileUrls[0],ImageFolder.DETAILADD)" alt="" />
+                        </div>*@
+                        <input hidden="hidden" value="@Model.DetailType" id="addversimentType"/>
+                        <input hidden="hidden" value="@Model.Id" id="addversimentId"/>
                         <div id="example" class="crs-wrap">
                             <div class="crs-screen">
                                 <div class="crs-screen-roll">
@@ -168,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row section">
+            <div class="row section product-info-container">
                 <div class="col-12 col-lg-6">
                     <div class="announce-box">
                         <i class="fas fa-comment-dots fa-2x mr-3"></i>
@@ -191,9 +193,156 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <h3 class="title-secondary led led-before d-flex align-items-center"> <i class="fas fa-comment-dots mr-3"></i> Yorumlar</h3>
+            <div class="row">
+                <div class="col-12">
+                    <div class="announce-box announce-danger">
+                        <p>
+                            Hiç yorum bulunmamaktadır.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row comment-wrapper">
+                <div class="comment-body col-12">
+                    <p class="comment">
+                       yorum 1
+                    </p>
+                </div>
+                <div class="comment-options col-12 d-flex justify-content-between">
+                    <div class="comment-icons row w-100">
+                        <div class="col-12 col-sm-6 d-flex">
+                            <div class="icon-group">
+                                @*<div class="icon-group-inner">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>25</span>
+                                </div>*@
+                                <div class="icon-group-inner">
+                                    <i class="fas fa-comment-dots comment-toggle"></i>
+                                    <span>70</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 comment-info d-flex justify-content-sm-end">
+                            <div class="comment-date">16.02.20</div>
+                            <div class="comment-hour">20:20</div>
+                            <a class="author" href="#">Lorem, ipsum.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row comment-wrapper answer">
+                <div class="comment-body col-12">
+                    <p class="comment">
+                        yorum 2
+                    </p>
+                </div>
+                <div class="comment-options col-12 d-flex justify-content-between">
+                    <div class="comment-icons row w-100">
+                        <div class="col-12 col-sm-6 d-flex">
+                            <div class="icon-group">
+                                @*<div class="icon-group-inner">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>25</span>
+                        </div>*@
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 comment-info d-flex justify-content-sm-end">
+                            <div class="comment-date">16.02.20</div>
+                            <div class="comment-hour">20:20</div>
+                            <a class="author" href="#">Lorem, ipsum.</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-options col-12 d-flex justify-content-between">
+                    <div class="col-12 mt-3">
+                        <textarea rows="2" spellcheck="false" class="form-control" id="description"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="ml-auto mt-3 btn-blue button" id="giveanswer">
+                        cevap ver
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mt-3">
+                    <textarea rows="2" spellcheck="false" class="form-control" id="Comment"></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="ml-auto mt-3 btn-blue button" id="makecomment">
+                        Yorum Yap
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 
 <script>
     $("#example").camRollSlider();
+    $(document).ready(function() {
+
+        $("#makecomment").on("click", function(e) {
+            e.preventDefault();
+            var model = {
+                Content: document.getElementById("Comment").value,
+                AddversimentId: document.getElementById("addversimentId").value,
+                AddversimentType: document.getElementById("addversimentType").value,
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/MakeComment',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                success: function (res) {
+                    if (res.isSuccess) {
+                        location.reload();
+                    } else {
+                        if (res.message == "Yetkisiz") {
+                            $('#login').modal('show');
+                        } else {
+                            alert("bir hata oluştu. Lütfen birazdan tekrar deneyin");
+                        }
+                    }
+                },
+                error: function (err) {
+                    alert("bir hata oluştu. Lütfen birazdan tekrar deneyin");
+                }
+            });
+        });
+
+        $("#giveanswer").on("click", function(e) {
+            e.preventDefault();
+            var model = {
+                Content: document.getElementById("Comment").value,
+                CommentId: document.getElementById("CommentId").value
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/MakeComment',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: model,
+                success: function (res) {
+                    if (res.success) {
+                        if (res.data.isSuccess) {
+                            location.reload();
+                        } 
+                    }
+                },
+                error: function (err) {
+                    alert("bir hata oluştu. Lütfen birazdan tekrar deneyin")
+                }
+            });
+        });
+
+    });
+
+
 </script>
+

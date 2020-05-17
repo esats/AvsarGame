@@ -9,5 +9,6 @@ namespace AvsarGame.Entities.Entities {
         public int AddversimentId { get; set; }
         public int AddversimentType { get; set; }
         public override DateTime? ModifiedDate { get; set; } = DateTime.Now;
+        public ICollection<SubComment> SubComments { get; set; }
     }
 }
