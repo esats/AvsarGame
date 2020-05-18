@@ -81,6 +81,24 @@
     a:hover {
         cursor: pointer;
     }
+
+    .fas[data-count] {
+        position: relative;
+    }
+    .fas[data-count]:after {
+        position: absolute;
+        right: -0.75em;
+        top: -.75em;
+        content: attr(data-count);
+        padding: .5em;
+        border-radius: 10em;
+        line-height: .9em;
+        color: white;
+        background: #009aff;
+        text-align: center;
+        min-width: 2em;
+        font: bold .4em sans-serif;
+    }
 </style>
 
 <header class="Header">
@@ -90,7 +108,6 @@
             <a class="navbar-brand  mr-auto" href="/">
                 <img src="~/assest/logos/mainlogo.svg" alt="anatoliaGame">
             </a>
-
             <div class="form-wrapper ml-auto">
                 <form class="form-inline">
                     <div class="auto-complete w-100">
@@ -110,34 +127,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                     <li class="nav-item  dropdown-cart notifications">
-                        <a class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i>
+                    <li class="nav-item  dropdown-cart notifications" id="notification">
+                        <a  title="Bildirimler" class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell fa-1x" data-count="2" id="notification-count"></i>
                         </a>
                         <div class="dropdown-menu notification-list" aria-labelledby="navbarDropdownMenuLink">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="table-container">
-                                        <table class="table table-dark">
+                                        <table class="table table-dark" style="background-color: white; border-radius: 3px">
                                             <thead>
                                                 <tr>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                   <tr>
-                                                    <th class="table-title">
-                                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum, dolorem?
-                                                    </th>
-                                                </tr>
-                                                   <tr>
-                                                    <th class="table-title">
-                                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum, dolorem?
-                                                    </th>
-                                                </tr>
-                                                   <tr>
-                                                    <th class="table-title">
-                                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum, dolorem?
-                                                    </th>
-                                                </tr>
+                                            <tbody id="notificationbody">
+                                           
                                             </tbody>
                                         </table>
                                     </div>
@@ -268,6 +272,33 @@
                 e.preventDefault();
             }
         });
+        
+        $("#notification").click(function(e) {
+            var notificationCount = parseInt($(document.getElementById("notification-count"))[0].attributes["data-count"].value);
+            if (notificationCount == 0) {
+                e.preventDefault();
+                return;
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: '/User/GetNotification',
+                dataType: 'json',
+                success: function(res) {
+                    debugger;
+                    if (res.success) {
+                        GetNotificationHtml(res.data);
+                    } else {
+                        Command: toastr["error"]("Bir Sorun Oluştu");
+                    }
+                },
+                error: function(err) {
+                    Command: toastr["error"]("Bir Sorun Oluştu");
+                }
+            });
+
+        });
+        
 
         var typingTimer; //timer identifier
         var doneTypingInterval = 800; //time in ms (5 seconds)
@@ -499,4 +530,18 @@
         return emptyChartHtml;
     }
 
+    function GetNotificationHtml(data) {
+
+        $("#notificationbody").empty();
+        var notifications = [];
+        debugger;
+        for (var i = 0; i < data.length; i++) {
+            var product ="<tr><th class='table-title'>"+
+             data[i].message+
+            "</tr></th>";
+            notifications.push(product);
+        }
+
+        $("#notificationbody").append(notifications);
+    }
 </script>

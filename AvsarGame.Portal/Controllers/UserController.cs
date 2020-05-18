@@ -438,5 +438,18 @@ namespace AvsarGame.Portal.Controllers {
 
             return Json(response);
         }
+
+        [HttpGet]
+        public JsonResult GetNotification() {
+            var id = SessionManager.Instance.GetUserId();
+            try {
+                var notifications =
+                        JsonConvert.DeserializeObject<List<UserNotificationModel>>(
+                                UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
+                return Json(new { success = true, data = notifications });
+            } catch (Exception e) {
+                return Json(new { success = false });
+            }
+        }
     }
 }
