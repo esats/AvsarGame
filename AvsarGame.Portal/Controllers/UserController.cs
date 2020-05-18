@@ -421,5 +421,22 @@ namespace AvsarGame.Portal.Controllers {
 
             return Json(response);
         }
+
+        public JsonResult GiveAnswer(CommentModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            var bearer = SessionManager.Instance.Get("bearer");
+            if (bearer == null) {
+                response.Value = HttpStatusCode.Unauthorized;
+                response.IsSuccess = false;
+                response.Message = "Yetkisiz";
+                return Json(response);
+            }
+
+            response =
+                    JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Addversiment", "GiveAnswer", JsonConvert.SerializeObject(model)));
+
+            return Json(response);
+        }
     }
 }

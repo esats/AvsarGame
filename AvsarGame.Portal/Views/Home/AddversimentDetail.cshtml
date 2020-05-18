@@ -32,12 +32,12 @@
 <div class="page-wrapper new-detail">
     <div class="container">
         <div class="breadcrumb-wrapper">
-            <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;"
-                 src="https://vikings.help/users/vikings/imgExtCatalog/big/m106.png">
+            <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;" src="~/assest/img/m106.png" />
             <div class="breadcrumb">
                 <a href="/">anasayfa</a>
-                <a href="#">ilanlar</a>
-                <a href="#" class="active">@PageHelper.Description((AddversimentType)Model.DetailType)</a>
+                <a href="@PageHelper.GetAddversimentBreadCumbHref((AddversimentType)Model.DetailType)">ilanlar</a>
+                <a href="@PageHelper.GetAddversimentBreadCumbHref((AddversimentType)Model.DetailType)">@PageHelper.Description((AddversimentType)Model.DetailType)</a>
+                <a href="javascript:void(0)" class="active">@Model.Title</a>
             </div>
         </div>
     </div>
@@ -226,7 +226,7 @@
                                             <span>@comment.Answers.Count</span>
                                         </div>
                                         <div class="icon-group-inner">
-                                            <a>
+                                            <a onclick="toogleanswer('cmt-@comment.Comment.CommentId')" >
                                                 <i class="fas fa-comments"></i>
                                                 <span>Cevap ver</span>
                                             </a>
@@ -246,7 +246,7 @@
                         <div class="row comment-wrapper answer">
                             @foreach (var item in comment.Answers)
                             {
-                                <div class="comment-body col-12">
+                                <div style="border-left: 2px solid #007bff;" class="comment-body col-12">
                                     <p class="comment">
                                         @item.Content
                                     </p>
@@ -267,20 +267,21 @@
                                         </div>
                                     </div>
                                 </div>
-
                             }
-                            <div class="comment-options col-12 d-flex justify-content-between">
-                                <div class="col-12 mt-3">
-                                    <textarea rows="2" spellcheck="false" class="form-control" id="description"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button class="ml-auto mt-3 btn-blue button" id="giveanswer">
-                                    cevap ver
-                                </button>
-                            </div>
                         </div>
                     }
+                    <div class="row" style="display: none" id="cmt-@comment.Comment.CommentId" >
+                        <div class="comment-options col-12 d-flex justify-content-between">
+                            <div class="col-12 mt-3">
+                                <textarea rows="2" spellcheck="false" class="form-control" id="description"></textarea>
+                            </div>
+                        </div>
+                            <div class="col-12">
+                                <button class="ml-auto mt-3 btn-blue button" comment-id="@comment.Comment.CommentId" id="giveanswer">
+                                    cevap ver
+                                </button>
+                          </div>
+                  </div>
                 }
                 <div class="row">
                     <div class="col-12 mt-3">
@@ -332,35 +333,51 @@
                 }
             });
         });
-
-        $("#giveanswer").on("click", function(e) {
+        
+        $(".container #giveanswer").on("click", function(e) {
             e.preventDefault();
             var model = {
-                Content: document.getElementById("Comment").value,
-                CommentId: document.getElementById("CommentId").value
+                Content: this.parentElement.parentElement.getElementsByTagName("textarea")[0].value,
+                AddversimentId: document.getElementById("addversimentId").value,
+                AddversimentType: document.getElementById("addversimentType").value,
+                CommentId: this.attributes["comment-id"].value
             }
 
             $.ajax({
                 type: 'post',
-                url: '/User/MakeComment',
+                url: '/User/GiveAnswer',
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
                 success: function (res) {
-                    if (res.success) {
-                        if (res.data.isSuccess) {
-                            location.reload();
-                        } 
+                    debugger;
+                    if (res.isSuccess) {
+                        location.reload();
+                    } else {
+                        if (res.message == "Yetkisiz") {
+                            $('#login-modal').modal('show');
+                        } else {
+                            alert("bir hata oluştu. Lütfen birazdan tekrar deneyin");
+                        }
                     }
                 },
                 error: function (err) {
-                    alert("bir hata oluştu. Lütfen birazdan tekrar deneyin")
+                    alert("bir hata oluştu. Lütfen birazdan tekrar deneyin");
                 }
             });
         });
-
+        
     });
 
+    function toogleanswer(commentId) {
+        var elem = "#" + commentId;
+        var toogle = $(elem).css("display");
+        if (toogle == "none") {
+            $(elem).css("display",'block');
+        } else {
+            $(elem).css("display",'none');
+        }
+    }
 
 </script>
 

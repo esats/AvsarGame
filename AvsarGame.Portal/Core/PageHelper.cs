@@ -115,6 +115,17 @@ namespace AvsarGame.Portal.Core {
 
             return "";
         }
+
+        public static string GetAddversimentBreadCumbHref(AddversimentType itemDetailType) {
+            switch ((int) itemDetailType) {
+                case 1:
+                    return "/ilanlar/knight-cyber-rings/";
+                case 2:
+                    return "ilanlar/knight-items/";
+            }
+
+            return "";
+        }
     }
 }
 

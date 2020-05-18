@@ -324,7 +324,7 @@ namespace AvsarGame.API.Controllers {
 
                 foreach (var sub in item.SubComments) {
                     CommentModel subCommentModel = new CommentModel();
-                    subCommentModel = _mapper.Map<CommentModel>(item);
+                    subCommentModel = _mapper.Map<CommentModel>(sub);
                     subCommentModel.User = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == sub.UserId));
                     subs.Add(subCommentModel);
                 }
@@ -466,6 +466,46 @@ namespace AvsarGame.API.Controllers {
                 foreach (var item in notificationList) {
                     UserNotification notification = new UserNotification();
                     notification.Message = "Gönderiye Yorum Yapıldı";
+                    notification.UserId = base.GetUser();
+                    notification.NotificationAddversimentId = model.AddversimentId;
+                    notification.NotificationAddversimentType = model.AddversimentType;
+                    _notification.Add(notification);
+                }
+
+                response.Value = HttpStatusCode.OK;
+                response.IsSuccess = true;
+            } catch (Exception e) {
+                response.Value = HttpStatusCode.BadRequest;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        [Route("GiveAnswer")]
+        [HttpPost]
+        public Response<HttpStatusCode> GiveAnswer(CommentModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try {
+                SubComment comment = new SubComment();
+                comment.AddversimentId = model.AddversimentId;
+                comment.AddversimentType = model.AddversimentType;
+                comment.Content = model.Content;
+                comment.CreatedDate = DateTime.Now;
+                comment.CreatedBy = base.GetUser();
+                comment.UserId = base.GetUser();
+                comment.CommentId = model.CommentId;
+                _subComment.Add(comment);
+
+                UserComment userComment = new UserComment();
+                userComment.CommentId = comment.Id;
+                userComment.UserId = base.GetUser();
+                _userComment.Add(userComment);
+
+                var notificationList = GetNotificationList(model);
+                foreach (var item in notificationList) {
+                    UserNotification notification = new UserNotification();
+                    notification.Message = "Yoruma cevap verildi";
                     notification.UserId = base.GetUser();
                     notification.NotificationAddversimentId = model.AddversimentId;
                     notification.NotificationAddversimentType = model.AddversimentType;

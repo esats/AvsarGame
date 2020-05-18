@@ -48,6 +48,11 @@ namespace AvsarGame.API.Helpers {
             CreateMap<CommentModel, SubComment>();
             CreateMap<SubComment, CommentModel>();
 
+            CreateMap<Comment, CommentModel>()
+                    .ForMember(x => x.CommentId, opt => opt.MapFrom(src => src.Id));
+            
+            CreateMap<SubComment, CommentModel>()
+                    .ForMember(x => x.SubCommentId, opt => opt.MapFrom(src => src.Id));
 
         }
     }
