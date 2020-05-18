@@ -20,7 +20,7 @@ namespace AvsarGame.Entities.Entities {
         public bool IsPassive { get; set; }
         public override DateTime? CreatedDate { get; set; } = DateTime.Now;
         public override string CreatedBy { get; set; }
-        public int status { get; set; } = (int) AddversimentStatus.SUSPEND;
+        public int Status { get; set; } = (int) AddversimentStatus.SUSPEND;
         public ImageMaster Images { get; set; }
     }
 }

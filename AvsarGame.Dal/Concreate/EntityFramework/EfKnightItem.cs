@@ -44,7 +44,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
 
                 sql += "IsActive =1"; 
             } else {
-                sql += " WHERE IsActive = 1";
+                sql += " WHERE IsActive = 1 AND Status = 1";
             }
 
 

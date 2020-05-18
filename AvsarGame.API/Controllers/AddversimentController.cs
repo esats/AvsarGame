@@ -84,7 +84,7 @@ namespace AvsarGame.API.Controllers {
             List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>>();
             try {
-                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.SUSPEND);
+                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.SUSPEND);
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>();
@@ -108,7 +108,7 @@ namespace AvsarGame.API.Controllers {
             List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
             try {
-                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.SUSPEND);
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.SUSPEND);
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
@@ -132,7 +132,7 @@ namespace AvsarGame.API.Controllers {
             List<KnightCyberRingAddversimentModel> list =
                     new List<KnightCyberRingAddversimentModel>();
             try {
-                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
+                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED);
                 foreach (var item in cyberAdds) {
                     KnightCyberRingAddversimentModel model = new KnightCyberRingAddversimentModel();
                     model = _mapper.Map<KnightCyberRingAddversimentModel>(item);
@@ -154,7 +154,7 @@ namespace AvsarGame.API.Controllers {
             List<KnightItemAddversimentModel> list =
                     new List<KnightItemAddversimentModel>();
             try {
-                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.status == (int) AddversimentStatus.APPROVED);
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED);
                 foreach (var item in cyberAdds) {
                     KnightItemAddversimentModel model = new KnightItemAddversimentModel();
                     model = _mapper.Map<KnightItemAddversimentModel>(item);
@@ -178,7 +178,7 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.status = (int) AddversimentStatus.APPROVED;
+                    updatedEntity.Status = (int) AddversimentStatus.APPROVED;
                     _KnightCyberRing.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
@@ -210,7 +210,7 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.status = (int) AddversimentStatus.REJECT;
+                    updatedEntity.Status = (int) AddversimentStatus.REJECT;
                     _KnightCyberRing.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
@@ -243,7 +243,7 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _knightItem.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.status = (int) AddversimentStatus.APPROVED;
+                    updatedEntity.Status = (int) AddversimentStatus.APPROVED;
                     _knightItem.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
@@ -275,7 +275,7 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _knightItem.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.status = (int) AddversimentStatus.REJECT;
+                    updatedEntity.Status = (int) AddversimentStatus.REJECT;
                     _knightItem.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
@@ -302,7 +302,7 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightCyberDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightCyberDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED));
+            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
             model.Comments = GetCommentWithUser(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
@@ -340,7 +340,7 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightItemDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightItemDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED));
+            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
 
@@ -429,7 +429,7 @@ namespace AvsarGame.API.Controllers {
 
         [Route("DeleteKnightItem/{id}")]
         public bool DeleteKnightItem(int Id) {
-            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED);
+            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED);
             entity.IsActive = false;
             _knightItem.Update(entity);
             return true;
@@ -437,7 +437,7 @@ namespace AvsarGame.API.Controllers {
 
         [Route("DeleteKnightCyber/{id}")]
         public bool DeleteKnightCyber(int Id) {
-            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.status == (int) AddversimentStatus.APPROVED);
+            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED);
             entity.IsActive = false;
             _KnightCyberRing.Update(entity);
             return true;
@@ -460,15 +460,19 @@ namespace AvsarGame.API.Controllers {
                 UserComment userComment = new UserComment();
                 userComment.CommentId = comment.Id;
                 userComment.UserId = base.GetUser();
+                userComment.IsSubComment = false;
                 _userComment.Add(userComment);
 
                 var notificationList = GetNotificationList(model);
                 foreach (var item in notificationList) {
                     UserNotification notification = new UserNotification();
-                    notification.Message = "Gönderiye Yorum Yapıldı";
-                    notification.UserId = base.GetUser();
+                    notification.Message = "Yorum Yapıldı";
+                    notification.UserId = item;
                     notification.NotificationAddversimentId = model.AddversimentId;
                     notification.NotificationAddversimentType = model.AddversimentType;
+                    notification.IsAddversimentNotification = true;
+                    notification.CommentId = comment.Id;
+                    notification.IsSubComment = false;
                     _notification.Add(notification);
                 }
 
@@ -500,15 +504,19 @@ namespace AvsarGame.API.Controllers {
                 UserComment userComment = new UserComment();
                 userComment.CommentId = comment.Id;
                 userComment.UserId = base.GetUser();
+                userComment.IsSubComment = true;
                 _userComment.Add(userComment);
 
                 var notificationList = GetNotificationList(model);
                 foreach (var item in notificationList) {
                     UserNotification notification = new UserNotification();
-                    notification.Message = "Yoruma cevap verildi";
-                    notification.UserId = base.GetUser();
+                    notification.Message = "cevap verildi";
+                    notification.UserId = item;
                     notification.NotificationAddversimentId = model.AddversimentId;
                     notification.NotificationAddversimentType = model.AddversimentType;
+                    notification.IsAddversimentNotification = true;
+                    notification.CommentId = comment.Id;
+                    notification.IsSubComment = true;
                     _notification.Add(notification);
                 }
 

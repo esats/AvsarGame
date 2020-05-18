@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AvsarGame.API.Models;
+using AvsarGame.Core.ProcedureModels;
 using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.API.Helpers {

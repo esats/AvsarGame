@@ -226,7 +226,7 @@
                                             <span>@comment.Answers.Count</span>
                                         </div>
                                         <div class="icon-group-inner">
-                                            <a onclick="toogleanswer('cmt-@comment.Comment.CommentId')" >
+                                            <a onclick="toogleanswer('cmt-@comment.Comment.CommentId')">
                                                 <i class="fas fa-comments"></i>
                                                 <span>Cevap ver</span>
                                             </a>
@@ -270,30 +270,31 @@
                             }
                         </div>
                     }
-                    <div class="row" style="display: none" id="cmt-@comment.Comment.CommentId" >
+                    <div class="row" style="display: none" id="cmt-@comment.Comment.CommentId">
                         <div class="comment-options col-12 d-flex justify-content-between">
                             <div class="col-12 mt-3">
                                 <textarea rows="2" spellcheck="false" class="form-control" id="description"></textarea>
                             </div>
                         </div>
-                            <div class="col-12">
-                                <button class="ml-auto mt-3 btn-blue button" comment-id="@comment.Comment.CommentId" id="giveanswer">
-                                    cevap ver
-                                </button>
-                          </div>
-                  </div>
+                        <div class="col-12">
+                            <button class="ml-auto mt-3 btn-blue button" comment-id="@comment.Comment.CommentId" id="giveanswer">
+                                cevap ver
+                            </button>
+                        </div>
+                    </div>
                 }
-                <div class="row">
-                    <div class="col-12 mt-3">
-                        <textarea rows="2" spellcheck="false" class="form-control" id="Comment"></textarea>
-                    </div>
-                    <div class="col-12">
-                        <button class="ml-auto mt-3 btn-blue button" id="makecomment">
-                            Yorum Yap
-                        </button>
-                    </div>
-                </div>
+
             }
+            <div class="row">
+                <div class="col-12 mt-3">
+                    <textarea rows="2" spellcheck="false" class="form-control" id="Comment"></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="ml-auto mt-3 btn-blue button" id="makecomment">
+                        Yorum Yap
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 </div>

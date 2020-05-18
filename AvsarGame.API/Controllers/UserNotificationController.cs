@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Core.ProcedureModels;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
 using Microsoft.AspNetCore.Http;
@@ -24,14 +25,13 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("GetNotificationUnRead/{id}")]
         public int GetBalance(string id) {
-            return getNotifications(id).Count(x => x.IsRead == false);
+            return _userNotification.GetList(x => x.UserId == id).Count;
         }
 
         [HttpGet]
         [Route("GetAllNotificationDetail/{id}")]
         public List<UserNotificationModel> GetAllNotificationDetail(string id) {
-            var notifications = _mapper.Map<List<UserNotificationModel>>(getNotifications(id)).OrderByDescending(x=>x.CreatedDate);
-            return notifications.ToList();
+            return _userNotification.GetNotificationWithAddversimentTitle(id);
         }
 
         [HttpGet]
