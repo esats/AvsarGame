@@ -179,6 +179,9 @@ namespace AvsarGame.API.Controllers {
         public GameModel GameDetail([FromQuery] string category, string name) {
             GameModel model = new GameModel();
             model = _mapper.Map<GameModel>(_game.GetT(x => x.SeoName == name));
+            var categoryEntity = _category.GetT(x => x.Id == model.CategoryId);
+            model.CategoryName = categoryEntity.Name;
+            model.CategorySeoName = categoryEntity.SeoName;
             return model;
         }
 
@@ -233,7 +236,8 @@ namespace AvsarGame.API.Controllers {
                             SellPrice = entity.SellPrice,
                             BuyPrice = entity.BuyPrice,
                             CategoryId = category.Id,
-                            CategoryName = category.SeoName
+                            CategoryName = category.SeoName,
+                            SeoName = entity.SeoName
                     };
                     list.Add(model);
                 }

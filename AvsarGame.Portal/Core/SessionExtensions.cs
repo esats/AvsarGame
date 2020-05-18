@@ -53,6 +53,10 @@ namespace AvsarGame.Portal.Core {
             return Get("FullName");
         }
 
+        public string GetSeoName() {
+            return UrlExtension.FriendlyUrl(Get("FullName"));
+        }
+
         public void Clear()
         {
             Context.HttpContext.Session.Clear();

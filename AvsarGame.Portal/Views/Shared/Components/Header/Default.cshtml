@@ -7,7 +7,7 @@
     </h5>
     @foreach (var game in Model.Take(4))
     {
-        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.SeoName">@game.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
@@ -15,7 +15,7 @@
     </h5>
     @foreach (var game in Model.Skip(4).Take(4))
     {
-        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.SeoName">@game.Name</a>
     }
 </div>
 <div class="col-12 col-md-6 col-lg-2 col-md-2 mb-4 mb-lg-0">
@@ -24,7 +24,7 @@
 
     @foreach (var game in Model.Skip(8).Take(4))
     {
-        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.Name">@game.Name</a>
+        <a class="dropdown-item list-item hoverOn" data-url="@PageHelper.GetImageUrl(game.ImageUrl,ImageFolder.EXTRASMALL)" href="/oyun/@game.CategoryName/@game.SeoName">@game.Name</a>
     }
 </div>
 

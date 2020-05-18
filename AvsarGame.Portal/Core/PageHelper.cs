@@ -126,6 +126,10 @@ namespace AvsarGame.Portal.Core {
 
             return "";
         }
+
+        public static string GetSeoName() {
+            return SessionManager.Instance.GetSeoName();
+        }
     }
 }
 

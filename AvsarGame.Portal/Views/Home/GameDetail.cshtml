@@ -5,6 +5,16 @@
     ViewData["Title"] = "GameDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container">
+    <div class="breadcrumb-wrapper">
+        <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;" src="~/assest/img/m106.png" />
+        <div class="breadcrumb">
+            <a href="/">anasayfa</a>
+            <a href="/@Model.CategoryName" class="active">@Model.CategoryName</a>
+            <a href="javascript:void(0)" class="active">@Model.Name</a>
+        </div>
+    </div>
+</div>
 <main class="Main">
     <div class="container">
         <div class="row align-items-center">
@@ -34,10 +44,12 @@
                     </div>
                     <div class="col-12" style="float: right">
                         <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
-                            @if (Model.SellButtonEnabled) {
+                            @if (Model.SellButtonEnabled)
+                            {
                                 <a class="button btn-outline mr-4" href="/satis-yap/@Model.SeoName">Satış Yap</a>
                             }
-                            @if (Model.BuyButtonEnabled) {
+                            @if (Model.BuyButtonEnabled)
+                            {
                                 <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-blue">Satın Al</button>
                             }
                         </div>
@@ -49,8 +61,8 @@
 </main>
 
 <script>
-    $(document).ready(function() {
-        $("#bought").click(function() {
+    $(document).ready(function () {
+        $("#bought").click(function () {
             var model = JSON.parse($(this).attr('data-model'));
 
             $.ajax({
@@ -59,7 +71,7 @@
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
-                success: function(res) {
+                success: function (res) {
                     if (res.success) {
                         $("#chart")[0].classList.remove("passive");
                         $("#chart")[0].getElementsByTagName('a')[0].classList.add("chartCss");
@@ -70,7 +82,7 @@
                         Command: toastr["error"]("Ürün sepete eklenemedi");
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     Command: toastr["error"]("Ürün sepete eklenemedi");
                 }
             });
