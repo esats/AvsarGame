@@ -157,11 +157,12 @@ namespace AvsarGame.Portal.Controllers {
             }
         }
 
-        [HttpPost]
-        public JsonResult ReadAllNotification(string id) {
+        [HttpGet]
+        public JsonResult GetUnReadNotification() {
+            var id = SessionManager.Instance.GetUserId();
             try {
-                UiRequestManager.Instance.Get(String.Format("UserNotification/ReadAllNotification/{0}", id));
-                return Json(new { Success = true });
+                var unReadCount = JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetUnReadNotification/{0}", id)));
+                return Json(new { Success = true, Count = unReadCount});
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }

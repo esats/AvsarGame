@@ -1,22 +1,26 @@
 ﻿CREATE PROCEDURE [dbo].[GetNotificationWithAddversimentTitle]
 	 @userId NVARCHAR(50)
 AS
-BEGIN
-		SELECT UN.*,'' AS AddversimentTitle 
-		FROM UserNotifications UN WITH (NOLOCK) 
-		WHERE IsAddversimentNotification = 0 AND UN.UserId = @userId
+	BEGIN
+	SELECT TOP 7 * FROM (
+			SELECT UN.*,'' AS AddversimentTitle 
+			FROM UserNotifications UN WITH (NOLOCK) 
+			WHERE IsAddversimentNotification = 0 AND UN.UserId = @userId
 
-		UNION ALL 
+			UNION ALL 
 
-		SELECT UN.*,KC.Title AS AddversimentTitle FROM UserNotifications  UN WITH (NOLOCK) 
-		INNER JOIN KnightCyberRing KC WITH (NOLOCK) ON KC.Id = UN.NotificationAddversimentId
-													AND UN.NotificationAddversimentType = 1
-		WHERE UN.UserId = @userId
+			SELECT UN.*,KC.Title AS AddversimentTitle FROM UserNotifications  UN WITH (NOLOCK) 
+			INNER JOIN KnightCyberRing KC WITH (NOLOCK) ON KC.Id = UN.NotificationAddversimentId
+														AND UN.NotificationAddversimentType = 1
+			WHERE UN.UserId = @userId
 
-		UNION ALL 
+			UNION ALL 
 
-		SELECT UN.*,KI.Title AS AddversimentTitle FROM UserNotifications  UN WITH (NOLOCK) 
-		INNER JOIN KnightItem KI WITH (NOLOCK) ON KI.Id = UN.NotificationAddversimentId 
-														AND UN.NotificationAddversimentType = 2
-		WHERE UN.UserId = @userId
+			SELECT UN.*,KI.Title AS AddversimentTitle FROM UserNotifications  UN WITH (NOLOCK) 
+			INNER JOIN KnightItem KI WITH (NOLOCK) ON KI.Id = UN.NotificationAddversimentId 
+															AND UN.NotificationAddversimentType = 2
+			WHERE UN.UserId = @userId
+	) AS K ORDER BY K.CreatedDate DESC
+
+	UPDATE UserNotifications SET IsRead = 1 WHERE UserId = @userId
 END

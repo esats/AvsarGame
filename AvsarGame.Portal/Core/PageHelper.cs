@@ -79,7 +79,7 @@ namespace AvsarGame.Portal.Core {
         }
 
         public static string GetImageUrl(string imageUrl, ImageFolder folder) {
-            string storageUrl = "https://anatolssiagm.blob.core.windows.net/uploads/";
+            string storageUrl = "https://anatoliagm.blob.core.windows.net/uploads/";
             return storageUrl + Description(folder) + "/" + imageUrl;
         }
 

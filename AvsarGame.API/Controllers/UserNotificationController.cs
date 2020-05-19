@@ -31,17 +31,13 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("GetAllNotificationDetail/{id}")]
         public List<UserNotificationModel> GetAllNotificationDetail(string id) {
-            return _userNotification.GetNotificationWithAddversimentTitle(id).OrderByDescending(x=>x.CreatedDate).ToList();
+            return _userNotification.GetNotificationWithAddversimentTitle(id).OrderByDescending(x => x.CreatedDate).ToList();
         }
 
         [HttpGet]
-        [Route("ReadAllNotification/{id}")]
-        public void ReadAllNotification(string id) {
-            var notifications = getNotifications(id).Where(x => x.IsRead == false).ToList();
-            foreach (var item in notifications) {
-                item.IsRead = true;
-                _userNotification.Update(item);
-            }
+        [Route("GetUnReadNotification/{id}")]
+        public int ReadAllNotification(string id) {
+            return _userNotification.GetList(x => x.IsRead == false && x.UserId == id).Count;
         }
 
         private List<UserNotification> getNotifications(string userId) {

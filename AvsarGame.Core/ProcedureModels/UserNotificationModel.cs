@@ -12,6 +12,7 @@ namespace AvsarGame.Core.ProcedureModels {
         public int NotificationAddversimentType { get; set; }
         public string AddversimentTitle { get; set; }
         public bool IsAddversimentNotification { get; set; }
+        public bool IsRead { get; set; }
         public DateTime CreatedDate { get; set; }
         public NotificationType NotificationType { get; set; }
     }
