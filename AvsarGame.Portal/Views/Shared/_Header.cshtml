@@ -261,6 +261,7 @@
 </header>
 <script>
     var term = "";
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     $(document).ready(function() {
         $("#chart").hover(function() {
             getChartHtml();
@@ -536,12 +537,32 @@
         var notifications = [];
         debugger;
         for (var i = 0; i < data.length; i++) {
-            var product ="<tr><th class='table-title'>"+
-             data[i].message+
-            "</tr></th>";
-            notifications.push(product);
+            if (!data[i].isAddversimentNotification) {
+                var n1 ="<tr><th class='table-title'>"+
+                    data[i].message+" "+"<h6>"+new Date(data[i].createdDate).toLocaleDateString("TR-tr", options)+"</h5>"+
+                    "</tr></th>";
+                notifications.push(n1);
+            } else {
+                var n2 ="<tr><th class='table-title'>"+
+                    data[i].addversimentTitle +" adlı ilana "+ data[i].message+
+                    " <a href=" +getaddhref(data[i].notificationAddversimentId,data[i].notificationAddversimentType)+">ilana git <i class='fa fa-arrow-right' aria-hidden='true.'></i></a> "+
+                    "<h6>"+new Date(data[i].createdDate).toLocaleDateString("TR-tr", options)+"</h5>"+
+                    "</tr></th>";
+                notifications.push(n2);
+            }
+           
         }
 
         $("#notificationbody").append(notifications);
     }
+
+    function getaddhref(id, type) {
+        switch (type) {
+            case 1:
+            return "/ilan/knight-cyber-ring/detay/" + id;
+            case 2:
+            return "/ilan/knight-item/detay/" + id;
+        }
+    }
+
 </script>

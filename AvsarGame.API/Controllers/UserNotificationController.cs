@@ -31,7 +31,7 @@ namespace AvsarGame.API.Controllers {
         [HttpGet]
         [Route("GetAllNotificationDetail/{id}")]
         public List<UserNotificationModel> GetAllNotificationDetail(string id) {
-            return _userNotification.GetNotificationWithAddversimentTitle(id);
+            return _userNotification.GetNotificationWithAddversimentTitle(id).OrderByDescending(x=>x.CreatedDate).ToList();
         }
 
         [HttpGet]

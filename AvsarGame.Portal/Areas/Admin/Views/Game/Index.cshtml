@@ -214,7 +214,6 @@
         $('#dataTable').DataTable();
 
         $("#save").click(function(e) {
-            debugger;
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[3].files[0]);
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
