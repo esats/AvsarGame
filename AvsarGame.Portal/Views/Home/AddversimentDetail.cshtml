@@ -306,7 +306,7 @@
         $("#makecomment").on("click", function(e) {
             e.preventDefault();
             var model = {
-                Content: document.getElementById("Comment").value,
+                Content: document.getElementById("Comment").value.replace("<script>","").replace('script',"").replace("javascript",""),
                 AddversimentId: document.getElementById("addversimentId").value,
                 AddversimentType: document.getElementById("addversimentType").value,
             }
@@ -337,7 +337,7 @@
         $(".container #giveanswer").on("click", function(e) {
             e.preventDefault();
             var model = {
-                Content: this.parentElement.parentElement.getElementsByTagName("textarea")[0].value,
+                Content: this.parentElement.parentElement.getElementsByTagName("textarea")[0].value.replace("<script>","").replace('script',"").replace("javascript",""),
                 AddversimentId: document.getElementById("addversimentId").value,
                 AddversimentType: document.getElementById("addversimentType").value,
                 CommentId: this.attributes["comment-id"].value

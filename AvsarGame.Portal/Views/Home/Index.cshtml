@@ -151,7 +151,7 @@
                         <div class="showcase-item-wrapper">
                             <div class=" showcase-item">
                                 <a href="/oyun/@item.SeoName">
-                                    <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
+                                    <img class="showcase-img"  data-src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
                                     <div class="showcase-info">
                                         <p class="name">@item.Name</p>
                                     </div>
@@ -178,7 +178,7 @@
                         <div class="showcase-item-wrapper">
                             <div class=" showcase-item">
                                 <a href="/oyun/@item.SeoName">
-                                    <img class="showcase-img" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
+                                    <img class="showcase-img" data-src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
                                     <div class="showcase-info">
                                         <p class="name">@item.Name</p>
                                     </div>
@@ -191,3 +191,16 @@
         </div>
     </div>
 </main>
+
+<script>
+    $(window).scroll(function() {
+        $.each($('img'), function() {
+            if ( $(this).attr('data-src') && $(this).offset().top < ($(window).scrollTop() + $(window).height() + 100) ) {
+                var source = $(this).data('src');
+                $(this).attr('src', source);
+                $(this).removeAttr('data-src');
+            }
+        })
+    })
+
+</script>

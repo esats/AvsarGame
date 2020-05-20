@@ -33,21 +33,9 @@ namespace AvsarGame.Portal.Core {
             return displayAttribute?.Description ?? "Description Not Found";
         }
 
-        public static string DisplayStyle(string state) {
+        public static bool IsAutgenticate() {
             var token = SessionManager.Instance.Get("bearer");
-            if (token == null) {
-                if (state == "login") {
-                    return "block";
-                }
-
-                return "none";
-            } else {
-                if (state == "logged") {
-                    return "block";
-                }
-
-                return "none";
-            }
+            return token != null;
         }
 
         public static string GetOrderStatusStyle(int status) {
@@ -97,7 +85,7 @@ namespace AvsarGame.Portal.Core {
         public static string GetAddversimentUpdateHref(AddversimentType itemDetailType, int itemId) {
             switch ((int) itemDetailType) {
                 case 1:
-                    return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())  + "/knight-cyber-ring/duzenle/" + itemId;
+                    return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/knight-cyber-ring/duzenle/" + itemId;
                 case 2:
                     return UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/knight-item/duzenle/" + itemId;
             }
@@ -108,9 +96,9 @@ namespace AvsarGame.Portal.Core {
         public static string GetAddversimentDeleteHref(AddversimentType itemDetailType, int itemId) {
             switch ((int) itemDetailType) {
                 case 1:
-                    return  "/knight-cyber-ring/delete/" + itemId;
+                    return "/knight-cyber-ring/delete/" + itemId;
                 case 2:
-                    return  "/knight-item/delete/" + itemId;
+                    return "/knight-item/delete/" + itemId;
             }
 
             return "";
@@ -132,4 +120,3 @@ namespace AvsarGame.Portal.Core {
         }
     }
 }
-
