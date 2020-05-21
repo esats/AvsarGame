@@ -5,10 +5,10 @@
 AS
 BEGIN
 SELECT DISTINCT * FROM (
-	SELECT CreatedBy FROM Comment WHERE AddversimentId=@AddversimentId AND AddversimentType = @AddversimentType
+	SELECT CreatedBy FROM esat.Comment WHERE AddversimentId=@AddversimentId AND AddversimentType = @AddversimentType
 	UNION ALL
-	SELECT CreatedBy FROM KnightCyberRing WHERE Id = @AddversimentId
+	SELECT CreatedBy FROM esat.KnightCyberRing WHERE Id = @AddversimentId
 	UNION ALL
-	SELECT CreatedBy FROM KnightItem WHERE Id = @AddversimentId
+	SELECT CreatedBy FROM esat.KnightItem WHERE Id = @AddversimentId
 	) AS K
 END
