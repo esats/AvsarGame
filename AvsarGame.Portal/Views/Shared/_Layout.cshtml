@@ -417,8 +417,7 @@
                     success: function (res) {
                         if (res.success) {
                             if (res.data.isSuccess) {
-                                setHeader(res.data.value);
-                                $('#login-modal').modal('hide');
+                                location.reload();
                             } else {
                                 $(document.getElementsByClassName("login-fail")[0]).html("*Seçtiğiniz Mail adresi kullanımda");
                             }

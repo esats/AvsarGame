@@ -343,6 +343,7 @@ namespace AvsarGame.API.Controllers {
             var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+            model.Comments = GetCommentWithUser(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
 
             return model;
         }
