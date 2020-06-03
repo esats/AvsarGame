@@ -35,13 +35,13 @@
         border-radius: 4px
     }
 
-    .headerPageSearch .text-muted {
-        padding: 10px;
-        font-weight: 500;
-        font-size: 15px;
-        color: #298fbc !important;
-        background-color: #edf0f1;
-    }
+        .headerPageSearch .text-muted {
+            padding: 10px;
+            font-weight: 500;
+            font-size: 15px;
+            color: #298fbc !important;
+            background-color: #edf0f1;
+        }
 
     #headerpagesearchSch li {
         float: left;
@@ -87,28 +87,29 @@
         position: relative;
     }
 
-    .fas[data-count]:after {
-        position: absolute;
-        right: -0.75em;
-        top: -.75em;
-        content: attr(data-count);
-        padding: .5em;
-        border-radius: 10em;
-        line-height: .9em;
-        color: white;
-        background: #009aff;
-        text-align: center;
-        min-width: 2em;
-        font: bold .4em sans-serif;
-    }
+        .fas[data-count]:after {
+            position: absolute;
+            right: -0.75em;
+            top: -.75em;
+            content: attr(data-count);
+            padding: .5em;
+            border-radius: 10em;
+            line-height: .9em;
+            color: white;
+            background: #009aff;
+            text-align: center;
+            min-width: 2em;
+            font: bold .4em sans-serif;
+        }
 
     .trnotread {
         background-color: rgba(0, 255, 215, 0.12) !important;
         border-bottom: 1px #beb5b5 solid !important;
     }
-    .trnotread th {
-        color: white !important;
-    }
+
+        .trnotread th {
+            color: white !important;
+        }
 
     .trread {
         background-color: white !important;
@@ -142,7 +143,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    @if (PageHelper.IsAutgenticate()) {
+                    @if (PageHelper.IsAutgenticate())
+                    {
                         <li class="nav-item  dropdown-cart notifications" id="notification" style="margin-right: 10px;">
                             <a title="Bildirimler" class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-1x" data-count="" id="notification-count"></i>
@@ -153,11 +155,9 @@
                                         <div class="table-container">
                                             <table class="table table-dark" style="width: 380px;">
                                                 <thead>
-                                                    <tr>
-                                                    </tr>
+                                                    <tr></tr>
                                                 </thead>
-                                                <tbody id="notificationbody">
-                                                </tbody>
+                                                <tbody id="notificationbody"></tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -165,7 +165,8 @@
                             </div>
                         </li>
                     }
-                    @if (PageHelper.IsAutgenticate()) {
+                    @if (PageHelper.IsAutgenticate())
+                    {
                         <li class="nav-item dropdown user-dropdown profile" style="">
                             <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
                             <div class="dropdown-menu-right show @PageHelper.GetLoggedProfileStyle()" style="display: none; background-color: white">
@@ -173,7 +174,9 @@
                                 <a class="dropdown-item logout" href="/User/Logout">Çıkış Yap</a>
                             </div>
                         </li>
-                    } else {
+                    }
+                    else
+                    {
                         <li class="nav-item reglog">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#login-modal"
                                onclick="showRegister()">
@@ -192,7 +195,7 @@
                         <a class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" href="/Sepetim" role="button" aria-haspopup="true" aria-expanded="false">
                             SEPET
                             <span id="chartSpan">
-                                @await Component.InvokeAsync("ChartCount")
+                                @*@await Component.InvokeAsync("ChartCount")*@
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -207,8 +210,7 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="chartDataTable">
-                                            </tbody>
+                                            <tbody id="chartDataTable"></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -219,7 +221,7 @@
             </div>
         </nav>
         <hr>
-        <hr/>
+        <hr />
         <nav id="second-nav" class="d-lg-block d-none navbar navbar-expand-lg  m-auto ">
             <ul class="d-flex justify-content-around navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item nav-item2 position-static dropdown li-for-dropdown">
@@ -256,17 +258,17 @@
                     <a class="nav-link" href="/odeme-yontemleri">Ödeme Yöntemleri</a>
                 </li>
                 @*<li class="nav-item nav-item2">
-            <a class="nav-link" href="games.html">WAX (VGO)</a>
-        </li>*@
+                        <a class="nav-link" href="games.html">WAX (VGO)</a>
+                    </li>*@
                 @*<li class="nav-item nav-item2">
-            <a class="nav-link" href="orders.html">STEAM</a>
-        </li>*@
+                        <a class="nav-link" href="orders.html">STEAM</a>
+                    </li>*@
                 <li class="nav-item nav-item2">
                     <a class="nav-link" href="/yardım">Yardım</a>
                 </li>
             </ul>
         </nav>
-        <hr/>
+        <hr />
         <div class="search-form-wrapper">
             <form class="search-form" id="" action="">
                 <div class="input-group">
@@ -288,14 +290,14 @@
             getChartHtml();
         });
 
-        $("#chart").click(function(e) {
+        $("#chart").click(function (e) {
             var chartCount = document.getElementById("chartSpan").innerHTML.trim();
             if (chartCount == "(0)") {
                 e.preventDefault();
             }
         });
 
-        $("#notification").click(function(e) {
+        $("#notification").click(function (e) {
             //var notificationCount = parseInt($(document.getElementById("notification-count"))[0].attributes["data-count"].value);
             //if (notificationCount == 0) {
             //    e.preventDefault();
@@ -312,14 +314,14 @@
                 type: 'GET',
                 url: '/User/GetNotification',
                 dataType: 'json',
-                success: function(res) {
+                success: function (res) {
                     if (res.success) {
                         GetNotificationHtml(res.data);
                     } else {
                         Command: toastr["error"]("Bir Sorun Oluştu");
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     Command: toastr["error"]("Bir Sorun Oluştu");
                 }
             });
@@ -329,7 +331,7 @@
         var typingTimer; //timer identifier
         var doneTypingInterval = 800; //time in ms (5 seconds)
 
-        $("#headersearch").keyup(function(e) {
+        $("#headersearch").keyup(function (e) {
             term = this.value;
             clearTimeout(typingTimer);
             if (this.value.length >= 3) {
@@ -352,16 +354,16 @@
             content: "application/json; charset=utf-8",
             dataType: 'json',
             data: { term: term },
-            beforeSend: function() {
+            beforeSend: function () {
                 showSearchSpinner();
             },
-            complete: function() {
+            complete: function () {
                 hideSearchSpinner();
             },
-            success: function(res) {
+            success: function (res) {
                 setSearchHtml(res);
             },
-            error: function(err) {
+            error: function (err) {
                 alert("bir hata oluştu");
             }
         });
@@ -374,10 +376,10 @@
             content: "application/json; charset=utf-8",
             dataType: 'json',
             data: { id: id },
-            success: function(res) {
+            success: function (res) {
                 location.reload()
             },
-            error: function(err) {
+            error: function (err) {
                 alert("Bir Hata oluştu");
             }
         });
@@ -388,12 +390,12 @@
             type: 'GET',
             url: '/Sepetim/GetChartDetail',
             dataType: 'json',
-            success: function(res) {
+            success: function (res) {
                 if (res.success) {
                     GetChart(res.data);
                 }
             },
-            error: function(err) {
+            error: function (err) {
                 Command: toastr["error"]("Bir Sorun Oluştu");
             }
         });
@@ -416,38 +418,38 @@
         for (var i = 0; i < data.length; i++) {
             var product =
                 '<tr id="row'
-                    + data[i].id
-                    + '" >'
-                    + '<td data-heading="Sipariş Özeti">'
-                    + '<div class="d-flex justify-content-between">'
-                    + '<div>'
-                    + data[i].name
-                    + '</div>'
-                    + '<div>'
-                    + data[i].sellPrice
-                    + ' (Birim Fiyat)'
-                    + '</div>'
-                    + '<div onClick="removeChart(\''
-                    + data[i].id
-                    + '\')" class="cross"></div>'
-                    + '</div>'
-                    + '</td>'
-                    + '</tr>';
+                + data[i].id
+                + '" >'
+                + '<td data-heading="Sipariş Özeti">'
+                + '<div class="d-flex justify-content-between">'
+                + '<div>'
+                + data[i].name
+                + '</div>'
+                + '<div>'
+                + data[i].sellPrice
+                + ' (Birim Fiyat)'
+                + '</div>'
+                + '<div onClick="removeChart(\''
+                + data[i].id
+                + '\')" class="cross"></div>'
+                + '</div>'
+                + '</td>'
+                + '</tr>';
             products.push(product);
         }
 
         var total =
             '<tr>'
-                + '<td>'
-                + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
-                + '<a href="/Sepetim" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
-                + 'Alışverişi Tamamla'
-                + '</a>'
-                + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
-                + '</span>'
-                + '</div>'
-                + '</td>'
-                + '</tr>';
+            + '<td>'
+            + '<div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">'
+            + '<a href="/Sepetim" id="payment-button" type="submit" class="button btn-blue order-2 order-sm-1">'
+            + 'Alışverişi Tamamla'
+            + '</a>'
+            + '<span class="order-1 pb-3 pb-sm-0 order-sm-2">'
+            + '</span>'
+            + '</div>'
+            + '</td>'
+            + '</tr>';
 
         $("#chartDataTable").append(products);
         $("#chartDataTable").append(total);
@@ -569,7 +571,7 @@
                 var n1 = "<tr class=" + GetTrClass(data[i].isRead) + "><th class='table-title'>" + data[i].message + " " + "<h6>" + new Date(data[i].createdDate).toLocaleDateString("TR-tr", options) + "</h5>" + "</tr></th>";
                 notifications.push(n1);
             } else {
-                var n2 = "<tr class=" + GetTrClass(data[i].isRead) + "><th class='table-title'>" +'"'+ data[i].addversimentTitle +'"'+ " adlı ilana " + data[i].message + " <a href=" + getaddhref(data[i].notificationAddversimentId, data[i].notificationAddversimentType) + ">ilana git <i class='fa fa-arrow-right' aria-hidden='true.'></i></a> " + "<h6>" + new Date(data[i].createdDate).toLocaleDateString("TR-tr", options) + "</h5>" + "</tr></th>";
+                var n2 = "<tr class=" + GetTrClass(data[i].isRead) + "><th class='table-title'>" + '"' + data[i].addversimentTitle + '"' + " adlı ilana " + data[i].message + " <a href=" + getaddhref(data[i].notificationAddversimentId, data[i].notificationAddversimentType) + ">ilana git <i class='fa fa-arrow-right' aria-hidden='true.'></i></a> " + "<h6>" + new Date(data[i].createdDate).toLocaleDateString("TR-tr", options) + "</h5>" + "</tr></th>";
                 notifications.push(n2);
             }
 
@@ -593,10 +595,10 @@
             url: '/User/GetUnReadNotification',
             content: "application/json; charset=utf-8",
             dataType: 'json',
-            success: function(res) {
+            success: function (res) {
                 $(document.getElementById("notification-count"))[0].attributes["data-count"].value = res.count;
             },
-            error: function(err) {
+            error: function (err) {
                 alert("Bir Hata oluştu");
             }
         });

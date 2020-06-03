@@ -9,6 +9,7 @@
     <link href="~/assest/style/bootstrap.min.css" rel="stylesheet" />
     <link href="~/assest/style/swiper.min.css" rel="stylesheet" />
     <link href="~/assest/style/main.min.css" rel="stylesheet" />
+    <link href="~/assest/Floating-label.css" rel="stylesheet" />
     <link rel="icon" href="~/assest/logos/favicon.svg" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="~/assest/scripts/toastr.min.js"></script>
@@ -22,9 +23,9 @@
     <link href="~/assest/style/camroll_slider.css" rel="stylesheet" />
     <script src="~/assest/scripts/camroll_slider.js"></script>
     <style>
-        .chartCss {
-            text-shadow: 0 1px 39px #0088e8, 0 1px 2px rgba(0, 0, 0, .2) !important
-        }
+            .chartCss {
+                text-shadow: 0 1px 39px #0088e8, 0 1px 2px rgba(0, 0, 0, .2) !important
+            }
 
         .ajaxShowLoader {
             opacity: 1 !important;
@@ -167,35 +168,45 @@
                             <form class="needs-validation" novalidate>
                                 <div class="form-row form-group">
                                     <div class="col-12 ">
-                                        <input type="text" class="form-control validate" id="user-name"
-                                               placeholder="Ad" required />
+                                        <input type="text" class="form-control validate" id="user-name" required  autocomplete="off"/>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label class="floating-lbl">Ad</label>
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <div class="col-12 ">
-                                        <input type="text" class="form-control validate" id="user-surname"
-                                               placeholder="Soyad" required />
+                                        <input type="text" class="form-control validate" id="user-surname" required autocomplete="off"/>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label class="floating-lbl">Soyad</label>
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <div class="col-12">
-                                        <input type="email" class="form-control validate" id="user-email"
-                                               placeholder="Email" required />
+                                        <input type="email" class="form-control validate" id="user-email" required autocomplete="off"/>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label class="floating-lbl">E-mail</label>
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <div class="col-12 ">
                                         <div class="pw-container">
-                                            <input type="password" class="form-control validate" id="user-password"
-                                                   placeholder="Şifre" required />
+                                            <input type="password" class="form-control validate" id="user-password" required autocomplete="off"/>
+                                            <span class="highlight"></span>
+                                            <span class="bar"></span>
+                                            <label class="floating-lbl">Şifre</label>
                                             <div class="pw-icon"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
                                     <div class="col-12 ">
-                                        <input type="phone" class="form-control validate" id="user-phone"
-                                               placeholder="Telefon" required />
+                                        <input type="tel" class="form-control validate" id="user-phone" required autocomplete="off"/>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label class="floating-lbl">Telefon</label>
                                     </div>
                                 </div>
                                 <div class="form-row form-group">

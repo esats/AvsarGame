@@ -183,7 +183,7 @@ namespace AvsarGame.Portal.Controllers {
                     return Json(new { Success = true, data = baseResponse });
                 }
 
-                var totalGameAmount = orders.Sum(x => x.BillingAmount * x.BillingPrice);
+                var totalGameAmount = orders.Sum(x => x.BillingPrice);
                 UserBalanceModel Balance =
                         JsonConvert.DeserializeObject<UserBalanceModel>(
                                 UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));

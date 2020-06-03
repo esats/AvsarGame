@@ -16,7 +16,8 @@ namespace AvsarGame.Portal.Models {
                     new SelectListItem() { Value = "Vega", Text = "Vega" },
                     new SelectListItem() { Value = "Altar", Text = "Altar" },
                     new SelectListItem() { Value = "Olympia", Text = "Olympia" },
-                    new SelectListItem() { Value = "Gordion", Text = "Gordion" }
+                    new SelectListItem() { Value = "Gordion", Text = "Gordion" },
+                    new SelectListItem() { Value = "Sirius", Text = "Sirius" }
             };
             CharacterFeature = new List<SelectListItem>() {
                     new SelectListItem() { Value = "Karus", Text = "Karus" },
@@ -24,7 +25,10 @@ namespace AvsarGame.Portal.Models {
             };
             CharacterType = new List<SelectListItem>() {
                     new SelectListItem() { Value = "Mage", Text = "Mage" },
-                    new SelectListItem() { Value = "Warrior", Text = "Warrior" }
+                    new SelectListItem() { Value = "Warrior", Text = "Warrior" },
+                    new SelectListItem() { Value = "Rogue", Text = "Rogue" },
+                    new SelectListItem() { Value = "Priest", Text = "Priest" },
+                    new SelectListItem() { Value = "Kurian", Text = "Kurian" },
             };
 
             OrderBy = new List<SelectListItem>() {

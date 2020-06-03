@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -78,13 +79,24 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost]
         [Route("Save")]
-        public ActionResult Save([FromBody] CategoryModel model) {
-            try {
+        public Response<HttpStatusCode> Save([FromBody] CategoryModel model) {
+            Response<HttpStatusCode> baseResponse = new Response<HttpStatusCode>();
+            try
+            {
+                var isAnyKnight = _category.GetT(x => x.IsActive && x.Type == (int)GameType.KNIGHTONLINE);
+                
+                if (isAnyKnight != null && model.Type == (int)GameType.KNIGHTONLINE)
+                {
+                    baseResponse.IsSuccess = false;
+                    baseResponse.Message = "Knight Online Kategorisinden 1 Adet Seçebilirsiniz!";
+                    baseResponse.Value = HttpStatusCode.BadRequest;
+                    return baseResponse;
+                }
                 if (model.Id != Guid.Empty) {
-                    var oldCatedory = _category.GetT(x => x.Id == model.Id);
+                    var oldCategory = _category.GetT(x => x.Id == model.Id);
                     Category entity = new Category() {
                             Id = model.Id,
-                            ImageUrl = model.ImageUrl ?? oldCatedory.ImageUrl,
+                            ImageUrl = model.ImageUrl ?? oldCategory.ImageUrl,
                             Description = model.Description,
                             Name = model.Name,
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
@@ -106,11 +118,16 @@ namespace AvsarGame.API.Controllers {
                     _category.Add(entity);
                 }
             } catch (Exception e) {
-                return StatusCode(404);
+                baseResponse.IsSuccess = false;
+                baseResponse.Message = "Beklenmedik Bir Hata Oluştu! Lütfen Daha Sonra Tekrar Deneyiniz.";
+                baseResponse.Value = HttpStatusCode.BadRequest;
+                return baseResponse;
             }
             _cache.Remove("uicategorylist");
-
-            return StatusCode(200);
+            baseResponse.IsSuccess = true;
+            baseResponse.Message = "İşlem Başarılı!";
+            baseResponse.Value = HttpStatusCode.OK;
+            return baseResponse;
         }
 
         [HttpGet]
@@ -175,16 +192,20 @@ namespace AvsarGame.API.Controllers {
             filter.OrderByDescription  = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
             var entities = _category.GetCategoriesByFilter(filter);
             foreach (var entity in entities) {
-                CategoryModel model = new CategoryModel() {
+                if (entity.IsActive == true)
+                {
+                    CategoryModel model = new CategoryModel()
+                    {
                         ImageUrl = entity.ImageUrl,
                         Description = entity.Description,
                         Name = entity.Name,
                         SeoName = entity.SeoName,
                         Id = entity.Id
-                };
-                list.Add(model);
-            }
+                    };
+                    list.Add(model);
 
+                }
+            }
             return list;
         }
     }

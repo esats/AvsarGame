@@ -151,11 +151,17 @@
                 complete: function() {
                     hideSpinner();
                 },
-                success: function(response) {
-                    swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function() {
-                        location.reload()
-                    }, 500);
+                success: function (response) {
+                    debugger;
+                    if (response.success && response.data.isSuccess) {
+                        swal("Basarili!", "Kayıt Eklendi", "success");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 500);
+                    } else {
+                        swal("Hata!",response.data.message, "error");
+                    }
+                
                 },
                 error: function(err) {
                     alert("Bir Hata oluştu");

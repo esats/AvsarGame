@@ -198,7 +198,7 @@ namespace AvsarGame.API.Controllers {
                         var userOrderDetail = _userOrderDetail.Add(orderDetail);
 
                         UserBalanceDetail detail = new UserBalanceDetail();
-                        detail.Amount = -(item.BillingAmount * item.BillingPrice);
+                        detail.Amount = -(item.BillingPrice);
                         detail.UserOrderDetailId = userOrderDetail.Id;
                         detail.TransactionDescription = (int) TRANSACTION_DESCIPTION.GAME_MONEY_ORDER;
                         detail.UserBalanceId = userBalance.Id;
@@ -237,7 +237,6 @@ namespace AvsarGame.API.Controllers {
         [Authorize(Roles = "Admin")]
         public Response<HttpStatusCode> Approve(UserOrderRequestModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
-
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _userOrderDetail.GetT(x => x.Id == model.OrderId);
@@ -261,7 +260,6 @@ namespace AvsarGame.API.Controllers {
                 response.IsSuccess = false;
                 response.Value = HttpStatusCode.BadRequest;
             }
-
             return response;
         }
 
@@ -278,7 +276,7 @@ namespace AvsarGame.API.Controllers {
 
                     var userBalance = _UserBalance.GetBalance(base.GetUser());
                     UserBalanceDetail detail = new UserBalanceDetail {
-                            Amount = updatedEntity.BillingAmount * updatedEntity.BillingPrice,
+                            Amount =  updatedEntity.BillingPrice,
                             CreatedBy = base.GetUser(),
                             CreatedDate = DateTime.Now,
                             TransactionDescription = (int) TRANSACTION_DESCIPTION.ORDER_REJECT,
@@ -382,7 +380,7 @@ namespace AvsarGame.API.Controllers {
                     }
 
                     UserBalanceDetail detail = new UserBalanceDetail {
-                            Amount = updatedEntity.BillingAmount * updatedEntity.BillingPrice,
+                            Amount = updatedEntity.BillingPrice,
                             CreatedBy = base.GetUser(),
                             CreatedDate = DateTime.Now,
                             TransactionDescription = (int) TRANSACTION_DESCIPTION.GAME_MONEY_SELL,
