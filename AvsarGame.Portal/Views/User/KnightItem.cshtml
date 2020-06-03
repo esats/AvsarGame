@@ -8,11 +8,11 @@
     <main class="Main">
         <div class="container">
             <div class="row section justify-content-center" style="margin-top: 20px">
-                <div class="col-md-2  ad-options mb-5">
-                    <a href="/ilan-ver/knighcyberring" class="text-white">Cypher Ring</a>
+                <div class="col-md-2 ad-options mb-5">
+                    <a href="/ilan-ver/knightcyberring" class="text-white">Cypher Ring</a>
                 </div>
-                <div class="col-md-2  ad-options mb-5">
-                    <a href="#" style="cursor: pointer" style="color: #007bff !important;">Item</a>
+                <div class="col-md-2 ad-options mb-5">
+                    <a href="#" style="cursor: pointer;color: #007bff !important;">Item</a>
                 </div>
                 <div class="col-12" id="getFormByName" style="border: 1px solid">
                     <form action="" class="row ad-form" id="cyberform">
@@ -51,12 +51,28 @@
                         <div class="col-12 form-group">
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-12">
-                                    <label class="label-white">Karakter Özellikleri</label>
+                                    <label class="label-white">İtem Özellikleri</label>
                                 </div>
                                 <div class="col-lg-4 col-12">
                                     <div class="form-select">
-                                        <select class="form-control" name="Plus" id="plus" required>
-                                        </select>
+                                        <select class="form-control" name="Plus" id="plus" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Reverse mi?</label>
+                                </div>
+                                <div class="col-lg-4 col-12 row">
+                                    <div class="col-sm-12">     
+                                        <label class="label-white" for="rdbtnYes">Evet</label>
+                                        <input type="radio" id="rdbtnYes" name="rebYes" value="Evet">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="label-white" for="rdbtnNo">Hayır</label>
+                                        <input type="radio" id="rdbtnNo" name="rebNo" value="Hayır">
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +121,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-10 col-12">
                                     <label class="form-csCheck text-white ">
-                                        <input class="form-check-input form-control" type="checkbox" checked="checked"
+                                        <input class="form-check-input form-control" type="checkbox"
                                                id="accepttime" required />
                                         <span class="form-csCheck-checkmark"></span>
                                         24 Saat Teslimat
@@ -192,7 +208,7 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-10 col-12">
                                     <label class="form-csCheck text-white ">
-                                        <input class="form-check-input form-control" type="checkbox"
+                                        <input class="form-check-input form-control" type="checkbox" checked="checked"
                                                id="acceptReq" />
                                         <span class="form-csCheck-checkmark"></span>
                                         <a href="#" onclick="showadversimentterm()" data-toggle="modal"
@@ -240,6 +256,7 @@
 
     $(document).ready(function () {
         $("#addCyberAddversiment").click(function (e) {
+            debugger;
             e.preventDefault();
             var model = serializeArrayToJson($('#getFormByName form').serializeArray());
 
@@ -251,7 +268,7 @@
             if ($('#accepttime').is(":checked")) {
                 formData.append("SellTimeEarly", 00);
                 formData.append("SellTimeLate", 24);
-            } else {
+            }else {
                 formData.append("SellTimeEarly", $("#hs-time1").val());
                 formData.append("SellTimeLate", $('#hs-time2').val());
             }
@@ -266,11 +283,11 @@
 
             var files = uppy.getFiles();
             if (files.length < 1) {
-                alert('Lütfen en az bir resim seçiniz!');
+                alert('Lütfen en az 1(bir) adet resim seçiniz!');
                 return 0;
             }
             if (files.length > 8) {
-                alert('Lütfen en az bir resim seçiniz!');
+                alert('Lütfen en fazla 7(yedi) adet resim seçebilirsiniz!');
                 return 0;
             }
 
@@ -329,7 +346,7 @@
         option.value = "";
         select.appendChild(option);
 
-        for (var i = 10; i > 1; i--) {
+        for (var i = 11; i >= 0; i--) {
             var opt = document.createElement("option");
             opt.text = "+" + i;
             opt.value = "+" + i;
@@ -342,7 +359,6 @@
         $.map(serializedArray, function (n, i) {
             jsonObj[n.name] = n.value;
         });
-
         return jsonObj;
     }
 

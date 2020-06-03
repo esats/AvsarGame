@@ -109,7 +109,7 @@
                                                            onkeyup="if (/[^0-9\.]/g.test(this.value)) { this.value = this.value.replace(/[^0-9\.]/g, '') }">
                                                 </div>
                                             </td>
-                                            <td class="priceIt" class="sellPrice" data-heading="Fiyat">@Model.BuyPrice</td>
+                                            <td class="priceIt sellPrice" data-heading="Fiyat">@Model.BuyPrice</td>
                                             <td class="totalPrice" data-heading="Toplam">@Model.BuyPrice TL</td>
                                         </tr>
                                         <tr class="total-amount">
@@ -184,8 +184,6 @@
             this.parentElement.parentElement.parentElement.getElementsByClassName("totalPrice")[0].innerHTML = parseFloat(counter * itemPrice).toFixed(2) + " TL";
             calculatedTotalAmount();
         });
-
-
         $("#gotosummary").click(function(e) {
             var orders = [];
             var allRows = document.getElementsByClassName("order");

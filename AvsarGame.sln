@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvsarGame.Core", "AvsarGame.Core\AvsarGame.Core.csproj", "{CA4339E3-1B7A-4863-B528-0A95D3FB8D7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvsarGame.Core", "AvsarGame.Core\AvsarGame.Core.csproj", "{CA4339E3-1B7A-4863-B528-0A95D3FB8D7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvsarGame.Entities", "AvsarGame.Entities\AvsarGame.Entities.csproj", "{8E23AA84-534B-4AB7-81FA-974C138E4DF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvsarGame.Entities", "AvsarGame.Entities\AvsarGame.Entities.csproj", "{8E23AA84-534B-4AB7-81FA-974C138E4DF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvsarGame.Dal", "AvsarGame.Dal\AvsarGame.Dal.csproj", "{601015D5-682C-4F15-A750-ABC44B975BB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvsarGame.Dal", "AvsarGame.Dal\AvsarGame.Dal.csproj", "{601015D5-682C-4F15-A750-ABC44B975BB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvsarGame.API", "AvsarGame.API\AvsarGame.API.csproj", "{95122376-995E-48D6-87C9-A907B21372F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvsarGame.API", "AvsarGame.API\AvsarGame.API.csproj", "{95122376-995E-48D6-87C9-A907B21372F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvsarGame.Portal", "AvsarGame.Portal\AvsarGame.Portal.csproj", "{3776A4AD-C8DD-4403-B9EB-E0EFDCFF32DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvsarGame.Portal", "AvsarGame.Portal\AvsarGame.Portal.csproj", "{3776A4AD-C8DD-4403-B9EB-E0EFDCFF32DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

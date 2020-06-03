@@ -7,7 +7,6 @@ namespace AvsarGame.API.Models {
     public class UserOrderResponseModel {
         public string Message { get; set; }
         public string RedirectUrl { get; set; }
-
         public int Error { get; set; }
     }
 

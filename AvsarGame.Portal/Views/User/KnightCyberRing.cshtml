@@ -292,7 +292,7 @@
                 return 0;
             }
             if (files.length > 8) {
-                alert('Lütfen en az bir resim seçiniz!');
+                alert('Lütfen en fazla 7(yedi) resim seçiniz!');
                 return 0;
             }
 
@@ -352,14 +352,14 @@
         option.value = "";
         select.appendChild(option);
 
-        for (var j = 10; j > 1; j--) {
+        for (var j = 5; j >= 1; j--) {
             var opt2 = document.createElement("option");
             opt2.text = "83 Reb+" + j;
             opt2.value = "83 Reb+" + j;
             select.appendChild(opt2);
         }
 
-        for (var i = 84; i > 50; i--) {
+        for (var i = 83; i >= 59; i--) {
             var opt = document.createElement("option");
             opt.text = i;
             opt.value = i;
