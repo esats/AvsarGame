@@ -30,7 +30,6 @@ namespace AvsarGame.Portal.Helpers {
             BlobManager manager = new BlobManager();
             CloudBlobContainer container = await manager.CreateFolderAsync();
 
-            ;
             var EXTRALARGE = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.EXTRALARGE), fileName));
             var LARGE = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.LARGE), fileName));
             var LARGE_MAIN = Path.GetFullPath(Path.Combine(path, PageHelper.Description(ImageFolder.LARGE_MAIN), fileName));

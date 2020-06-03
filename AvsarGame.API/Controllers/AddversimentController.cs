@@ -132,7 +132,7 @@ namespace AvsarGame.API.Controllers {
             List<KnightCyberRingAddversimentModel> list =
                     new List<KnightCyberRingAddversimentModel>();
             try {
-                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED);
+                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED).Take(10);
                 foreach (var item in cyberAdds) {
                     KnightCyberRingAddversimentModel model = new KnightCyberRingAddversimentModel();
                     model = _mapper.Map<KnightCyberRingAddversimentModel>(item);
@@ -154,7 +154,7 @@ namespace AvsarGame.API.Controllers {
             List<KnightItemAddversimentModel> list =
                     new List<KnightItemAddversimentModel>();
             try {
-                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED);
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED).Take(10);
                 foreach (var item in cyberAdds) {
                     KnightItemAddversimentModel model = new KnightItemAddversimentModel();
                     model = _mapper.Map<KnightItemAddversimentModel>(item);

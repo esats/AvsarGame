@@ -284,8 +284,9 @@
 <script>
     var term = "";
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    $(document).ready(function () {
-        $("#chart").hover(function () {
+    var isAuthenticate = '@PageHelper.IsAutgenticate()';
+    $(document).ready(function() {
+        $("#chart").hover(function() {
             getChartHtml();
         });
 
@@ -340,7 +341,9 @@
             }
         });
 
-        getNotificationCount();
+        if (isAuthenticate=="True") {
+           getNotificationCount();
+        }
     });
 
     function callSearch() {
