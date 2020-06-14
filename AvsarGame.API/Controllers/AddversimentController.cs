@@ -27,11 +27,12 @@ namespace AvsarGame.API.Controllers {
         private readonly IComment _comment;
         private readonly ISubComment _subComment;
         private readonly IUserComment _userComment;
+        private readonly IMetin2 _metin2;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AddversimentController(IKnightCyberRing knightCyberRing, IMapper mapper, IKnightItem knightItem, UserManager<ApplicationUser> userManager, IImageMaster image,
-                                      IUserNotification notification, IComment comment, ISubComment subComment, IUserComment userComment) {
+                                      IUserNotification notification, IComment comment, ISubComment subComment, IUserComment userComment, IMetin2 metin2) {
             _KnightCyberRing = knightCyberRing;
             _mapper = mapper;
             _knightItem = knightItem;
@@ -41,6 +42,7 @@ namespace AvsarGame.API.Controllers {
             _comment = comment;
             _subComment = subComment;
             _userComment = userComment;
+            _metin2 = metin2;
         }
 
         [HttpPost]
@@ -71,6 +73,22 @@ namespace AvsarGame.API.Controllers {
                 }
 
                 return _knightItem.Add(_mapper.Map<KnightItem>(model)).Id;
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [Route("AddMetin2")]
+        public int AddMetin2([FromBody] AddversimentDetailModel model) {
+            try {
+                model.CreatedBy = base.GetUser();
+                model.UserId = base.GetUser();
+                if (model.Id > 0) {
+                    return _metin2.Update(_mapper.Map<Metin2Item>(model)).Id;
+                }
+
+                return _metin2.Add(_mapper.Map<Metin2Item>(model)).Id;
             } catch (Exception e) {
                 Console.WriteLine(e);
                 throw;

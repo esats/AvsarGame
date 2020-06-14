@@ -58,6 +58,7 @@ namespace AvsarGame.API {
             services.AddTransient<IUserComment, EfUserComment>();
             services.AddTransient<IComment, EfComment>();
             services.AddTransient<ISubComment, EfSubComment>();
+            services.AddTransient<IMetin2, EfMetin2>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = false; //sayı zorunluluğu

@@ -8,12 +8,6 @@
     <main class="Main">
         <div class="container">
             <div class="row section justify-content-center" style="margin-top: 20px">
-                <div class="col-md-2 ad-options mb-5">
-                    <a href="/ilan-ver/knightcyberring" class="text-white">Cypher Ring</a>
-                </div>
-                <div class="col-md-2 ad-options mb-5">
-                    <a href="#" style="cursor: pointer;color: #007bff !important;">Item</a>
-                </div>
                 <div class="col-12" id="getFormByName" style="border: 1px solid">
                     <form action="" class="row ad-form" id="cyberform">
                         <div class="col-12 form-group" style="margin-top: 10px;">
@@ -33,51 +27,16 @@
                                 </div>
                                 <div class="col-lg-10 col-12">
                                     <div class="form-select">
-                                        <select class="form-control" name="ServerName" id="url" required>
+                                        <select class="form-control" name="ServerName" required>
                                             <option disabled selected value="">Server Seçiniz</option>
-                                            <option value="Ares">Ares</option>
-                                            <option value="Diez">Diez</option>
-                                            <option value="Rosetta">Rosetta</option>
-                                            <option value="Destan">Destan</option>
-                                            <option value="Vega">Vega</option>
-                                            <option value="Altar">Altar</option>
-                                            <option value="Olympia">Olympia</option>
-                                            <option value="Gordion">Gordion</option>
+                                            <option value="Ares">server 1</option>
+                                            <option value="Diez">server 2</option>
+                                            <option value="Rosetta">server 3</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 form-group">
-                            <div class="row align-items-center">
-                                <div class="col-lg-2 col-12">
-                                    <label class="label-white">İtem Özellikleri</label>
-                                </div>
-                                <div class="col-lg-4 col-12">
-                                    <div class="form-select">
-                                        <select class="form-control" name="Plus" id="plus" required></select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 form-group">
-                            <div class="row align-items-center">
-                                <div class="col-lg-2 col-12">
-                                    <label class="label-white">Reverse mi?</label>
-                                </div>
-                                <div class="col-lg-4 col-12 row">
-                                    <div class="col-sm-12">     
-                                        <label class="label-white" for="rdbtnYes">Evet</label>
-                                        <input type="radio" id="rdbtnYes" name="rebYes" value="Evet">
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label class="label-white" for="rdbtnNo">Hayır</label>
-                                        <input type="radio" id="rdbtnNo" name="rebNo" value="Hayır">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="col-12 form-group">
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-12">
@@ -119,10 +78,10 @@
                         </div>
                         <div class="col-12 form-group">
                             <div class="row align-items-center">
-                                <div class="col-lg-10 col-12">
+                                <div class="col-lg-3 col-3">
                                     <label class="form-csCheck text-white ">
                                         <input class="form-check-input form-control" type="checkbox"
-                                               id="accepttime" required  checked="checked"/>
+                                               id="accepttime" required checked="checked"/>
                                         <span class="form-csCheck-checkmark"></span>
                                         24 Saat Teslimat
                                     </label>
@@ -222,7 +181,7 @@
                         <div class="col-12 form-group">
                             <div class="row align-items-center">
                                 <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
-                                    <input class="button btn-blue w-100" style="cursor: pointer" id="addCyberAddversiment" value="Yayınla" />
+                                    <input class="button btn-blue w-100" style="cursor: pointer" id="addMetin2ItemAd" value="Yayınla" />
                                 </div>
                             </div>
                         </div>
@@ -255,7 +214,7 @@
         });
 
     $(document).ready(function () {
-        $("#addCyberAddversiment").click(function (e) {
+        $("#addMetin2ItemAd").click(function (e) {
             debugger;
             e.preventDefault();
             var model = serializeArrayToJson($('#getFormByName form').serializeArray());
@@ -302,7 +261,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/User/AddKnightItemAddversiment',
+                url: '/User/AddMetin2Addversiment',
                 processData: false,
                 contentType: false,
                 data: formData,
@@ -324,7 +283,6 @@
                 }
             });
         });
-        FillLevel();
     });
 
     function openNotifiyModal() {
@@ -337,21 +295,6 @@
             location.href = '/@PageHelper.GetSeoName()';
             $("#loadMe").modal("hide");
         }, 3500);
-    }
-
-    function FillLevel() {
-        var select = document.getElementById("plus");
-        var option = document.createElement("option");
-        option.text = "Artı Kaç";
-        option.value = "";
-        select.appendChild(option);
-
-        for (var i = 11; i >= 0; i--) {
-            var opt = document.createElement("option");
-            opt.text = "+" + i;
-            opt.value = "+" + i;
-            select.appendChild(opt);
-        }
     }
 
     function serializeArrayToJson(serializedArray) {

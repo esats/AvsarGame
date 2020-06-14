@@ -1,0 +1,206 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper addAdsUrl">
+    <main class="Main">
+        <div class="container">
+            <div class="row section">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                            <div class="img-container">
+                                <img class="ad-img" src="./assets/img/mass-effect.jpg" alt="" />
+                                <p class="text-white">Knight Online</p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                            <div class="img-container">
+                                <img class="ad-img" src="./assets/img/mass-effect.jpg" alt="" />
+                                <p class="text-white">Knight Online</p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                            <div class="img-container">
+                                <img class="ad-img" src="./assets/img/mass-effect.jpg" alt="" />
+                                <p class="text-white">Knight Online</p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                            <div class="img-container">
+                                <img class="ad-img" src="./assets/img/mass-effect.jpg" alt="" />
+                                <p class="text-white">Knight Online</p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                            <div class="img-container">
+                                <img class="ad-img" src="./assets/img/mass-effect.jpg" alt="" />
+                                <p class="text-white">Knight Online</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row section justify-content-center">
+                <div class="col-md-2  ad-options mb-5">
+                    <a href="#" class="text-white">Skin/Key İlanı</a>
+                </div>
+                <div class="col-md-2  ad-options mb-5">
+                    <a href="#" class="text-white">Skin/Key Bizesat</a>
+                </div>
+                <div class="col-12">
+                    <form action="" class="row ad-form">
+                        <div class="col-12 form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">
+                                        <p>
+                                            Trade Url
+                                        </p>
+                                        <a class="url-q" href="#">Trade Url'im nerede?</a>
+                                    </label>
+                                </div>
+                                <div class="col-lg-8 col-12">
+                                    <input type="search" class="form-control"
+                                           id="searchContent" placeholder="Aranacak Kelime">
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-6 mt-3 mt-lg-0">
+                                    <button class="button btn-blue w-100" type="submit">
+                                        Envanteri Getir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Kayıtlı Trade Url</label>
+                                </div>
+                                <div class="col-lg-8 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="url" id="url" required>
+                                            <option disabled selected value="">Seçiniz</option>
+                                            <option value="online">Lorem ipsum dolor sit.</option>
+                                            <option value="offline">Lorem ipsum dolor sit.</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-6 mt-3 mt-lg-0">
+                                    <button class="button btn-blue w-100" type="submit">
+                                        Düzenle
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Skin Seçiniz:</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <label class="form-csCheck text-white ">
+                                        <input class="form-check-input form-control" type="checkbox" value=""
+                                               id="selectAll" required />
+                                        <span class="form-csCheck-checkmark"></span>
+                                        Tümünü Seç
+                                    </label>
+                                </div>
+                                <div class="col-lg-8 col-12">
+                                    <input type="search" class="form-control" id="searchInventory"
+                                           placeholder="Envanterde Arama Yap">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Toplam</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <input type="number" class="form-control" id="total">
+                                </div>
+                                <div class="col-lg-3 col-12 offset-lg-1 offset-0">
+                                    <label class="label-white">Hesabınıza Geçecek Tutar</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <input type="number" class="form-control"
+                                           id="accountTotal">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Teslim Saati:</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="time1" id="time1">
+                                            <option disabled selected value="">0</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-12">
+                                    <label class="label-white">ile</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="time-2" id="time-2">
+                                            <option disabled selected value="">0</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-12">
+                                    <label class="label-white">arası</label>
+                                </div>
+                                <div class="col-lg-4 col-12 d-flex align-items-center add-time">
+                                    <i class="fas fa-plus mr-3 text-white"></i>
+
+                                    <label class="label-white">Yeni saat aralığı ekle</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="offset-lg-2 col-lg-10 col-12">
+                                    <label class="form-csCheck text-white ">
+                                        <input class="form-check-input form-control" type="checkbox" value=""
+                                               id="accept" required />
+                                        <span class="form-csCheck-checkmark"></span>
+                                        Item satış koşullarını kabul ediyorum.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="offset-lg-2 col-lg-2 col-md-4 col-6 mt-3 mt-lg-0">
+                                    <button class="button btn-blue w-100" type="submit">
+                                        İşlemi Başlat
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
