@@ -46,11 +46,11 @@
                         <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
                             @if (Model.SellButtonEnabled)
                             {
-                                <a class="button btn-outline mr-4" href="/satis-yap/@Model.SeoName">Satış Yap</a>
+                            <a class="button btn-blue" href="/satis-yap/@Model.SeoName">Satın Al</a>
                             }
                             @if (Model.BuyButtonEnabled)
                             {
-                                <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-blue">Satın Al</button>
+                                <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-outline mr-4">Satış Yap</button>
                             }
                         </div>
                     </div>
