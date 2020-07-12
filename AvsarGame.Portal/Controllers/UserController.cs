@@ -19,10 +19,6 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        public IActionResult ilanCsOrkun() {
-            return View();
-        }
-
         public IActionResult detailOrkun() {
             return View();
         }
@@ -47,7 +43,23 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        public IActionResult oyunlarOrkun() {
+        [Route("/ilan-ver/metin2item")]
+        public IActionResult Metin2Item() {
+            var bearer = SessionManager.Instance.Get("bearer");
+            if (bearer == null) {
+                return RedirectToAction("giris", "User");
+            }
+
+            return View();
+        }
+
+        [Route("/ilan-ver/csgo")]
+        public IActionResult Csgo() {
+            var bearer = SessionManager.Instance.Get("bearer");
+            if (bearer == null) {
+                return RedirectToAction("giris", "User");
+            }
+
             return View();
         }
 
@@ -301,6 +313,23 @@ namespace AvsarGame.Portal.Controllers {
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
 
                 await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_ITEM);
+
+                return Json(new { Success = true, data = true });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+        
+        public async Task<JsonResult> AddMetin2Addversiment(AddversimentDetailModel model) {
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
+                }
+
+                var response =
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddMetin2", JsonConvert.SerializeObject(model)));
+
+                await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.METIN2_ITEM);
 
                 return Json(new { Success = true, data = true });
             } catch (Exception e) {

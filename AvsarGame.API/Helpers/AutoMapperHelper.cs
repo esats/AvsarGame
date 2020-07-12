@@ -54,7 +54,9 @@ namespace AvsarGame.API.Helpers {
             
             CreateMap<SubComment, CommentModel>()
                     .ForMember(x => x.SubCommentId, opt => opt.MapFrom(src => src.Id));
-
+            
+            CreateMap<AddversimentDetailModel, Metin2Item>();
+            CreateMap<Metin2Item, AddversimentDetailModel>();
         }
     }
 }

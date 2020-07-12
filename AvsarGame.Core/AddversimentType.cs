@@ -9,6 +9,9 @@ namespace AvsarGame.Core {
         KNIGHT_ONLINE_CYBERRING = 1,
 
         [Description("Knight Item")]
-        KNIGHT_ONLINE_ITEM = 2
+        KNIGHT_ONLINE_ITEM = 2,
+
+        [Description("Metin2 Item")]
+        METIN2_ITEM = 3
     }
 }

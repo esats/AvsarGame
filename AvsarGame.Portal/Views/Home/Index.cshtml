@@ -61,6 +61,18 @@
                                     Cyber Ring
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-cs-go" data-toggle="pill" href="#cs-go"
+                                   role="tab" aria-controls="cs-go" aria-selected="false">
+                                    CS-GO
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-metin2-item" data-toggle="pill" href="#metin2-item"
+                                   role="tab" aria-controls="metin2-item" aria-selected="false">
+                                    Metin-2 Item
+                                </a>
+                            </li>
                         </ul>
                         <div id="content" class="tab-content" role="tablist">
                             <div id="knight-item" class="tab-pane fade show active" role="tabpanel">
@@ -77,7 +89,8 @@
                                      aria-labelledby="knight-item-title">
                                     <div class="card-body">
                                         <div class="row showcase">
-                                            @foreach (var item in Model.KnightItems) {
+                                            @foreach (var item in Model.KnightItems)
+                                            {
                                                 <a href="/ilan/knight-item/detay/@item.Id">
                                                     <div class="showcase-item-wrapper">
                                                         <div class="showcase-item">
@@ -126,6 +139,44 @@
                                                     </div>
                                                 </a>
                                             }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="cs-go" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+                                <div class="card-header" role="tab" id="cs-go-title">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#cs-go"
+                                           data-parent="#content" aria-expanded="false"
+                                           aria-controls="collapse-cs-go">
+                                            Knight Online Ring
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse-cs-go" class="collapse" role="tabpanel"
+                                     aria-labelledby="knight-ring-title">
+                                    <div class="card-body">
+                                        <div class="row showcase">
+                                            items
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="metin2-item" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+                                <div class="card-header" role="tab" id="metin2-item-title">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#metin2-item"
+                                           data-parent="#content" aria-expanded="false"
+                                           aria-controls="collapse-metin2-item">
+                                            Metin2 Item
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse-metin2-item" class="collapse" role="tabpanel"
+                                     aria-labelledby="metin2-item-title">
+                                    <div class="card-body">
+                                        <div class="row showcase">
+                                            items metin2
                                         </div>
                                     </div>
                                 </div>
