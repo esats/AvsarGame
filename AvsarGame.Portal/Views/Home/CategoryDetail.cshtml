@@ -11,7 +11,7 @@
             <div class="breadcrumb-wrapper">
                 <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;" src="~/assest/img/m106.png" />
                 <div class="breadcrumb">
-                    <a href="/">anasayfa</a>
+                    <a href="/">Anasayfa</a>
                     <a href="/oyunlar">oyunlar</a>
                     <a href="javascript:void(0)" class="active">@Model.Category.Name</a>
                 </div>
@@ -84,7 +84,7 @@
                                                     {
                                                         <div class="product-sell mr-4">
                                                             <div class="trade-icon"></div>
-                                                            <span class="trade-text">SATIŞ:</span>
+                                                            <span class="trade-text">SATIŞ FİYATI:</span>
                                                             <span class="trade-price">@game.SellPrice</span>
                                                         </div>
                                                     }
@@ -92,7 +92,7 @@
                                                     {
                                                         <div class="product-buy">
                                                             <div class="trade-icon"></div>
-                                                            <span class="trade-text">ALIŞ:</span>
+                                                            <span class="trade-text">ALIŞ FİYATI:</span>
                                                             <span class="trade-price">@game.BuyPrice</span>
                                                         </div>
                                                     }
@@ -104,11 +104,11 @@
                                                 <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
                                                     @if (game.SellButtonEnabled)
                                                     {
-                                                        <a class="button btn-outline mr-4" href="/satis-yap/@game.SeoName">Satış Yap</a>
+                                                        <a class="button btn-blue" href="/satis-yap/@game.SeoName">Satış Al</a>
                                                     }
                                                     @if (game.BuyButtonEnabled)
                                                     {
-                                                        <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue">Satın Al</button>
+                                                        <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-outline mr-4" >Satış Yap</button>
                                                     }
                                                 </div>
                                             </div>
