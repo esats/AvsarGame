@@ -327,7 +327,7 @@ namespace AvsarGame.Portal.Controllers {
                 }
 
                 var response =
-                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddMetin2", JsonConvert.SerializeObject(model)));
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddMetin2Item", JsonConvert.SerializeObject(model)));
 
                 await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.METIN2_ITEM);
 
@@ -381,6 +381,21 @@ namespace AvsarGame.Portal.Controllers {
             return View(baseModel);
         }
 
+        [HttpGet]
+        [Route("{name}/metin2item/duzenle/{Id}")]
+        public ActionResult UpdateMetin2Item(int Id = 0) {
+            if (Id == 0) {
+                return null;
+            }
+
+            UpdateAddversimentModel baseModel = new UpdateAddversimentModel();
+            AddversimentDetailModel model =
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/Metin2ItemDetail/{0}", Id)));
+            baseModel.Detail = model;
+
+            return View(baseModel);
+        }
+
         [HttpPost]
         public async Task<JsonResult> UpdateKnightItemAddversiment(KnightItemAddversimentModel model) {
             try {
@@ -418,6 +433,26 @@ namespace AvsarGame.Portal.Controllers {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateMetin2Item(AddversimentDetailModel model) {
+            try {
+                if (!SessionManager.Instance.IsAuthenticate()) {
+                    return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
+                }
+
+                var response =
+                        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddMetin2Item", JsonConvert.SerializeObject(model)));
+                if (model.Files != null) {
+                    await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.METIN2_ITEM);
+                }
+
+                return Json(new { Success = true, data = true });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
 
         [HttpGet]
         [Route("/knight-cyber-ring/delete/{Id}")]

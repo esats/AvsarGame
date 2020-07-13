@@ -79,7 +79,7 @@ namespace AvsarGame.API.Controllers {
             }
         }
 
-        [Route("AddMetin2")]
+        [Route("AddMetin2Item")]
         public int AddMetin2([FromBody] AddversimentDetailModel model) {
             try {
                 model.CreatedBy = base.GetUser();
@@ -324,6 +324,17 @@ namespace AvsarGame.API.Controllers {
             model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
             model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
             model.Comments = GetCommentWithUser(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+            return model;
+        }
+        
+        [Route("Metin2ItemDetail/{id}")]
+        [AllowAnonymous]
+        public AddversimentDetailModel Metin2ItemDetail(int Id) {
+            //TODO: kullanıcı kendi ilanları pasifte ise güncelleyememe durumu oluyor düzelt
+            var model = _mapper.Map<AddversimentDetailModel>(_metin2.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
+            model.DetailType = (int) AddversimentType.METIN2_ITEM;
+            model.FileUrls = GetFiles(Id, (int) AddversimentType.METIN2_ITEM);
+            model.Comments = GetCommentWithUser(Id, (int) AddversimentType.METIN2_ITEM);
             return model;
         }
 
