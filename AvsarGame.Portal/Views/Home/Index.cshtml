@@ -61,7 +61,7 @@
                                     Cyber Ring
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="nav-link" id="pills-cs-go" data-toggle="pill" href="#cs-go"
                                    role="tab" aria-controls="cs-go" aria-selected="false">
                                     CS-GO
@@ -72,7 +72,7 @@
                                    role="tab" aria-controls="metin2-item" aria-selected="false">
                                     Metin-2 Item
                                 </a>
-                            </li>
+                            </li>*@
                         </ul>
                         <div id="content" class="tab-content" role="tablist">
                             <div id="knight-item" class="tab-pane fade show active" role="tabpanel">
@@ -224,11 +224,11 @@
             <!-- Additional required wrapper -->
             <div class="showcase name-inside">
                 <div class="row">
-                    @foreach (var item in Model.NewGames.Take(12))
+                    @foreach (var item in Model.NewGames)
                     {
                         <div class="showcase-item-wrapper">
                             <div class=" showcase-item">
-                                <a href="/oyun/@item.SeoName">
+                                <a href="/oyun/@item.CategorySeoName/@item.SeoName">
                                     <img class="showcase-img" data-src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
                                     <div class="showcase-info">
                                         <p class="name">@item.Name</p>
