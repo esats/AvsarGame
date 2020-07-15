@@ -92,8 +92,10 @@ namespace AvsarGame.API.Controllers {
         public List<GameModel> NewGames() {
             List<GameModel> list = new List<GameModel>();
             if (_cache.Get("newgames") == null) {
-                var entities = _game.GetList(x => x.IsActive == true).OrderByDescending(x => x.CreatedDate).Take(12);
-                foreach (var entity in entities) {
+                var games = _game.GetList(x => x.IsActive == true).OrderBy(x => x.OrderNo).Take(12);
+                var categories = _category.GetList(x => x.IsActive == true);
+
+                foreach (var entity in games) {
                     GameModel model = new GameModel() {
                             Id = entity.Id,
                             ImageUrl = entity.ImageUrl,
@@ -101,7 +103,9 @@ namespace AvsarGame.API.Controllers {
                             Name = entity.Name,
                             SeoName = entity.SeoName,
                             SellPrice = entity.SellPrice,
-                            BuyPrice = entity.BuyPrice
+                            BuyPrice = entity.BuyPrice,
+                            CategoryId = categories.FirstOrDefault(x => x.Id == entity.CategoryId).Id,
+                            CategorySeoName = categories.FirstOrDefault(x => x.Id == entity.CategoryId).SeoName
                     };
                     list.Add(model);
                 }

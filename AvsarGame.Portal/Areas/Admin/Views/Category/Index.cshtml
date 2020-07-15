@@ -5,6 +5,11 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@{
+    string name = "";
+    string description = "";
+    int countck = 1;
+}
 
 <div class="container-fluid">
     <h4 class="c-grey-900 mT-10 mB-30">Kategoriler</h4>
@@ -27,6 +32,11 @@
                     </thead>
                     <tbody>
                         @foreach (var item in Model) {
+
+                            {
+                                name = "editor" + countck;
+                                description = "editor" + countck;
+                            }
                             <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Description</td>
@@ -34,7 +44,6 @@
                                     <img style="width: 100px; height: 100px" src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRASMALL)"/>
                                 </td>
                                 <td>
-
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#@PageHelper.GetModalId("cat", item.Id)">
                                         Düzenle
                                     </button>
@@ -57,7 +66,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Açıklama</label>
-                                                <textarea type="text" id="Description" class="form-control">@item.Description</textarea>
+                                                <textarea name="@name" id="@description" rows="10" cols="80">
+                                                            @Html.Raw(item.Description)
+                                                        </textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Resim</label>
@@ -84,6 +95,7 @@
                                     </div>
                                 </div>
                             </div>
+                            countck++;
                         }
                     </tbody>
                 </table>
@@ -107,7 +119,7 @@
                 </div>
                 <div class="form-group">
                     <label>Açıklama</label>
-                    <textarea type="text" id="Description" class="form-control"></textarea>
+                    <textarea name="editorI" id="editorI" rows="10" cols="80"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Resim</label>
@@ -135,7 +147,7 @@
         $("#save").click(function(e) {
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
-            model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
+            model.append('Description', CKEDITOR.instances[this.parentElement.parentElement.getElementsByTagName("textarea")[0].name].getData());
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
             model.append('Type', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
 
@@ -173,7 +185,7 @@
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
-            model.append('Description', $(this.parentElement.parentElement.getElementsByTagName("textarea")[0]).val());
+            model.append('Description', CKEDITOR.instances[this.parentElement.parentElement.getElementsByTagName("textarea")[0].name].getData());
             model.append('ImageUrl', $(this).attr('data-url'));
             model.append('Id', $(this).attr('data-id'));
             model.append('Type', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
@@ -240,5 +252,15 @@
                     }
                 });
         });
+
+        
+        CKEDITOR.replace( 'editorI', {
+        } );
+        var count ='@Model.Count()';
+        for (var i = 1; i <= count; i++) {
+            var name = "editor" + i;
+            CKEDITOR.replace( name, {
+            } );
+        }
     });
 </script>
