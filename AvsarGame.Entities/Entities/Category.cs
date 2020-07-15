@@ -11,5 +11,6 @@ namespace AvsarGame.Entities.Entities {
         public string ImageUrl { get; set; }
         public string Count { get; set; }
         public int Type { get; set; }
+        public int OrderNo { get; set; }
     }
 }
