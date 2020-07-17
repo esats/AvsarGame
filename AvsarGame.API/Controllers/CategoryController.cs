@@ -155,7 +155,14 @@ namespace AvsarGame.API.Controllers {
                 Category entity = _category.GetT(x => x.Id == id && x.IsActive == true);
                 entity.IsActive = false;
                 _category.Update(entity);
-            } catch (Exception e) {
+                var Games = _game.GetList(x => x.CategoryId == entity.Id && x.IsActive == true).ToList();
+                foreach (var game in Games)
+                {
+                    game.IsActive = false;
+                    _game.Update(game);
+                }
+            }
+            catch (Exception e) {
                 return StatusCode(404);
             }
 
