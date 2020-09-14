@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper">
+    <main class="Main">
+        <div style="margin-top: 50px"></div>
+        <div class="container">
+            <div class="row section profile-section">
+                <div class="col-lg-9 col-12  profile-container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section tab-primary">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade active show" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                                        <div class="row">
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="/user/odeme" class="profile-icon-container" data-toggle="modal"
+                                                   data-target="#payment-modal">
+                                                    <i class="far fa-credit-card  fa-2x"></i>
+                                                    <p class="icon-title">
+                                                        Kredi kartı(Gpay)
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="#" class="profile-icon-container">
+                                                    <i class="far fa-credit-card  fa-2x"></i>
+                                                    <p class="icon-title">Havale (Gpay)</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="announce-box announce-danger">
+                                                    <p>
+                                                        Ödemem yaptıktan sonra onaylanan bakiyeniz profilinize yansıyacaktır.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

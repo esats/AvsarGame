@@ -6,7 +6,7 @@ using System.Text;
 using AvsarGame.API.Models;
 
 namespace AvsarGame.Dal.Abstract {
-    public interface ICategory:IEntityRepository<Category> {
+    public interface ICategory : IEntityRepository<Category> {
         List<Category> GetCategoriesByFilter(FilterDataModel filter);
     }
 }

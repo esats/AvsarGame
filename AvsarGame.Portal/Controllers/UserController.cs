@@ -514,5 +514,10 @@ namespace AvsarGame.Portal.Controllers {
                 return Json(new { success = false });
             }
         }
+
+        [Route("odeme")]
+        public ActionResult Payment() {
+            return View();
+        }
     }
 }

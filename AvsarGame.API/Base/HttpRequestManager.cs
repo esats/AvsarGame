@@ -77,7 +77,6 @@ namespace AvsarGame.API.Base {
             request.Method = Type.ToString().ToUpper();
             request.ContentType = "application/json";
             request.Timeout = Int32.MaxValue;
-            request.Timeout = Int32.MaxValue;
             request.Headers.Add(HttpRequestHeader.Authorization,"Bearer " + BearerToken);
 
             if (Type == HttpRequestTypesEnum.Post) {
