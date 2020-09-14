@@ -87,11 +87,14 @@
                                                     }
                                                 </select>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Sıralamadaki Yeri</label>
+                                                <input type="text" class="form-control" id="OrderNo"  value="@item.OrderNo" />
+                                            </div>
                                         </div>
                                         <div class="modal-footer border-top-0 d-flex justify-content-center">
                                             <button id="update" data-url="@item.ImageUrl" data-id="@item.Id" class="btn btn-success">Kaydet</button>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +147,7 @@
     $(document).ready(function() {
         $('#dataTable').DataTable();
 
-        $("#save").click(function(e) {
+        $("#save").click(function (e) {
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Description', CKEDITOR.instances[this.parentElement.parentElement.getElementsByTagName("textarea")[0].name].getData());
@@ -181,7 +184,8 @@
             });
         });
 
-        $(".justify-content-center #update").click(function(e) {
+        $(".justify-content-center #update").click(function (e) {
+            debugger
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);
@@ -189,6 +193,7 @@
             model.append('ImageUrl', $(this).attr('data-url'));
             model.append('Id', $(this).attr('data-id'));
             model.append('Type', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
+            model.append('OrderNo', $(this.parentElement.parentElement.getElementsByTagName("input")[2]).val());
             $.ajax({
                 type: 'post',
                 url: '/Admin/Category/Save',

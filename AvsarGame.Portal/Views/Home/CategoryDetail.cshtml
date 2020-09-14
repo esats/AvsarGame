@@ -58,64 +58,65 @@
                     <div class="col-lg-9 col-12 order-lg-2 order-1 product-container">
                         @foreach (var game in Model.Games.OrderBy(x => x.OrderNo))
                         {
-                            <div class="row product align-items-center">
-                                <div class="col-md-3 col-sm-5 col-12">
-                                    <div class="product-img-container">
-                                        <img src="@PageHelper.GetImageUrl(game.ImageUrl, ImageFolder.EXTRASMALL)" alt="" class="product-img">
-                                        <div class="notification notification-top-left">
-                                            @*%20 indirim*@
-                                        </div>
+                        <div class="row product align-items-center">
+                            <div class="col-md-3 col-sm-5 col-12">
+                                <div class="product-img-container">
+                                    <img src="@PageHelper.GetImageUrl(game.ImageUrl, ImageFolder.EXTRASMALL)" alt="" class="product-img">
+                                    <div class="notification notification-top-left">
+                                        @*%20 indirim*@
                                     </div>
                                 </div>
-                                <div class="col-md-9 col-sm-7 col-12 d-flex flex-column product-info">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row h-100">
-                                                <div class="col-12 mb-3">
-                                                    <h4 class="title-secondary led led-below">
-                                                        @game.Name
-                                                    </h4>
-                                                </div>
-                                                <div class="col-12 mb-2" style="color: white">
-                                                    @Html.Raw(game.Description)
-                                                </div>
-                                                <div class="col-12 d-flex justify-content-start justify-content-lg-between start product-trade">
-                                                    @if (game.SellButtonEnabled)
-                                                    {
-                                                        <div class="product-sell mr-4">
-                                                            <div class="trade-icon"></div>
-                                                            <span class="trade-text">SATIŞ FİYATI:</span>
-                                                            <span class="trade-price">@game.SellPrice</span>
-                                                        </div>
-                                                    }
-                                                    @if (game.BuyButtonEnabled)
-                                                    {
-                                                        <div class="product-buy">
-                                                            <div class="trade-icon"></div>
-                                                            <span class="trade-text">ALIŞ FİYATI:</span>
-                                                            <span class="trade-price">@game.BuyPrice</span>
-                                                        </div>
-                                                    }
-                                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-7 col-12 d-flex flex-column product-info">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row h-100">
+                                            <div class="col-12 mb-3">
+                                                <h4 class="title-secondary led led-below">
+                                                    @game.Name
+                                                </h4>
+                                            </div>
+                                            <div class="col-12 mb-2" style="color: white">
+                                                @Html.Raw(game.Description)
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-start justify-content-lg-between start product-trade">
+                                                @if (game.SellButtonEnabled)
+                                                {
+                                                    <div class="product-sell mr-4">
+                                                        <div class="trade-icon"></div>
+                                                        <span class="trade-text">SATIŞ:</span>
+                                                        <span class="trade-price">@game.SellPrice  TL</span>
+                                                    </div>
+                                                }
+                                                @if (game.BuyButtonEnabled)
+                                                {
+                                                    <div class="product-buy">
+                                                        <div class="trade-icon"></div>
+                                                        <span class="trade-text">ALIŞ:</span>
+                                                        <span class="trade-price">@game.BuyPrice  TL</span>
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="row align-items-center h-100">
-                                                <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
-                                                    @if (game.SellButtonEnabled)
-                                                    {
-                                                        <a class="button btn-blue" style="margin-right: 4px" href="/satis-yap/@game.SeoName">Satın Al</a>
-                                                    }
-                                                    @if (game.BuyButtonEnabled)
-                                                    {
-                                                        <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-outline mr-4" >Satış Yap</button>
-                                                    }
-                                                </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row align-items-center h-100">
+                                            <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
+                                                @if (game.SellButtonEnabled)
+                                                {
+                                                    <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue">Satın Al</button>
+                                                }
+                                                @if (game.BuyButtonEnabled)
+                                                {
+                                                    <a class="button btn-outline mr-4" style="margin-right: 4px" href="/satis-yap/@game.SeoName">Satış Yap</a>
+                                                }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
                         }
                     </div>
                 </div>

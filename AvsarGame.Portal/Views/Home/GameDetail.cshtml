@@ -48,16 +48,16 @@
                             {
                                 <div class="product-buy" style=" margin-right: 5px">
                                     <div class="trade-icon"></div>
-                                    <span style="color: white;">SATIŞ FİYATI:</span>
-                                    <span style="color:#009aff">@Model.SellPrice</span>
+                                    <span style="color: white;">SATIŞ:</span>
+                                    <span style="color:#009aff">₺ @Model.SellPrice</span>
                                 </div>
                             }
                             @if (Model.BuyButtonEnabled)
                             {
                                 <div class="product-buy">
                                     <div class="trade-icon"></div>
-                                    <span style="color:white">ALIŞ FİYATI:</span>
-                                    <span style="color:#009aff">@Model.BuyPrice</span>
+                                    <span style="color:white">ALIŞ:</span>
+                                    <span style="color:#009aff">₺ @Model.BuyPrice</span>
                                 </div>
                             }
                         </div>
@@ -65,11 +65,12 @@
                     <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
                         @if (Model.SellButtonEnabled)
                         {
-                            <a class="button btn-blue" href="/satis-yap/@Model.SeoName">Satın Al</a>
+                            <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-blue">Satın Al</button>
                         }
                         @if (Model.BuyButtonEnabled)
                         {
-                            <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-outline mr-4">Satış Yap</button>
+                            <a class="button btn-outline mr-4" href="/satis-yap/@Model.SeoName">Satış Yap</a>
+
                         }
                     </div>
                 </div>

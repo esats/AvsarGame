@@ -43,7 +43,8 @@ namespace AvsarGame.API.Controllers {
                         Description = entity.Description,
                         Name = entity.Name,
                         Id = entity.Id,
-                        Type = entity.Type
+                        Type = entity.Type,
+                        OrderNo = entity.OrderNo
                 };
                 list.Add(model);
             }
@@ -57,7 +58,7 @@ namespace AvsarGame.API.Controllers {
         public List<CategoryModel> UiCategoryList() {
             List<CategoryModel> list = new List<CategoryModel>();
             if (_cache.Get("uicategorylist") == null) {
-                var entities = _category.GetList(x => x.IsActive == true).Take(12);
+                var entities = _category.GetList(x => x.IsActive == true).OrderBy(x=>x.OrderNo).Take(12);
                 foreach (var entity in entities) {
                     CategoryModel model = new CategoryModel() {
                             ImageUrl = entity.ImageUrl,
@@ -102,7 +103,8 @@ namespace AvsarGame.API.Controllers {
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
                             ModifiedBy = base.GetUser(),
                             ModifiedDate = DateTime.Now,
-                            Type = model.Type
+                            Type = model.Type,
+                            OrderNo = model.OrderNo
                     };
                     _category.Update(entity);
                 } else {
@@ -113,7 +115,8 @@ namespace AvsarGame.API.Controllers {
                             SeoName = UrlExtension.FriendlyUrl(model.Name),
                             CreatedDate = DateTime.Now,
                             CreatedBy = base.GetUser(),
-                            Type = model.Type
+                            Type = model.Type,
+                            OrderNo = model.OrderNo
                     };
                     _category.Add(entity);
                 }
@@ -155,7 +158,14 @@ namespace AvsarGame.API.Controllers {
                 Category entity = _category.GetT(x => x.Id == id && x.IsActive == true);
                 entity.IsActive = false;
                 _category.Update(entity);
-            } catch (Exception e) {
+                var Games = _game.GetList(x => x.CategoryId == entity.Id && x.IsActive == true).ToList();
+                foreach (var game in Games)
+                {
+                    game.IsActive = false;
+                    _game.Update(game);
+                }
+            }
+            catch (Exception e) {
                 return StatusCode(404);
             }
 
