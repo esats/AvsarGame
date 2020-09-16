@@ -8,12 +8,13 @@ using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Dal.Abstract;
 using AvsarGame.Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvsarGame.API.Controllers {
     [Route("api/paymentlog")]
-    [ApiController]
+    [AllowAnonymous]
     public class PaymentLogController : APIControllerBase {
         private readonly IPaymentLog _paymentLog;
         private readonly IMapper _mapper;

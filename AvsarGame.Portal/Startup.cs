@@ -7,14 +7,13 @@ using AvsarGame.Portal.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AvsarGame.Portal
-{
-    public class Startup
-    {
+namespace AvsarGame.Portal {
+    public class Startup {
         public void ConfigureServices(IServiceCollection services) {
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromHours(24);
@@ -28,11 +27,15 @@ namespace AvsarGame.Portal
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+        
+            app.UseForwardedHeaders(new ForwardedHeadersOptions {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                ForwardedHeaders.XForwardedProto
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -44,10 +47,10 @@ namespace AvsarGame.Portal
                         template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapAreaRoute(
                         name: "MyAreaAdmin",
-                        areaName:"Admin",
+                        areaName: "Admin",
                         template: "Admin/{controller=Home}/{action=Index}/{id?}");
             });
-        
+
         }
     }
 }

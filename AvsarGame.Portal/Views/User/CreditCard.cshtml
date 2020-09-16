@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper">
+    <main class="Main">
+        <div style="margin-top: 50px"></div>
+        <div class="container">
+            <div class="row section profile-section">
+                <div class="col-lg-9 col-12  profile-container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section tab-primary">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade active show" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                                        <div class="row">
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="#" class="profile-icon-container">
+                                                    <i class="far fa-credit-card  fa-2x"></i>
+                                                    <p class="icon-title">
+                                                        Kredi kartı(Gpay)
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <form asp-action="pay" asp-controller="Payment" method="post">
+                                                <input hidden="hidden" name="paymentMethod" value="krediKarti"/>
+                                                <div class="form-row align-items-center">
+                                                    <div class="col-auto">
+                                                        <label class="text-white" >Yatırılacak Tutar</label>
+                                                        <input type="text" style="background-color:white" name="amount"  class="form-control mb-2" id="inlineFormInput" placeholder="0.00">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <label class="text-white" for="inlineFormInputGroup">Ödenecek Tutar</label>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text"></div>
+                                                            </div>
+                                                            <input type="text" style="background-color:white" name="amountWithCommission"   class="form-control" id="inlineFormInputGroup" placeholder="0.00">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button type="submit" style="margin-top: 23px;" class="btn btn-success">Ödemeye git</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="announce-box announce-danger">
+                                                    <p>
+                                                        Yatırılacak tutar hesabınıza aktarılacak tutardır. Ödenecek Tutar ise Gpay ile ödemeler de alınan %2 komisyonlu bedeldir.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

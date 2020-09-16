@@ -519,5 +519,10 @@ namespace AvsarGame.Portal.Controllers {
         public ActionResult Payment() {
             return View();
         }
+
+        [Route("odeme/kredikarti")]
+        public ActionResult CreditCard() {
+            return View();
+        }
     }
 }

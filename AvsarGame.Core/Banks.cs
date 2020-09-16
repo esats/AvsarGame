@@ -10,7 +10,9 @@ namespace AvsarGame.Core {
         [Description("Ziraat Bankası")]
         ZIRAAT = 1,
         [Description("Garanti Bankası")]
-        GARANTI = 3
+        GARANTI = 2,
+        [Description("Gpay")]
+        GPAY = 3,
     }
 
 }

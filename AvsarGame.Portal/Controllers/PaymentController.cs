@@ -30,43 +30,60 @@ namespace WebApplication1.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Pay(string s) {
+        public ActionResult Pay(string paymentMethod, double amount, double amountWithCommission) {
             NameValueCollection data = System.Web.HttpUtility.ParseQueryString(string.Empty);
             var orderId = Base64Encode(Guid.NewGuid().ToString());
             data["username"] = "anatoliagame";
             data["key"] = "h912yNSj9";
             data["currency"] = "949";
             data["order_id"] = orderId;
-            data["amount"] = "1";
+            data["amount"] = amountWithCommission.ToString();
             data["return_url"] = "http://localhost:30672/esat-avsar";
-            data["phone"] = "54335547779"; //ödemeyi yapacak müşterinin telefon numarası.
-            data["selected_payment"] = "krediKarti";
-            data["selected_bank_id"] = "9991"; //qnb
+            data["phone"] = "54335547779"; //ödemeyi yapacak müşterinin telefon numarası.(sms onayı kontrolü yapılmalı)
+            data["selected_payment"] = paymentMethod;
+            //data["selected_bank_id"] = "9991"; //qnb
+
+            SessionManager.Instance.set("orderId", orderId);
+            SessionManager.Instance.set("amountWithCommission", amountWithCommission.ToString());
+            SessionManager.Instance.set("amount", amount.ToString());
+            SessionManager.Instance.set("paymentMethod", paymentMethod);
 
             string result = this.Post2(data.ToString());
             var json_data = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+            var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
 
             if (json_data["state"] == "1") {
-                TempData["link"] = json_data["link"];
+                var paymentLink = json_data["link"];
 
-                var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
                 PaymentLogModel logModel = new PaymentLogModel();
                 logModel.UserId = SessionManager.Instance.Get("UserId");
-                //logModel.Amount = Convert.ToDouble(tutar);
+                logModel.Amount = amount;
+                logModel.AmountWithComission = amountWithCommission;
                 logModel.OrderId = orderId;
-                //logModel.Result = Convert.ToInt32(islem_sonucu);
-                //logModel.Hash = hash;
                 logModel.IpAddress = remoteIpAddress.ToString();
-                //logModel.M5val = md5Val;
                 logModel.Date = DateTime.Now;
                 logModel.SystemMessage = "";
-                logModel.PaymentMethod = 1;
-                logModel.IsIncoming = true;
+                logModel.PaymentMethod = paymentMethod;
+                logModel.IsIncoming = false;
+                logModel.Result = Convert.ToInt32(json_data["state"]);
+                JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
+                return Redirect(paymentLink);
 
-                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
-                return RedirectToAction("PayRedirect");
             } else {
-                TempData["ErrorMsg"] = string.Format("{0} - {1}", json_data["error_code"], json_data["message"]);
+                PaymentLogModel logModel = new PaymentLogModel();
+                logModel.UserId = SessionManager.Instance.Get("UserId");
+                logModel.Amount = amount;
+                logModel.AmountWithComission = amountWithCommission;
+                logModel.OrderId = orderId;
+                logModel.IpAddress = remoteIpAddress.ToString();
+                logModel.Date = DateTime.Now;
+                logModel.SystemMessage = json_data["message"];
+                logModel.PaymentMethod = paymentMethod;
+                logModel.IsIncoming = false;
+                logModel.Result = Convert.ToInt32(json_data["state"]);
+                TempData["ErrorMsg"] = string.Format("{0}", json_data["error_code"]);
+                JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
+                // TODO VİEW YAP 
                 return RedirectToAction("PayLinkFailed");
             }
         }
@@ -92,10 +109,12 @@ namespace WebApplication1.Controllers {
                 md5(this.Base64Encode(bayiiKey.Substring(0, 7) + siparis_id.Substring(0, 5) + tutar + islem_sonucu));
 
             var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
-   
+
             PaymentLogModel logModel = new PaymentLogModel();
             logModel.UserId = SessionManager.Instance.Get("UserId");
-            logModel.Amount = Convert.ToDouble(tutar);
+            logModel.Amount = Convert.ToDouble(SessionManager.Instance.Get("amount"));
+            logModel.AmountWithComission = Convert.ToDouble(SessionManager.Instance.Get("amountWithCommission"));
+            logModel.ComingAmount = Convert.ToDouble(tutar);
             logModel.OrderId = siparis_id;
             logModel.Result = Convert.ToInt32(islem_sonucu);
             logModel.Hash = hash;
@@ -103,10 +122,10 @@ namespace WebApplication1.Controllers {
             logModel.M5val = md5Val;
             logModel.Date = DateTime.Now;
             logModel.SystemMessage = islem_mesaji;
-            logModel.PaymentMethod = 1;
+            logModel.PaymentMethod = SessionManager.Instance.Get("paymentMethod");
             logModel.IsIncoming = true;
 
-            var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
+            JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
 
             string ip = null;
             bool hasIP = false;
@@ -119,29 +138,40 @@ namespace WebApplication1.Controllers {
             }
 
             if (hasIP == false || hash != md5Val) {
-                //Response.Write('4');
+                logModel.ErrorMessage = "Ip veya hash hatalı";
                 return View();
             }
 
+            var amountWithCommission = Convert.ToDouble(SessionManager.Instance.Get("amountWithCommission"));
+            if (Convert.ToDouble(tutar) != amountWithCommission) {
+                logModel.ErrorMessage = "Miktarlar uyuşmamakta.";
+                return View();
+            }
 
-            // burada örnek bir row yapıyorum burasını yukarıdaki gibi değiştirebilirsiniz
-            Dictionary<string, string> res = new Dictionary<string, string>();
-            res.Add("tutar", "3.50");
-            res.Add("siparis_id", "b3JkZXJfNTVkNDRhZDFlOTkzNA==");
-            //if(!$res){
-            //    die('2'); 
-            //NOT: MYSQL kontrolünün csharp karşılığı yazılacak.
+            //var res = "";
+            //switch (Convert.ToInt32(islem_sonucu)) {
+            //    case 1:
+            //        res = "Havale Ödemesi bekleniyor";
+            //        break;
+            //    case 2:
+            //        res = "Ödeme başarılı";
+            //        break;
+            //    case 3:
+            //        res = "Ödeme iptal edildi";
+            //        break;
+            //    case 4:
+            //        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
+            //        break;
+            //    case 5:
+            //        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
+            //        break;
             //}
-            if (tutar != res["tutar"]) {
-                //Response.Write('5');
-                return View();
+
+            if (Convert.ToInt32(islem_sonucu) == 2) {
+                UserPaymentRequestModel paymentModel = new UserPaymentRequestModel();
+                paymentModel.
             }
-            // burada kendinize özel bir kontrol yapıp eğer hatalı sonuç döndürürse ekrana 3 yazabilirsiniz. örn: die('3') gibi...
-            // ...
 
-            // eğer tüm kontroller tamamsa
-
-            //Response.Write('1');
             return View();
         }
 
