@@ -57,16 +57,13 @@ namespace AvsarGame.API.Controllers {
         }
 
         [HttpPost]
-        [Route("Approve")]
-        public Response<HttpStatusCode> Approve(UserPaymentRequestControlModel model) {
+        [Route("SaveBalance")]
+        public Response<HttpStatusCode> SaveBalance(UserPaymentRequestModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
 
             try {
                 using (var trancation = new TransactionScope()) {
-                    var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
                     InsertOrUpdateUserBalance(model);
-                    paymentRequest.PaymentStatus = (int) PaymentStatus.APPROVED;
-                    _userPaymentRequest.Update(paymentRequest);
 
                     UserNotification notification = new UserNotification() {
                             UserId = model.UserId,
@@ -81,53 +78,22 @@ namespace AvsarGame.API.Controllers {
                     response.Value = HttpStatusCode.OK;
                     trancation.Complete();
                 }
-            } catch (Exception exception) {
+            } catch (Exception e) {
                 response.IsSuccess = false;
                 response.Value = HttpStatusCode.BadRequest;
+
+                Log entity = new Log();
+                entity.CreatedDate = DateTime.Now;
+                entity.CreatedBy = base.GetUser();
+                entity.Message = e.Message;
+                entity.OrderId = model.OrderId;
+                Logger.Instance.Insert(entity);
             }
 
             return response;
         }
 
-        [HttpPost]
-        [Route("Reject")]
-        public Response<HttpStatusCode> Reject(UserPaymentRequestControlModel model) {
-            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
-            try {
-                var paymentRequest = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
-                InsertOrUpdateUserBalance(model);
-                paymentRequest.PaymentStatus = (int) PaymentStatus.REJECT;
-                _userPaymentRequest.Update(paymentRequest);
-
-                UserNotification notification = new UserNotification() {
-                        UserId = model.UserId,
-                        Message = "Ödeme Reddedildi",
-                        NotificationType = NotificationType.REJECT,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = base.GetUser()
-                };
-                _userNotification.Add(notification);
-
-                response.IsSuccess = true;
-                response.Value = HttpStatusCode.OK;
-            } catch (TransactionAbortedException e) {
-                Log log = new Log {
-                        Path = HttpContext.Request.Path,
-                        Message = e.Message,
-                        UserId = model.UserId,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = base.GetUser()
-                };
-                Logger.Instance.Insert(log);
-                response.IsSuccess = false;
-                response.Message = e.Message;
-                response.Value = HttpStatusCode.BadRequest;
-            }
-
-            return response;
-        }
-
-        private void InsertOrUpdateUserBalance(UserPaymentRequestControlModel model) {
+        private void InsertOrUpdateUserBalance(UserPaymentRequestModel model) {
             try {
                 var userBalance = _userBalance.GetBalance(model.UserId);
 
@@ -141,14 +107,14 @@ namespace AvsarGame.API.Controllers {
                     userBalance = _userBalance.Add(entity);
                 }
 
-                var paymentDetail = _userPaymentRequest.GetT(x => x.UserId == model.UserId && x.Id == model.RequestId);
                 UserBalanceDetail balanceDetail = new UserBalanceDetail();
-                balanceDetail.Amount = paymentDetail.Amount;
+                balanceDetail.Amount = model.Amount;
                 balanceDetail.TransactionDescription = (int) TRANSACTION_DESCIPTION.Payment;
                 balanceDetail.UserBalanceId = userBalance.Id;
                 balanceDetail.CreatedBy = base.GetUser();
                 balanceDetail.CreatedDate = DateTime.Now;
                 balanceDetail.IsActive = true;
+                balanceDetail.OrderId = model.OrderId;
 
                 _userBalanceDetails.Add(balanceDetail);
             } catch (Exception e) {

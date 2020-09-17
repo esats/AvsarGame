@@ -31,6 +31,10 @@ namespace WebApplication1.Controllers {
 
         [HttpPost]
         public ActionResult Pay(string paymentMethod, double amount, double amountWithCommission) {
+            if (SessionManager.Instance.GetUserId() == null) {
+                return RedirectToAction("giris", "User");
+            }
+
             NameValueCollection data = System.Web.HttpUtility.ParseQueryString(string.Empty);
             var orderId = Base64Encode(Guid.NewGuid().ToString());
             data["username"] = "anatoliagame";
@@ -42,11 +46,6 @@ namespace WebApplication1.Controllers {
             data["phone"] = "54335547779"; //ödemeyi yapacak müşterinin telefon numarası.(sms onayı kontrolü yapılmalı)
             data["selected_payment"] = paymentMethod;
             //data["selected_bank_id"] = "9991"; //qnb
-
-            SessionManager.Instance.set("orderId", orderId);
-            SessionManager.Instance.set("amountWithCommission", amountWithCommission.ToString());
-            SessionManager.Instance.set("amount", amount.ToString());
-            SessionManager.Instance.set("paymentMethod", paymentMethod);
 
             string result = this.Post2(data.ToString());
             var json_data = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
@@ -105,15 +104,16 @@ namespace WebApplication1.Controllers {
         [HttpPost]
         public ActionResult PayCallBack(string siparis_id, string tutar, string islem_sonucu, string islem_mesaji, string hash) {
             string bayiiKey = "h912yNSj9";
+            var paymentLog = JsonConvert.DeserializeObject<PaymentLogModel>(UiRequestManager.Instance.Get(string.Format("PaymentLog/GetLogByOrderId?OrderId={0}", siparis_id)));
+
             string md5Val =
                 md5(this.Base64Encode(bayiiKey.Substring(0, 7) + siparis_id.Substring(0, 5) + tutar + islem_sonucu));
 
             var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
-
             PaymentLogModel logModel = new PaymentLogModel();
             logModel.UserId = SessionManager.Instance.Get("UserId");
-            logModel.Amount = Convert.ToDouble(SessionManager.Instance.Get("amount"));
-            logModel.AmountWithComission = Convert.ToDouble(SessionManager.Instance.Get("amountWithCommission"));
+            logModel.Amount = paymentLog.Amount;
+            logModel.AmountWithComission = paymentLog.AmountWithComission;
             logModel.ComingAmount = Convert.ToDouble(tutar);
             logModel.OrderId = siparis_id;
             logModel.Result = Convert.ToInt32(islem_sonucu);
@@ -122,16 +122,13 @@ namespace WebApplication1.Controllers {
             logModel.M5val = md5Val;
             logModel.Date = DateTime.Now;
             logModel.SystemMessage = islem_mesaji;
-            logModel.PaymentMethod = SessionManager.Instance.Get("paymentMethod");
+            logModel.PaymentMethod = paymentLog.PaymentMethod;
             logModel.IsIncoming = true;
 
-            JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
-
-            string ip = null;
             bool hasIP = false;
 
             foreach (string item in CALLBACK_IP) {
-                if (ip == item) {
+                if (remoteIpAddress.ToString() == item) {
                     hasIP = true;
                     break;
                 }
@@ -139,37 +136,54 @@ namespace WebApplication1.Controllers {
 
             if (hasIP == false || hash != md5Val) {
                 logModel.ErrorMessage = "Ip veya hash hatalı";
-                return View();
             }
 
-            var amountWithCommission = Convert.ToDouble(SessionManager.Instance.Get("amountWithCommission"));
+            var amountWithCommission = paymentLog.AmountWithComission;
             if (Convert.ToDouble(tutar) != amountWithCommission) {
                 logModel.ErrorMessage = "Miktarlar uyuşmamakta.";
+              }
+
+            JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
+
+            if (Convert.ToInt32(islem_sonucu) != 2) {
+                var res = "";
+                switch (Convert.ToInt32(islem_sonucu)) {
+                    case 1:
+                        res = "Havale Ödemesi bekleniyor";
+                        break;
+                    case 2:
+                        res = "Ödeme başarılı";
+                        break;
+                    case 3:
+                        res = "Ödeme iptal edildi";
+                        break;
+                    case 4:
+                        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
+                        break;
+                    case 5:
+                        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
+                        break;
+                }
+                ViewBag.Result = res;
                 return View();
             }
 
-            //var res = "";
-            //switch (Convert.ToInt32(islem_sonucu)) {
-            //    case 1:
-            //        res = "Havale Ödemesi bekleniyor";
-            //        break;
-            //    case 2:
-            //        res = "Ödeme başarılı";
-            //        break;
-            //    case 3:
-            //        res = "Ödeme iptal edildi";
-            //        break;
-            //    case 4:
-            //        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
-            //        break;
-            //    case 5:
-            //        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
-            //        break;
-            //}
 
             if (Convert.ToInt32(islem_sonucu) == 2) {
                 UserPaymentRequestModel paymentModel = new UserPaymentRequestModel();
-                paymentModel.
+                paymentModel.Amount = paymentLog.Amount;
+                paymentModel.Bank = AvsarGame.Core.Banks.GPAY;
+                paymentModel.CreatedDate = DateTime.Now;
+                paymentModel.Date = DateTime.Now;
+                paymentModel.PrimitivePaymentType = paymentLog.PaymentMethod;
+                paymentModel.UserId = paymentLog.UserId;
+                paymentModel.OrderId = siparis_id;
+
+                try {
+                    JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "SaveBalance", JsonConvert.SerializeObject(paymentModel)));
+                } catch (Exception) {
+                    return View();
+                }
             }
 
             return View();

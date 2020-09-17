@@ -47,5 +47,18 @@ namespace AvsarGame.API.Controllers {
             response.IsSuccess = true;
             return response;
         }
+
+        [HttpGet]
+        [Route("GetLogByOrderId")]
+        [AllowAnonymous]
+        public PaymentLogModel GetLogByOrderId(string OrderId) {
+            try {
+               return _mapper.Map<PaymentLogModel>(_paymentLog.GetT(x => x.OrderId == OrderId));
+            } catch (Exception e) {
+                throw new Exception(e.Message);
+            }
+
+        }
+
     }
 }

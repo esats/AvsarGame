@@ -59,6 +59,7 @@ namespace AvsarGame.API.Helpers {
             CreateMap<Metin2Item, AddversimentDetailModel>();
 
             CreateMap<PaymentLogModel, PaymentLog>();
+            CreateMap<PaymentLog, PaymentLogModel>();
         }
     }
 }

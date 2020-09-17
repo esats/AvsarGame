@@ -13,9 +13,9 @@ namespace AvsarGame.Entities.Entities {
         public string M5val { get; set; }
         public string SystemMessage { get; set; }
         public string ErrorMessage { get; set; }
-        public double Amount { get; set; }
-        public double AmountWithComission { get; set; }
-        public double ComingAmount { get; set; }
+        public decimal Amount { get; set; }
+        public decimal AmountWithComission { get; set; }
+        public decimal ComingAmount { get; set; }
         public bool IsIncoming { get; set; }
         public string PaymentMethod { get; set; }
     }

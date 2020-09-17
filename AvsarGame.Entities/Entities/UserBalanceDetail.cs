@@ -9,6 +9,7 @@ namespace AvsarGame.Entities.Entities {
         public int TransactionDescription { get; set; }
         public decimal Amount { get; set; }
         public int UserOrderDetailId { get; set; }
+        public string OrderId { get; set; }
     }
 
     public enum TRANSACTION_DESCIPTION {
