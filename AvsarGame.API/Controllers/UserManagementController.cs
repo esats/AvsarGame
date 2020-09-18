@@ -58,19 +58,24 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost]
         [Route("SaveBalance")]
+        [AllowAnonymous]
         public Response<HttpStatusCode> SaveBalance(UserPaymentRequestModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
-
             try {
+                if (model.IpAddress != "185.197.196.99") {
+                    response.Message = "Yetkisiz istek";
+                    response.IsSuccess = false;
+                    return response;
+                }
                 using (var trancation = new TransactionScope()) {
                     InsertOrUpdateUserBalance(model);
 
                     UserNotification notification = new UserNotification() {
-                            UserId = model.UserId,
-                            Message = "Ödeme Onaylandı. Bakiyeniz Güncellendi.",
-                            NotificationType = NotificationType.APPROVED,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
+                        UserId = model.UserId,
+                        Message = "Ödeme Onaylandı. Bakiyeniz Güncellendi.",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = model.UserId
                     };
                     _userNotification.Add(notification);
 
@@ -103,15 +108,15 @@ namespace AvsarGame.API.Controllers {
                     entity.CreatedDate = DateTime.Now;
                     entity.Balance = 0;
                     entity.IsActive = true;
-                    entity.CreatedBy = base.GetUser();
+                    entity.CreatedBy = model.UserId;
                     userBalance = _userBalance.Add(entity);
                 }
 
                 UserBalanceDetail balanceDetail = new UserBalanceDetail();
                 balanceDetail.Amount = model.Amount;
-                balanceDetail.TransactionDescription = (int) TRANSACTION_DESCIPTION.Payment;
+                balanceDetail.TransactionDescription = (int)TRANSACTION_DESCIPTION.Payment;
                 balanceDetail.UserBalanceId = userBalance.Id;
-                balanceDetail.CreatedBy = base.GetUser();
+                balanceDetail.CreatedBy = model.UserId;
                 balanceDetail.CreatedDate = DateTime.Now;
                 balanceDetail.IsActive = true;
                 balanceDetail.OrderId = model.OrderId;

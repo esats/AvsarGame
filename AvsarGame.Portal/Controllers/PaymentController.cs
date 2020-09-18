@@ -30,7 +30,7 @@ namespace WebApplication1.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Pay(string paymentMethod, double amount, double amountWithCommission) {
+        public ActionResult Pay(string paymentMethod, decimal amount, decimal amountWithCommission) {
             if (SessionManager.Instance.GetUserId() == null) {
                 return RedirectToAction("giris", "User");
             }
@@ -111,10 +111,10 @@ namespace WebApplication1.Controllers {
 
             var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
             PaymentLogModel logModel = new PaymentLogModel();
-            logModel.UserId = SessionManager.Instance.Get("UserId");
+            logModel.UserId = paymentLog.UserId;
             logModel.Amount = paymentLog.Amount;
             logModel.AmountWithComission = paymentLog.AmountWithComission;
-            logModel.ComingAmount = Convert.ToDouble(tutar);
+            logModel.ComingAmount = Convert.ToDecimal(tutar);
             logModel.OrderId = siparis_id;
             logModel.Result = Convert.ToInt32(islem_sonucu);
             logModel.Hash = hash;
@@ -139,7 +139,7 @@ namespace WebApplication1.Controllers {
             }
 
             var amountWithCommission = paymentLog.AmountWithComission;
-            if (Convert.ToDouble(tutar) != amountWithCommission) {
+            if (Convert.ToDecimal(tutar) != amountWithCommission) {
                 logModel.ErrorMessage = "Miktarlar uyuşmamakta.";
               }
 
@@ -178,7 +178,7 @@ namespace WebApplication1.Controllers {
                 paymentModel.PrimitivePaymentType = paymentLog.PaymentMethod;
                 paymentModel.UserId = paymentLog.UserId;
                 paymentModel.OrderId = siparis_id;
-
+                paymentModel.IpAddress = remoteIpAddress.ToString();
                 try {
                     JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "SaveBalance", JsonConvert.SerializeObject(paymentModel)));
                 } catch (Exception) {
