@@ -174,7 +174,7 @@ namespace AvsarGame.Portal.Controllers {
             var id = SessionManager.Instance.GetUserId();
             try {
                 var unReadCount = JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetUnReadNotification/{0}", id)));
-                return Json(new { Success = true, Count = unReadCount});
+                return Json(new { Success = true, Count = unReadCount });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
@@ -188,7 +188,7 @@ namespace AvsarGame.Portal.Controllers {
                 if (!SessionManager.Instance.IsAuthenticate()) {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapınız";
-                    response.Error = (int) Errors.UNAUTHORIZED;
+                    response.Error = (int)Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
                     SessionManager.Instance.set("returnUrl", "/sepetim");
@@ -202,7 +202,7 @@ namespace AvsarGame.Portal.Controllers {
 
                 if (totalGameAmount > Balance.Balance) {
                     response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
-                    response.Error = (int) Errors.OUTOFBALANCE;
+                    response.Error = (int)Errors.OUTOFBALANCE;
                     baseResponse.Value = response;
                     baseResponse.IsSuccess = false;
                     return Json(new { Success = true, data = baseResponse });
@@ -229,7 +229,7 @@ namespace AvsarGame.Portal.Controllers {
                 if (!SessionManager.Instance.IsAuthenticate()) {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapınız";
-                    response.Error = (int) Errors.UNAUTHORIZED;
+                    response.Error = (int)Errors.UNAUTHORIZED;
                     baseResponse.IsSuccess = false;
                     baseResponse.Value = response;
                     return Json(new { Success = true, data = baseResponse });
@@ -319,7 +319,7 @@ namespace AvsarGame.Portal.Controllers {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
-        
+
         public async Task<JsonResult> AddMetin2Addversiment(AddversimentDetailModel model) {
             try {
                 if (!SessionManager.Instance.IsAuthenticate()) {
@@ -522,7 +522,65 @@ namespace AvsarGame.Portal.Controllers {
 
         [Route("odeme/kredikarti")]
         public ActionResult CreditCard() {
+            if (SessionManager.Instance.GetUserId() == null) {
+                SessionManager.Instance.set("returnUrl", "telefon-onayi");
+                return RedirectToAction("giris", "User");
+            }
+            var userData =
+                 JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+            if (!userData.PhoneNumberConfirmed) {
+                if (SessionManager.Instance.Get("sendedConfirmNumber") == null) {
+                    SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
+                }
+                return RedirectToAction("ConfirmPhone", "User");
+            }
+
             return View();
+        }
+
+        [HttpGet]
+        [Route("telefon-onayi")]
+        public ActionResult ConfirmPhone() {
+            if (SessionManager.Instance.GetUserId() == null) {
+                SessionManager.Instance.set("returnUrl", "telefon-onayi");
+                return RedirectToAction("giris", "User");
+            }
+
+            var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+            if (userData.PhoneNumberConfirmed) {
+                return View("Index", "Home");
+            }
+
+            ViewBag.UserPhone = userData.PhoneNumber;
+            return View();
+        }
+
+        //bu ekranda yanlış girildiğinde data yazmalı, saniye local storage yazılmalı, 
+        [HttpPost]
+        [Route("telefon-onayi")]
+        public ActionResult ConfirmPhone(int sendedNumber) {
+            var sendedConfirmNumber = Convert.ToInt32(SessionManager.Instance.Get("sendedConfirmNumber"));
+            if (sendedConfirmNumber == sendedNumber) {
+                try {
+                    var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+                    userData.PhoneNumberConfirmed = true;
+                    JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(userData)));
+                } catch (Exception) {
+                    return View();
+                }
+                return RedirectToAction("CreditCard", "User");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult SendSmsAgain() {
+            if (SessionManager.Instance.Get("smsSendResult") != "00") {
+                SmsHelper.SendSmsForPhoneNumber(ViewBag.UserPhone);
+            }
+
+            return Json(true);
         }
     }
 }

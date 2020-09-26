@@ -35,17 +35,27 @@ namespace WebApplication1.Controllers {
                 return RedirectToAction("giris", "User");
             }
 
+            if (amount == decimal.Zero) {
+                return View();
+            }
+
+            var userData =
+                 JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+            if (!userData.PhoneNumberConfirmed) {
+                SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
+                return RedirectToAction("ConfirmPhone", "User");
+            }
+
             NameValueCollection data = System.Web.HttpUtility.ParseQueryString(string.Empty);
             var orderId = Base64Encode(Guid.NewGuid().ToString());
             data["username"] = "anatoliagame";
             data["key"] = "h912yNSj9";
             data["currency"] = "949";
             data["order_id"] = orderId;
-            data["amount"] = amountWithCommission.ToString();
-            data["return_url"] = "http://localhost:30672/esat-avsar";
-            data["phone"] = "54335547779"; //ödemeyi yapacak müşterinin telefon numarası.(sms onayı kontrolü yapılmalı)
+            data["amount"] = (amount + amount / 100 * 2).ToString();
+            data["return_url"] = "https://www.anatoliagame.com/" + SessionManager.Instance.GetSeoName();
+            data["phone"] = userData.PhoneNumber;
             data["selected_payment"] = paymentMethod;
-            //data["selected_bank_id"] = "9991"; //qnb
 
             string result = this.Post2(data.ToString());
             var json_data = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
@@ -141,7 +151,7 @@ namespace WebApplication1.Controllers {
             var amountWithCommission = paymentLog.AmountWithComission;
             if (Convert.ToDecimal(tutar) != amountWithCommission) {
                 logModel.ErrorMessage = "Miktarlar uyuşmamakta.";
-              }
+            }
 
             JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
 

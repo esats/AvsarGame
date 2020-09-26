@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper">
+    <main class="Main">
+        <div style="margin-top: 50px"></div>
+        <div class="container">
+            <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+                <!--Body-->
+                <div class="modal-body">
+                    <form  method="post">
+                        <div class="form-row form-group">
+                            <div class="col-6 ">
+                                <div class="pw-container">
+                                    <input type="text" name="sendedNumber" maxlength="6" class="form-control" style="background-color:white" 
+                                           placeholder="Onay Kodu" />
+                                </div>
+                            </div>
+                            <span class="text-white"><span class="text-blue">@ViewBag.UserPhone </span> No lu Cep telefonunuza gelen onay kodunu giriniz..</span>
+                        </div>
+                        <div class="form-row form-group">
+                            <div class="col-6">
+                                <button class="button btn-blue w-100" id="resetPassword">
+                                    Onayla
+                                </button>
+                            </div>
+                            <span><span class="text-blue" id="secondSpn"></span><span class="text-white"> saniye kaldı</span></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function countDown(i) {
+            var int = setInterval(function () {
+                document.getElementById("secondSpn").innerText = i;
+                i-- || clearInterval(int);
+            }, 1000);
+        }
+        countDown(180);
+    });
+</script>

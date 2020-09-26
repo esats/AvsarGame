@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Helpers;
 using AvsarGame.API.Models;
@@ -25,18 +27,21 @@ namespace AvsarGame.API.Controllers {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         private JWTAuth jwtAuth;
 
         public AccountController(
                 UserManager<ApplicationUser> userManager,
                 SignInManager<ApplicationUser> signInManager,
                 RoleManager<IdentityRole> roleManager,
-                IConfiguration configuration) {
+                IConfiguration configuration,
+                IMapper mapper) {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _roleManager = roleManager;
             jwtAuth = new JWTAuth(configuration);
+            _mapper = mapper;
         }
 
         [HttpPost("Login")]
@@ -77,13 +82,13 @@ namespace AvsarGame.API.Controllers {
             RegisterModel registerModel = new RegisterModel();
             try {
                 var identityUser = new ApplicationUser {
-                        UserName = model.Email,
-                        Email = model.Email,
-                        PhoneNumber = model.PhoneNumber,
-                        Name = model.Name,
-                        Surname = model.Surname,
-                        Gender = model.Gender,
-                        Birthdate = model.Birthdate,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    Name = model.Name,
+                    Surname = model.Surname,
+                    Gender = model.Gender,
+                    Birthdate = model.Birthdate,
                 };
 
                 var result = await _userManager.CreateAsync(identityUser, model.Password);
@@ -124,7 +129,9 @@ namespace AvsarGame.API.Controllers {
                 user.PhoneNumber = model.PhoneNumber;
                 user.Name = model.Name;
                 user.Surname = model.Surname;
-         
+                user.EmailConfirmed = model.EmailConfirmed;
+                user.PhoneNumberConfirmed = user.PhoneNumber == model.PhoneNumber ? model.PhoneNumberConfirmed : false;
+
                 var update = await _userManager.UpdateAsync(user);
 
                 if (update.Succeeded) {
@@ -142,7 +149,6 @@ namespace AvsarGame.API.Controllers {
                 return response;
             }
         }
-
 
         [HttpGet]
         [Route("Logout")]
@@ -165,7 +171,7 @@ namespace AvsarGame.API.Controllers {
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
- 
+
             var callbackUrl = model.RequestSchema + "/user/ResetPassword?email=" + model.Email + "&token=" + token;
 
             MailSenderController controller = new MailSenderController();
@@ -177,7 +183,7 @@ namespace AvsarGame.API.Controllers {
 
         [HttpPost]
         [Route("ResetPassword")]
-        public Response<HttpStatusCode>ResetPassword([FromBody] ResetPasswordModel model) {
+        public Response<HttpStatusCode> ResetPassword([FromBody] ResetPasswordModel model) {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
             try {
                 var user = _userManager.FindByNameAsync(model.Email).Result;
@@ -201,7 +207,6 @@ namespace AvsarGame.API.Controllers {
                 response.Message = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
                 return response;
             }
-       
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AvsarGame.API.Security {
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(Configuration["JwtExpireDays"]));
+            var expires = DateTime.Now.AddHours(24);
 
             var token = new JwtSecurityToken(
                     Configuration["JwtIssuer"],

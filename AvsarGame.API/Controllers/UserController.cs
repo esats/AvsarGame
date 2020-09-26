@@ -29,6 +29,5 @@ namespace AvsarGame.API.Controllers
             var user = _mapper.Map<RegisterModel>(_userManager.FindByIdAsync(base.GetUser()).Result);
             return user;
         }
-
     }
 }

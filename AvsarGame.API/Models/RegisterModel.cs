@@ -18,6 +18,8 @@ namespace AvsarGame.API.Models {
         public string ImageUrl { get; set; }
         public int? Gender { get; set; }
         public DateTime? Birthdate { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
         public string BearerToken { get; set; }
         public string Errors { get; set; }
         [JsonIgnore]

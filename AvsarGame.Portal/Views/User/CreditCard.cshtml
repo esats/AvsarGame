@@ -29,7 +29,7 @@
                                                 <div class="form-row align-items-center">
                                                     <div class="col-auto">
                                                         <label class="text-white" >Yatırılacak Tutar</label>
-                                                        <input type="text" style="background-color:white" name="amount"  class="form-control mb-2" id="inlineFormInput" placeholder="0.00">
+                                                        <input type="text" style="background-color:white" name="amount"  class="form-control mb-2" id="amountOfBalance" placeholder="0.00">
                                                     </div>
                                                     <div class="col-auto">
                                                         <label class="text-white" for="inlineFormInputGroup">Ödenecek Tutar</label>
@@ -37,7 +37,7 @@
                                                             <div class="input-group-prepend">
                                                                 <div class="input-group-text"></div>
                                                             </div>
-                                                            <input type="text" style="background-color:white" name="amountWithCommission"   class="form-control" id="inlineFormInputGroup" placeholder="0.00">
+                                                            <input type="text" style="background-color:white" name="amountWithCommission" disabled="disabled"  class="form-control" id="amountOfBalanceWithCms" placeholder="0.00">
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -65,3 +65,16 @@
         </div>
     </main>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#amountOfBalance").on('change', function () {
+            debugger
+            if (parseFloat(this.value) == 0 || this.value == "") {
+                document.getElementById("amountOfBalanceWithCms").value = "0.00"
+            }
+            else {
+                document.getElementById("amountOfBalanceWithCms").value = parseFloat(this.value) + parseFloat(this.value) / 100 * 2;
+            }
+        });
+    });
+</script>

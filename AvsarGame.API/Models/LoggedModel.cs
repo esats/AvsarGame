@@ -13,5 +13,6 @@ namespace AvsarGame.API.Models {
         public int? Age { get; set; }
         public string BearerToken { get; set; }
         public string ReturnUrl { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
