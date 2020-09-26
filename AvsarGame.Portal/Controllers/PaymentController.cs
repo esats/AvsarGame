@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers {
             }
 
             if (amount == decimal.Zero) {
-                return View();
+                return RedirectToAction("CreditCard", "User");
             }
 
             var userData =

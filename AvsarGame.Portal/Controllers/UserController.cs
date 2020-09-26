@@ -523,15 +523,16 @@ namespace AvsarGame.Portal.Controllers {
         [Route("odeme/kredikarti")]
         public ActionResult CreditCard() {
             if (SessionManager.Instance.GetUserId() == null) {
-                SessionManager.Instance.set("returnUrl", "telefon-onayi");
                 return RedirectToAction("giris", "User");
             }
+
             var userData =
                  JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
             if (!userData.PhoneNumberConfirmed) {
                 if (SessionManager.Instance.Get("sendedConfirmNumber") == null) {
                     SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
                 }
+                SessionManager.Instance.set("returnUrl", "/odeme/kredikarti");
                 return RedirectToAction("ConfirmPhone", "User");
             }
 
@@ -542,7 +543,6 @@ namespace AvsarGame.Portal.Controllers {
         [Route("telefon-onayi")]
         public ActionResult ConfirmPhone() {
             if (SessionManager.Instance.GetUserId() == null) {
-                SessionManager.Instance.set("returnUrl", "telefon-onayi");
                 return RedirectToAction("giris", "User");
             }
 
@@ -555,7 +555,6 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        //bu ekranda yanlış girildiğinde data yazmalı, saniye local storage yazılmalı, 
         [HttpPost]
         [Route("telefon-onayi")]
         public ActionResult ConfirmPhone(int sendedNumber) {
@@ -568,19 +567,24 @@ namespace AvsarGame.Portal.Controllers {
                 } catch (Exception) {
                     return View();
                 }
-                return RedirectToAction("CreditCard", "User");
+                SessionManager.Instance.Remove("sendedConfirmNumber");
+                return Redirect("onay-sonuc");
+            } else {
+                ViewBag.confirmResult = "**Lütfen kodunuzu doğru giriniz.";
+                return View();
             }
-
-            return View();
         }
 
         [HttpPost]
         public JsonResult SendSmsAgain() {
-            if (SessionManager.Instance.Get("smsSendResult") != "00") {
-                SmsHelper.SendSmsForPhoneNumber(ViewBag.UserPhone);
-            }
-
+            SmsHelper.SendSmsForPhoneNumber(ViewBag.UserPhone);
             return Json(true);
+        }
+
+        [Route("onay-sonuc")]
+        public ActionResult ConfirmResult() {
+            ViewBag.returnUrl = SessionManager.Instance.Get("returnUrl");
+            return View();
         }
     }
 }

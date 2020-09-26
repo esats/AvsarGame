@@ -9,20 +9,26 @@
             <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
                 <!--Body-->
                 <div class="modal-body">
-                    <form  method="post">
+                    <form method="post">
                         <div class="form-row form-group">
                             <div class="col-6 ">
                                 <div class="pw-container">
-                                    <input type="text" name="sendedNumber" maxlength="6" class="form-control" style="background-color:white" 
+                                    <input type="text" name="sendedNumber" maxlength="6" class="form-control" style="background-color:white"
                                            placeholder="Onay Kodu" />
                                 </div>
                             </div>
                             <span class="text-white"><span class="text-blue">@ViewBag.UserPhone </span> No lu Cep telefonunuza gelen onay kodunu giriniz..</span>
                         </div>
+                        <div>
+                            <span class="text-white">@ViewBag.confirmResult </span>
+                        </div>
                         <div class="form-row form-group">
                             <div class="col-6">
-                                <button class="button btn-blue w-100" id="resetPassword">
+                                <button class="button btn-blue w-100" id="confirmCode">
                                     Onayla
+                                </button>
+                                <button class="button btn-blue w-100" style="display:none" id="reSend">
+                                    Yeniden Kod Gönder
                                 </button>
                             </div>
                             <span><span class="text-blue" id="secondSpn"></span><span class="text-white"> saniye kaldı</span></span>
@@ -36,12 +42,61 @@
 
 <script>
     $(document).ready(function () {
+
         function countDown(i) {
             var int = setInterval(function () {
+                localStorage.setItem("counter", i);
                 document.getElementById("secondSpn").innerText = i;
+                if (i == 0) {
+                    $(document.getElementById("reSend")).css("display", "block")
+                    $(document.getElementById("confirmCode")).css("display", "none")
+                }
                 i-- || clearInterval(int);
             }, 1000);
         }
-        countDown(180);
+
+        if (localStorage.getItem("counter") == null || localStorage.getItem("counter") == 0) {
+            if (true) {
+
+            }
+            countDown(180);
+        } else {
+            countDown(localStorage.getItem("counter"));
+        }
+
+        $("#confirmCode").on('click', function (e) {
+            if (localStorage.getItem("counter") == null || localStorage.getItem("counter") == 0) {
+                debugger;
+                e.preventDefault();
+                alert("Lütfen sms kodunu tekrardan isteyiniz")
+            }
+        });
+
+        function sendSmsCode(e) {
+            if (localStorage.getItem("counter") > 0) {
+                e.preventDefault();
+                return;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/User/SendSmsAgain',
+                content: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (res) {
+                    location.reload()
+                },
+                error: function (err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        }
+
+        $("#reSend").on('click', function (e) {
+            e.preventDefault();
+            sendSmsCode(e);
+        });
+
+
     });
 </script>

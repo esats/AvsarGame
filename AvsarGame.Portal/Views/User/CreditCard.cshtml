@@ -25,11 +25,11 @@
                                         </div>
                                         <div class="row">
                                             <form asp-action="pay" asp-controller="Payment" method="post">
-                                                <input hidden="hidden" name="paymentMethod" value="krediKarti"/>
+                                                <input hidden="hidden" name="paymentMethod" value="krediKarti" />
                                                 <div class="form-row align-items-center">
                                                     <div class="col-auto">
-                                                        <label class="text-white" >Yatırılacak Tutar</label>
-                                                        <input type="text" style="background-color:white" name="amount"  class="form-control mb-2" id="amountOfBalance" placeholder="0.00">
+                                                        <label class="text-white">Yatırılacak Tutar</label>
+                                                        <input type="text" style="background-color:white" name="amount" class="form-control mb-2" id="amountOfBalance" placeholder="0.00">
                                                     </div>
                                                     <div class="col-auto">
                                                         <label class="text-white" for="inlineFormInputGroup">Ödenecek Tutar</label>
@@ -37,11 +37,11 @@
                                                             <div class="input-group-prepend">
                                                                 <div class="input-group-text"></div>
                                                             </div>
-                                                            <input type="text" style="background-color:white" name="amountWithCommission" disabled="disabled"  class="form-control" id="amountOfBalanceWithCms" placeholder="0.00">
+                                                            <input type="text" style="background-color:white" name="amountWithCommission" disabled="disabled" class="form-control" id="amountOfBalanceWithCms" placeholder="0.00">
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
-                                                        <button type="submit" style="margin-top: 23px;" class="btn btn-success">Ödemeye git</button>
+                                                        <button type="submit" style="margin-top: 23px;" id="paymentBtn" class="btn btn-success">Ödemeye git</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -74,6 +74,14 @@
             }
             else {
                 document.getElementById("amountOfBalanceWithCms").value = parseFloat(this.value) + parseFloat(this.value) / 100 * 2;
+            }
+        });
+
+        $("#paymentBtn").on('click', function (e) {
+            var amount = document.getElementById("amountOfBalanceWithCms").value;
+            if (parseFloat(amount) <= 10) {
+                e.preventDefault();
+                alert("Mininmum 10 tl ödeme yapmalısınız")
             }
         });
     });
