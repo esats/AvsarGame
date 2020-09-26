@@ -559,9 +559,10 @@ namespace AvsarGame.Portal.Controllers {
         [Route("telefon-onayi")]
         public ActionResult ConfirmPhone(int sendedNumber) {
             var sendedConfirmNumber = Convert.ToInt32(SessionManager.Instance.Get("sendedConfirmNumber"));
+            var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+
             if (sendedConfirmNumber == sendedNumber) {
                 try {
-                    var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
                     userData.PhoneNumberConfirmed = true;
                     JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(userData)));
                 } catch (Exception) {
@@ -571,6 +572,7 @@ namespace AvsarGame.Portal.Controllers {
                 return Redirect("onay-sonuc");
             } else {
                 ViewBag.confirmResult = "**Lütfen kodunuzu doğru giriniz.";
+                ViewBag.UserPhone = userData.PhoneNumber;
                 return View();
             }
         }
