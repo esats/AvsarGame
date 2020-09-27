@@ -60,6 +60,7 @@ namespace AvsarGame.API.Helpers {
 
             CreateMap<PaymentLogModel, PaymentLog>();
             CreateMap<PaymentLog, PaymentLogModel>();
+            CreateMap<PaymentLog, UserPaymentHistoryModel>();
         }
     }
 }

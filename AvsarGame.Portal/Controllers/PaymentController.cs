@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
+using AvsarGame.Core;
 using AvsarGame.Portal.Core;
 using AvsarGame.Portal.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +54,7 @@ namespace WebApplication1.Controllers {
             data["currency"] = "949";
             data["order_id"] = orderId;
             data["amount"] = (amount + amount / 100 * 2).ToString();
-            data["return_url"] = "https://www.anatoliagame.com/" + SessionManager.Instance.GetSeoName();
+            //data["return_url"] = "https://www.anatoliagame.com/" + SessionManager.Instance.GetSeoName();
             data["phone"] = userData.PhoneNumber;
             data["selected_payment"] = paymentMethod;
 
@@ -67,14 +68,18 @@ namespace WebApplication1.Controllers {
                 PaymentLogModel logModel = new PaymentLogModel();
                 logModel.UserId = SessionManager.Instance.Get("UserId");
                 logModel.Amount = amount;
-                logModel.AmountWithComission = amountWithCommission;
+                logModel.AmountWithComission = (amount + amount / 100 * 2);
                 logModel.OrderId = orderId;
                 logModel.IpAddress = remoteIpAddress.ToString();
-                logModel.Date = DateTime.Now;
+                logModel.CreatedDate = DateTime.Now;
+                logModel.CreatedBy = SessionManager.Instance.Get("UserId");
                 logModel.SystemMessage = "";
                 logModel.PaymentMethod = paymentMethod;
+                logModel.PaymentDistributor = (int)Banks.GPAY;
                 logModel.IsIncoming = false;
                 logModel.Result = Convert.ToInt32(json_data["state"]);
+                logModel.CreatedDate = DateTime.Now;
+                logModel.CreatedBy = SessionManager.Instance.Get("UserId");
                 JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
                 return Redirect(paymentLink);
 
@@ -82,18 +87,20 @@ namespace WebApplication1.Controllers {
                 PaymentLogModel logModel = new PaymentLogModel();
                 logModel.UserId = SessionManager.Instance.Get("UserId");
                 logModel.Amount = amount;
-                logModel.AmountWithComission = amountWithCommission;
+                logModel.AmountWithComission = (amount + amount / 100 * 2);
                 logModel.OrderId = orderId;
                 logModel.IpAddress = remoteIpAddress.ToString();
-                logModel.Date = DateTime.Now;
+                logModel.CreatedDate = DateTime.Now;
+                logModel.CreatedBy = SessionManager.Instance.Get("UserId");
                 logModel.SystemMessage = json_data["message"];
                 logModel.PaymentMethod = paymentMethod;
                 logModel.IsIncoming = false;
+                logModel.PaymentDistributor = (int)Banks.GPAY;
                 logModel.Result = Convert.ToInt32(json_data["state"]);
                 TempData["ErrorMsg"] = string.Format("{0}", json_data["error_code"]);
                 JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
-                // TODO VİEW YAP 
-                return RedirectToAction("PayLinkFailed");
+             
+                return Redirect("odeme-sonuc?payment_status=2");
             }
         }
 
@@ -112,7 +119,7 @@ namespace WebApplication1.Controllers {
         static string[] CALLBACK_IP = new string[] { "185.197.196.99" };
 
         [HttpPost]
-        public ActionResult PayCallBack(string siparis_id, string tutar, string islem_sonucu, string islem_mesaji, string hash) {
+        public void PayCallBack(string siparis_id, string tutar, string islem_sonucu, string islem_mesaji, string hash) {
             string bayiiKey = "h912yNSj9";
             var paymentLog = JsonConvert.DeserializeObject<PaymentLogModel>(UiRequestManager.Instance.Get(string.Format("PaymentLog/GetLogByOrderId?OrderId={0}", siparis_id)));
 
@@ -130,10 +137,11 @@ namespace WebApplication1.Controllers {
             logModel.Hash = hash;
             logModel.IpAddress = remoteIpAddress.ToString();
             logModel.M5val = md5Val;
-            logModel.Date = DateTime.Now;
-            logModel.SystemMessage = islem_mesaji;
+            logModel.CreatedDate = DateTime.Now;
+            logModel.CreatedBy = SessionManager.Instance.Get("UserId"); logModel.SystemMessage = islem_mesaji;
             logModel.PaymentMethod = paymentLog.PaymentMethod;
             logModel.IsIncoming = true;
+            logModel.PaymentDistributor = (int)Banks.GPAY;
 
             bool hasIP = false;
 
@@ -155,48 +163,23 @@ namespace WebApplication1.Controllers {
 
             JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
 
-            if (Convert.ToInt32(islem_sonucu) != 2) {
-                var res = "";
-                switch (Convert.ToInt32(islem_sonucu)) {
-                    case 1:
-                        res = "Havale Ödemesi bekleniyor";
-                        break;
-                    case 2:
-                        res = "Ödeme başarılı";
-                        break;
-                    case 3:
-                        res = "Ödeme iptal edildi";
-                        break;
-                    case 4:
-                        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
-                        break;
-                    case 5:
-                        res = "Ödeme gerçekleştirilemedi. Bakiye yetersiz veya yanlış bir işlem yapıldı";
-                        break;
-                }
-                ViewBag.Result = res;
-                return View();
-            }
-
-
             if (Convert.ToInt32(islem_sonucu) == 2) {
                 UserPaymentRequestModel paymentModel = new UserPaymentRequestModel();
                 paymentModel.Amount = paymentLog.Amount;
-                paymentModel.Bank = AvsarGame.Core.Banks.GPAY;
+                paymentModel.Bank = Banks.GPAY;
                 paymentModel.CreatedDate = DateTime.Now;
-                paymentModel.Date = DateTime.Now;
                 paymentModel.PrimitivePaymentType = paymentLog.PaymentMethod;
                 paymentModel.UserId = paymentLog.UserId;
                 paymentModel.OrderId = siparis_id;
                 paymentModel.IpAddress = remoteIpAddress.ToString();
                 try {
                     JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "SaveBalance", JsonConvert.SerializeObject(paymentModel)));
-                } catch (Exception) {
-                    return View();
+                } catch (Exception e) {
+                    logModel.TransferedUsersBalanceStatus = 2;//bu statü ödeme alınıp sistemsel sorunlarda yardımcı olacak.
+                    logModel.ErrorMessage = e.Message;//bu statü ödeme alınıp sistemsel sorunlarda yardımcı olacak.
+                    JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
                 }
             }
-
-            return View();
         }
 
         public string md5(string content) {
@@ -242,6 +225,24 @@ namespace WebApplication1.Controllers {
             cli.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
             string response = cli.UploadString(url, postData);
             return response;
+        }
+
+        [HttpGet]
+        [Route("odeme-sonuc")]
+        public ActionResult PaymentResult(int payment_status) {
+            if (payment_status == 0) {
+                ViewBag.Result = "Ödeme Gerçekleştirilemedi. Lütfen daha tekrar deneyiniz.";
+            } 
+
+            if (payment_status == 1) {
+                ViewBag.Result = "Ödeme Gerçekleştirildi. Bakiyeniz güncellendi";
+            }
+
+            if (payment_status == 2) {
+                ViewBag.Result = "Ödeme Gerçekleştirilemedi. Lütfen daha tekrar deneyiniz.";
+            }
+
+            return View();
         }
     }
 }

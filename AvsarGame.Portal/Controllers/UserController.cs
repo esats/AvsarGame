@@ -137,9 +137,6 @@ namespace AvsarGame.Portal.Controllers {
 
             model.Balance =
                     JsonConvert.DeserializeObject<UserBalanceModel>(UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", id)));
-            //model.NotificationCount =
-            //        JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetNotificationUnRead/{0}", id)));
-
             model.UserDetail =
                     JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
 

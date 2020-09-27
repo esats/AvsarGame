@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Dal.Abstract;
@@ -12,9 +13,14 @@ namespace AvsarGame.API.Controllers {
     [Route("api/UserBalance")]
     public class UserBalanceController : APIControllerBase {
         private readonly IUserBalance _userBalance;
+        private readonly IPaymentLog _paymentLog;
+        private readonly IMapper _mapper;
 
-        public UserBalanceController(IUserBalance userBalance) {
+        public UserBalanceController(IUserBalance userBalance, 
+            IPaymentLog paymentLog, IMapper mapper) {
             _userBalance = userBalance;
+            _paymentLog = paymentLog;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -32,6 +38,13 @@ namespace AvsarGame.API.Controllers {
 
             model.UserId = id;
             return model;
+        }
+
+        [HttpGet]
+        [Route("GetUserPaymentHistory/{id}")]
+        public List<UserPaymentHistoryModel> GetUserPaymentHistory(string id) {
+            var payments = _mapper.Map<List<UserPaymentHistoryModel>>(_paymentLog.GetList(x => x.UserId == id && x.IsIncoming));
+            return payments;
         }
     }
 }

@@ -18,5 +18,7 @@ namespace AvsarGame.Entities.Entities {
         public decimal ComingAmount { get; set; }
         public bool IsIncoming { get; set; }
         public string PaymentMethod { get; set; }
+        public int PaymentDistributor { get; set; }
+        public int TransferedUsersBalanceStatus { get; set; } 
     }
 }

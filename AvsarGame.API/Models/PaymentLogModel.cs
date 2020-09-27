@@ -18,6 +18,9 @@ namespace AvsarGame.API.Models {
         public decimal ComingAmount { get; set; }
         public bool IsIncoming { get; set; }
         public string PaymentMethod { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public int PaymentDistributor { get; set; }
+        public int TransferedUsersBalanceStatus { get; set; } = 1;
     }
 }
