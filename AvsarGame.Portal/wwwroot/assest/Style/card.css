@@ -1,0 +1,25 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+#methods-col h3 {
+    font-family: 'Poppins', sans-serif;
+}
+
+#methods-col .box {
+    background: #6c6a6a;
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin: 20px 0px;
+    cursor: pointer;
+    transition: all 0.5s ease-out;
+}
+
+    #methods-col .box:hover {
+        box-shadow: 0 0 6px #009aff;
+        border: 1px solid #009aff;
+    }
+
+    #methods-col .box .box-title {
+        margin: 20px 0px;
+        font-size: 15px;
+        line-height: 30px;
+    }

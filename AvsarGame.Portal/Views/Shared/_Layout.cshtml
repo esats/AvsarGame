@@ -10,6 +10,7 @@
     <link href="~/assest/style/swiper.min.css" rel="stylesheet" />
     <link href="~/assest/style/main.min.css" rel="stylesheet" />
     <link href="~/assest/Floating-label.css" rel="stylesheet" />
+    <link href="~/assest/Style/card.css" rel="stylesheet" />
     <link rel="icon" href="~/assest/logos/favicon.svg" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="~/assest/scripts/toastr.min.js"></script>
@@ -23,9 +24,13 @@
     <link href="~/assest/style/camroll_slider.css" rel="stylesheet" />
     <script src="~/assest/scripts/camroll_slider.js"></script>
     <style>
-            .chartCss {
-                text-shadow: 0 1px 39px #0088e8, 0 1px 2px rgba(0, 0, 0, .2) !important
-            }
+        .box-pay {
+            border:3px solid #009aff;
+        }
+
+        .chartCss {
+            text-shadow: 0 1px 39px #0088e8, 0 1px 2px rgba(0, 0, 0, .2) !important
+        }
 
         .ajaxShowLoader {
             opacity: 1 !important;
@@ -102,6 +107,87 @@
     <meta name="robots" content="NOODP" />
     @*<script src="//code.jivosite.com/widget/52YoFr6EhE" async></script>*@
     <script>
+        $(document).ready(function () {
+
+            //Clicked Any Box for Payment Methods
+            $('#methods-col .box-title').click(function () {
+                debugger
+                PaymentMethod(this.innerText.toString());
+            });
+
+            //Function PaymentMethod Action
+            function PaymentMethod(methodName) {
+                var arr = $('#methods-col .box-title');
+                for (var i = 0; i < arr.length; i++) {
+                    var method = ($.trim(arr[i].innerText.toString())).replace(" ", "").toLowerCase();
+                    if (methodName.replace(" ", "").toLowerCase().localeCompare(method) == 0) {
+                        //remove class boxs
+                        var boxes = document.getElementsByClassName("box");
+                        for (var i = 0; i < boxes.length; i++) {
+                            $(boxes[i]).removeClass("box-pay")
+                        }
+                        //Add class
+                        $("#" + method + "-payment").addClass('box-pay');
+                        //Remove Payments Container
+                        document.getElementById("payments-container").innerHTML = "";
+                        //Add Payment Content by Method
+                        var content =
+                             '<div class="row">'
+                            +'<div class="col-12">'
+                            +'<div class="section tab-primary">'
+                            +'<ul class="nav nav-pills " id="pills-tab" role="tablist">'
+                            +'<li class="nav-item">'
+                            + '<a class="nav-link active" id="pills-' + method + '-tab" data-toggle="pill"'
+                            + 'href="#' + method + '-method" role="tab" aria-controls="' + method + '-method"'
+                            +'aria-selected="false">'+methodName+' Ödeme</a>'
+                            +'</li>'
+                            +'</ul>'
+                            +'<div class="tab-content">'
+                            + '<div class="tab-pane fade active show" role="tabpanel"'
+                            + 'aria-labelledby="pills-' + method + '-method-tab">'
+                            + '<div class="row">'
+                            + '<form method = "post" action = "/Payment/pay" >'
+                            + '<input hidden="hidden" name="paymentMethod" value="' + method + '">'
+                            + '<div class="form-row align-items-center">'
+                            + '<div class="col-auto">'
+                            + '<label class="text-white">Yatırılacak Tutar</label>'
+                            + '<input type="text" style="background-color:white" name="amount" class="form-control mb-2" id="amountOfBalance" placeholder="0.00">'
+                            + '</div>'
+                            +'<div class="col-auto">'
+                            +'<label class="text-white" for="inlineFormInputGroup">Ödenecek Tutar</label>'
+                            +'<div class="input-group mb-2">'
+                            +'<div class="input-group-prepend">'
+                            +'<div class="input-group-text"></div>'
+                            +'</div>'
+                            +'<input type="text" style="background-color:white" name="amountWithCommission" disabled="disabled" class="form-control" id="amountOfBalanceWithCms" placeholder="0.00">'
+                            +'</div>'
+                            +'</div>'
+                            +'<div class="col-auto">'
+                            +'<button type="submit" style="margin-top: 23px;" id="paymentBtn" class="btn btn-success">Ödemeye git</button>'
+                            +'</div>'
+                            +'</div>'
+                            +'<input name="__RequestVerificationToken" type="hidden" value="CfDJ8De_RNuM-udEjPh9jd0UQ_OkQP-1uoClJ7xrs7Tx35tZRm3L6AU63q9fzMcNJiAkZ-VPVw59OO8q6MPz_hRoB1cUToykM7rxxGunnAOBVrD_fgmaOW7-KOyVjP9Sp3ApfeX0H65-nA3jI_mkrlTSE1w"></form>'
+                            +'</div>'
+                            +'</div>'
+                            +'</div>'
+                            +'</div>'
+                            +'</div>'
+                            +'</div>'
+                            +'<div class="row">'
+                                +'<div class="col-12">'
+                                    +'<div class="announce-box announce-danger">'
+                                        + '<p>'
+                                        + methodName + ' İle Ödemelerde %2 Komisyon Alınmaktadır.'
+                                        +'</p>'
+                                    +'</div>'
+                                +'</div>'
+                            +'</div >'
+                        document.getElementById("payments-container").insertAdjacentHTML('beforeend', content)
+                        break;
+                    }
+                }
+            }
+        });
         toastr.options = {
             "closeButton": true,
             "debug": false,
