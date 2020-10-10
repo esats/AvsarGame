@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web.Http;
 using AvsarGame.API.Base;
 using AvsarGame.API.Models;
 using AvsarGame.Core;
@@ -584,6 +585,49 @@ namespace AvsarGame.Portal.Controllers {
         public ActionResult ConfirmResult() {
             ViewBag.returnUrl = SessionManager.Instance.Get("returnUrl");
             return View();
+        }
+
+        [Route("alisveris")]
+        public ActionResult BuyObject(AddversimentDetailModel model) {
+            if (!SessionManager.Instance.IsAuthenticate()) {
+                var retUrl = PageHelper.GetAddversimentHref((AddversimentType)model.DetailType, model.Id);
+                SessionManager.Instance.set("returnUrl", retUrl);
+                return RedirectToAction("Giris", "User");
+            }
+            SessionManager.Instance.Remove("returnUrl");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult BuyKnightObject([FromBody] CommerceModel model) {
+            Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
+            UserOrderResponseModel response = new UserOrderResponseModel();
+
+            if (!SessionManager.Instance.IsAuthenticate()) {
+                response.RedirectUrl = "/User/login";
+                response.Message = "Lütfen Giriş Yapınız";
+                response.Error = (int)Errors.UNAUTHORIZED;
+                baseResponse.IsSuccess = false;
+                baseResponse.Value = response;
+                SessionManager.Instance.set("returnUrl", "/sepetim");
+                return Json(new { Success = true, data = baseResponse });
+            }
+
+            UserBalanceModel Balance =
+                       JsonConvert.DeserializeObject<UserBalanceModel>(
+                               UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));
+
+            if (model.PriceWithComission > (double)Balance.Balance) {
+                response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
+                response.Error = (int)Errors.OUTOFBALANCE;
+                baseResponse.Value = response;
+                baseResponse.IsSuccess = false;
+                return Json(new { Success = true, data = baseResponse });
+            }
+
+
+            return Json(new { Success = true, data = baseResponse });
         }
     }
 }

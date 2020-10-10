@@ -163,9 +163,9 @@
                                 </div>
                             }
                             <p class="amount" style="color: #009aff">₺@Model.Price</p>
-                            <button class="button btn-blue w-100 mt-4" type="submit">
+                            <a class="button btn-blue w-100 mt-4" type="submit" href="@Url.Action("BuyObject","User",Model)">
                                 SATIN AL
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -365,9 +365,12 @@
                 }
             });
         });
+
+        
         
     });
 
+    
     function toogleanswer(commentId) {
         var elem = "#" + commentId;
         var toogle = $(elem).css("display");

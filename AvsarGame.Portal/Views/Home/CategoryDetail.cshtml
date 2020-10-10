@@ -6,58 +6,57 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="page-wrapper">
-        <div class="container">
-            <div class="breadcrumb-wrapper">
-                <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;" src="~/assest/img/m106.png" />
-                <div class="breadcrumb">
-                    <a href="/">Anasayfa</a>
-                    <a href="/oyunlar">oyunlar</a>
-                    <a href="javascript:void(0)" class="active">@Model.Category.Name</a>
-                </div>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="breadcrumb-wrapper">
+            <img class="breadcrumb-img" style="-webkit-user-select: none;margin: auto;" src="~/assest/img/m106.png" />
+            <div class="breadcrumb">
+                <a href="/">Anasayfa</a>
+                <a href="/oyunlar">oyunlar</a>
+                <a href="javascript:void(0)" class="active">@Model.Category.Name</a>
             </div>
         </div>
-        <main class="Main">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-6">
-                        <h3 class="title-primary">@Model.Category.Name</h3>
-                    </div>
-                    <div class="col-6">
-                        <p class="text-right page-info">
-                            @*GB alım satımları TRADE ile yapılmaktadır.*@
-                        </p>
+    </div>
+    <main class="Main">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h3 class="title-primary">@Model.Category.Name</h3>
+                </div>
+                <div class="col-6">
+                    <p class="text-right page-info">
+                        @*GB alım satımları TRADE ile yapılmaktadır.*@
+                    </p>
+                </div>
+            </div>
+            <div class="row section" style="display: none;">
+                <div class="col-12">
+                    <div class="banner-container">
+                        @*<img class="banner-img" src="https://cdn2-www.gamerevolution.com/assets/uploads/2012/03/file_2409_ME3.jpg" alt="">*@
+                        <div class="notification notification-bottom">
+                            20 Mart 2020'de Sizlerle!
+                        </div>
                     </div>
                 </div>
-                <div class="row section" style="display: none;">
-                    <div class="col-12">
-                        <div class="banner-container">
-                            @*<img class="banner-img" src="https://cdn2-www.gamerevolution.com/assets/uploads/2012/03/file_2409_ME3.jpg" alt="">*@
-                            <div class="notification notification-bottom">
-                                20 Mart 2020'de Sizlerle!
+            </div>
+            <div class="row section">
+                <div class="order-lg-1 order-2 col-12 col-lg-3 recommended side">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-12">
+                            <img class="recommended-img mt-3 mb-5" src="@PageHelper.GetImageUrl(Model.Category.ImageUrl, ImageFolder.LARGE)" alt="">
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-12">
+                            <div class="title-secondary led led-below">Açıklama</div>
+                            <div class="recommended-text pt-3">
+                                <p>
+                                    @Html.Raw(Model.Category.Description)
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row section">
-                    <div class="order-lg-1 order-2 col-12 col-lg-3 recommended side">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-lg-12">
-                                <img class="recommended-img mt-3 mb-5" src="@PageHelper.GetImageUrl(Model.Category.ImageUrl, ImageFolder.LARGE)" alt="">
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-12">
-                                <div class="title-secondary led led-below">Açıklama</div>
-                                <div class="recommended-text pt-3">
-                                    <p>
-                                        @Html.Raw(Model.Category.Description)
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-12 order-lg-2 order-1 product-container">
-                        @foreach (var game in Model.Games.OrderBy(x => x.OrderNo))
-                        {
+                <div class="col-lg-9 col-12 order-lg-2 order-1 product-container">
+                    @foreach (var game in Model.Games.OrderBy(x => x.OrderNo)) {
                         <div class="row product align-items-center">
                             <div class="col-md-3 col-sm-5 col-12">
                                 <div class="product-img-container">
@@ -80,16 +79,14 @@
                                                 @Html.Raw(game.Description)
                                             </div>
                                             <div class="col-12 d-flex justify-content-start justify-content-lg-between start product-trade">
-                                                @if (game.SellButtonEnabled)
-                                                {
+                                                @if (game.SellButtonEnabled) {
                                                     <div class="product-sell mr-4">
                                                         <div class="trade-icon"></div>
                                                         <span class="trade-text">SATIŞ:</span>
                                                         <span class="trade-price">@game.SellPrice  TL</span>
                                                     </div>
                                                 }
-                                                @if (game.BuyButtonEnabled)
-                                                {
+                                                @if (game.BuyButtonEnabled) {
                                                     <div class="product-buy">
                                                         <div class="trade-icon"></div>
                                                         <span class="trade-text">ALIŞ:</span>
@@ -102,13 +99,11 @@
                                     <div class="col">
                                         <div class="row align-items-center h-100">
                                             <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
-                                                @if (game.SellButtonEnabled)
-                                                {
-                                                    <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue">Satın Al</button>
-                                                }
-                                                @if (game.BuyButtonEnabled)
-                                                {
+                                                @if (game.SellButtonEnabled) {
                                                     <a class="button btn-outline mr-4" style="margin-right: 4px" href="/satis-yap/@game.SeoName">Satış Yap</a>
+                                                }
+                                                @if (game.BuyButtonEnabled) {
+                                                    <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue">Satın Al</button>
                                                 }
                                             </div>
                                         </div>
@@ -117,12 +112,12 @@
                             </div>
 
                         </div>
-                        }
-                    </div>
+                    }
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+</div>
 
 <div class="modal fade" id="amountModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -139,7 +134,7 @@
                                         Miktar
                                     </label>
                                     <input type="email" id="amount" class="form-control"
-                                           placeholder="Miktar" required/>
+                                           placeholder="Miktar" required />
                                 </div>
                             </div>
                             <div class="form-row form-group">
@@ -159,8 +154,8 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $(".product-container #buy").click(function() {
+    $(document).ready(function () {
+        $(".product-container #buy").click(function () {
             var model = JSON.parse($(this).attr('data-model'));
 
             $.ajax({
@@ -169,7 +164,7 @@
                 content: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: model,
-                success: function(res) {
+                success: function (res) {
                     if (res.success) {
                         $("#chart")[0].classList.remove("passive");
                         $("#chart")[0].getElementsByTagName('a')[0].classList.add("chartCss");
@@ -180,7 +175,7 @@
                         Command: toastr["error"]("Ürün sepete eklenemedi");
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     Command: toastr["error"]("Ürün sepete eklenemedi");
                 }
             });

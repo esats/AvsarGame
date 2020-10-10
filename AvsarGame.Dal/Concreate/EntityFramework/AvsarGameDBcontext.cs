@@ -31,6 +31,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         public virtual DbSet<UserComment> UserComment { get; set; }
         public virtual DbSet<Metin2Item> Metin2Item { get; set; }
         public virtual DbSet<PaymentLog> PaymentLog { get; set; }
+        public virtual DbSet<KnightCommerceDetail> KnightCommerceDetail { get; set; }
 
         public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options) {
         }
@@ -41,7 +42,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
             #if DEBUG
-                   optionsBuilder.UseSqlServer(@"Server=SAVAS-US\SQLEXPRESS;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
+                   optionsBuilder.UseSqlServer(@"Server=.;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
             #else
                     optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
             #endif
