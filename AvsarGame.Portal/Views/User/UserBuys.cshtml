@@ -1,0 +1,55 @@
+﻿@model List<GetUserCommerceRequestDetailModel>
+@{
+    ViewData["Title"] = "UserBuys";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table tbody tr td {
+        text-align: center
+    }
+
+    table thead tr {
+        text-align: center
+    }
+</style>
+<div class="page-wrapper">
+    <main class="Main">
+        <div class="container" style="border: 1px solid #009aff !important">
+            <div class="section tab-primary">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-container">
+                                    <table class="table table-dark responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">İlan Adı</th>
+                                                <th scope="col">Oyun Adı</th>
+                                                <th scope="col">Fiyat</th>
+                                                <th scope="col">Satıcı</th>
+                                                <th scope="col">Durumu</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model) {
+                                                <tr>
+                                                    <td scope="col">@item.Title</td>
+                                                    <td scope="col">@item.GameName</td>
+                                                    <td scope="col">@item.PriceWithComission</td>
+                                                    <td scope="col">@item.Seller</td>
+                                                    <td scope="col">@item.StatusDescription</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

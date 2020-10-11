@@ -2,17 +2,6 @@
 @using AvsarGame.Portal.Core
 @model AddversimentDetailModel
 
-@functions {
-
-    private decimal Calculated(List<GameModel> model) {
-        decimal totalAmount = Decimal.Zero;
-        foreach (var item in model) {
-            totalAmount = totalAmount + item.SellPrice;
-        }
-        return totalAmount;
-    }
-
-}
 
 @{
     ViewBag.Title = "title";
@@ -118,7 +107,7 @@
             <div class="modal-body text-center">
                 <div class="loader"></div>
                 <div clas="loader-txt">
-                    <h3 style="color: green">Siparişiniz alındı. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
+                    <h3 style="color: green">Item talebiniz alındı satıcıyla iletişime geçilip. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
                 </div>
             </div>
         </div>

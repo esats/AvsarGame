@@ -350,6 +350,20 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpGet]
+        [Route("{name}/satin-aldiklarim")]
+        public ActionResult UserBuys() {
+            var bearer = SessionManager.Instance.Get("bearer");
+            if (bearer == null) {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var buys =
+                    JsonConvert.DeserializeObject<List<GetUserCommerceRequestDetailModel>>(
+                            UiRequestManager.Instance.Get(String.Format("Addversiment/GetUserBuys/{0}", SessionManager.Instance.GetUserId())));
+            return View(buys);
+        }
+
+        [HttpGet]
         [Route("{name}/knight-item/duzenle/{Id}")]
         public ActionResult UpdateKnightItem(int Id = 0) {
             if (Id == 0) {
@@ -626,6 +640,9 @@ namespace AvsarGame.Portal.Controllers {
                 return Json(new { Success = true, data = baseResponse });
             }
 
+            baseResponse =
+                    JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(
+                            UiRequestManager.Instance.Post("Addversiment", "SaveKnightCommerceRequest", JsonConvert.SerializeObject(model)));
 
             return Json(new { Success = true, data = baseResponse });
         }

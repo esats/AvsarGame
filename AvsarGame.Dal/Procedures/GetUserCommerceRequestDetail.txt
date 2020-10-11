@@ -1,0 +1,28 @@
+﻿CREATE PROCEDURE [dbo].[GetUserCommerceRequestDetail]
+	 @userId NVARCHAR(50)
+AS
+BEGIN
+	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
+			KCR.Title,
+			USR.Name +' '+ USR.Surname AS Seller,
+			KCD.PriceWithComission,
+			'Knight Cyber Ring' AS GameName
+	FROM 
+	KnightCommerceDetail KCD
+	INNER JOIN KnightCyberRing KCR ON KCR.Id = KCD.AddversimentId 
+	INNER JOIN AspNetUsers USR ON USR.Id = KCR.UserId  
+	WHERE KCD.UserId = @userId
+
+	UNION ALL
+
+	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
+			KCR.Title,
+			USR.Name +' '+ USR.Surname AS Seller,
+			KCD.PriceWithComission,
+			'Knight Item' AS GameName
+	FROM 
+	KnightCommerceDetail KCD
+	INNER JOIN KnightItem KCR ON KCR.Id = KCD.AddversimentId 
+	INNER JOIN AspNetUsers USR ON KCD.AddversimentId = KCD.AddversimentId  
+	WHERE KCD.UserId = @userId
+END
