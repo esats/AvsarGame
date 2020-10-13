@@ -592,14 +592,14 @@ namespace AvsarGame.API.Controllers {
                     var userBalance = _UserBalance.GetBalance(base.GetUser());
 
                     UserBalanceDetail detail = new UserBalanceDetail();
-                    detail.Amount = - (decimal)(model.PriceWithComission);
+                    detail.Amount = -(decimal)(model.PriceWithComission);
                     detail.UserOrderDetailId = model.AddversimentId;
                     detail.TransactionDescription = (int)TRANSACTION_DESCIPTION.KNIGHT_ITEM_ORDER;
                     detail.UserBalanceId = userBalance.Id;
                     detail.CreatedDate = DateTime.Now;
                     detail.CreatedBy = base.GetUser();
                     _UserBalanceDetail.Add(detail);
-                  
+
                     if (model.AddversimentType == 1) {
                         var entity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
                         entity.IsActive = false;
@@ -621,6 +621,19 @@ namespace AvsarGame.API.Controllers {
 
             return response;
         }
+
+        [Route("GetSellerPhoneNumber/{addversimentId}")]
+        public string GetSellerPhoneNumber(int addversimentId, int addversimentType) {
+            return "";
+        }
+
+        [HttpGet]
+        [Route("KnightCommerceRequest")]
+        [Authorize(Roles = "Admin")]
+        public List<GetCommerceRequestDetailModel> KnightCommerceRequest() {
+            return _knightCommerceDetail.GetCommerceRequests();
+        }
+
 
         private List<string> GetNotificationList(CommentModel model) {
             return _comment.GetNotificationList(model.AddversimentId, model.AddversimentType);

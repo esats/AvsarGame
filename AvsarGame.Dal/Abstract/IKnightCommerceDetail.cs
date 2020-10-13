@@ -8,5 +8,6 @@ using AvsarGame.Entities.Entities;
 namespace AvsarGame.Dal.Abstract {
     public interface IKnightCommerceDetail : IEntityRepository<KnightCommerceDetail> {
         List<GetUserCommerceRequestDetailModel> GetUserCommerceRequestDetail(string userId);
+        List<GetCommerceRequestDetailModel> GetCommerceRequests();
     }
 }

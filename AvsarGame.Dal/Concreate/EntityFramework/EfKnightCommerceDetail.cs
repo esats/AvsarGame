@@ -11,6 +11,12 @@ using System.Linq;
 
 namespace AvsarGame.Dal.Concreate.EntityFramework {
     public class EfKnightCommerceDetail : EfEntityRepositoryBase<KnightCommerceDetail, AvsarGameDBcontext>, IKnightCommerceDetail {
+        public List<GetCommerceRequestDetailModel> GetCommerceRequests() {
+            using (var sqlConnection = new SqlConnection(Config.GetConnectionString())) {
+                return sqlConnection.Query<GetCommerceRequestDetailModel>("GetCommerceRequests", commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public List<GetUserCommerceRequestDetailModel> GetUserCommerceRequestDetail(string userId) {
             using (var sqlConnection = new SqlConnection(Config.GetConnectionString())) {
                 var parameter = new DynamicParameters();

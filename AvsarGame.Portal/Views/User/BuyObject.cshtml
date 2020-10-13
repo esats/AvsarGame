@@ -107,7 +107,7 @@
             <div class="modal-body text-center">
                 <div class="loader"></div>
                 <div clas="loader-txt">
-                    <h3 style="color: green">Item talebiniz alındı satıcıyla iletişime geçilip. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
+                    <h3 style="color: green">Item talebiniz alındı satıcıyla iletişime geçilip size bilgi verilecektir. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
                 </div>
             </div>
         </div>
@@ -130,7 +130,8 @@
                 AddversimentId: model.id,
                 AddversimentType: model.detailType,
                 PriceWithComission: model.priceWithComission,
-                TransferedCharacter: transferedCharacter
+                TransferedCharacter: transferedCharacter,
+                SellerUserId: model.userId
             }
 
             $.ajax({

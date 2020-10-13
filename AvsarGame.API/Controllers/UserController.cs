@@ -29,5 +29,12 @@ namespace AvsarGame.API.Controllers
             var user = _mapper.Map<RegisterModel>(_userManager.FindByIdAsync(base.GetUser()).Result);
             return user;
         }
+
+        [HttpGet]
+        [Route("GetSellerPhoneNumber/{id}")]
+        public string GetSellerPhoneNumber(string id) {
+            var user = _userManager.FindByIdAsync(id).Result;
+            return user.PhoneNumber;
+        }
     }
 }

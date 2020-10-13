@@ -644,6 +644,13 @@ namespace AvsarGame.Portal.Controllers {
                     JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(
                             UiRequestManager.Instance.Post("Addversiment", "SaveKnightCommerceRequest", JsonConvert.SerializeObject(model)));
 
+            if (baseResponse.IsSuccess) {
+                var sellerPhoneNumber =
+                           JsonConvert.DeserializeObject<string>(
+                                   UiRequestManager.Instance.Get(String.Format("User/GetSellerPhoneNumber/{0}", model.SellerUserId)));
+                SmsHelper.SendSms(sellerPhoneNumber, "Bir alıcı ilanınızı almak için ödeme yaptı. Lütfen canlı destek ekibimiz ile  iletişime geçiniz");
+            }
+
             return Json(new { Success = true, data = baseResponse });
         }
     }
