@@ -110,9 +110,13 @@
         $(document).ready(function () {
 
             //Clicked Any Box for Payment Methods
-            $('#methods-col .box-title').click(function () {
-                debugger
-                PaymentMethod(this.innerText.toString());
+            $('#methods-col .box').click(function () {
+                var splitcount = this.innerText.split('\n');
+                if (splitcount.length > 1) {
+                    PaymentMethod(splitcount[0].toString());
+                } else {
+                    PaymentMethod(this.innerText.toString());
+                }
             });
 
             //Function PaymentMethod Action
