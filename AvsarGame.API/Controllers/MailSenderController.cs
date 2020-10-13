@@ -22,7 +22,7 @@ namespace AvsarGame.API.Controllers {
     public class MailSenderController : APIControllerBase {
         private string host { get; set; } = "srvm08.trwww.com";
         private int port { get; set; } = 465;
-        private string From { get; set; } = "AnatolianGame";
+        private string From { get; set; } = "AnatoliaGame";
         private string UserAuth { get; set; } = "info@anatoliagame.com";
         private string Password { get; set; } = "Gm6A4Pyz";
 

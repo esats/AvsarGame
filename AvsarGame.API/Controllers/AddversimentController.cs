@@ -28,11 +28,22 @@ namespace AvsarGame.API.Controllers {
         private readonly ISubComment _subComment;
         private readonly IUserComment _userComment;
         private readonly IMetin2 _metin2;
+        private readonly IKnightCommerceDetail _knightCommerceDetail;
         private readonly IMapper _mapper;
+        private readonly IUserBalance _UserBalance;
+        private readonly IUserBalanceDetails _UserBalanceDetail;
+
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AddversimentController(IKnightCyberRing knightCyberRing, IMapper mapper, IKnightItem knightItem, UserManager<ApplicationUser> userManager, IImageMaster image,
-                                      IUserNotification notification, IComment comment, ISubComment subComment, IUserComment userComment, IMetin2 metin2) {
+                                      IUserNotification notification,
+                                      IComment comment,
+                                      ISubComment subComment,
+                                      IUserComment userComment,
+                                      IMetin2 metin2,
+                                      IKnightCommerceDetail knightCommerceDetail,
+                                      IUserBalance userBalance,
+                                      IUserBalanceDetails userBalanceDetails) {
             _KnightCyberRing = knightCyberRing;
             _mapper = mapper;
             _knightItem = knightItem;
@@ -43,6 +54,9 @@ namespace AvsarGame.API.Controllers {
             _subComment = subComment;
             _userComment = userComment;
             _metin2 = metin2;
+            _knightCommerceDetail = knightCommerceDetail;
+            _UserBalance = userBalance;
+            _UserBalanceDetail = userBalanceDetails;
         }
 
         [HttpPost]
@@ -102,12 +116,12 @@ namespace AvsarGame.API.Controllers {
             List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>>();
             try {
-                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.SUSPEND);
+                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int)AddversimentStatus.SUSPEND);
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>();
                     model.Base = _mapper.Map<KnightCyberRingAddversimentModel>(item);
-                    model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+                    model.Base.FileUrls = GetFiles(item.Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
                     model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
                     list.Add(model);
                 }
@@ -126,12 +140,12 @@ namespace AvsarGame.API.Controllers {
             List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>> list =
                     new List<BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>>();
             try {
-                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.SUSPEND);
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int)AddversimentStatus.SUSPEND);
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
                     model.Base = _mapper.Map<KnightItemAddversimentModel>(item);
-                    model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+                    model.Base.FileUrls = GetFiles(item.Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);
                     model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
                     list.Add(model);
                 }
@@ -150,11 +164,11 @@ namespace AvsarGame.API.Controllers {
             List<KnightCyberRingAddversimentModel> list =
                     new List<KnightCyberRingAddversimentModel>();
             try {
-                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED).Take(10);
+                var cyberAdds = _KnightCyberRing.GetList(x => x.IsActive == true && x.Status == (int)AddversimentStatus.APPROVED).Take(10);
                 foreach (var item in cyberAdds) {
                     KnightCyberRingAddversimentModel model = new KnightCyberRingAddversimentModel();
                     model = _mapper.Map<KnightCyberRingAddversimentModel>(item);
-                    model.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+                    model.FileUrls = GetFiles(item.Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
                     list.Add(model);
                 }
 
@@ -172,11 +186,11 @@ namespace AvsarGame.API.Controllers {
             List<KnightItemAddversimentModel> list =
                     new List<KnightItemAddversimentModel>();
             try {
-                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int) AddversimentStatus.APPROVED).Take(10);
+                var cyberAdds = _knightItem.GetList(x => x.IsActive == true && x.Status == (int)AddversimentStatus.APPROVED).Take(10);
                 foreach (var item in cyberAdds) {
                     KnightItemAddversimentModel model = new KnightItemAddversimentModel();
                     model = _mapper.Map<KnightItemAddversimentModel>(item);
-                    model.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+                    model.FileUrls = GetFiles(item.Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);
                     list.Add(model);
                 }
 
@@ -196,15 +210,15 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.Status = (int) AddversimentStatus.APPROVED;
+                    updatedEntity.Status = (int)AddversimentStatus.APPROVED;
                     _KnightCyberRing.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
-                            UserId = model.UserId,
-                            Message = "ilanınız yayınlanmıştır.",
-                            NotificationType = NotificationType.APPROVED,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
+                        UserId = model.UserId,
+                        Message = "ilanınız yayınlanmıştır.",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
                     };
                     _notification.Add(notification);
 
@@ -228,15 +242,15 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.Status = (int) AddversimentStatus.REJECT;
+                    updatedEntity.Status = (int)AddversimentStatus.REJECT;
                     _KnightCyberRing.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
-                            UserId = model.UserId,
-                            Message = "ilanınız reddedilmiştir. Lütfen müşteri temsilcilerimizle iletişime geçiniz.",
-                            NotificationType = NotificationType.REJECT,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
+                        UserId = model.UserId,
+                        Message = "ilanınız reddedilmiştir. Lütfen müşteri temsilcilerimizle iletişime geçiniz.",
+                        NotificationType = NotificationType.REJECT,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
                     };
                     _notification.Add(notification);
 
@@ -261,15 +275,15 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _knightItem.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.Status = (int) AddversimentStatus.APPROVED;
+                    updatedEntity.Status = (int)AddversimentStatus.APPROVED;
                     _knightItem.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
-                            UserId = model.UserId,
-                            Message = "ilanınız yayınlanmıştır.",
-                            NotificationType = NotificationType.APPROVED,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
+                        UserId = model.UserId,
+                        Message = "ilanınız yayınlanmıştır.",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
                     };
                     _notification.Add(notification);
 
@@ -293,15 +307,15 @@ namespace AvsarGame.API.Controllers {
             try {
                 using (var trancation = new TransactionScope()) {
                     var updatedEntity = _knightItem.GetT(x => x.Id == model.AddversimentId);
-                    updatedEntity.Status = (int) AddversimentStatus.REJECT;
+                    updatedEntity.Status = (int)AddversimentStatus.REJECT;
                     _knightItem.Update(updatedEntity);
 
                     UserNotification notification = new UserNotification() {
-                            UserId = model.UserId,
-                            Message = "ilanınız reddedilmiştir. Lütfen müşteri temsilcilerimizle iletişime geçiniz.",
-                            NotificationType = NotificationType.REJECT,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = base.GetUser()
+                        UserId = model.UserId,
+                        Message = "ilanınız reddedilmiştir. Lütfen müşteri temsilcilerimizle iletişime geçiniz.",
+                        NotificationType = NotificationType.REJECT,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
                     };
                     _notification.Add(notification);
 
@@ -320,29 +334,29 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightCyberDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightCyberDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
-            model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING;
-            model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
-            model.Comments = GetCommentWithUser(Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED));
+            model.DetailType = (int)AddversimentType.KNIGHT_ONLINE_CYBERRING;
+            model.FileUrls = GetFiles(Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
+            model.Comments = GetCommentWithUser(Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
             return model;
         }
-        
+
         [Route("Metin2ItemDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel Metin2ItemDetail(int Id) {
-            //TODO: kullanıcı kendi ilanları pasifte ise güncelleyememe durumu oluyor düzelt
-            var model = _mapper.Map<AddversimentDetailModel>(_metin2.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
-            model.DetailType = (int) AddversimentType.METIN2_ITEM;
-            model.FileUrls = GetFiles(Id, (int) AddversimentType.METIN2_ITEM);
-            model.Comments = GetCommentWithUser(Id, (int) AddversimentType.METIN2_ITEM);
+            // TODO: kullanıcı kendi ilanları pasifte ise güncelleyememe durumu oluyor düzelt
+            var model = _mapper.Map<AddversimentDetailModel>(_metin2.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED));
+            model.DetailType = (int)AddversimentType.METIN2_ITEM;
+            model.FileUrls = GetFiles(Id, (int)AddversimentType.METIN2_ITEM);
+            model.Comments = GetCommentWithUser(Id, (int)AddversimentType.METIN2_ITEM);
             return model;
         }
 
         private List<BaseCommentModel> GetCommentWithUser(int addversimentId, int addversimentType) {
             List<BaseCommentModel> list = new List<BaseCommentModel>();
-            var users =  _userManager.Users.ToList();
+            var users = _userManager.Users.ToList();
             var comments = _comment.GetCommentWithSubComments(addversimentId, addversimentType);
-       
+
             foreach (var item in comments) {
                 BaseCommentModel bases = new BaseCommentModel();
                 List<CommentModel> subs = new List<CommentModel>();
@@ -369,10 +383,10 @@ namespace AvsarGame.API.Controllers {
         [Route("KnightItemDetail/{id}")]
         [AllowAnonymous]
         public AddversimentDetailModel KnightItemDetail(int Id) {
-            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED));
-            model.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM;
-            model.FileUrls = GetFiles(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
-            model.Comments = GetCommentWithUser(Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED));
+            model.DetailType = (int)AddversimentType.KNIGHT_ONLINE_ITEM;
+            model.FileUrls = GetFiles(Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);
+            model.Comments = GetCommentWithUser(Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);
 
             return model;
         }
@@ -380,12 +394,18 @@ namespace AvsarGame.API.Controllers {
         [Route("GetUserAddversiment/{id}")]
         public List<AddversimentDetailModel> GetUserAddversiment(string Id) {
             var cybers = _mapper.Map<List<AddversimentDetailModel>>(_KnightCyberRing.GetList(x => x.IsActive == true && x.UserId == Id));
-            cybers.ForEach(x => x.DetailType = (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+            cybers.ForEach(x => x.DetailType = (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
             var knightitems = _mapper.Map<List<AddversimentDetailModel>>(_knightItem.GetList(x => x.IsActive == true && x.UserId == Id));
-            knightitems.ForEach(x => x.DetailType = (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+            knightitems.ForEach(x => x.DetailType = (int)AddversimentType.KNIGHT_ONLINE_ITEM);
             cybers.AddRange(knightitems);
 
             return cybers;
+        }
+
+        [Route("GetUserBuys/{id}")]
+        public List<GetUserCommerceRequestDetailModel> GetUserBuys(string Id) {
+            var commerceRequest = _knightCommerceDetail.GetUserCommerceRequestDetail(Id);
+            return commerceRequest;
         }
 
         [HttpGet]
@@ -402,14 +422,14 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-            filter.OrderByDescription = GetDescription<FilterOrderBy>((FilterOrderBy) orderby);
+            filter.OrderByDescription = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
             try {
                 var cyberAdds = _KnightCyberRing.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
                 foreach (var item in cyberAdds) {
                     BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightCyberRingAddversimentModel, UserSummaryModel>();
                     model.Base = _mapper.Map<KnightCyberRingAddversimentModel>(item);
-                    model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_CYBERRING);
+                    model.Base.FileUrls = GetFiles(item.Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
                     model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
                     list.Add(model);
                 }
@@ -434,14 +454,14 @@ namespace AvsarGame.API.Controllers {
             filter.MinPrice = mintl;
             filter.MaxPrice = maxtl;
             filter.Word = word;
-            filter.OrderByDescription = GetDescription<FilterOrderBy>((FilterOrderBy) orderby);
+            filter.OrderByDescription = GetDescription<FilterOrderBy>((FilterOrderBy)orderby);
             try {
                 var knightitems = _knightItem.GetFilterData(filter).ToList();
                 var users = _userManager.Users.ToList();
                 foreach (var item in knightitems) {
                     BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel> model = new BaseAdversimentModel<KnightItemAddversimentModel, UserSummaryModel>();
                     model.Base = _mapper.Map<KnightItemAddversimentModel>(item);
-                    model.Base.FileUrls = GetFiles(item.Id, (int) AddversimentType.KNIGHT_ONLINE_ITEM);
+                    model.Base.FileUrls = GetFiles(item.Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);
                     model.Sub = _mapper.Map<UserSummaryModel>(users.FirstOrDefault(x => x.Id == item.UserId));
                     list.Add(model);
                 }
@@ -459,7 +479,7 @@ namespace AvsarGame.API.Controllers {
 
         [Route("DeleteKnightItem/{id}")]
         public bool DeleteKnightItem(int Id) {
-            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED);
+            var entity = _knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED);
             entity.IsActive = false;
             _knightItem.Update(entity);
             return true;
@@ -467,7 +487,7 @@ namespace AvsarGame.API.Controllers {
 
         [Route("DeleteKnightCyber/{id}")]
         public bool DeleteKnightCyber(int Id) {
-            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int) AddversimentStatus.APPROVED);
+            var entity = _KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED);
             entity.IsActive = false;
             _KnightCyberRing.Update(entity);
             return true;
@@ -559,6 +579,61 @@ namespace AvsarGame.API.Controllers {
 
             return response;
         }
+
+
+        [Route("SaveKnightCommerceRequest")]
+        [HttpPost]
+        public Response<UserOrderResponseModel> SaveKnightCommerceRequest(CommerceModel model) {
+            Response<UserOrderResponseModel> response = new Response<UserOrderResponseModel>();
+            try {
+                using (var transactionScope = new TransactionScope()) {
+                    model.UserId = base.GetUser();
+                    _knightCommerceDetail.Add(_mapper.Map<KnightCommerceDetail>(model));
+                    var userBalance = _UserBalance.GetBalance(base.GetUser());
+
+                    UserBalanceDetail detail = new UserBalanceDetail();
+                    detail.Amount = -(decimal)(model.PriceWithComission);
+                    detail.UserOrderDetailId = model.AddversimentId;
+                    detail.TransactionDescription = (int)TRANSACTION_DESCIPTION.KNIGHT_ITEM_ORDER;
+                    detail.UserBalanceId = userBalance.Id;
+                    detail.CreatedDate = DateTime.Now;
+                    detail.CreatedBy = base.GetUser();
+                    _UserBalanceDetail.Add(detail);
+
+                    if (model.AddversimentType == 1) {
+                        var entity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
+                        entity.IsActive = false;
+                        _KnightCyberRing.Update(entity);
+                    } else {
+                        var entity = _knightItem.GetT(x => x.Id == model.AddversimentId);
+                        entity.IsActive = false;
+                        _knightItem.Update(entity);
+                    }
+
+                    response.IsSuccess = true;
+                    transactionScope.Complete();
+                    transactionScope.Dispose();
+                }
+            } catch (Exception e) {
+                response.Value.Message = e.Message;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        [Route("GetSellerPhoneNumber/{addversimentId}")]
+        public string GetSellerPhoneNumber(int addversimentId, int addversimentType) {
+            return "";
+        }
+
+        [HttpGet]
+        [Route("KnightCommerceRequest")]
+        [Authorize(Roles = "Admin")]
+        public List<GetCommerceRequestDetailModel> KnightCommerceRequest() {
+            return _knightCommerceDetail.GetCommerceRequests();
+        }
+
 
         private List<string> GetNotificationList(CommentModel model) {
             return _comment.GetNotificationList(model.AddversimentId, model.AddversimentType);

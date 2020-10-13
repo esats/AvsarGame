@@ -1,0 +1,180 @@
+﻿@using AvsarGame.API.Models
+@using AvsarGame.Portal.Core
+@model AddversimentDetailModel
+
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="page-wrapper">
+    <main class="Main">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <h3 class="title-primary">Sepetim</h3>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="col-lg-9 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-dark responsive-table cart-table total-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ürün Adı</th>
+                                            <th scope="col">Aktarılacak Karakter</th>
+                                            <th scope="col">Fiyat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="order" data-id="@Model.Id">
+                                            <td scope="row" data-heading="Ürün Adı">@Model.Title</td>
+                                            <td scope="row" data-heading="karakter Adı">
+                                                <input id="characterName" value="" />
+                                            </td>
+                                            <td class="priceIt sellPrice" style="text-align:center!important" data-heading="Fiyat">@Model.PriceWithComission</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 side">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-dark responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="table-title">
+                                                Sipariş Özeti
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-heading="Sipariş Özeti">
+                                                <div class="d-flex justify-content-between form-group">
+                                                    <div>
+                                                        Ödenecek Tutar
+                                                        <p>(KDV Dahil)</p>
+                                                    </div>
+                                                    <div id="totalAmountDiv">
+                                                        @Model.PriceWithComission  TL
+                                                    </div>
+                                                </div>
+                                                <button class="button btn-blue ml-auto w-100" id="gotosummary">Alışverişi Tamamla</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="modal fade" id="outofbalanceinfo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="login-tab" role="tabpanel">
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="modal-body">
+                            <h3>Bakiyeniz bu işlem için yetersizdir.</h3>
+                        </div>
+                    </div>
+                </div>
+                <!--/.Login-->
+                <!-- Terms -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+                <div clas="loader-txt">
+                    <h3 style="color: green">Item talebiniz alındı satıcıyla iletişime geçilip size bilgi verilecektir. <br><br><small>profilinize yönlendiriliyorsunuz...</small></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#gotosummary").click(function (e) {
+            debugger
+            var transferedCharacter = document.getElementById("characterName").value
+            if (transferedCharacter == "") {
+                alert("Lütfen Karakter Adını Giriniz");
+                return;
+            }
+
+            var model = @Html.Raw(Json.Serialize(Model));
+
+            var postModel = {
+                AddversimentId: model.id,
+                AddversimentType: model.detailType,
+                PriceWithComission: model.priceWithComission,
+                TransferedCharacter: transferedCharacter,
+                SellerUserId: model.userId
+            }
+
+            $.ajax({
+                contentType: "application/json",
+                type: 'POST',
+                url: '/User/BuyKnightObject',
+                data: JSON.stringify(postModel),
+                beforeSend: function() {
+                    showSpinner();
+                },
+                complete: function() {
+                    hideSpinner();
+                },
+                success: function(res) {
+                    if (res.data.isSuccess) {
+                        openNotifiyModal();
+                    } else {
+                        if (res.data.value.error == 0) {
+                            location.href = "/user/giris";
+                        }
+                        if (res.data.value.error == 1) {
+                            $('#outofbalanceinfo').modal('show');
+                        }
+                    }
+                },
+                error: function(err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        });
+    });
+
+    function openNotifiyModal() {
+        $("#loadMe").modal({
+            backdrop: "static", //remove ability to close modal with click
+            keyboard: false, //remove option to close with keyboard
+            show: true //Display loader!
+        });
+        setTimeout(function() {
+            //location.href = "/user/detail";
+            location.href = '/@PageHelper.GetSeoName()';
+            $("#loadMe").modal("hide");
+        }, 3500);
+    }
+
+</script>
