@@ -230,7 +230,9 @@ namespace AvsarGame.API.Controllers {
                 return baseResponse;
             }
         }
-
+        //<PackageReference Include = "Microsoft.AspNetCore" Version="2.1.7" />
+        //<PackageReference Include = "Microsoft.AspNetCore.App" />
+        //    < PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
         [HttpPost]
         [Route("Approve")]
         [Authorize(Roles = "Admin")]

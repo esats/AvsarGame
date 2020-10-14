@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AvsarGame.Core.Entities;
-using AvsarGame.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AvsarGame.Core.DataAccess.EntityFramework
