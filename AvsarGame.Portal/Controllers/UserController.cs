@@ -647,10 +647,23 @@ namespace AvsarGame.Portal.Controllers {
                 var sellerPhoneNumber =
                            JsonConvert.DeserializeObject<string>(
                                    UiRequestManager.Instance.Get(String.Format("User/GetSellerPhoneNumber/{0}", model.SellerUserId)));
-                SmsHelper.SendSms(sellerPhoneNumber, "Bir alıcı ilanınızı almak için ödeme yaptı. Lütfen canlı destek ekibimiz ile  iletişime geçiniz");
+                SmsHelper.SendSms(sellerPhoneNumber, "Bir alıcı ilanınızı almak için ödeme yaptı. Lütfen canlı destek ekibimiz ile iletişime geçiniz. AnatoliaGame");
             }
 
             return Json(new { Success = true, data = baseResponse });
+        }
+
+        [HttpPost]
+        public JsonResult SendSmsForPush([FromBody] PushMessageModel model) {
+            string message;
+            if (model.IsSeller) {
+                message = "Ürün transferi için lütfen giriş yapınız. AnatoliaGame";
+            } else {
+                message = "Ürün transferi için lütfen giriş yapınız. AnatoliaGame";
+            }
+
+            SmsHelper.SendSms(model.PhoneNumber, message);
+            return Json(true);
         }
     }
 }

@@ -1,34 +1,52 @@
-﻿CREATE PROCEDURE [dbo].[GetCommerceRequests]
+﻿USE [AvsarGame]
+GO
+/****** Object:  StoredProcedure [dbo].[GetCommerceRequests]    Script Date: 10/15/2020 11:31:53 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[GetCommerceRequests]
 AS
 BEGIN
 	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
 			KCR.Title,
 			USR.Name +' '+ USR.Surname AS Seller,
 			USR.PhoneNumber AS SellerPhoneNumber,
+			USR.Id AS SellerUserId,
 			USRR.Name +' '+ USRR.Surname AS Buyer,
 			USRR.PhoneNumber AS BuyerPhoneNumber,
+   		    USRR.Id AS BuyerUserId,
 			KCD.PriceWithComission,
-			'Knight Cyber Ring' AS GameName
+			'Knight Cyber Ring' AS GameName,
+			KCD.AddversimentId AS AddversimentId,
+			1 AS AddversimentType,
+			KCR.Price 
 	FROM 
 	KnightCommerceDetail KCD
 	INNER JOIN KnightCyberRing KCR ON KCR.Id = KCD.AddversimentId AND KCD.AddversimentType = 1
 	INNER JOIN AspNetUsers USR ON USR.Id = KCR.UserId 
 	INNER JOIN AspNetUsers USRR ON USRR.Id = KCD.UserId 
-
+	WHERE KCD.Status = 0
 	UNION ALL
 
 	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
-			KCR.Title,
+			KI.Title,
 			USR.Name +' '+ USR.Surname AS Seller,
 			USR.PhoneNumber AS SellerPhoneNumber,
+			USR.Id AS SellerUserId,
 			USRR.Name +' '+ USRR.Surname AS Buyer,
 			USRR.PhoneNumber AS BuyerPhoneNumber,
+   		    USRR.Id AS BuyerUserId,
 			KCD.PriceWithComission,
-			'Knight Item' AS GameName
+			'Knight Item' AS GameName,
+			KCD.AddversimentId AS AddversimentId,
+			2 AS AddversimentType,
+			KI.Price
 	FROM 
 	KnightCommerceDetail KCD
-	INNER JOIN KnightItem KCR ON KCR.Id = KCD.AddversimentId AND KCD.AddversimentType = 2
+	INNER JOIN KnightItem KI ON KI.Id = KCD.AddversimentId AND KCD.AddversimentType = 2
 	INNER JOIN AspNetUsers USR ON KCD.AddversimentId = KCD.AddversimentId  
 	INNER JOIN AspNetUsers USRR ON USRR.Id = KCD.UserId 
-
+	WHERE KCD.Status = 0
 END

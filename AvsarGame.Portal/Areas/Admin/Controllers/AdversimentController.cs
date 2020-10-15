@@ -66,5 +66,25 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
+        [HttpPost]
+        public JsonResult ApproveKnightOnlineCommerce([FromBody] GetCommerceRequestDetailModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Addversiment", "ApproveKnightOnlineCommerce", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult RejectKnightOnlineCommerce([FromBody] GetCommerceRequestDetailModel model) {
+            try {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Addversiment", "RejectKnightOnlineCommerce", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }

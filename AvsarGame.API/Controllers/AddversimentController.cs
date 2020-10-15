@@ -634,9 +634,104 @@ namespace AvsarGame.API.Controllers {
             return _knightCommerceDetail.GetCommerceRequests();
         }
 
+        [HttpPost]
+        [Route("ApproveKnightOnlineCommerce")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> ApproveKnightOnlineCommerce(GetCommerceRequestDetailModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _knightCommerceDetail.GetT(x => x.Id == model.AddversimentId && x.AddversimentType == model.AddversimentType);
+                    updatedEntity.Status = (int)AddversimentStatus.APPROVED;
+                    _knightCommerceDetail.Update(updatedEntity);
+
+                    UpdateUserBalance(model.SellerUserId, model.Price, model.AddversimentId, model.AddversimentType);
+
+                    UserNotification notification = new UserNotification() {
+                        UserId = model.SellerUserId,
+                        Message = "Tebrikler item ticareti gerçekleşmiştir.",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                    };
+                    _notification.Add(notification);
+
+                    UserNotification notification2 = new UserNotification() {
+                        UserId = model.BuyerUserId,
+                        Message = "Tebrikler item ticareti gerçekleşmiştir.",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                    };
+                    _notification.Add(notification2);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RejectKnightOnlineCommerce")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> RejectKnightOnlineCommerce(GetCommerceRequestDetailModel model) {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+
+            try {
+                using (var trancation = new TransactionScope()) {
+                    var updatedEntity = _knightCommerceDetail.GetT(x => x.Id == model.AddversimentId && x.AddversimentType == model.AddversimentType);
+                    updatedEntity.Status = (int)AddversimentStatus.REJECT;
+                    _knightCommerceDetail.Update(updatedEntity);
+
+                    UpdateUserBalance(model.BuyerUserId, model.Price, model.AddversimentId, model.AddversimentType);
+
+                    if (model.AddversimentType == (int)AddversimentType.KNIGHT_ONLINE_CYBERRING) {
+                        var entity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
+                        entity.IsActive = true;
+                        _KnightCyberRing.Update(entity);
+
+                    } else {
+                        var entity = _knightItem.GetT(x => x.Id == model.AddversimentId);
+                        entity.IsActive = true;
+                        _knightItem.Update(entity);
+                    }
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            } catch (Exception exception) {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
+
+        private void UpdateUserBalance(string userId, double price, int addversimentId, int addversimentType) {
+            var master = _UserBalance.GetT(x => x.User.Id == userId && x.IsActive);
+            UserBalanceDetail detail = new UserBalanceDetail();
+            detail.Amount = Convert.ToDecimal(price);
+            detail.TransactionDescription = (int)TRANSACTION_DESCIPTION.GAME_MONEY_SELL;
+            detail.UserBalanceId = master.Id;
+            detail.AddversimentId = addversimentId;
+            detail.AddversimentType = addversimentType;
+            detail.CreatedBy = base.GetUser();
+            _UserBalanceDetail.Add(detail);
+        }
 
         private List<string> GetNotificationList(CommentModel model) {
             return _comment.GetNotificationList(model.AddversimentId, model.AddversimentType);
         }
+
+
     }
 }

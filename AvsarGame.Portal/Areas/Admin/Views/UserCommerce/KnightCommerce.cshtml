@@ -32,10 +32,10 @@
                                     <td> @item.Buyer</td>
                                     <td> @item.GameName</td>
                                     <td>
-                                        <a class="btn btn-success btn-sm accept" style="margin-bottom: 10px; color: white">İşlem tamamlandı</a>
-                                        <a class="btn btn-danger btn-sm reject" style="margin-bottom: 10px; color: white">İşlem yapılamadı</a>
-                                        <a class="btn btn-info btn-sm accept" style="margin-bottom: 10px; color: white">Satıcı Sms Gönder</a>
-                                        <a class="btn btn-info btn-sm accept" style="margin-bottom: 10px; color: white">Alıcıya Sms Gönder</a>
+                                        <a class="btn btn-success accept btn-sm" data-model="@Newtonsoft.Json.JsonConvert.SerializeObject(item)" style="margin-bottom: 10px; color: white">İşlem tamamlandı</a>
+                                        <a class="btn btn-danger reject btn-sm" data-model="@Newtonsoft.Json.JsonConvert.SerializeObject(item)"  style="margin-bottom: 10px; color: white">İşlem yapılamadı</a>
+                                        <a class="btn btn-info btn-sm" id="SendMsg" data-phoneNumber="@item.SellerPhoneNumber" data-type="seller" style="margin-bottom: 10px; color: white">Satıcı Sms Gönder</a>
+                                        <a class="btn btn-info btn-sm" id="SendMsg" data-phoneNumber="@item.BuyerPhoneNumber" data-type="buyer" style="margin-bottom: 10px; color: white">Alıcıya Sms Gönder</a>
                                     </td>
                                 </tr>
                             }
@@ -55,18 +55,11 @@
         });
 
         $(".requestrow .accept").click(function () {
-            var UserId = $(this).attr('data-user-id');
-            var AddversimentId = $(this).attr('data-add-id');
-
-            var row = this.parentElement.parentElement;
-
-            var model = {
-                AddversimentId,
-                UserId
-            }
-
+            debugger;
+            var model = $(this).attr('data-model');
+         
             swal({
-                title: "İlanı kabul etmek istediğinizden Emin misiniz?",
+                title: "Ticarete Onay verirseniz miktar satıcının hesabına aktarılacaktır. Onaylıyor musunuz?",
                 showCancelButton: true,
                 confirmButtonColor: "#4caf50",
                 confirmButtonText: "evet",
@@ -74,14 +67,13 @@
                 closeOnConfirm: true,
                 closeOnCancel: true
             },
-                function (isConfirm) {
+             function (isConfirm) {
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
-                            url: '/Admin/Adversiment/ApproveKnightItem',
-                            content: "application/json; charset=utf-8",
+                            url: '/Admin/Adversiment/ApproveKnightOnlineCommerce',
                             data: model,
-                            dataType: 'json',
+                            contentType: "application/json",
                             beforeSend: function () {
                                 showSpinner();
                             },
@@ -91,10 +83,10 @@
                             success: function (res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
-                                        swal("Basarili!", "İlan yayınlandı", "success");
-                                        row.remove();
+                                        swal("Basarili!", "Ticaret onaylandı", "success");
+                                        location.reload();
                                     } else {
-                                        swal("Hata!", "İlan yayınlandı", "error");
+                                        swal("Hata!", "Ticaret onaylanırken hata oluştu", "error");
                                     }
                                 }
                             },
@@ -108,5 +100,96 @@
                 });
         });
 
+        $(".requestrow .reject").click(function () {
+            debugger
+            var model = $(this).attr('data-model');
+
+            swal({
+                title: "Ticareti red verirseniz miktar alıcının hesabına aktarılacaktır. Onaylıyor musunuz?",
+                showCancelButton: true,
+                confirmButtonColor: "#4caf50",
+                confirmButtonText: "evet",
+                cancelButtonText: "Hayir",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/Admin/Adversiment/RejectKnightOnlineCommerce',
+                            data: model,
+                            contentType: "application/json",
+                            beforeSend: function () {
+                                showSpinner();
+                            },
+                            complete: function () {
+                                hideSpinner();
+                            },
+                            success: function (res) {
+                                if (res.success) {
+                                    if (res.data.isSuccess) {
+                                        swal("Basarili!", "Ticaret reddedildi", "success");
+                                        location.reload();
+                                    } else {
+                                        swal("Hata!", "Ticaret reddedilirken hata oluştu", "error");
+                                    }
+                                }
+                            },
+                            error: function (err) {
+                                alert("Beklenmeyen Bir hata oluştu");
+                            }
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+        });
+
+        function sendSmsCode(e, m) {
+            $.ajax({    
+                type: 'post',
+                url: '/User/SendSmsForPush',
+                contentType: "application/json",
+                data: JSON.stringify(m),
+                dataType: 'json',
+                success: function (res) {
+                    alert("Sms Gonderildi");
+                },
+                error: function (err) {
+                    alert("Bir Hata oluştu");
+                }
+            });
+        }
+
+        $("#dataTable #SendMsg").on('click', function (e) {
+            debugger;
+            e.preventDefault();
+            var type = $(this).attr('data-type');
+            var phone = $(this).attr('data-phoneNumber');
+
+            var model = {
+                IsSeller: type == "seller",
+                PhoneNumber: phone
+            }
+
+            var title = ((type == "seller" ? "Satıcıya" : "alıcıya") + (" Mesaj atmak istediğinizden Emin misiniz?"));
+            swal({
+                title: title,
+                showCancelButton: true,
+                confirmButtonColor: "#4caf50",
+                confirmButtonText: "evet",
+                cancelButtonText: "Hayir",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        sendSmsCode(e, model);
+                    } else {
+                        swal.close();
+                    }
+                });
+        });
     });
 </script>

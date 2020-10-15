@@ -15,5 +15,8 @@ namespace AvsarGame.API.Models {
         public string BuyerPhoneNumber { get; set; }
         public string GameName { get; set; }
         public double PriceWithComission { get; set; }
+        public double Price { get; set; }
+        public int AddversimentType { get; set; }
+        public int AddversimentId { get; set; }
     }
 }
