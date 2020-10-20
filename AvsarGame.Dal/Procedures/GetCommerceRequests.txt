@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[GetCommerceRequests]
+CREATE PROCEDURE [dbo].[GetCommerceRequests]
 AS
 BEGIN
 	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
