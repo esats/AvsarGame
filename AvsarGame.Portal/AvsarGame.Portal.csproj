@@ -10,6 +10,7 @@
     <Folder Include="wwwroot\Uploads\160x270\" />
     <Folder Include="wwwroot\Uploads\184x140\" />
     <Folder Include="wwwroot\Uploads\184x200\" />
+    <Folder Include="wwwroot\Uploads\1520x500\" />
     <Folder Include="wwwroot\Uploads\198x150\" />
     <Folder Include="wwwroot\Uploads\200x175\" />
     <Folder Include="wwwroot\Uploads\235x400\" />
