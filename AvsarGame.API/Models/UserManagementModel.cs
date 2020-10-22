@@ -14,6 +14,6 @@ namespace AvsarGame.API.Models {
         public string ImageUrl { get; set; }
         public int? Gender { get; set; }
         public DateTime? Birthdate { get; set; }
-        public List<UserPaymentRequestModel> PaymentRequests { get; set; }
+        public List<PaymentLogModel> PaymentRequests { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace AvsarGame.API.Models {
     public class PaymentLogModel {
+        public int Id { get; set; }
         public string UserId { get; set; }
         public string OrderId { get; set; }
         public int Result { get; set; }

@@ -31,7 +31,7 @@ namespace AvsarGame.API.Models {
         public List<BaseCommentModel> Comments { get; set; }
         public double PriceWithComission {
             get {
-                return Price + (Price * 0.03);
+                return Price; //+ (Price * 0.03);
             }
         }
         public bool Is24HoursDelivery {

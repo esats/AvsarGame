@@ -57,7 +57,6 @@
                                                     <th>Banka</th>
                                                     <th>Tip</th>
                                                     <th>Miktar</th>
-                                                    <th>Açıklama Yazılan Tel</th>
                                                     <th>İşlemler</th>
                                                 </tr>
                                             </thead>
@@ -66,13 +65,12 @@
                                                     @foreach (var request in item.PaymentRequests)
                                                     {
                                                         <tr>
-                                                            <td>@request.Date</td>
-                                                            <td>@request.Bank</td>
-                                                            <td>@request.PrimitivePaymentType</td>
+                                                            <td>@request.CreatedDate</td>
+                                                            <td>@PageHelper.Description((AvsarGame.Core.Banks)request.PaymentDistributor)</td>
+                                                            <td>@request.PaymentMethod</td>
                                                             <td>@request.Amount</td>
-                                                            <td>@request.PhoneNumber</td>
                                                             <td>
-                                                                <button data-user-id="@request.UserId" data-request-id="@request.Id"  class="btn btn-success accept">Kabul Et</button>
+                                                                <button data-user-id="@request.UserId" data-request-id="@request.Id"  data-amount="@request.Amount"  class="btn btn-success accept">Kabul Et</button>
                                                                 <button data-user-id="@request.UserId" data-request-id="@request.Id"  class="btn btn-danger reject">Reddet</button>
                                                             </td>
                                                         </tr>
@@ -99,42 +97,18 @@
 
         $('#dataTable').DataTable();
 
-        $("#save").click(function(e) {
-            var model = new FormData(); // you can consider this as 'data bag'
-            model.append('Image', $('#Image')[0].files[0]);
-            model.append('Name', $('#Name').val());
-            model.append('Description', $('#Description').val());
-            model.append('ImageUrl', $('#imageUrl').val());
-            model.append('Id', $(this).attr('data-id'));
-
-            $.ajax({
-                type: 'post',
-                url: '/Admin/Category/Save',
-                processData: false,
-                contentType: false,
-                data: model,
-                success: function(response) {
-                    swal("Basarili!", "Kayıt Eklendi", "success");
-                    setTimeout(function() {
-                        location.reload()
-                    }, 1000);
-                },
-                error: function(err) {
-                    alert("Bir Hata oluştu");
-                }
-            });
-        });
-
         $(".requestModal .accept").click(function() {
             var UserId = $(this).attr('data-user-id');
-            var RequestId = $(this).attr('data-request-id');
+            var Id = $(this).attr('data-request-id');
+            var Amount = $(this).attr('data-amount');
             var modal = "request" + UserId;
             $("#" + modal).css("display", "none");
             var row = this.parentElement.parentElement;
 
             var model = {
                 UserId,
-                RequestId
+                Id,
+                Amount
             }
             swal({
                     title: "Ödemeyi Onaylamak istediginizden emin misiniz?",
@@ -179,14 +153,14 @@
         
         $(".requestModal .reject").click(function() {
             var UserId = $(this).attr('data-user-id');
-            var RequestId = $(this).attr('data-request-id');
+            var Id = $(this).attr('data-request-id');
             var modal = "request" + UserId;
             $("#" + modal).css("display", "none");
             var row = this.parentElement.parentElement;
 
             var model = {
                 UserId,
-                RequestId
+                Id
             }
             swal({
                     title: "Ödemeyi Red etmek istediginizden emin misiniz?",

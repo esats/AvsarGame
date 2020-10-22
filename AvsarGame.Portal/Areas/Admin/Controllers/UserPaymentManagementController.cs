@@ -19,8 +19,8 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
             return View(response);
         }
 
-        [HttpPost]
-        public JsonResult Approve(UserPaymentRequestControlModel model) {
+        [HttpPost] 
+        public JsonResult Approve(UserPaymentRequestModel model) {
             try {
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "Approve", JsonConvert.SerializeObject(model)));
                 return Json(new { Success = true, data = response });
@@ -30,7 +30,7 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Reject(UserPaymentRequestControlModel model) {
+        public JsonResult Reject(UserPaymentRequestModel model) {
             try {
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "Reject", JsonConvert.SerializeObject(model)));
                 return Json(new { Success = true, data = response });
@@ -38,5 +38,6 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
+
     }
 }

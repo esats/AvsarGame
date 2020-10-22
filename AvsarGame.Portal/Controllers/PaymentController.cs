@@ -138,7 +138,8 @@ namespace WebApplication1.Controllers {
             logModel.IpAddress = remoteIpAddress.ToString();
             logModel.M5val = md5Val;
             logModel.CreatedDate = DateTime.Now;
-            logModel.CreatedBy = SessionManager.Instance.Get("UserId"); logModel.SystemMessage = islem_mesaji;
+            logModel.CreatedBy = SessionManager.Instance.Get("UserId");
+            logModel.SystemMessage = islem_mesaji;
             logModel.PaymentMethod = paymentLog.PaymentMethod;
             logModel.IsIncoming = true;
             logModel.PaymentDistributor = (int)Banks.GPAY;
