@@ -15,34 +15,43 @@ using AvsarGame.Portal.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace WebApplication1.Controllers {
-    public class PaymentController : BaseController {
-        public ActionResult Index() {
+namespace WebApplication1.Controllers
+{
+    public class PaymentController : BaseController
+    {
+        public ActionResult Index()
+        {
             return View();
         }
 
-        public string Base64Encode(string plainText) {
+        public string Base64Encode(string plainText)
+        {
             var plainTextBytes = System.Text.Encoding.ASCII.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
         }
 
-        public ActionResult Pay() {
+        public ActionResult Pay()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Pay(string paymentMethod, decimal amount, decimal amountWithCommission) {
-            if (SessionManager.Instance.GetUserId() == null) {
+        public ActionResult Pay(string paymentMethod, decimal amount, decimal amountWithCommission)
+        {
+            if (SessionManager.Instance.GetUserId() == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
-            if (amount == decimal.Zero) {
+            if (amount == decimal.Zero)
+            {
                 return RedirectToAction("CreditCard", "User");
             }
 
             var userData =
                  JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
-            if (!userData.PhoneNumberConfirmed) {
+            if (!userData.PhoneNumberConfirmed)
+            {
                 SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
                 return RedirectToAction("ConfirmPhone", "User");
             }
@@ -62,7 +71,8 @@ namespace WebApplication1.Controllers {
             var json_data = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
             var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
 
-            if (json_data["state"] == "1") {
+            if (json_data["state"] == "1")
+            {
                 var paymentLink = json_data["link"];
 
                 PaymentLogModel logModel = new PaymentLogModel();
@@ -83,7 +93,9 @@ namespace WebApplication1.Controllers {
                 JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
                 return Redirect(paymentLink);
 
-            } else {
+            }
+            else
+            {
                 PaymentLogModel logModel = new PaymentLogModel();
                 logModel.UserId = SessionManager.Instance.Get("UserId");
                 logModel.Amount = amount;
@@ -99,27 +111,31 @@ namespace WebApplication1.Controllers {
                 logModel.Result = Convert.ToInt32(json_data["state"]);
                 TempData["ErrorMsg"] = string.Format("{0}", json_data["error_code"]);
                 JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("PaymentLog", "Save", JsonConvert.SerializeObject(logModel)));
-             
+
                 return Redirect("odeme-sonuc?payment_status=2");
             }
         }
 
-        public ActionResult PayLinkFailed() {
+        public ActionResult PayLinkFailed()
+        {
             return View();
         }
 
-        public ActionResult PayRedirect() {
+        public ActionResult PayRedirect()
+        {
             return View();
         }
 
-        public ActionResult PayCallBack() {
+        public ActionResult PayCallBack()
+        {
             return View();
         }
 
         static string[] CALLBACK_IP = new string[] { "185.197.196.99" };
 
         [HttpPost]
-        public void PayCallBack(string siparis_id, string tutar, string islem_sonucu, string islem_mesaji, string hash) {
+        public void PayCallBack(string siparis_id, string tutar, string islem_sonucu, string islem_mesaji, string hash)
+        {
             string bayiiKey = "h912yNSj9";
             var paymentLog = JsonConvert.DeserializeObject<PaymentLogModel>(UiRequestManager.Instance.Get(string.Format("PaymentLog/GetLogByOrderId?OrderId={0}", siparis_id)));
 
@@ -146,25 +162,30 @@ namespace WebApplication1.Controllers {
 
             bool hasIP = false;
 
-            foreach (string item in CALLBACK_IP) {
-                if (remoteIpAddress.ToString() == item) {
+            foreach (string item in CALLBACK_IP)
+            {
+                if (remoteIpAddress.ToString() == item)
+                {
                     hasIP = true;
                     break;
                 }
             }
 
-            if (hasIP == false || hash != md5Val) {
+            if (hasIP == false || hash != md5Val)
+            {
                 logModel.ErrorMessage = "Ip veya hash hatalı";
             }
 
             var amountWithCommission = paymentLog.AmountWithComission;
-            if (Convert.ToDecimal(tutar) != amountWithCommission) {
+            if (Convert.ToDecimal(tutar) != amountWithCommission)
+            {
                 logModel.ErrorMessage = "Miktarlar uyuşmamakta.";
             }
 
             JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
 
-            if (Convert.ToInt32(islem_sonucu) == 2) {
+            if (Convert.ToInt32(islem_sonucu) == 2)
+            {
                 UserPaymentRequestModel paymentModel = new UserPaymentRequestModel();
                 paymentModel.Amount = paymentLog.Amount;
                 paymentModel.Bank = Banks.GPAY;
@@ -173,9 +194,13 @@ namespace WebApplication1.Controllers {
                 paymentModel.UserId = paymentLog.UserId;
                 paymentModel.OrderId = siparis_id;
                 paymentModel.IpAddress = remoteIpAddress.ToString();
-                try {
+                try
+                {
                     JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "SaveBalance", JsonConvert.SerializeObject(paymentModel)));
-                } catch (Exception e) {
+                    SmsHelper.SendSms("5433554779", "para yatırıldı:" + DateTime.Now + ":" + paymentLog.UserId);
+                }
+                catch (Exception e)
+                {
                     logModel.TransferedUsersBalanceStatus = 2;//bu statü ödeme alınıp sistemsel sorunlarda yardımcı olacak.
                     logModel.ErrorMessage = e.Message;
                     JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
@@ -183,7 +208,8 @@ namespace WebApplication1.Controllers {
             }
         }
 
-        public string md5(string content) {
+        public string md5(string content)
+        {
             MD5 md5 = new MD5CryptoServiceProvider();
             Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(content);
             Byte[] encodedBytes = md5.ComputeHash(originalBytes);
@@ -191,7 +217,8 @@ namespace WebApplication1.Controllers {
             return BitConverter.ToString(encodedBytes).Replace("-", "").ToLower();
         }
 
-        public string Post(string postData) {
+        public string Post(string postData)
+        {
             //string url = "https://gpay.com.tr/ApiRequest";
             string url = "https://demo.gpay.com.tr/ApiRequest";
 
@@ -206,7 +233,8 @@ namespace WebApplication1.Controllers {
 
 
 
-            using (Stream stream = http.GetRequestStream()) {
+            using (Stream stream = http.GetRequestStream())
+            {
                 stream.Write(bytes, 0, bytes.Length);
             }
 
@@ -218,7 +246,8 @@ namespace WebApplication1.Controllers {
             return content;
         }
 
-        public string Post2(string postData) {
+        public string Post2(string postData)
+        {
             string url = "https://gpay.com.tr/ApiRequest";
             //string url = "https://demo.gpay.com.tr/ApiRequest";
 
@@ -230,16 +259,20 @@ namespace WebApplication1.Controllers {
 
         [HttpGet]
         [Route("odeme-sonuc")]
-        public ActionResult PaymentResult(int payment_status) {
-            if (payment_status == 0) {
+        public ActionResult PaymentResult(int payment_status)
+        {
+            if (payment_status == 0)
+            {
                 ViewBag.Result = "Ödeme Gerçekleştirilemedi. Lütfen daha tekrar deneyiniz.";
-            } 
+            }
 
-            if (payment_status == 1) {
+            if (payment_status == 1)
+            {
                 ViewBag.Result = "Ödeme Gerçekleştirildi. Bakiyeniz güncellendi";
             }
 
-            if (payment_status == 2) {
+            if (payment_status == 2)
+            {
                 ViewBag.Result = "Ödeme Gerçekleştirilemedi. Lütfen daha tekrar deneyiniz.";
             }
 
