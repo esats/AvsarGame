@@ -80,6 +80,7 @@ namespace AvsarGame.API.Controllers
                 }
                 using (var trancation = new TransactionScope())
                 {
+                    model.CreatedBy = "185.197.196.99";
                     InsertOrUpdateUserBalance(model);
 
                     UserNotification notification = new UserNotification()
@@ -104,7 +105,7 @@ namespace AvsarGame.API.Controllers
 
                 Log entity = new Log();
                 entity.CreatedDate = DateTime.Now;
-                entity.CreatedBy = base.GetUser();
+                entity.CreatedBy = "185.197.196.99";
                 entity.Message = e.Message;
                 entity.OrderId = model.OrderId;
                 Logger.Instance.Insert(entity);
@@ -123,6 +124,7 @@ namespace AvsarGame.API.Controllers
                 using (var trancation = new TransactionScope())
                 {
                     var paymentRequest = _paymenLog.GetT(x => x.UserId == model.UserId && x.Id == model.Id);
+                    model.CreatedBy = base.GetUser();
                     InsertOrUpdateUserBalance(model);
                     paymentRequest.TransferedUsersBalanceStatus = (int)PaymentStatus.APPROVED;
                     _paymenLog.Update(paymentRequest);
@@ -217,7 +219,7 @@ namespace AvsarGame.API.Controllers
                 balanceDetail.Amount = model.Amount;
                 balanceDetail.TransactionDescription = (int)TRANSACTION_DESCIPTION.Payment;
                 balanceDetail.UserBalanceId = userBalance.Id;
-                balanceDetail.CreatedBy = base.GetUser();
+                balanceDetail.CreatedBy = model.CreatedBy;
                 balanceDetail.CreatedDate = DateTime.Now;
                 balanceDetail.IsActive = true;
                 balanceDetail.OrderId = model.OrderId;

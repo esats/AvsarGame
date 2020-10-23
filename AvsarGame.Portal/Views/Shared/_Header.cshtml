@@ -170,6 +170,7 @@
                         <li class="nav-item dropdown user-dropdown profile" style="">
                             <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
                             <div class="dropdown-menu-right show @PageHelper.GetLoggedProfileStyle()" style="display: none; background-color: white">
+                                <a class="dropdown-item" style="color: #009AFF;">Bakiye: @PageHelper.GetBalance() TL</a>
                                 <a class="dropdown-item" style="color: #009AFF;" href="/@UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())">Profilim</a>
                                 <a class="dropdown-item logout" href="/User/Logout">Çıkış Yap</a>
                             </div>
@@ -258,7 +259,7 @@
                     <a class="nav-link" href="/odeme-yontemleri">Ödeme Yöntemleri</a>
                 </li>
                 <li class="nav-item nav-item2">
-                    <a class="nav-link" href="/yardım">Yardım</a>
+                    <a class="nav-link" href="/yardim">Yardım</a>
                 </li>
             </ul>
         </nav>

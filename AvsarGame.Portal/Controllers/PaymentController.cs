@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers {
-    public class PaymentController : Controller {
+    public class PaymentController : BaseController {
         public ActionResult Index() {
             return View();
         }
@@ -177,7 +177,7 @@ namespace WebApplication1.Controllers {
                     JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "SaveBalance", JsonConvert.SerializeObject(paymentModel)));
                 } catch (Exception e) {
                     logModel.TransferedUsersBalanceStatus = 2;//bu statü ödeme alınıp sistemsel sorunlarda yardımcı olacak.
-                    logModel.ErrorMessage = e.Message;//bu statü ödeme alınıp sistemsel sorunlarda yardımcı olacak.
+                    logModel.ErrorMessage = e.Message;
                     JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("paymentlog", "Save", JsonConvert.SerializeObject(logModel)));
                 }
             }

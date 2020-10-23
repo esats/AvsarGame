@@ -43,7 +43,7 @@ namespace AvsarGame.Portal.Controllers {
             return View();
         }
 
-        [Route("yardım")]
+        [Route("yardim")]
         public IActionResult Support() {
             return View();
         }

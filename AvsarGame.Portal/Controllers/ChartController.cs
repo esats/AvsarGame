@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace AvsarGame.Portal.Controllers {
     [Route("Sepetim")]
-    public class ChartController : Controller {
+    public class ChartController : BaseController {
         public IActionResult Index() {
             var chart = SessionManager.Instance.GetObject<List<GameModel>>("chart");
             if (chart == null) {
