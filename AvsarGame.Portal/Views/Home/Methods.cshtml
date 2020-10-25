@@ -61,7 +61,7 @@
                                     <div class="tab-pane fade active show" role="tabpanel" aria-labelledby="pills-gpay-method-tab">
                                         <div class="row">
                                             <form method="post" action="/Payment/pay">
-                                                <input hidden="hidden" name="paymentMethod" value="kredikartı">
+                                                <input hidden="hidden" name="paymentMethod" value="krediKarti">
                                                 <div class="form-row align-items-center">
                                                     <div class="col-auto">
                                                         <label class="text-white">Yatırılacak Tutar</label>
@@ -116,10 +116,10 @@
 
         $("#paymentBtn").on('click', function (e) {
             var amount = document.getElementById("amountOfBalanceWithCms").value;
-            if (parseFloat(amount) <= 10 || amount == "") {
-                e.preventDefault();
-                alert("Mininmum 10 tl ödeme yapmalısınız")
-            }
+            //if (parseFloat(amount) <= 10 || amount == "") {
+            //    e.preventDefault();
+            //    alert("Mininmum 10 tl ödeme yapmalısınız")
+            //}
         });
     });
 </script>

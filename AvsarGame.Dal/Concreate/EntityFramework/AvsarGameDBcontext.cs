@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AvsarGame.Dal.Concreate.EntityFramework {
-    public class AvsarGameDBcontext : IdentityDbContext<ApplicationUser, IdentityRole, string> {
+namespace AvsarGame.Dal.Concreate.EntityFramework
+{
+    public class AvsarGameDBcontext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+    {
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Campaign> Campaigns { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
@@ -33,20 +35,25 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
         public virtual DbSet<PaymentLog> PaymentLog { get; set; }
         public virtual DbSet<KnightCommerceDetail> KnightCommerceDetail { get; set; }
 
-        public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options) {
+        public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options)
+        {
         }
 
-        public AvsarGameDBcontext() {
+        public AvsarGameDBcontext()
+        {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            if (!optionsBuilder.IsConfigured) {
-            #if DEBUG
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#if DEBUG
+                //optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
 
-                   optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS01;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
-            #else
+                optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS01;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
+#else
                     optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
-            #endif
+#endif
             }
         }
     }
