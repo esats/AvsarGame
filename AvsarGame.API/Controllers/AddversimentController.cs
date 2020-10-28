@@ -748,7 +748,7 @@ namespace AvsarGame.API.Controllers
             {
                 using (var trancation = new TransactionScope())
                 {
-                    var updatedEntity = _knightCommerceDetail.GetT(x => x.Id == model.AddversimentId && x.AddversimentType == model.AddversimentType);
+                    var updatedEntity = _knightCommerceDetail.GetT(x => x.AddversimentId == model.AddversimentId && x.AddversimentType == model.AddversimentType);
                     updatedEntity.Status = (int)AddversimentStatus.APPROVED;
                     _knightCommerceDetail.Update(updatedEntity);
 
