@@ -30,6 +30,20 @@ namespace AvsarGame.Portal.Controllers {
                 return RedirectToAction("giris", "User");
             }
 
+            var userData =
+                 JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+            if (!userData.PhoneNumberConfirmed)
+            {
+                if (SessionManager.Instance.Get("sendedConfirmNumber") == null)
+                {
+                    SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
+                }
+
+                SessionManager.Instance.set("returnUrl", "/ilan-ver/knightcyberring");
+                return RedirectToAction("ConfirmPhone", "User");
+            }
+
+
             return View();
         }
 
@@ -38,6 +52,19 @@ namespace AvsarGame.Portal.Controllers {
             var bearer = SessionManager.Instance.Get("bearer");
             if (bearer == null) {
                 return RedirectToAction("giris", "User");
+            }
+
+            var userData =
+             JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
+            if (!userData.PhoneNumberConfirmed)
+            {
+                if (SessionManager.Instance.Get("sendedConfirmNumber") == null)
+                {
+                    SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
+                }
+
+                SessionManager.Instance.set("returnUrl", "/ilan-ver/knightitem");
+                return RedirectToAction("ConfirmPhone", "User");
             }
 
             return View();
@@ -560,7 +587,7 @@ namespace AvsarGame.Portal.Controllers {
 
             var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
             if (userData.PhoneNumberConfirmed) {
-                return View("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.UserPhone = userData.PhoneNumber;

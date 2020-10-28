@@ -26,8 +26,9 @@
 
 <script>
     $(document).ready(function () {
+        var route = '@ViewBag.returnUrl'
         setTimeout(function () {
-            location.href = '/'
+            location.href = route;
         }, 1800);
         localStorage.clear();
     });
