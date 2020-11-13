@@ -28,7 +28,12 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
                 Response<LoggedModel> responseSaving =
                         JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
                 responseSaving.Value = responseSaving.Value;
-                SessionManager.Instance.set("bearer", responseSaving.Value.BearerToken);
+                if (responseSaving.IsSuccess)
+                {
+                    SessionManager.Instance.set("bearer", responseSaving.Value.BearerToken);
+                    SessionManager.Instance.set("UserId", responseSaving.Value.UserId.ToString());
+                    SessionManager.Instance.set("FullName", responseSaving.Value.FullName.ToString());
+                }
             } catch (Exception e) {
                 return Json(new { Success = false });
             }

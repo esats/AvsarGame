@@ -48,9 +48,9 @@ namespace AvsarGame.Dal.Concreate.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
+                //optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
 
-                //optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS01;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS01;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
 #else
                     optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
 #endif
