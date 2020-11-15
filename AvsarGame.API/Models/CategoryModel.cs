@@ -15,6 +15,7 @@ namespace AvsarGame.API.Models {
         public int Count { get; set; }
         public int Type { get; set; }
         public int OrderNo { get; set; }
+        public bool IsUpdate { get; set; }
 
         [JsonIgnore]
         public IFormFile Image { get; set; }
