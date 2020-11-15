@@ -693,5 +693,14 @@ namespace AvsarGame.Portal.Controllers {
             SmsHelper.SendSms(model.PhoneNumber, message);
             return Json(true);
         }
+
+        [HttpPost]
+        public void SetSessionParametersAfterPayment(SessionForPaymentModel model)
+        {
+            SessionManager.Instance.set("bearer", model.Bearer);
+            SessionManager.Instance.set("UserId", model.UserId);
+            SessionManager.Instance.set("FullName", model.FullName);
+        }
+
     }
 }

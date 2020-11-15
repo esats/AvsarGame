@@ -57,6 +57,11 @@ namespace AvsarGame.Portal.Core {
             return UrlExtension.FriendlyUrl(Get("FullName"));
         }
 
+        public string GetBearer()
+        {
+            return Get("bearer");
+        }
+
         public void Clear()
         {
             Context.HttpContext.Session.Clear();

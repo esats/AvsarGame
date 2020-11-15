@@ -143,7 +143,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul id="main-nav" class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    @if (PageHelper.IsAutgenticate())
+                    @if (PageHelper.IsAuthenticate())
                     {
                         <li class="nav-item  dropdown-cart notifications" id="notification" style="margin-right: 10px;">
                             <a title="Bildirimler" class="nav-link dropdown-toggle d-lg-block d-inline-block pr-3" role="button" aria-haspopup="true" aria-expanded="false">
@@ -165,7 +165,7 @@
                             </div>
                         </li>
                     }
-                    @if (PageHelper.IsAutgenticate())
+                    @if (PageHelper.IsAuthenticate())
                     {
                         <li class="nav-item dropdown user-dropdown profile" style="">
                             <a class="nav-link dropdown-toggle user-name profile" data-toggle="dropdown">@SessionManager.Instance.GetFullName()</a>
@@ -279,7 +279,7 @@
 <script>
     var term = "";
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    var isAuthenticate = '@PageHelper.IsAutgenticate()';
+    var isAuthenticate = '@PageHelper.IsAuthenticate()';
     $(document).ready(function() {
         $("#chart").hover(function() {
             getChartHtml();
