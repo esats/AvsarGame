@@ -78,7 +78,7 @@
 
         $("#paymentBtn").on('click', function (e) {
             var amount = document.getElementById("amountOfBalanceWithCms").value;
-            if (parseFloat(amount) <= 1 || amount == "") {
+            if (parseFloat(amount) <= 10 || amount == "") {
                 e.preventDefault();
                 alert("Mininmum 10 tl ödeme yapmalısınız")
             }
