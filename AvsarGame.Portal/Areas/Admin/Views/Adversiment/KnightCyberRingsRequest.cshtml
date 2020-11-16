@@ -44,12 +44,17 @@
                                     <td>@item.Base.Level</td>
                                     <td>
                                         <ul style="list-style: none;">
-                                            @foreach (var url in item.Base.FileUrls)
+                                            @if (item.Base.FileUrls != null)
                                             {
-                                                var u = "https://anatoliagm.blob.core.windows.net/uploads/200x175/" + url;
+                                                foreach (var url in item.Base.FileUrls)
+                                                {
+                                                    var u = "https://anatoliagm.blob.core.windows.net/uploads/200x175/" + url;
 
-                                                <li><img src="@u" style="width: 100px; margin: 4px; display: inline;" /></li> 
+                                                    <li><img src="@u" style="width: 100px; margin: 4px; display: inline;" /></li>
+
+                                                }
                                             }
+
                                         </ul>
                                     </td>
                                     <td>@item.Base.CharacterType</td>
@@ -57,7 +62,7 @@
                                     <td>@item.Base.Percent</td>
                                     <td>
                                         <a class="btn btn-success btn-sm accept" data-add-id="@item.Base.Id" data-user-id="@item.Sub.UserId" style="margin-bottom: 10px;color: white">Kabul et</a>
-                                        <a class="btn btn-danger btn-sm reject" data-add-id="@item.Base.Id"  data-user-id="@item.Sub.UserId" style="color: white">Reddet</a>
+                                        <a class="btn btn-danger btn-sm reject" data-add-id="@item.Base.Id" data-user-id="@item.Sub.UserId" style="color: white">Reddet</a>
                                     </td>
                                 </tr>
                             }
@@ -70,66 +75,13 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $('#dataTable').DataTable( {
+        $('#dataTable').DataTable({
             "scrollX": true
-        } );
-
-        $(".requestrow .accept").click(function() {
-            var UserId = $(this).attr('data-user-id');
-            var AddversimentId = $(this).attr('data-add-id');
-
-            var row = this.parentElement.parentElement;
-
-            var model = {
-                AddversimentId,
-                UserId
-            }
-
-            swal({  title: "İlanı kabul etmek istediğinizden Emin misiniz?",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "evet",
-                    cancelButtonText: "Hayir",
-                    closeOnConfirm: true,
-                    closeOnCancel: true
-                },
-                function(isConfirm) {
-                    if (isConfirm) {
-                        $.ajax({
-                            type: "POST",
-                            url: '/Admin/Adversiment/ApproveCyberRing',
-                            content: "application/json; charset=utf-8",
-                            data: model,
-                            dataType: 'json',
-                            beforeSend: function() {
-                                showSpinner();
-                            },
-                            complete: function() {
-                                hideSpinner();
-                            },
-                            success: function(res) {
-                                if (res.success) {
-                                    if (res.data.isSuccess) {
-                                        swal("Basarili!", "Sipariş Aktarıldı", "success");
-                                        row.remove();
-                                    } else {
-                                        swal("Hata!", "Sipariş Aktarılamadı", "error");
-                                    }
-                                }
-                            },
-                            error: function(err) {
-                                alert("Beklenmeyen Bir hata oluştu");
-                            }
-                        });
-                    } else {
-                        swal.close();
-                    }
-                });
         });
 
-        $(".requestrow .reject").click(function() {
+        $(".requestrow .accept").click(function () {
             var UserId = $(this).attr('data-user-id');
             var AddversimentId = $(this).attr('data-add-id');
 
@@ -141,15 +93,69 @@
             }
 
             swal({
-                    title: "ilanı Red etmek istediginizden emin misiniz?",
-                    showCancelButton: true,
-                    confirmButtonColor: "#4caf50",
-                    confirmButtonText: "evet",
-                    cancelButtonText: "Hayir",
-                    closeOnConfirm: true,
-                    closeOnCancel: true
-                },
-                function(isConfirm) {
+                title: "İlanı kabul etmek istediğinizden Emin misiniz?",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "evet",
+                cancelButtonText: "Hayir",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/Admin/Adversiment/ApproveCyberRing',
+                            content: "application/json; charset=utf-8",
+                            data: model,
+                            dataType: 'json',
+                            beforeSend: function () {
+                                showSpinner();
+                            },
+                            complete: function () {
+                                hideSpinner();
+                            },
+                            success: function (res) {
+                                if (res.success) {
+                                    if (res.data.isSuccess) {
+                                        swal("Basarili!", "Sipariş Aktarıldı", "success");
+                                        row.remove();
+                                    } else {
+                                        swal("Hata!", "Sipariş Aktarılamadı", "error");
+                                    }
+                                }
+                            },
+                            error: function (err) {
+                                alert("Beklenmeyen Bir hata oluştu");
+                            }
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+        });
+
+        $(".requestrow .reject").click(function () {
+            var UserId = $(this).attr('data-user-id');
+            var AddversimentId = $(this).attr('data-add-id');
+
+            var row = this.parentElement.parentElement;
+
+            var model = {
+                AddversimentId,
+                UserId
+            }
+
+            swal({
+                title: "ilanı Red etmek istediginizden emin misiniz?",
+                showCancelButton: true,
+                confirmButtonColor: "#4caf50",
+                confirmButtonText: "evet",
+                cancelButtonText: "Hayir",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
@@ -157,13 +163,13 @@
                             content: "application/json; charset=utf-8",
                             data: model,
                             dataType: 'json',
-                            beforeSend: function() {
+                            beforeSend: function () {
                                 showSpinner();
                             },
-                            complete: function() {
+                            complete: function () {
                                 hideSpinner();
                             },
-                            success: function(res) {
+                            success: function (res) {
                                 if (res.success) {
                                     if (res.data.isSuccess) {
                                         swal("Basarili!", "ilan Reddedildi", "success");
@@ -173,7 +179,7 @@
                                     }
                                 }
                             },
-                            error: function(err) {
+                            error: function (err) {
                                 alert("Beklenmeyen Bir hata oluştu");
                             }
                         });
