@@ -337,7 +337,7 @@ namespace AvsarGame.Portal.Controllers {
                 var response =
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
 
-                await FileManager.Instance.SaveAll(model.Files, 9, AddversimentType.KNIGHT_ONLINE_ITEM);
+                await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_ITEM);
 
                 return Json(new { Success = true, data = true });
             } catch (Exception e) {
@@ -702,5 +702,15 @@ namespace AvsarGame.Portal.Controllers {
             SessionManager.Instance.set("FullName", model.FullName);
         }
 
+        [Route("para-cek")]
+
+        public ActionResult MoneyWithDraw()
+        {
+            if (!SessionManager.Instance.IsAuthenticate())
+            {
+                return RedirectToAction("Giris", "User");
+            }
+            return View();
+        }
     }
 }

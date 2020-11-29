@@ -41,7 +41,7 @@ namespace AvsarGame.Portal.Helpers
             //CloudBlockBlob blob = container.GetBlockBlobReference(string.Format(ConfigurationManager.Instance.GetValue("FileUploadBlobPath"), tmodel.ModuleType, tmodel.ModuleId, tmodel.UniqueName.ToLower()));
 
             CloudBlockBlob blob = container.GetBlockBlobReference(model.SubFolderName + "/"+ model.FileName);
-            await blob.UploadFromFileAsync(model.FilePath);;
+            await blob.UploadFromFileAsync(model.FilePath);
 
             var aa = blob.Parent.Prefix;
             //var a1a = SignUrl(appFile);k
