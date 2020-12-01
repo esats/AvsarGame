@@ -33,6 +33,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework
         public virtual DbSet<UserComment> UserComment { get; set; }
         public virtual DbSet<Metin2Item> Metin2Item { get; set; }
         public virtual DbSet<PaymentLog> PaymentLog { get; set; }
+        public virtual DbSet<UserDrawableMoney> UserDrawableMoney { get; set; }
         public virtual DbSet<KnightCommerceDetail> KnightCommerceDetail { get; set; }
 
         public AvsarGameDBcontext(DbContextOptions<AvsarGameDBcontext> options) : base(options)

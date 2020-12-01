@@ -34,6 +34,7 @@ namespace AvsarGame.API.Controllers
         private readonly IMapper _mapper;
         private readonly IUserBalance _UserBalance;
         private readonly IUserBalanceDetails _UserBalanceDetail;
+        private readonly IUserDrawableMoney _userDrawableMoney;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -45,7 +46,7 @@ namespace AvsarGame.API.Controllers
                                       IMetin2 metin2,
                                       IKnightCommerceDetail knightCommerceDetail,
                                       IUserBalance userBalance,
-                                      IUserBalanceDetails userBalanceDetails)
+                                      IUserBalanceDetails userBalanceDetails, IUserDrawableMoney userDrawableMoney)
         {
             _KnightCyberRing = knightCyberRing;
             _mapper = mapper;
@@ -60,6 +61,7 @@ namespace AvsarGame.API.Controllers
             _knightCommerceDetail = knightCommerceDetail;
             _UserBalance = userBalance;
             _UserBalanceDetail = userBalanceDetails;
+            _userDrawableMoney = userDrawableMoney;
         }
 
         [HttpPost]
@@ -752,7 +754,7 @@ namespace AvsarGame.API.Controllers
                     updatedEntity.Status = (int)AddversimentStatus.APPROVED;
                     _knightCommerceDetail.Update(updatedEntity);
 
-                    UpdateUserBalance(model.SellerUserId, (model.Price - (model.Price * 0.03)), model.AddversimentId, model.AddversimentType);
+                    var userBalanceDetailId = UpdateUserBalance(model.SellerUserId, (model.Price - (model.Price * 0.03)), model.AddversimentId, model.AddversimentType);
 
                     UserNotification notification = new UserNotification()
                     {
@@ -774,12 +776,19 @@ namespace AvsarGame.API.Controllers
                     };
                     _notification.Add(notification2);
 
+                    UserDrawableMoney userDrawable = new UserDrawableMoney();
+                    userDrawable.Amount = model.Price - (model.Price * 0.03);
+                    userDrawable.CreatedBy = GetUser();
+                    userDrawable.CreatedDate = DateTime.Now;
+                    userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                    _userDrawableMoney.Add(userDrawable);
+
                     response.IsSuccess = true;
                     response.Value = HttpStatusCode.OK;
                     trancation.Complete();
                 }
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
                 response.IsSuccess = false;
                 response.Value = HttpStatusCode.BadRequest;
@@ -834,7 +843,7 @@ namespace AvsarGame.API.Controllers
         }
 
 
-        private void UpdateUserBalance(string userId, double price, int addversimentId, int addversimentType)
+        private Guid UpdateUserBalance(string userId, double price, int addversimentId, int addversimentType)
         {
             var userBalance = _UserBalance.GetBalance(userId);
 
@@ -856,7 +865,7 @@ namespace AvsarGame.API.Controllers
             detail.AddversimentId = addversimentId;
             detail.AddversimentType = addversimentType;
             detail.CreatedBy = base.GetUser();
-            _UserBalanceDetail.Add(detail);
+            return _UserBalanceDetail.Add(detail).Id;
         }
 
         private List<string> GetNotificationList(CommentModel model)
