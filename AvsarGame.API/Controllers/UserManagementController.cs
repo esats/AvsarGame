@@ -23,7 +23,6 @@ namespace AvsarGame.API.Controllers
     public class UserManagementController : APIControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserPaymentRequest _userPaymentRequest;
         private readonly IUserBalance _userBalance;
         private readonly IUserBalanceDetails _userBalanceDetails;
         private readonly IUserNotification _userNotification;
@@ -35,7 +34,6 @@ namespace AvsarGame.API.Controllers
         {
             _userManager = userManager;
             _mapper = mapper;
-            _userPaymentRequest = userPaymentRequest;
             _userBalance = userBalance;
             _userBalanceDetails = userBalanceDetails;
             _userNotification = userNotification;
@@ -232,5 +230,6 @@ namespace AvsarGame.API.Controllers
                 throw;
             }
         }
+
     }
 }

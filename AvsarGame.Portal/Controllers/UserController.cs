@@ -703,14 +703,19 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("para-cek")]
-
         public ActionResult MoneyWithDraw()
         {
             if (!SessionManager.Instance.IsAuthenticate())
             {
+                SessionManager.Instance.set("returnUrl", "/para-cek");
                 return RedirectToAction("Giris", "User");
             }
-            return View();
+
+            var paymentDrawableMoney =
+                       JsonConvert.DeserializeObject<PaymentDrawableMoney>(
+                               UiRequestManager.Instance.Get(String.Format("UserBalance/GetUserBalanceWithMoneyDraw/{0}", SessionManager.Instance.GetUserId())));
+
+            return View(paymentDrawableMoney);
         }
     }
 }

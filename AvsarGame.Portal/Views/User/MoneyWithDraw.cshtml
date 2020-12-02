@@ -1,4 +1,5 @@
 ﻿@using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.PaymentDrawableMoney
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +19,7 @@
                                 <div class="input-group col-lg-9 col-9">
                                     <input type="text" name="Iban" class="form-control" id="title" placeholder="TR 0000 0000 0000 0000 0000 0000">
                                     <div class="input-group-append">
-                                        <input class="button btn-blue w-100 col-6" style="margin-left:10px; cursor: pointer" id="moneyWithDraw" value="Gönder" />
+                                        <input class="button btn-blue w-100 col-6" style="margin-left:10px; cursor: pointer" id="moneyWithDraw" value="Talep et" />
                                     </div>
                                 </div>
                             </div>
@@ -26,8 +27,10 @@
                         <div class="col-12">
                             <div class="announce-box announce-danger">
                                 <p>
-                                    Bakiye: 0000
-                                    Çekebileceğiniz bakiye: 0000
+                                    Bakiye: <span class="text-white">@Model.Balance</span>
+                                </p>
+                                <p>
+                                    Çekebileceğiniz bakiye: <span class="text-white">@Model.DrawableBalance</span>
                                 </p>
                             </div>
                         </div>

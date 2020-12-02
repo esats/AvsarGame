@@ -15,12 +15,17 @@ namespace AvsarGame.API.Controllers {
         private readonly IUserBalance _userBalance;
         private readonly IPaymentLog _paymentLog;
         private readonly IMapper _mapper;
+        private readonly IUserDrawableMoney _userDrawableMoney;
+        private readonly IUserBalanceDetails _userBalanceDetails;
 
-        public UserBalanceController(IUserBalance userBalance, 
-            IPaymentLog paymentLog, IMapper mapper) {
+        public UserBalanceController(IUserBalance userBalance,
+            IPaymentLog paymentLog, IMapper mapper, IUserDrawableMoney userDrawableMoney, IUserBalanceDetails userBalanceDetails)
+        {
             _userBalance = userBalance;
             _paymentLog = paymentLog;
             _mapper = mapper;
+            _userDrawableMoney = userDrawableMoney;
+            _userBalanceDetails = userBalanceDetails;
         }
 
         [HttpGet]
@@ -45,6 +50,23 @@ namespace AvsarGame.API.Controllers {
         public List<UserPaymentHistoryModel> GetUserPaymentHistory(string id) {
             var payments = _mapper.Map<List<UserPaymentHistoryModel>>(_paymentLog.GetList(x => x.UserId == id && x.IsIncoming));
             return payments;
+        }
+
+        [HttpGet]
+        [Route("GetUserBalanceWithMoneyDraw/{id}")]
+        public PaymentDrawableMoney GetUserBalanceWithMoneyDraw(string id)
+        {
+            PaymentDrawableMoney drawableMoney = new PaymentDrawableMoney();
+
+            var balanceDetail = _userBalance.GetBalance(id);
+            var userDrawableMoney = (from e in _userDrawableMoney.GetList()
+                                     join d in _userBalanceDetails.GetList() on e.UserBalanceDetailId equals d.Id
+                                     where d.UserBalanceId == balanceDetail.Id
+                                     select new { e.Amount }).Sum(x => x.Amount);
+            drawableMoney.Balance = (double)balanceDetail.Details.Sum(x => x.Amount);
+            drawableMoney.DrawableBalance = userDrawableMoney;
+
+            return drawableMoney;
         }
     }
 }
