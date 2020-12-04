@@ -31,7 +31,7 @@
                                 <a class="nav-link" id="ilan-tab" data-toggle="pill" href="#ilan" role="tab" aria-controls="ilan" aria-selected="false">İlan İşlemlerim</a>
 
                                 <a class="nav-link" id="orders-tab" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">Siparişlerim</a>
-                               
+
                                 <a class="nav-link" id="paymentHistory-tab" data-toggle="pill" href="#paymentHistory" role="tab" aria-controls="paymentHistory" aria-selected="false">Ödeme geçmişim</a>
 
                                 <a class="nav-link" id="sells-tab" data-toggle="pill" href="#sells" role="tab" aria-controls="sell" aria-selected="false">Satışlarım</a>
@@ -61,6 +61,12 @@
                                                     <p class="icon-title">
                                                         Ödeme
                                                     </p>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
+                                                <a href="/para-cekme-taleplerim" class="profile-icon-container">
+                                                    <i class="far fa-credit-card  fa-2x"></i>
+                                                    <p class="icon-title">Para Çekme talepleri</p>
                                                 </a>
                                             </div>
                                             <div class="col-6 col-sm-4 col-md-3 profile-icon-col">
@@ -107,25 +113,28 @@
                                                 </a>
                                             </div>
                                             @*<div class="col-6 col-sm-4 col-md-3 profile-icon-col">
-            <a href="#" class="profile-icon-container">
-                <i class="fas fa-lira-sign  fa-2x"></i>
-                <p class="icon-title">CS-GO</p>
-            </a>
-        </div>*@
+                                                    <a href="#" class="profile-icon-container">
+                                                        <i class="fas fa-lira-sign  fa-2x"></i>
+                                                        <p class="icon-title">CS-GO</p>
+                                                    </a>
+                                                </div>*@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
-                                        @await Component.InvokeAsync("UserOrder", new {
+                                        @await Component.InvokeAsync("UserOrder", new
+                                        {
                                             id = Model.Balance.UserId
                                         })
                                     </div>
                                     <div class="tab-pane fade" id="sells" role="tabpanel" aria-labelledby="sells-tab">
-                                        @await Component.InvokeAsync("UserSell", new {
+                                        @await Component.InvokeAsync("UserSell", new
+                                        {
                                             id = Model.Balance.UserId
                                         })
                                     </div>
                                     <div class="tab-pane fade" id="paymentHistory" role="tabpanel" aria-labelledby="paymentHistory-tab">
-                                        @await Component.InvokeAsync("UserPaymentHistory", new {
+                                        @await Component.InvokeAsync("UserPaymentHistory", new
+                                        {
                                             id = Model.Balance.UserId
                                         })
                                     </div>
@@ -258,7 +267,8 @@
                                                     Banka Seçiniz
                                                 </label>
                                                 <select class="form-control" name="bank" id="bank" required="">
-                                                    @foreach (var item in (Banks[])Enum.GetValues(typeof(Banks))) {
+                                                    @foreach (var item in (Banks[])Enum.GetValues(typeof(Banks)))
+                                                    {
                                                         <option value="@item">@PageHelper.Description(item)</option>
                                                     }
                                                 </select>

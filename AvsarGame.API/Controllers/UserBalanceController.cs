@@ -98,7 +98,7 @@ namespace AvsarGame.API.Controllers
                     userMoneyDraw.Amount = model.Amount;
                     userMoneyDraw.Iban = model.Iban;
                     userMoneyDraw.UserId = new Guid(GetUser());
-                    userMoneyDraw.TicketNo = model.UserId + r;
+                    userMoneyDraw.TicketNo =  r;
                     _userMoneyDrawRequest.Add(userMoneyDraw);
 
                     var userBalance = _userBalance.GetBalance(GetUser());
@@ -109,7 +109,7 @@ namespace AvsarGame.API.Controllers
                     userBalanceDetail.CreatedBy = GetUser();
                     userBalanceDetail.Amount = (decimal)-model.Amount;
                     userBalanceDetail.CreatedDate = DateTime.Now;
-                    userBalanceDetail.OrderId = model.UserId + r;
+                    userBalanceDetail.OrderId =  r;
                     var balanceDetail = _userBalanceDetails.Add(userBalanceDetail);
 
                     UserDrawableMoney userDrawable = new UserDrawableMoney();
@@ -136,5 +136,36 @@ namespace AvsarGame.API.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("UserDrawableMoneyRequests/{id}")]
+        public List<MoneyWithDrawModel> UserDrawableMoneyRequests(string id)
+        {
+            List<MoneyWithDrawModel> list = new List<MoneyWithDrawModel>();
+            var requests = _userMoneyDrawRequest.GetList(x => x.UserId == new Guid(id) && x.IsActive);
+
+            foreach (var item in requests)
+            {
+                MoneyWithDrawModel model = new MoneyWithDrawModel();
+                model.RequestId = item.Id;
+                model.Amount = item.Amount;
+                model.TicketNo = item.TicketNo;
+                model.Iban = item.Iban;
+                model.Date = (DateTime)item.CreatedDate;
+                model.StatuDescription = item.Statu == 0 ? "Beklemede" : (item.Statu == 1 ? "Onaylandı" : "Reddedildi");
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        [HttpGet]
+        [Route("CancelMoneyDraw/{id}")]
+        public void CancelMoneyDraw(int id)
+        {
+            List<MoneyWithDrawModel> list = new List<MoneyWithDrawModel>();
+            var request =_userMoneyDrawRequest.GetT(x => x.Id == id);
+            request.IsActive = false;
+            _userMoneyDrawRequest.Update(request);
+        }
     }
 }

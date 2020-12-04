@@ -864,18 +864,47 @@ namespace AvsarGame.Portal.Controllers
             if (!SessionManager.Instance.IsAuthenticate())
             {
                 SessionManager.Instance.set("returnUrl", "/para-cek");
-                return RedirectToAction("Giris","User");
+                return RedirectToAction("Giris", "User");
+            }
+
+            var paymentDrawableMoney =
+                     JsonConvert.DeserializeObject<PaymentDrawableMoney>(
+                             UiRequestManager.Instance.Get(String.Format("UserBalance/GetUserBalanceWithMoneyDraw/{0}", SessionManager.Instance.GetUserId())));
+            if (paymentDrawableMoney.DrawableBalance < model.Amount)
+            {
+                Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+                response.Value = HttpStatusCode.BadRequest;
+
+                return View(paymentDrawableMoney);
             }
 
             var res = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserBalance", "SaveMoneyDrawRequest", JsonConvert.SerializeObject(model)));
 
             ViewBag.result = res.Value;
 
-            var paymentDrawableMoney =
+            paymentDrawableMoney =
                        JsonConvert.DeserializeObject<PaymentDrawableMoney>(
                                UiRequestManager.Instance.Get(String.Format("UserBalance/GetUserBalanceWithMoneyDraw/{0}", SessionManager.Instance.GetUserId())));
 
             return View(paymentDrawableMoney);
+        }
+
+        [Route("para-cekme-taleplerim")]
+        public ActionResult UserMoneyDrawRequest()
+        {
+            var response =
+                   JsonConvert.DeserializeObject<List<MoneyWithDrawModel>>(
+                           UiRequestManager.Instance.Get(String.Format("UserBalance/UserDrawableMoneyRequests/{0}", SessionManager.Instance.GetUserId())));
+            return View(response);
+        }
+
+        public ActionResult CancelMoneyDraw(int requestId)
+        {
+            var response =
+                 JsonConvert.DeserializeObject<List<MoneyWithDrawModel>>(
+                         UiRequestManager.Instance.Get(String.Format("UserBalance/CancelMoneyDraw/{0}", requestId)));
+
+            return RedirectToAction("UserMoneyDrawRequest", "User");
         }
     }
 }

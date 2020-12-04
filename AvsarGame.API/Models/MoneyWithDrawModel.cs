@@ -12,5 +12,8 @@ namespace AvsarGame.API.Models
         public string Iban { get; set; }
         public double Amount { get; set; }
         public int RequestId { get; set; }
+        public string TicketNo { get; set; }
+        public string StatuDescription { get; set; }
+        public DateTime Date { get; set; }
     }
 }
