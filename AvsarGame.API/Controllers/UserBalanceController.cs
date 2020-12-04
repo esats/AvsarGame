@@ -166,6 +166,24 @@ namespace AvsarGame.API.Controllers
             var request =_userMoneyDrawRequest.GetT(x => x.Id == id);
             request.IsActive = false;
             _userMoneyDrawRequest.Update(request);
+
+            var userBalance = _userBalance.GetBalance(GetUser());
+
+            UserBalanceDetail userBalanceDetail = new UserBalanceDetail();
+            userBalanceDetail.TransactionDescription = (int)TRANSACTION_DESCIPTION.MONEY_DRAW_REVERSE_CHARGE;
+            userBalanceDetail.UserBalanceId = userBalance.Id;
+            userBalanceDetail.CreatedBy = GetUser();
+            userBalanceDetail.Amount = (decimal)request.Amount;
+            userBalanceDetail.CreatedDate = DateTime.Now;
+            userBalanceDetail.OrderId = request.TicketNo;
+            var balanceDetail = _userBalanceDetails.Add(userBalanceDetail);
+
+            UserDrawableMoney userDrawable = new UserDrawableMoney();
+            userDrawable.Amount = request.Amount;
+            userDrawable.CreatedBy = GetUser();
+            userDrawable.CreatedDate = DateTime.Now;
+            userDrawable.UserBalanceDetailId = balanceDetail.Id;
+            _userDrawableMoney.Add(userDrawable);
         }
     }
 }
