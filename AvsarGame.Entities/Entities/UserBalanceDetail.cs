@@ -19,6 +19,8 @@ namespace AvsarGame.Entities.Entities {
         KNIGHT_ITEM_ORDER = 1,
         Payment = 2,
         ORDER_REJECT = 3,
-        GAME_MONEY_SELL= 4
+        GAME_MONEY_SELL= 4,
+        MONEY_DRAW = 5,
+        MONEY_DRAW_REVERSE_CHARGE = 6
     }
 }

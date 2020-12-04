@@ -7,7 +7,7 @@ using AvsarGame.Entities.Entities;
 
 namespace AvsarGame.Dal.Concreate.EntityFramework
 {
-   public class EfUserMoneyDrawRequest : EfEntityRepositoryBase<UserMoneyDrawRequest, AvsarGameDBcontext>, IUserMoneyDrawRequest
+   public class EfAnnouncement: EfEntityRepositoryBase<Announcement, AvsarGameDBcontext>, IAnnouncement
     {
     }
 }

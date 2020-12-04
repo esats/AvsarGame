@@ -13,20 +13,26 @@ using AvsarGame.Portal.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace AvsarGame.Portal.Controllers {
-    public class UserController : BaseController {
-        public IActionResult Index() {
+namespace AvsarGame.Portal.Controllers
+{
+    public class UserController : BaseController
+    {
+        public IActionResult Index()
+        {
             return View();
         }
 
-        public IActionResult detailOrkun() {
+        public IActionResult detailOrkun()
+        {
             return View();
         }
 
         [Route("/ilan-ver/knightcyberring")]
-        public IActionResult KnightCyberRing() {
+        public IActionResult KnightCyberRing()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
@@ -48,9 +54,11 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("/ilan-ver/knightitem")]
-        public IActionResult KnightItem() {
+        public IActionResult KnightItem()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
@@ -71,9 +79,11 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("/ilan-ver/metin2item")]
-        public IActionResult Metin2Item() {
+        public IActionResult Metin2Item()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
@@ -81,9 +91,11 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("/ilan-ver/csgo")]
-        public IActionResult Csgo() {
+        public IActionResult Csgo()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
@@ -91,26 +103,33 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Register(RegisterModel model) {
-            try {
+        public JsonResult Register(RegisterModel model)
+        {
+            try
+            {
                 var responseSaving =
                         JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Register", JsonConvert.SerializeObject(model)));
-                if (responseSaving.IsSuccess) {
+                if (responseSaving.IsSuccess)
+                {
                     SessionManager.Instance.set("bearer", responseSaving.Value.BearerToken);
                     SessionManager.Instance.set("UserId", responseSaving.Value.Id.ToString());
                     SessionManager.Instance.set("FullName", responseSaving.Value.FullName.ToString());
                 }
 
                 return Json(new { Success = true, data = responseSaving });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpGet]
-        public ActionResult giris() {
+        public ActionResult giris()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer != null) {
+            if (bearer != null)
+            {
                 return RedirectToAction("Index", "Home");
             }
 
@@ -118,11 +137,14 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Giris(LoginModel model) {
-            try {
+        public JsonResult Giris(LoginModel model)
+        {
+            try
+            {
                 Response<LoggedModel> response =
                         JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
-                if (response.IsSuccess) {
+                if (response.IsSuccess)
+                {
                     SessionManager.Instance.set("bearer", response.Value.BearerToken);
                     SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
                     SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
@@ -130,33 +152,42 @@ namespace AvsarGame.Portal.Controllers {
                 }
 
                 return Json(new { Success = true, data = response });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false });
             }
         }
 
         [HttpPost]
-        public JsonResult Login(LoginModel model) {
-            try {
+        public JsonResult Login(LoginModel model)
+        {
+            try
+            {
                 Response<LoggedModel> response =
                         JsonConvert.DeserializeObject<Response<LoggedModel>>(UiRequestManager.Instance.Post("Account", "Login", JsonConvert.SerializeObject(model)));
-                if (response.IsSuccess) {
+                if (response.IsSuccess)
+                {
                     SessionManager.Instance.set("bearer", response.Value.BearerToken);
                     SessionManager.Instance.set("UserId", response.Value.UserId.ToString());
                     SessionManager.Instance.set("FullName", response.Value.FullName.ToString());
                 }
 
                 return Json(new { Success = true, data = response });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false });
             }
         }
 
         [HttpGet]
         [Route("{Name}")]
-        public ActionResult Detail() {
+        public ActionResult Detail()
+        {
             var id = SessionManager.Instance.GetUserId();
-            if (string.IsNullOrEmpty(id)) {
+            if (string.IsNullOrEmpty(id))
+            {
                 return null;
             }
 
@@ -171,16 +202,20 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Logout() {
+        public ActionResult Logout()
+        {
             UiRequestManager.Instance.Get(String.Format("Account/Logout"));
             SessionManager.Instance.Clear();
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public JsonResult RequestPayment(UserPaymentRequestModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public JsonResult RequestPayment(UserPaymentRequestModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen giriş yapınız" });
                 }
 
@@ -188,28 +223,37 @@ namespace AvsarGame.Portal.Controllers {
                 var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Payment", "Save", JsonConvert.SerializeObject(model)));
 
                 return Json(new { Success = false, data = response });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpGet]
-        public JsonResult GetUnReadNotification() {
+        public JsonResult GetUnReadNotification()
+        {
             var id = SessionManager.Instance.GetUserId();
-            try {
+            try
+            {
                 var unReadCount = JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Get(String.Format("UserNotification/GetUnReadNotification/{0}", id)));
                 return Json(new { Success = true, Count = unReadCount });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders) {
+        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders)
+        {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapınız";
                     response.Error = (int)Errors.UNAUTHORIZED;
@@ -224,7 +268,8 @@ namespace AvsarGame.Portal.Controllers {
                         JsonConvert.DeserializeObject<UserBalanceModel>(
                                 UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));
 
-                if (totalGameAmount > Balance.Balance) {
+                if (totalGameAmount > Balance.Balance)
+                {
                     response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
                     response.Error = (int)Errors.OUTOFBALANCE;
                     baseResponse.Value = response;
@@ -240,17 +285,22 @@ namespace AvsarGame.Portal.Controllers {
                 SessionManager.Instance.Remove("chart");
 
                 return Json(new { Success = true, data = baseResponse });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public JsonResult UserSellRequest([FromBody] List<UserOrderDetailModel> sells) {
+        public JsonResult UserSellRequest([FromBody] List<UserOrderDetailModel> sells)
+        {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     response.RedirectUrl = "/User/login";
                     response.Message = "Lütfen Giriş Yapınız";
                     response.Error = (int)Errors.UNAUTHORIZED;
@@ -264,13 +314,16 @@ namespace AvsarGame.Portal.Controllers {
                                 UiRequestManager.Instance.Post("UserOrder", "SaveSell", JsonConvert.SerializeObject(sells)));
 
                 return Json(new { Success = true, data = baseResponse });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model) {
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model)
+        {
             model.RequestSchema = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.ToString();
             await UiRequestManager.Instance.PostAsync("Account", "ForgotPassword", JsonConvert.SerializeObject(model));
             return Json(true);
@@ -278,7 +331,8 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Produces("application/json")]
-        public ActionResult ResetPassword(string email, string token) {
+        public ActionResult ResetPassword(string email, string token)
+        {
             ResetPasswordModel resetPasswordModel = new ResetPasswordModel();
             resetPasswordModel.Email = email;
             resetPasswordModel.Token = token.Replace(" ", "+");
@@ -286,16 +340,20 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public ActionResult ResetPassword([FromBody] ResetPasswordModel model) {
+        public ActionResult ResetPassword([FromBody] ResetPasswordModel model)
+        {
             var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("Account", "ResetPassword", JsonConvert.SerializeObject(model)));
 
             return Json(new { success = true, data = response });
         }
 
         [HttpPost]
-        public JsonResult Update(RegisterModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public JsonResult Update(RegisterModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Birşeyler ters gitti" });
                 }
 
@@ -303,15 +361,20 @@ namespace AvsarGame.Portal.Controllers {
                         JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(model)));
                 SessionManager.Instance.set("FullName", model.Name + " " + model.Surname);
                 return Json(new { Success = true, data = responseSaving });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public async Task<JsonResult> AddKnightCyberRingAddversiment(KnightCyberRingAddversimentModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen yeniden giriş yapın" });
                 }
 
@@ -321,14 +384,18 @@ namespace AvsarGame.Portal.Controllers {
                 await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_CYBERRING);
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddKnightItemAddversiment(KnightItemAddversimentModel model) {
-            try {
+        public async Task<JsonResult> AddKnightItemAddversiment(KnightItemAddversimentModel model)
+        {
+            try
+            {
                 if (!SessionManager.Instance.IsAuthenticate())
                 {
                     return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
@@ -340,14 +407,19 @@ namespace AvsarGame.Portal.Controllers {
                 await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_ITEM);
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
-        public async Task<JsonResult> AddMetin2Addversiment(AddversimentDetailModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public async Task<JsonResult> AddMetin2Addversiment(AddversimentDetailModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
                 }
 
@@ -357,16 +429,20 @@ namespace AvsarGame.Portal.Controllers {
                 await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.METIN2_ITEM);
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpGet]
         [Route("{name}/ilanlarim")]
-        public ActionResult UserAddversiment() {
+        public ActionResult UserAddversiment()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("Index", "Home");
             }
 
@@ -378,9 +454,11 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("{name}/satin-aldiklarim")]
-        public ActionResult UserBuys() {
+        public ActionResult UserBuys()
+        {
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 return RedirectToAction("Index", "Home");
             }
 
@@ -392,8 +470,10 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("{name}/knight-item/duzenle/{Id}")]
-        public ActionResult UpdateKnightItem(int Id = 0) {
-            if (Id == 0) {
+        public ActionResult UpdateKnightItem(int Id = 0)
+        {
+            if (Id == 0)
+            {
                 return null;
             }
 
@@ -407,8 +487,10 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("{name}/knight-cyber-ring/duzenle/{Id}")]
-        public ActionResult UpdateKnightCyber(int Id) {
-            if (Id == 0) {
+        public ActionResult UpdateKnightCyber(int Id)
+        {
+            if (Id == 0)
+            {
                 return null;
             }
 
@@ -422,8 +504,10 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("{name}/metin2item/duzenle/{Id}")]
-        public ActionResult UpdateMetin2Item(int Id = 0) {
-            if (Id == 0) {
+        public ActionResult UpdateMetin2Item(int Id = 0)
+        {
+            if (Id == 0)
+            {
                 return null;
             }
 
@@ -436,58 +520,76 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public async Task<JsonResult> UpdateKnightItemAddversiment(KnightItemAddversimentModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public async Task<JsonResult> UpdateKnightItemAddversiment(KnightItemAddversimentModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
                 }
 
                 var response =
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightItem", JsonConvert.SerializeObject(model)));
-                if (model.Files != null) {
+                if (model.Files != null)
+                {
                     await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_ITEM);
                 }
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> UpdateKnightCyberAddversiment(KnightCyberRingAddversimentModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public async Task<JsonResult> UpdateKnightCyberAddversiment(KnightCyberRingAddversimentModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
                 }
 
                 var response =
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddKnightCyberRing", JsonConvert.SerializeObject(model)));
-                if (model.Files != null) {
+                if (model.Files != null)
+                {
                     await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.KNIGHT_ONLINE_CYBERRING);
                 }
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
 
         [HttpPost]
-        public async Task<JsonResult> UpdateMetin2Item(AddversimentDetailModel model) {
-            try {
-                if (!SessionManager.Instance.IsAuthenticate()) {
+        public async Task<JsonResult> UpdateMetin2Item(AddversimentDetailModel model)
+        {
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
                     return Json(new { Success = false, Message = "Lütfen tekrar giriş yapın" });
                 }
 
                 var response =
                         JsonConvert.DeserializeObject<int>(UiRequestManager.Instance.Post("Addversiment", "AddMetin2Item", JsonConvert.SerializeObject(model)));
-                if (model.Files != null) {
+                if (model.Files != null)
+                {
                     await FileManager.Instance.SaveAll(model.Files, response, AddversimentType.METIN2_ITEM);
                 }
 
                 return Json(new { Success = true, data = true });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }
@@ -495,23 +597,27 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("/knight-cyber-ring/delete/{Id}")]
-        public ActionResult DeleteKnightItem(int Id) {
+        public ActionResult DeleteKnightItem(int Id)
+        {
             UiRequestManager.Instance.Get(string.Format("Addversiment/DeleteKnightCyber/{0}", Id));
             return Redirect("/" + UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/ilanlarim");
         }
 
         [HttpGet]
         [Route("/knight-item/delete/{Id}")]
-        public ActionResult DeleteKnightCyber(int Id) {
+        public ActionResult DeleteKnightCyber(int Id)
+        {
             UiRequestManager.Instance.Get(string.Format("Addversiment/DeleteKnightItem/{0}", Id));
             return Redirect("/" + UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName()) + "/ilanlarim");
         }
 
-        public JsonResult MakeComment(CommentModel model) {
+        public JsonResult MakeComment(CommentModel model)
+        {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
 
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 response.Value = HttpStatusCode.Unauthorized;
                 response.IsSuccess = false;
                 response.Message = "Yetkisiz";
@@ -524,11 +630,13 @@ namespace AvsarGame.Portal.Controllers {
             return Json(response);
         }
 
-        public JsonResult GiveAnswer(CommentModel model) {
+        public JsonResult GiveAnswer(CommentModel model)
+        {
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
 
             var bearer = SessionManager.Instance.Get("bearer");
-            if (bearer == null) {
+            if (bearer == null)
+            {
                 response.Value = HttpStatusCode.Unauthorized;
                 response.IsSuccess = false;
                 response.Message = "Yetkisiz";
@@ -542,33 +650,42 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpGet]
-        public JsonResult GetNotification() {
+        public JsonResult GetNotification()
+        {
             var id = SessionManager.Instance.GetUserId();
-            try {
+            try
+            {
                 var notifications =
                         JsonConvert.DeserializeObject<List<UserNotificationModel>>(
                                 UiRequestManager.Instance.Get(String.Format("UserNotification/GetAllNotificationDetail/{0}", id)));
                 return Json(new { success = true, data = notifications });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return Json(new { success = false });
             }
         }
 
         [Route("odeme")]
-        public ActionResult Payment() {
+        public ActionResult Payment()
+        {
             return View();
         }
 
         [Route("odeme/kredikarti")]
-        public ActionResult CreditCard() {
-            if (SessionManager.Instance.GetUserId() == null) {
+        public ActionResult CreditCard()
+        {
+            if (SessionManager.Instance.GetUserId() == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
             var userData =
                  JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
-            if (!userData.PhoneNumberConfirmed) {
-                if (SessionManager.Instance.Get("sendedConfirmNumber") == null) {
+            if (!userData.PhoneNumberConfirmed)
+            {
+                if (SessionManager.Instance.Get("sendedConfirmNumber") == null)
+                {
                     SmsHelper.SendSmsForPhoneNumber(userData.PhoneNumber);
                 }
                 SessionManager.Instance.set("returnUrl", "/odeme/kredikarti");
@@ -580,13 +697,16 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpGet]
         [Route("telefon-onayi")]
-        public ActionResult ConfirmPhone() {
-            if (SessionManager.Instance.GetUserId() == null) {
+        public ActionResult ConfirmPhone()
+        {
+            if (SessionManager.Instance.GetUserId() == null)
+            {
                 return RedirectToAction("giris", "User");
             }
 
             var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
-            if (userData.PhoneNumberConfirmed) {
+            if (userData.PhoneNumberConfirmed)
+            {
                 return RedirectToAction("Index", "Home");
             }
 
@@ -596,20 +716,27 @@ namespace AvsarGame.Portal.Controllers {
 
         [HttpPost]
         [Route("telefon-onayi")]
-        public ActionResult ConfirmPhone(int sendedNumber) {
+        public ActionResult ConfirmPhone(int sendedNumber)
+        {
             var sendedConfirmNumber = Convert.ToInt32(SessionManager.Instance.Get("sendedConfirmNumber"));
             var userData = JsonConvert.DeserializeObject<RegisterModel>(UiRequestManager.Instance.Get("User", "GetUserDetail"));
 
-            if (sendedConfirmNumber == sendedNumber) {
-                try {
+            if (sendedConfirmNumber == sendedNumber)
+            {
+                try
+                {
                     userData.PhoneNumberConfirmed = true;
                     JsonConvert.DeserializeObject<Response<RegisterModel>>(UiRequestManager.Instance.Post("Account", "Update", JsonConvert.SerializeObject(userData)));
-                } catch (Exception) {
+                }
+                catch (Exception)
+                {
                     return View();
                 }
                 SessionManager.Instance.Remove("sendedConfirmNumber");
                 return Redirect("onay-sonuc");
-            } else {
+            }
+            else
+            {
                 ViewBag.confirmResult = "**Lütfen kodunuzu doğru giriniz.";
                 ViewBag.UserPhone = userData.PhoneNumber;
                 return View();
@@ -617,20 +744,24 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult SendSmsAgain() {
+        public JsonResult SendSmsAgain()
+        {
             SmsHelper.SendSmsForPhoneNumber(ViewBag.UserPhone);
             return Json(true);
         }
 
         [Route("onay-sonuc")]
-        public ActionResult ConfirmResult() {
+        public ActionResult ConfirmResult()
+        {
             ViewBag.returnUrl = SessionManager.Instance.Get("returnUrl");
             return View();
         }
 
         [Route("alisveris")]
-        public ActionResult BuyObject(AddversimentDetailModel model) {
-            if (!SessionManager.Instance.IsAuthenticate()) {
+        public ActionResult BuyObject(AddversimentDetailModel model)
+        {
+            if (!SessionManager.Instance.IsAuthenticate())
+            {
                 var retUrl = PageHelper.GetAddversimentHref((AddversimentType)model.DetailType, model.Id);
                 SessionManager.Instance.set("returnUrl", retUrl);
                 return RedirectToAction("Giris", "User");
@@ -641,11 +772,13 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult BuyKnightObject([FromBody] CommerceModel model) {
+        public JsonResult BuyKnightObject([FromBody] CommerceModel model)
+        {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();
 
-            if (!SessionManager.Instance.IsAuthenticate()) {
+            if (!SessionManager.Instance.IsAuthenticate())
+            {
                 response.RedirectUrl = "/User/login";
                 response.Message = "Lütfen Giriş Yapınız";
                 response.Error = (int)Errors.UNAUTHORIZED;
@@ -659,7 +792,8 @@ namespace AvsarGame.Portal.Controllers {
                        JsonConvert.DeserializeObject<UserBalanceModel>(
                                UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));
 
-            if (model.PriceWithComission > (double)Balance.Balance) {
+            if (model.PriceWithComission > (double)Balance.Balance)
+            {
                 response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
                 response.Error = (int)Errors.OUTOFBALANCE;
                 baseResponse.Value = response;
@@ -671,7 +805,8 @@ namespace AvsarGame.Portal.Controllers {
                     JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(
                             UiRequestManager.Instance.Post("Addversiment", "SaveKnightCommerceRequest", JsonConvert.SerializeObject(model)));
 
-            if (baseResponse.IsSuccess) {
+            if (baseResponse.IsSuccess)
+            {
                 var sellerPhoneNumber =
                            JsonConvert.DeserializeObject<string>(
                                    UiRequestManager.Instance.Get(String.Format("User/GetSellerPhoneNumber/{0}", model.SellerUserId)));
@@ -682,11 +817,15 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [HttpPost]
-        public JsonResult SendSmsForPush([FromBody] PushMessageModel model) {
+        public JsonResult SendSmsForPush([FromBody] PushMessageModel model)
+        {
             string message;
-            if (model.IsSeller) {
+            if (model.IsSeller)
+            {
                 message = "Ürün transferi için lütfen giriş yapınız. AnatoliaGame";
-            } else {
+            }
+            else
+            {
                 message = "Ürün transferi için lütfen giriş yapınız. AnatoliaGame";
             }
 
@@ -703,6 +842,7 @@ namespace AvsarGame.Portal.Controllers {
         }
 
         [Route("para-cek")]
+        [HttpGet]
         public ActionResult MoneyWithDraw()
         {
             if (!SessionManager.Instance.IsAuthenticate())
@@ -710,6 +850,26 @@ namespace AvsarGame.Portal.Controllers {
                 SessionManager.Instance.set("returnUrl", "/para-cek");
                 return RedirectToAction("Giris", "User");
             }
+
+            var paymentDrawableMoney =
+                       JsonConvert.DeserializeObject<PaymentDrawableMoney>(
+                               UiRequestManager.Instance.Get(String.Format("UserBalance/GetUserBalanceWithMoneyDraw/{0}", SessionManager.Instance.GetUserId())));
+            return View(paymentDrawableMoney);
+        }
+
+        [Route("para-cek")]
+        [HttpPost]
+        public ActionResult MoneyWithDraw(MoneyWithDrawModel model)
+        {
+            if (!SessionManager.Instance.IsAuthenticate())
+            {
+                SessionManager.Instance.set("returnUrl", "/para-cek");
+                return RedirectToAction("Giris","User");
+            }
+
+            var res = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserBalance", "SaveMoneyDrawRequest", JsonConvert.SerializeObject(model)));
+
+            ViewBag.result = res.Value;
 
             var paymentDrawableMoney =
                        JsonConvert.DeserializeObject<PaymentDrawableMoney>(

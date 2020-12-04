@@ -10,16 +10,27 @@
         <div class="container">
             <div class="row section justify-content-center" style="margin-top: 20px">
                 <div class="col-12" style="border: 1px solid">
-                    <form action="" class="row ad-form" id="cyberform">
+                    <form asp-action="MoneyWithDraw" asp-controller="User" class="row ad-form" method="post">
                         <div class="col-12 form-group" style="margin-top: 10px;">
                             <div class="row align-items-center">
-                                <div class="col-lg-2 col-12">
+                                <div class="col-lg-2 col-1">
                                     <label class="label-white">Iban Adresi:</label>
                                 </div>
-                                <div class="input-group col-lg-9 col-9">
-                                    <input type="text" name="Iban" class="form-control" id="title" placeholder="TR 0000 0000 0000 0000 0000 0000">
-                                    <div class="input-group-append">
-                                        <input class="button btn-blue w-100 col-6" style="margin-left:10px; cursor: pointer" id="moneyWithDraw" value="Talep et" />
+                                <div class="input-group col-lg-10 col-11" style="margin-top:10px">
+                                    <input type="text" name="Iban" class="form-control col-6" placeholder="TR 0000 0000 0000 0000 0000 0000">
+                                </div>
+                                <div class="col-lg-2 col-1" style="margin-top:10px">
+                                    <label class="label-white">Miktar:</label>
+                                </div>
+                                <div class="input-group col-lg-9" style="margin-top:10px">
+                                    <input type="text" name="Amount" class="form-control col-3" placeholder="0,00">
+                                </div>
+                                <div class="col-lg-2 col-1" style="margin-top:10px">
+                                    <label class="label-white"></label>
+                                </div>
+                                <div class="input-group col-lg-8" style="margin-top:10px">
+                                    <div class="input-group">
+                                        <input class="button btn-blue col-3" type="submit" style="cursor: pointer" id="moneyWithDraw" value="Talep et" />
                                     </div>
                                 </div>
                             </div>
@@ -47,24 +58,24 @@
         </div>
     </main>
 </div>
-
-<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <div class="loader"></div>
-                <div clas="loader-txt">
-                    <h3 style="color: green">ilan onayından sonra yayınlanacaktır. <br><br><small>profilinize yönlendiriliyorsunuz..</small></h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
 
     $(document).ready(function () {
-      
+
+        debugger
+
+        var res = '@ViewBag.result';
+        if (res != "") {
+            var result = '@ViewBag.result';
+            if (result == "OK") {
+                alert("Para çekme talebiniz alınmıştır.")
+            }
+            else {
+                alert("Para çekerken bir hata oluştu. Tekrar deneyiniz.")
+            }
+        }
+
+
     });
 
 </script>
