@@ -44,14 +44,6 @@
                     </div>
                     <div class="col-12" style="float: right">
                         <div class="col-12 d-flex justify-content-start start product-trade">
-                            @if (Model.SellButtonEnabled)
-                            {
-                                <div class="product-buy" style=" margin-right: 5px">
-                                    <div class="trade-icon"></div>
-                                    <span style="color: white;">SATIŞ:</span>
-                                    <span style="color:#009aff">@Model.SellPrice ₺</span>
-                                </div>
-                            }
                             @if (Model.BuyButtonEnabled)
                             {
                                 <div class="product-buy">
@@ -60,17 +52,28 @@
                                     <span style="color:#009aff">@Model.BuyPrice ₺</span>
                                 </div>
                             }
+                            @if (Model.SellButtonEnabled)
+                            {
+                                <div class="product-buy" style=" margin-right: 5px">
+                                    <div class="trade-icon"></div>
+                                    <span style="color: white;">SATIŞ:</span>
+                                    <span style="color:#009aff">@Model.SellPrice ₺</span>
+                                </div>
+                            }
+
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
-                        @if (Model.SellButtonEnabled)
-                        {
-                            <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-blue">Satın Al</button>
-                        }
+
                         @if (Model.BuyButtonEnabled)
                         {
                             <a class="button btn-outline mr-4" href="/satis-yap/@Model.SeoName">Satış Yap</a>
 
+                        }
+
+                        @if (Model.SellButtonEnabled)
+                        {
+                            <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model))" id="bought" class="button btn-blue">Satın Al</button>
                         }
                     </div>
                 </div>
