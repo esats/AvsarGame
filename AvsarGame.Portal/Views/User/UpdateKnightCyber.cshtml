@@ -31,6 +31,15 @@
                                     <div class="form-select">
                                         <select class="form-control" name="ServerName" id="url" required asp-for="@Model.Detail.ServerName" asp-items="@Model.Servers">
                                             <option disabled="disabled" value="">Server Seçiniz</option>
+                                            <option value="Ares">Ares</option>
+                                            <option value="Sirius">Sirius</option>
+                                            <option value="Diez">Diez</option>
+                                            <option value="Rosetta">Rosetta</option>
+                                            <option value="Destan">Destan</option>
+                                            <option value="Vega">Vega</option>
+                                            <option value="Altar">Altar</option>
+                                            <option value="Olympia">Olympia</option>
+                                            <option value="Gordion">Gordion</option>
                                         </select>
                                     </div>
                                 </div>
@@ -45,6 +54,13 @@
                                     <div class="form-select">
                                         <select class="form-control" name="CharacterFeature" id="race" required asp-for="@Model.Detail.CharacterFeature" asp-items="@Model.CharacterFeature">
                                             <option disabled="disabled" value="">Human/Karus</option>
+                                            <option value="Human">Human</option>
+                                            <option value="Karus">Karus</option>
+                                            <option value="Roque">Roque</option>
+                                            <option value="Warrior">Warrior</option>
+                                            <option value="Mage">Mage</option>
+                                            <option value="Priest">Priest</option>
+                                            <option value="Kurian">Kurian</option>
                                         </select>
                                     </div>
                                 </div>
@@ -52,6 +68,8 @@
                                     <div class="form-select">
                                         <select class="form-control" name="CharacterType" id="type" required asp-for="@Model.Detail.CharacterType" asp-items="@Model.CharacterType">
                                             <option disabled value="">Karakter Türü</option>
+                                            <option value="mage">Mage</option>
+                                            <option value="warrior">Warrior</option>
                                         </select>
                                     </div>
                                 </div>
@@ -61,7 +79,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-12">
+                                <div class="col-lg-2 col-12">   
                                     <div class="form-select">
                                         <select class="form-control" name="Level" id="level" required>
                                         </select>
