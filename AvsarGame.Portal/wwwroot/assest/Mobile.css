@@ -1,0 +1,34 @@
+﻿@media (min-width:768px) and (max-width:1023px) {
+    
+}
+@media (min-width:1020px){
+    #payMethodli {
+        margin-left: 322px;
+    }
+
+}
+@media (max-width:768px){
+
+    .breadcrumb-wrapper{
+        padding:0px;
+    }
+    .add-mobile{
+        width:70%;
+    }
+
+    .modal{
+        padding-left:10px;
+        padding-right:15px !important;
+    }
+    .nav-mobile{
+        width:100%;
+    }
+    .product-img{
+        width:54% !important;
+    }
+}
+
+
+@media only screen and (max-width: 1024px) {
+    /* For mobile phones: */
+}

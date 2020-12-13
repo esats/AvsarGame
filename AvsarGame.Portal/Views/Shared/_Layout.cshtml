@@ -16,6 +16,7 @@
     <script src="~/assest/scripts/toastr.min.js"></script>
     <link href="~/assest/style/toastr.min.css" rel="stylesheet" />
     <link href="~/assest/style/additional.css" rel="stylesheet" />
+    <link href="~/assest/Mobile.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <script src="~/assest/scripts/jquery.mask.min.js"></script>
@@ -25,7 +26,7 @@
     <script src="~/assest/scripts/camroll_slider.js"></script>
     <style>
         .box-pay {
-            border:3px solid #009aff;
+            border: 3px solid #009aff;
         }
 
         .chartCss {
@@ -93,13 +94,13 @@
 
     @*Global site tag (gtag.js) - Google Analytics*@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161891291-1"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-                gtag('config', 'UA-161891291-1');
-        </script>
+        gtag('config', 'UA-161891291-1');
+    </script>
     <meta name="yandex-verification" content="dca26fb67d502925" />
     <meta name="Keywords" content="Anatolia Game, knight online GB, knight GB, Vega, Sirius, oyun parası cash, knight online pvp" />
     <meta name="Description" content="Anatolia Game yeni açılışa özel en iyi fiyat garantisiyle tüm oyun severlerin yanında, haydi sen de oyna!" />
@@ -136,17 +137,17 @@
                         document.getElementById("payments-container").innerHTML = "";
                         //Add Payment Content by Method
                         var content =
-                             '<div class="row">'
-                            +'<div class="col-12">'
-                            +'<div class="section tab-primary">'
-                            +'<ul class="nav nav-pills " id="pills-tab" role="tablist">'
-                            +'<li class="nav-item">'
+                            '<div class="row">'
+                            + '<div class="col-12">'
+                            + '<div class="section tab-primary">'
+                            + '<ul class="nav nav-pills " id="pills-tab" role="tablist">'
+                            + '<li class="nav-item">'
                             + '<a class="nav-link active" id="pills-' + method + '-tab" data-toggle="pill"'
                             + 'href="#' + method + '-method" role="tab" aria-controls="' + method + '-method"'
-                            +'aria-selected="false">'+methodName+' Ödeme</a>'
-                            +'</li>'
-                            +'</ul>'
-                            +'<div class="tab-content">'
+                            + 'aria-selected="false">' + methodName + ' Ödeme</a>'
+                            + '</li>'
+                            + '</ul>'
+                            + '<div class="tab-content">'
                             + '<div class="tab-pane fade active show" role="tabpanel"'
                             + 'aria-labelledby="pills-' + method + '-method-tab">'
                             + '<div class="row">'
@@ -155,37 +156,37 @@
                             + '<div class="form-row align-items-center">'
                             + '<div class="col-auto">'
                             + '<label class="text-white">Yatırılacak Tutar</label>'
-                            + '<input type="text" style="background-color:white" name="amount" class="form-control mb-2" id="amountOfBalance" placeholder="0.00">'
+                            + '<input type="text" style="background-color:white" name="amount" class="form-control" id="amountOfBalance" placeholder="0.00">'
                             + '</div>'
-                            +'<div class="col-auto">'
-                            +'<label class="text-white" for="inlineFormInputGroup">Ödenecek Tutar</label>'
-                            +'<div class="input-group mb-2">'
-                            +'<div class="input-group-prepend">'
-                            +'<div class="input-group-text"></div>'
-                            +'</div>'
-                            +'<input type="text" style="background-color:white" name="amountWithCommission" disabled="disabled" class="form-control" id="amountOfBalanceWithCms" placeholder="0.00">'
-                            +'</div>'
-                            +'</div>'
-                            +'<div class="col-auto">'
-                            +'<button type="submit" style="margin-top: 23px;" id="paymentBtn" class="btn btn-success">Ödemeye git</button>'
-                            +'</div>'
-                            +'</div>'
-                            +'<input name="__RequestVerificationToken" type="hidden" value="CfDJ8De_RNuM-udEjPh9jd0UQ_OkQP-1uoClJ7xrs7Tx35tZRm3L6AU63q9fzMcNJiAkZ-VPVw59OO8q6MPz_hRoB1cUToykM7rxxGunnAOBVrD_fgmaOW7-KOyVjP9Sp3ApfeX0H65-nA3jI_mkrlTSE1w"></form>'
-                            +'</div>'
-                            +'</div>'
-                            +'</div>'
-                            +'</div>'
-                            +'</div>'
-                            +'</div>'
-                            +'<div class="row">'
-                                +'<div class="col-12">'
-                                    +'<div class="announce-box announce-danger">'
-                                        + '<p>'
-                                        + methodName + ' İle Ödemelerde %2 Komisyon Alınmaktadır.'
-                                        +'</p>'
-                                    +'</div>'
-                                +'</div>'
-                            +'</div >'
+                            + '<div class="col-auto">'
+                            + '<label class="text-white" for="inlineFormInputGroup">Ödenecek Tutar</label>'
+                            + '<div class="input-group mb-2">'
+                            + '<div class="input-group-prepend">'
+                            + '<div class="input-group-text"></div>'
+                            + '</div>'
+                            + '<input type="text" style="background-color:white" name="amountWithCommission" disabled="disabled" class="form-control" id="amountOfBalanceWithCms" placeholder="0.00">'
+                            + '</div>'
+                            + '</div>'
+                            + '<div class="col-auto">'
+                            + '<button type="submit" style="margin-top: 23px;" id="paymentBtn" class="btn btn-success">Ödemeye git</button>'
+                            + '</div>'
+                            + '</div>'
+                            + '<input name="__RequestVerificationToken" type="hidden" value="CfDJ8De_RNuM-udEjPh9jd0UQ_OkQP-1uoClJ7xrs7Tx35tZRm3L6AU63q9fzMcNJiAkZ-VPVw59OO8q6MPz_hRoB1cUToykM7rxxGunnAOBVrD_fgmaOW7-KOyVjP9Sp3ApfeX0H65-nA3jI_mkrlTSE1w"></form>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                            + '<div class="row">'
+                            + '<div class="col-12">'
+                            + '<div class="announce-box announce-danger">'
+                            + '<p>'
+                            + methodName + ' İle Ödemelerde %2 Komisyon Alınmaktadır.'
+                            + '</p>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div >'
                         document.getElementById("payments-container").insertAdjacentHTML('beforeend', content)
                         break;
                     }
@@ -299,6 +300,8 @@
                                         <label class="floating-lbl">Telefon</label>
                                     </div>
                                 </div>
+
+
                                 <div class="form-row form-group">
                                     <div class="col-12">
                                         <label class="form-csCheck">
@@ -315,6 +318,8 @@
                                         </span>
                                     </div>
                                 </div>
+
+
                                 <div class="form-row form-group">
                                     <div class="col-12">
                                         <button class="button btn-blue w-100" id="register" type="submit">
