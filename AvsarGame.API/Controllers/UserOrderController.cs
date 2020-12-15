@@ -226,11 +226,17 @@ namespace AvsarGame.API.Controllers
                         detail.UserBalanceId = userBalance.Id;
                         detail.CreatedDate = DateTime.Now;
                         detail.CreatedBy = base.GetUser();
-                        _UserBalanceDetail.Add(detail);
+                        var userBalanceDetail = _UserBalanceDetail.Add(detail);
                         item.Game = _mapper.Map<GameModel>(_game.GetT(x => x.Id == item.GameId));
+
+
+                        UserDrawableMoney userDrawable = new UserDrawableMoney();
+                        userDrawable.Amount = -(double)item.BillingPrice;
+                        userDrawable.CreatedBy = GetUser();
+                        userDrawable.CreatedDate = DateTime.Now;
+                        userDrawable.UserBalanceDetailId = userBalanceDetail.Id;
+                        _userDrawableMoney.Add(userDrawable);
                     }
-
-
                     transactionScope.Complete();
                 }
                 catch (Exception e)

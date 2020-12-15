@@ -8,7 +8,6 @@ namespace AvsarGame.Entities.Entities
     public class UserDrawableMoney: EntityBase<int>
     {
         public Guid UserBalanceDetailId { get; set; }
-        public int TransactionDescription { get; set; }
         public double Amount { get; set; }
     }
 }
