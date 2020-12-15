@@ -23,23 +23,26 @@ namespace AvsarGame.API.Controllers
     public class UserManagementController : APIControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserPaymentRequest _userPaymentRequest;
         private readonly IUserBalance _userBalance;
         private readonly IUserBalanceDetails _userBalanceDetails;
         private readonly IUserNotification _userNotification;
+        private readonly IUserMoneyDrawRequest _userMoneyDrawRequest;
         private readonly IPaymentLog _paymenLog;
         private readonly IMapper _mapper;
+        private readonly IUserDrawableMoney _userDrawableMoney;
+
 
         public UserManagementController(UserManager<ApplicationUser> userManager, IMapper mapper, IUserPaymentRequest userPaymentRequest, IUserBalance userBalance,
-                                        IUserBalanceDetails userBalanceDetails, IUserNotification userNotification, IPaymentLog paymentLog)
+                                        IUserBalanceDetails userBalanceDetails, IUserNotification userNotification, IPaymentLog paymentLog, IUserMoneyDrawRequest userMoneyDrawRequest, IUserDrawableMoney userDrawableMoney)
         {
             _userManager = userManager;
             _mapper = mapper;
-            _userPaymentRequest = userPaymentRequest;
             _userBalance = userBalance;
             _userBalanceDetails = userBalanceDetails;
             _userNotification = userNotification;
             _paymenLog = paymentLog;
+            _userMoneyDrawRequest = userMoneyDrawRequest;
+            _userDrawableMoney = userDrawableMoney;
         }
 
         [HttpGet]
@@ -231,6 +234,112 @@ namespace AvsarGame.API.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        [Route("UserDrawableMoneyRequests")]
+        public List<MoneyWithDrawModel> UserDrawableMoneyRequests()
+        {
+            List<MoneyWithDrawModel> list = new List<MoneyWithDrawModel>();
+            var requests = _userMoneyDrawRequest.GetList(x => x.Statu == 0);
+            var users = _userManager.Users.ToList();
+            foreach (var item in requests)
+            {
+                MoneyWithDrawModel model = new MoneyWithDrawModel();
+                model.Amount = item.Amount;
+                model.Iban = item.Iban;
+                model.RequestId = item.Id;
+                model.FullName = users.FirstOrDefault(x => x.Id == item.UserId.ToString()).Name + " " + users.FirstOrDefault(x => x.Id == item.UserId.ToString()).Surname;
+                model.UserId = item.UserId;
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        [HttpPost]
+        [Route("ApproveMoneyDraw")]
+        public Response<HttpStatusCode> ApproveMoneyDraw([FromBody] MoneyWithDrawModel model)
+        {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try
+            {
+                var request = _userMoneyDrawRequest.GetT(x => x.Id == model.RequestId);
+                request.Statu = 1; // kabul edildi gönderildi.
+                _userMoneyDrawRequest.Update(request);
+
+                UserNotification notification = new UserNotification();
+                notification.CreatedBy = GetUser();
+                notification.CreatedDate = DateTime.Now;
+                notification.Message = "Para çekme işleminiz gerçekleşti";
+                notification.UserId = model.UserId.ToString();
+                notification.NotificationType = NotificationType.APPROVED;
+                 _userNotification.Add(notification);
+
+                response.IsSuccess = true;
+                response.Value = HttpStatusCode.OK;
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RejectMoneyDraw")]
+        public Response<HttpStatusCode> RejectMoneyDraw([FromBody] MoneyWithDrawModel model)
+        {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try
+            {
+                using (var transaction  = new TransactionScope())
+                {
+                    var request = _userMoneyDrawRequest.GetT(x => x.Id == model.RequestId);
+                    request.Statu = 2; //red edildi.
+                    _userMoneyDrawRequest.Update(request);
+
+                    var userBalance = _userBalance.GetBalance(GetUser());
+
+                    UserBalanceDetail userBalanceDetail = new UserBalanceDetail();
+                    userBalanceDetail.TransactionDescription = (int)TRANSACTION_DESCIPTION.MONEY_DRAW_REVERSE_CHARGE;
+                    userBalanceDetail.UserBalanceId = userBalance.Id;
+                    userBalanceDetail.CreatedBy = GetUser();
+                    userBalanceDetail.Amount = (decimal)model.Amount;
+                    userBalanceDetail.CreatedDate = DateTime.Now;
+                    var balanceDetail = _userBalanceDetails.Add(userBalanceDetail);
+
+                    UserDrawableMoney userDrawable = new UserDrawableMoney();
+                    userDrawable.Amount = model.Amount;
+                    userDrawable.CreatedBy = GetUser();
+                    userDrawable.CreatedDate = DateTime.Now;
+                    userDrawable.UserBalanceDetailId = balanceDetail.Id;
+                    _userDrawableMoney.Add(userDrawable);
+
+                    UserNotification notification = new UserNotification();
+                    notification.CreatedBy = GetUser();
+                    notification.CreatedDate = DateTime.Now;
+                    notification.Message = "Para çekme işleminiz gerçekleşmedi";
+                    notification.UserId = model.UserId.ToString();
+                    notification.NotificationType = NotificationType.REJECT;
+                    _userNotification.Add(notification);
+
+                    transaction.Complete();
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                }
+               
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+                response.Message = e.Message;
+            }
+
+            return response;
         }
     }
 }

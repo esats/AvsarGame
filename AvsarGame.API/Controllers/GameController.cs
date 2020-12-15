@@ -200,6 +200,10 @@ namespace AvsarGame.API.Controllers {
                 return StatusCode(404);
             }
 
+            _cache.Remove("uigamelist");
+            _cache.Remove("newgames");
+            _cache.Remove("headerknightgame");
+
             return StatusCode(200);
         }
 

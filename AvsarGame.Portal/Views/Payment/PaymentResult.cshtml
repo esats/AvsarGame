@@ -1,4 +1,6 @@
-﻿@{
+﻿@using AvsarGame.Portal.Core
+
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -25,9 +27,41 @@
 </div>
 
 <script>
-   $(document).ready(function () {
+    $(document).ready(function () {
         setTimeout(function () {
-            location.href = "/"
+           var fullName  = '@UrlExtension.FriendlyUrl(SessionManager.Instance.GetFullName())';
+            location.href = "/" + fullName;
         }, 1800);
     });
+
+    $(window).on('load', function () {
+        $(document.getElementsByClassName("reglog")[0]).css("display", "none");
+        $(document.getElementsByClassName("reglog")[1]).css("display", "none");
+        $(document.getElementsByClassName("dropdown-cart")[0]).css("display", "none");
+
+        var bearer  = Cookies.get('bearer')
+        var userId = Cookies.get('userId')
+        var fullName = Cookies.get('fullName')
+
+        var model = {
+            Bearer: bearer,
+            UserId: userId,
+            FullName: fullName
+        }
+        $.ajax({
+            type: 'post',
+            url: '/User/SetSessionParametersAfterPayment',
+            content: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: model,
+            beforeSend: function () {
+                showSpinner();
+            },
+            complete: function () {
+                hideSpinner();
+            }
+        });
+
+    });
+
 </script>

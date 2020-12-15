@@ -86,7 +86,7 @@ namespace AvsarGame.Portal.Helpers {
 
             foreach (var file in files) {
                 Guid id = Guid.NewGuid();
-                var fileName = id + file.FileName;
+                var fileName = id + file.FileName.Replace(" ","");
 
                 var path = Path.Combine(
                         "wwwroot", "Uploads"

@@ -18,6 +18,7 @@ namespace AvsarGame.Entities.Entities {
         public string SellTimeEarly { get; set; }
         public string SellTimeLate { get; set; }
         public string Plus { get; set; }
+        public string Reverse { get; set; }
         public override DateTime? CreatedDate { get; set; } = DateTime.Now;
         public override string CreatedBy { get; set; }
         public int Status { get; set; } = (int) AddversimentStatus.SUSPEND;

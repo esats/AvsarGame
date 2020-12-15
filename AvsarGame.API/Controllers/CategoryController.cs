@@ -86,7 +86,7 @@ namespace AvsarGame.API.Controllers {
             {
                 var isAnyKnight = _category.GetT(x => x.IsActive && x.Type == (int)GameType.KNIGHTONLINE);
                 
-                if (isAnyKnight != null && model.Type == (int)GameType.KNIGHTONLINE)
+                if (isAnyKnight != null && model.Type == (int)GameType.KNIGHTONLINE && !model.IsUpdate)
                 {
                     baseResponse.IsSuccess = false;
                     baseResponse.Message = "Knight Online Kategorisinden 1 Adet Seçebilirsiniz!";

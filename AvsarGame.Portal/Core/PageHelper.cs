@@ -42,7 +42,7 @@ namespace AvsarGame.Portal.Core
             return displayAttribute?.Description ?? "Description Not Found";
         }
 
-        public static bool IsAutgenticate()
+        public static bool IsAuthenticate()
         {
             var token = SessionManager.Instance.Get("bearer");
             return token != null;
@@ -155,5 +155,16 @@ namespace AvsarGame.Portal.Core
             var id = SessionManager.Instance.GetUserId();
             return JsonConvert.DeserializeObject<UserBalanceModel>(UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", id))).Balance;
         }
+
+        public static string GetUserId()
+        {
+            return SessionManager.Instance.GetUserId();
+        }
+
+        public static string GetBearer()
+        {
+            return SessionManager.Instance.GetBearer();
+        }
+
     }
 }

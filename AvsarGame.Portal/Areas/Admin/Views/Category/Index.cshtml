@@ -194,6 +194,8 @@
             model.append('Id', $(this).attr('data-id'));
             model.append('Type', $(this.parentElement.parentElement.getElementsByTagName("select")[0]).val());
             model.append('OrderNo', $(this.parentElement.parentElement.getElementsByTagName("input")[2]).val());
+            model.append('IsUpdate', true);
+
             $.ajax({
                 type: 'post',
                 url: '/Admin/Category/Save',

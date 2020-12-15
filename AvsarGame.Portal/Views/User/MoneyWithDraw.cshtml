@@ -1,0 +1,113 @@
+﻿@using AvsarGame.Portal.Core
+@model AvsarGame.API.Models.PaymentDrawableMoney
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-wrapper addAdsUrl">
+    <main class="Main">
+        <div class="container">
+            <div class="row section justify-content-center" style="margin-top: 20px">
+                <div class="col-12" style="border: 1px solid">
+                    <form asp-action="MoneyWithDraw" asp-controller="User" class="row ad-form" method="post">
+                        <div class="col-12 form-group" style="margin-top: 10px;">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-1">
+                                    <label class="label-white">Iban Adresi:</label>
+                                </div>
+                                <div class="input-group col-lg-10 col-11" style="margin-top:10px">
+                                    <input type="text" name="Iban" id="iban" class="form-control col-6" placeholder="TR 0000 0000 0000 0000 0000 0000">
+                                </div>
+                                <div class="col-lg-2 col-1" style="margin-top:10px">
+                                    <label class="label-white">Miktar:</label>
+                                </div>
+                                <div class="input-group col-lg-9" style="margin-top:10px">
+                                    <input type="text" name="Amount" id="Amount" class="form-control col-3" placeholder="0,00">
+                                </div>
+                                <div class="col-lg-2 col-1" style="margin-top:10px">
+                                    <label class="label-white"></label>
+                                </div>
+                                <div class="input-group col-lg-8" style="margin-top:10px">
+                                    <div class="input-group">
+                                        <input class="button btn-blue col-3" type="submit" style="cursor: pointer" id="moneyWithDraw" value="Talep et" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="announce-box announce-danger">
+                                <p>
+                                    Bakiye: <span class="text-white">@Model.Balance</span>
+                                </p>
+                                <p>
+                                    Çekebileceğiniz bakiye: <span id="drawableBalance" class="text-white">@Model.DrawableBalance</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="announce-box announce-danger">
+                                <p>
+                                    Lütfen hesap bilgilerini kontrol ediniz. Yapılacak yanlış beyanlardan AnatoliaGame sorumlu değildir.
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+
+    $(document).ready(function () {
+
+        var res = '@ViewBag.result';
+        if (res != "") {
+            var result = '@ViewBag.result';
+            if (result == "OK") {
+                location.href = "/para-cekme-taleplerim";
+                alert("Para çekme talebiniz alınmıştır.")
+            }
+            else {
+                alert("Para çekerken bir hata oluştu. Tekrar deneyiniz.")
+            }
+        }
+
+        $("#moneyWithDraw").click(function (e) {
+            if (!validform()) {
+                e.preventDefault()
+                alert("Lütfen girdiğiniz değerleri kontrol edin")
+                return;
+            }
+
+            var amount = $("#Amount").val();
+            var drawableBalance = $("#drawableBalance").text();
+
+            if (parseFloat(amount) > parseFloat(drawableBalance)) {
+                e.preventDefault()
+                alert("Lütfen çekilebilir bir tutar giriniz")
+                return;
+            }
+
+        });
+
+        function validform() {
+            debugger;
+            var res = true;
+            var iban = $("#iban").val();
+            var amount = $("#Amount").val();
+
+            if (iban.length != 26 || iban == "") {
+                res =  false;
+            }
+
+            if (amount == "") {
+                res = false;
+            }
+
+            return res;
+        }
+    });
+
+</script>

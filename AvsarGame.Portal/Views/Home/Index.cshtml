@@ -10,11 +10,13 @@
 <main class="Main">
     <div class="hero section">
         <!-- <div class="hero-filter"></div> -->
+
         <div id="hero-slider" class="swiper-container">
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
                 <!-- Slides -->
-                @foreach (var item in Model.Announcements) {
+                @foreach (var item in Model.Announcements)
+                {
                     <div class="swiper-slide">
                         <div class="slide-container container">
                             <div class="slide-text led led-before">
@@ -26,7 +28,7 @@
                                 </p>
                             </div>
                         </div>
-                        <img src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRALARGE)"  alt=""/>
+                        <img src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.EXTRALARGE)" alt="" />
                     </div>
                 }
             </div>
@@ -62,17 +64,17 @@
                                 </a>
                             </li>
                             @*<li class="nav-item">
-                                <a class="nav-link" id="pills-cs-go" data-toggle="pill" href="#cs-go"
-                                   role="tab" aria-controls="cs-go" aria-selected="false">
-                                    CS-GO
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-metin2-item" data-toggle="pill" href="#metin2-item"
-                                   role="tab" aria-controls="metin2-item" aria-selected="false">
-                                    Metin-2 Item
-                                </a>
-                            </li>*@
+                                    <a class="nav-link" id="pills-cs-go" data-toggle="pill" href="#cs-go"
+                                       role="tab" aria-controls="cs-go" aria-selected="false">
+                                        CS-GO
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-metin2-item" data-toggle="pill" href="#metin2-item"
+                                       role="tab" aria-controls="metin2-item" aria-selected="false">
+                                        Metin-2 Item
+                                    </a>
+                                </li>*@
                         </ul>
                         <div id="content" class="tab-content" role="tablist">
                             <div id="knight-item" class="tab-pane fade show active" role="tabpanel">
@@ -132,7 +134,7 @@
                                                                  style="background-image: url(@PageHelper.GetImageUrl(item.FileUrls[0], ImageFolder.MAINADD))">
                                                             </div>
                                                             <div class="showcase-info">
-                                                                <p class="name">@item.Title</p>
+                                                                <p class="name" id="titleK">@item.Title</p>
                                                                 <p class="price">@item.Price TL</p>
                                                             </div>
                                                         </div>
@@ -198,11 +200,12 @@
             <div class="showcase name-inside">
                 <!-- Slides -->
                 <div class="row">
-                    @foreach (var item in Model.Categories) {
+                    @foreach (var item in Model.Categories)
+                    {
                         <div class="showcase-item-wrapper">
                             <div class=" showcase-item">
                                 <a href="/oyun/@item.SeoName">
-                                    <img class="showcase-img"  data-src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt=""/>
+                                    <img class="showcase-img" data-src="@PageHelper.GetImageUrl(item.ImageUrl, ImageFolder.MEDIUM)" alt="" />
                                     <div class="showcase-info">
                                         <p class="name">@item.Name</p>
                                     </div>
@@ -244,14 +247,14 @@
 </main>
 
 <script>
-    $(window).scroll(function() {
-        $.each($('img'), function() {
-            if ( $(this).attr('data-src') && $(this).offset().top < ($(window).scrollTop() + $(window).height() + 100) ) {
+    $(window).scroll(function () {
+        $.each($('img'), function () {
+            if ($(this).attr('data-src') && $(this).offset().top < ($(window).scrollTop() + $(window).height() + 100)) {
                 var source = $(this).data('src');
                 $(this).attr('src', source);
                 $(this).removeAttr('data-src');
             }
         })
     })
-
+  
 </script>

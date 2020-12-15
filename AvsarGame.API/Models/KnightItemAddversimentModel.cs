@@ -18,6 +18,7 @@ namespace AvsarGame.API.Models {
         public string CreatedBy { get; set; }
         public int ImageMasterId { get; set; }
         public string UserId { get; set; }
+        public string Reverse { get; set; }
         public List<string> FileUrls { get; set; }
 
         [JsonIgnore]

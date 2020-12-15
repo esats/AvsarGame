@@ -5,238 +5,244 @@
 }
 
 <div class="page-wrapper addAdsUrl">
-<main class="Main">
-<div class="container">
-<div class="row section justify-content-center" style="margin-top: 20px">
-<div class="col-md-2  ad-options mb-5">
-    <a href="#" class="text-white" style="color: #007bff !important;">Cypher Ring</a>
-</div>
-<div class="col-md-2  ad-options mb-5">
-    <a href="/ilan-ver/knightitem" style="cursor: pointer" class="text-white">Item</a>
-</div>
-<div class="col-12" id="getFormByName" style="border: 1px solid">
-<form action="" class="row ad-form" id="cyberform">
-<div class="col-12 form-group" style="margin-top: 10px;">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Başlık:</label>
-        </div>
-        <div class="col-lg-10 col-12">
-            <input type="text" name="Title" class="form-control" id="title" required>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Server Seç</label>
-        </div>
-        <div class="col-lg-10 col-12">
-            <div class="form-select">
-                <select class="form-control" name="ServerName" id="url" required>
-                    <option disabled selected value="">Server Seçiniz</option>
-                    <option value="Ares">Ares</option>
-                    <option value="Diez">Diez</option>
-                    <option value="Rosetta">Rosetta</option>
-                    <option value="Destan">Destan</option>
-                    <option value="Vega">Vega</option>
-                    <option value="Altar">Altar</option>
-                    <option value="Olympia">Olympia</option>
-                    <option value="Gordion">Gordion</option>
-                </select>
+    <main class="Main">
+        <div class="container">
+            <div class="row section justify-content-center" style="margin-top: 20px">
+                <div class="col-md-2  ad-options mb-5">
+                    <a href="#" class="text-white" style="color: #007bff !important;">Cypher Ring</a>
+                </div>
+                <div class="col-md-2  ad-options mb-5">
+                    <a href="/ilan-ver/knightitem" style="cursor: pointer" class="text-white">Item</a>
+                </div>
+                <div class="col-12" id="getFormByName" style="border: 1px solid">
+                    <form action="" class="row ad-form" id="cyberform">
+                        <div class="col-12 form-group" style="margin-top: 10px;">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Başlık:</label>
+                                </div>
+                                <div class="col-lg-10 col-12">
+                                    <input type="text" name="Title" class="form-control" id="title" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Server Seç</label>
+                                </div>
+                                <div class="col-lg-10 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="ServerName" id="url" required>
+                                            <option disabled selected value="">Server Seçiniz</option>
+                                            <option value="Ares">Ares</option>
+                                            <option value="Sirius">Sirius</option>
+                                            <option value="Diez">Diez</option>
+                                            <option value="Rosetta">Rosetta</option>
+                                            <option value="Destan">Destan</option>
+                                            <option value="Vega">Vega</option>
+                                            <option value="Altar">Altar</option>
+                                            <option value="Olympia">Olympia</option>
+                                            <option value="Gordion">Gordion</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Karakter Özellikleri</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="CharacterFeature" id="race" required>
+                                            <option disabled selected value="">Human / Karus</option>
+                                            <option value="Human">Human</option>
+                                            <option value="Karus">Karus</option>
+                                            <option value="Roque">Roque</option>
+                                            <option value="Warrior">Warrior</option>
+                                            <option value="Mage">Mage</option>
+                                            <option value="Priest">Priest</option>
+                                            <option value="Kurian">Kurian</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="CharacterType" id="type" required>
+                                            <option disabled selected value="">Karakter Türü</option>
+                                            <option value="mage">Mage</option>
+                                            <option value="warrior">Warrior</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="Percent" id="percent" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="Level" id="level" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Resim yükle:</label>
+                                </div>
+                                <div class="col-lg-10 col-12">
+                                    <div class="row">
+                                        <div style="margin-left: 12px;" id="drag-drop-area"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-start">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Açıklama:</label>
+                                </div>
+                                <div class="col-lg-8 col-12">
+                                    <textarea name="Content" rows="9" class="form-control" id="description" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Fiyat Belirle</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <input type="number" id="price" class="form-control" name="Price" required />
+                                </div>
+                                <div class="col-lg-3 col-12 offset-lg-1 offset-0">
+                                    <label class="label-white">Hesabınıza Geçecek Tutar</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <input disabled="disabled" type="text" class="form-control" id="priceTotal" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-10 col-12">
+                                    <label class="form-csCheck text-white ">
+                                        <input class="form-check-input form-control" type="checkbox" checked="checked"
+                                               id="accepttime" required />
+                                        <span class="form-csCheck-checkmark"></span>
+                                        24 Saat Teslimat
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group hoursdr" style="display: none">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-12">
+                                    <label class="label-white">Teslim Saati:</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="hs-time1" id="hs-time1">
+                                            <option disabled selected value="">0</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-12">
+                                    <label class="label-white">ile</label>
+                                </div>
+                                <div class="col-lg-2 col-12">
+                                    <div class="form-select">
+                                        <select class="form-control" name="hs-time2" id="hs-time2">
+                                            <option disabled selected value="">0</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-12">
+                                    <label class="label-white">arası</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="col-lg-10 col-12">
+                                    <label class="form-csCheck text-white ">
+                                        <input class="form-check-input form-control" type="checkbox"
+                                               id="acceptReq" />
+                                        <span class="form-csCheck-checkmark"></span>
+                                        <a href="#" onclick="showadversimentterm()" data-toggle="modal"
+                                           data-target="#adversimentterm-modal">
+                                            Item satış koşullarını kabul ediyorum.
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row align-items-center">
+                                <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
+                                    <input class="button btn-blue w-100" style="cursor: pointer" id="addCyberAddversiment" value="Yayınla" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Karakter Özellikleri</label>
-        </div>
-        <div class="col-lg-2 col-12">
-            <div class="form-select">
-                <select class="form-control" name="CharacterFeature" id="race" required>
-                    <option disabled selected value="">Human / Karus</option>
-                    <option value="human">Human</option>
-                    <option value="karus">Karus</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-2 col-12">
-            <div class="form-select">
-                <select class="form-control" name="CharacterType" id="type" required>
-                    <option disabled selected value="">Karakter Türü</option>
-                    <option value="mage">Mage</option>
-                    <option value="warrior">Warrior</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-2 col-12">
-            <div class="form-select">
-                <select class="form-control" name="Percent" id="percent" required>
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-2 col-12">
-            <div class="form-select">
-                <select class="form-control" name="Level" id="level" required>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Resim yükle:</label>
-        </div>
-        <div class="col-lg-10 col-12">
-            <div class="row">
-                <div style="margin-left: 12px;" id="drag-drop-area"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-start">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Açıklama:</label>
-        </div>
-        <div class="col-lg-8 col-12">
-            <textarea name="Content" rows="9" class="form-control" id="description" required></textarea>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Fiyat Belirle</label>
-        </div>
-        <div class="col-lg-2 col-12">
-            <input type="number" id="price" class="form-control" name="Price" required/>
-        </div>
-        <div class="col-lg-3 col-12 offset-lg-1 offset-0">
-            <label class="label-white">Hesabınıza Geçecek Tutar</label>
-        </div>
-        <div class="col-lg-2 col-12">
-            <input disabled="disabled" type="text" class="form-control" id="priceTotal"/>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-10 col-12">
-            <label class="form-csCheck text-white ">
-                <input class="form-check-input form-control" type="checkbox" checked="checked"
-                       id="accepttime" required/>
-                <span class="form-csCheck-checkmark"></span>
-                24 Saat Teslimat
-            </label>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group hoursdr" style="display: none">
-    <div class="row align-items-center">
-        <div class="col-lg-2 col-12">
-            <label class="label-white">Teslim Saati:</label>
-        </div>
-        <div class="col-lg-2 col-12">
-            <div class="form-select">
-                <select class="form-control" name="hs-time1" id="hs-time1">
-                    <option disabled selected value="">0</option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-1 col-12">
-            <label class="label-white">ile</label>
-        </div>
-        <div class="col-lg-2 col-12">
-            <div class="form-select">
-                <select class="form-control" name="hs-time2" id="hs-time2">
-                    <option disabled selected value="">0</option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-1 col-12">
-            <label class="label-white">arası</label>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="col-lg-10 col-12">
-            <label class="form-csCheck text-white ">
-                <input class="form-check-input form-control" type="checkbox"
-                       id="acceptReq"/>
-                <span class="form-csCheck-checkmark"></span>
-                <a href="#" onclick="showadversimentterm()" data-toggle="modal"
-                   data-target="#adversimentterm-modal">
-                    Item satış koşullarını kabul ediyorum.
-                </a>
-            </label>
-        </div>
-    </div>
-</div>
-<div class="col-12 form-group">
-    <div class="row align-items-center">
-        <div class="offset-lg-10 col-lg-2 offset-md-8 col-md-4 offset-6 col-6 mt-3 mt-lg-0">
-            <input class="button btn-blue w-100" style="cursor: pointer" id="addCyberAddversiment" value="Yayınla"/>
-        </div>
-    </div>
-</div>
-</form>
-</div>
-</div>
-</div>
-</main>
+    </main>
 </div>
 
 <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">

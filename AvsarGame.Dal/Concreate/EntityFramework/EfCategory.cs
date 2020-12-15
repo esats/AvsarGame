@@ -19,7 +19,6 @@ namespace AvsarGame.Dal.Concreate.EntityFramework {
 
         private string GetSqlQuery(FilterDataModel model) {
             return  "SELECT * FROM Categories where IsActive = 1";
-            //return sql + " " + model.OrderByDescription;
         }
     }
 }

@@ -39,5 +39,41 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
             }
         }
 
+        public IActionResult UserDrawableMoneyRequests()
+        {
+            var response = JsonConvert.DeserializeObject<List<MoneyWithDrawModel>>(UiRequestManager.Instance.Get("UserManagement", "UserDrawableMoneyRequests"));
+            return View(response);
+        }
+
+
+        [HttpPost]
+        public JsonResult ApproveMoneyDraw([FromBody] MoneyWithDrawModel model)
+        {
+            try
+            {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "ApproveMoneyDraw", JsonConvert.SerializeObject(model)));
+
+                return Json(new { Success = true, data = response });
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult RejectMoneyDraw([FromBody] MoneyWithDrawModel model)
+        {
+            try
+            {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserManagement", "RejectMoneyDraw", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
     }
 }

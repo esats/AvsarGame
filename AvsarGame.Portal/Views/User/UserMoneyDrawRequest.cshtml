@@ -1,0 +1,62 @@
+﻿@model List<MoneyWithDrawModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table tbody tr td {
+        text-align: center
+    }
+
+    table thead tr {
+        text-align: center
+    }
+</style>
+<div class="page-wrapper">
+    <main class="Main">
+        <div class="container" style="border: 1px solid #009aff !important">
+            <div class="section tab-primary">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-container">
+                                    <table class="table table-dark responsive-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Ticket No</th>
+                                                <th scope="col">Tarih</th>
+                                                <th scope="col">Miktar</th>
+                                                <th scope="col">Durumu</th>
+                                                <th scope="col">İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.TicketNo</td>
+                                                    <td>@item.Date</td>
+                                                    <td>@item.Amount</td>
+                                                    <td>@item.StatuDescription</td>
+                                                    <td>
+                                                        @if (item.StatuDescription == "Beklemede")
+                                                        {
+                                                            <a href="/User/CancelMoneyDraw?requestId=@item.RequestId" class="btn btn-blue">
+                                                                İptal Et
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
