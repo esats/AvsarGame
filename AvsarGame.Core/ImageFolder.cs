@@ -26,7 +26,7 @@ namespace AvsarGame.Core {
         [Description("198x150")]
         MAINADD = 6,
 
-        [Description("550x400")]
+        [Description("420x400")]
         DETAILADD = 7,
 
         [Description("200x175")]

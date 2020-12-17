@@ -16,7 +16,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
-
+    //foto bul ve para çekme test et  
 namespace AvsarGame.Portal.Helpers {
     public class FileManager : SingletonBase<FileManager> {
         public async Task<string> Save(IFormFile file) {
@@ -111,7 +111,7 @@ namespace AvsarGame.Portal.Helpers {
                             });
                     await SaveToCloud(container, manager,
                             new CloudModel() {
-                                    OrginalFile = pathToDataOrg, FilePath = DETAILADD, Width = 550, Height = 400, SubFolderName = PageHelper.Description(ImageFolder.DETAILADD),
+                                    OrginalFile = pathToDataOrg, FilePath = DETAILADD, Width = 420, Height = 400, SubFolderName = PageHelper.Description(ImageFolder.DETAILADD),
                                     FileName = fileName
                             });
                     await SaveToCloud(container, manager,
