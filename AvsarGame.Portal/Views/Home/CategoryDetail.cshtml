@@ -100,10 +100,10 @@
                                         <div class="row align-items-center h-100">
                                             <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
                                                 @if (game.SellButtonEnabled) {
-                                                    <a class="button btn-outline mr-4" style="margin-right: 4px" href="/satis-yap/@game.SeoName">Satış Yap</a>
+                                                    <a class="button btn-outline mr-4 sell-button" id="" style="margin-right: 4px" href="/satis-yap/@game.SeoName">Satış Yap</a>
                                                 }
                                                 @if (game.BuyButtonEnabled) {
-                                                    <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue">Satın Al</button>
+                                                    <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue buy-button">Satın Al</button>
                                                 }
                                             </div>
                                         </div>
