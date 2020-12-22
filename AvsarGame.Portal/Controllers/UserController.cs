@@ -469,8 +469,8 @@ namespace AvsarGame.Portal.Controllers
         }
 
         [HttpGet]
-        [Route("{name}/knight-item/duzenle/{Id}")]
-        public ActionResult UpdateKnightItem(int Id = 0)
+        [Route("{name}/knight-item/duzenle/{Id}/{status}")]
+        public ActionResult UpdateKnightItem(int Id = 0, int status = 1)
         {
             if (Id == 0)
             {
@@ -479,15 +479,15 @@ namespace AvsarGame.Portal.Controllers
 
             UpdateAddversimentModel baseModel = new UpdateAddversimentModel();
             AddversimentDetailModel model =
-                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightItemDetail/{0}", Id)));
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightItemDetail/{0}/{1}", Id, status)));
             baseModel.Detail = model;
 
             return View(baseModel);
         }
 
         [HttpGet]
-        [Route("{name}/knight-cyber-ring/duzenle/{Id}")]
-        public ActionResult UpdateKnightCyber(int Id)
+        [Route("{name}/knight-cyber-ring/duzenle/{Id}/{status}")]
+        public ActionResult UpdateKnightCyber(int Id, int status = 1)
         {
             if (Id == 0)
             {
@@ -496,7 +496,7 @@ namespace AvsarGame.Portal.Controllers
 
             UpdateAddversimentModel baseModel = new UpdateAddversimentModel();
             AddversimentDetailModel model =
-                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightCyberDetail/{0}", Id)));
+                    JsonConvert.DeserializeObject<AddversimentDetailModel>(UiRequestManager.Instance.Get(string.Format("Addversiment/KnightCyberDetail/{0}/{1}", Id, status)));
             baseModel.Detail = model;
 
             return View(baseModel);

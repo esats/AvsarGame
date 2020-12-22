@@ -395,11 +395,11 @@ namespace AvsarGame.API.Controllers
             return response;
         }
 
-        [Route("KnightCyberDetail/{id}")]
+        [Route("KnightCyberDetail/{id}/{status}")]
         [AllowAnonymous]
-        public AddversimentDetailModel KnightCyberDetail(int Id)
+        public AddversimentDetailModel KnightCyberDetail(int Id, int status)
         {
-            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED));
+            var model = _mapper.Map<AddversimentDetailModel>(_KnightCyberRing.GetT(x => x.IsActive == true && x.Id == Id && x.Status == status));
             model.DetailType = (int)AddversimentType.KNIGHT_ONLINE_CYBERRING;
             model.FileUrls = GetFiles(Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
             model.Comments = GetCommentWithUser(Id, (int)AddversimentType.KNIGHT_ONLINE_CYBERRING);
@@ -449,11 +449,11 @@ namespace AvsarGame.API.Controllers
             return list;
         }
 
-        [Route("KnightItemDetail/{id}")]
+        [Route("KnightItemDetail/{id}/{status}")]
         [AllowAnonymous]
-        public AddversimentDetailModel KnightItemDetail(int Id)
+        public AddversimentDetailModel KnightItemDetail(int Id, int status = 1)
         {
-            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == (int)AddversimentStatus.APPROVED));
+            var model = _mapper.Map<AddversimentDetailModel>(_knightItem.GetT(x => x.IsActive == true && x.Id == Id && x.Status == status));
             model.DetailType = (int)AddversimentType.KNIGHT_ONLINE_ITEM;
             model.FileUrls = GetFiles(Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);
             model.Comments = GetCommentWithUser(Id, (int)AddversimentType.KNIGHT_ONLINE_ITEM);

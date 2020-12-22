@@ -44,7 +44,7 @@
                                                 <td style="color: @PageHelper.GetAddversimentStatusStyle(item.Status)">@PageHelper.Description((AddversimentStatus)item.Status)</td>
                                                 <td scope="col"><a href="@PageHelper.GetAddversimentHref((AddversimentType)item.DetailType,item.Id)">İlana git</a></td>
                                                 <td scope="col">
-                                                    <a href="/@PageHelper.GetAddversimentUpdateHref((AddversimentType)item.DetailType,item.Id)" class="btn btn-blue">
+                                                    <a href="/@PageHelper.GetAddversimentUpdateHref((AddversimentType)item.DetailType,item.Id)/@item.Status" class="btn btn-blue">
                                                         Düzenle
                                                     </a>
                                                     <a class="btn btn-danger" href="@PageHelper.GetAddversimentDeleteHref((AddversimentType)item.DetailType,item.Id)">
