@@ -29,16 +29,6 @@
                     </p>
                 </div>
             </div>
-            <div class="row section" style="display: none;">
-                <div class="col-12">
-                    <div class="banner-container">
-                        @*<img class="banner-img" src="https://cdn2-www.gamerevolution.com/assets/uploads/2012/03/file_2409_ME3.jpg" alt="">*@
-                        <div class="notification notification-bottom">
-                            20 Mart 2020'de Sizlerle!
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row section">
                 <div class="order-lg-1 order-2 col-12 col-lg-3 recommended side">
                     <div class="row">
@@ -104,7 +94,14 @@
                                             <div class="col-12 d-flex justify-content-start justify-content-sm-end mt-4">
                                                 @if (game.SellButtonEnabled)
                                                 {
-                                                    <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue buy-button">Satın Al</button>
+                                                    if (game.CategoryType == 1)
+                                                    {
+                                                        <button data-model="@(Newtonsoft.Json.JsonConvert.SerializeObject(game))" id="buy" class="button btn-blue buy-button">Satın Al</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="button btn-blue sell-button" style="margin-right: 4px" href="/kod-al/@game.SeoName">Satın Al</a>
+                                                    }
                                                 }
                                                 @if (game.BuyButtonEnabled)
                                                 {

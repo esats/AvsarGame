@@ -7,5 +7,6 @@ namespace AvsarGame.API.Models {
     public class UserOrderRequestModel {
         public string UserId { get; set; }
         public int OrderId { get; set; }
+        public string Code { get; set; }
     }
 }

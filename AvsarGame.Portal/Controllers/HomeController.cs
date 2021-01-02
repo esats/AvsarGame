@@ -63,6 +63,17 @@ namespace AvsarGame.Portal.Controllers {
             return View(model);
         }
 
+        [Route("kod-al/{Name}")]
+        public IActionResult buyCode(string Name)
+        {
+            SessionManager.Instance.set("returnUrl", "/kod-al/" + Name);
+            SessionManager.Instance.Remove("chart");
+            GameModel model =
+                JsonConvert.DeserializeObject<GameModel>(UiRequestManager.Instance.Get(string.Format("Game/GetGameWithGames?SeoName={0}", Name)));
+
+            return View(model);
+        }
+
         [HttpGet]
         public JsonResult Search(string term) {
             SearchModel model =

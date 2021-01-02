@@ -11,6 +11,7 @@ namespace AvsarGame.API.Models {
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string CategorySeoName { get; set; }
+        public int CategoryType { get; set; }
         public string Name { get; set; }
         public string SeoName { get; set; }
         public string ImageUrl { get; set; }

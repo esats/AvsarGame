@@ -139,7 +139,7 @@ namespace AvsarGame.Portal.Core
                 case 1:
                     return "/ilanlar/knight-cyber-rings/";
                 case 2:
-                    return "ilanlar/knight-items/";
+                    return "/ilanlar/knight-items/";
             }
 
             return "";

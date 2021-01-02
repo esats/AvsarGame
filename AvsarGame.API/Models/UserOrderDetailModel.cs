@@ -14,5 +14,6 @@ namespace AvsarGame.API.Models {
         public decimal BillingAmount { get; set; }
         public int OrderStatus { get; set; } 
         public DateTime? CreatedDate { get; set; }
+        public string Code { get; set; }
     }
 }                    

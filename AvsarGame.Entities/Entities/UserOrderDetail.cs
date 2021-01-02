@@ -12,5 +12,6 @@ namespace AvsarGame.Entities.Entities {
         public decimal BillingPrice { get; set; }
         public decimal BillingAmount { get; set; }
         public int OrderStatus { get; set; } = 0;
+        public string Code { get; set; } 
     }
 }

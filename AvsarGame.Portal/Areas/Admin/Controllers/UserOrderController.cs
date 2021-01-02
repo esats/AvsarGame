@@ -17,10 +17,16 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
             return View(model);
         }
 
+        public IActionResult Code()
+        {
+            List<UserOrdersModel> model = JsonConvert.DeserializeObject<List<UserOrdersModel>>(UiRequestManager.Instance.Get("UserOrder", "UserCodeList"));
+            return View(model);
+        }
+
         [HttpPost]
-        public JsonResult Approve(UserOrderRequestModel model) {
+        public JsonResult ApproveCode(UserOrderRequestModel model) {
             try {
-                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "Approve", JsonConvert.SerializeObject(model)));
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "ApproveCode", JsonConvert.SerializeObject(model)));
                 return Json(new { Success = true, data = response });
             } catch (Exception e) {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
@@ -28,11 +34,39 @@ namespace AvsarGame.Portal.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Reject(UserOrderRequestModel model) {
+        public JsonResult RejectCode(UserOrderRequestModel model) {
             try {
-                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "Reject", JsonConvert.SerializeObject(model)));
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "RejectCode", JsonConvert.SerializeObject(model)));
                 return Json(new { Success = true, data = response });
             } catch (Exception e) {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Approve(UserOrderRequestModel model)
+        {
+            try
+            {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "Approve", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Reject(UserOrderRequestModel model)
+        {
+            try
+            {
+                var response = JsonConvert.DeserializeObject<Response<HttpStatusCode>>(UiRequestManager.Instance.Post("UserOrder", "Reject", JsonConvert.SerializeObject(model)));
+                return Json(new { Success = true, data = response });
+            }
+            catch (Exception e)
+            {
                 return Json(new { Success = false, Message = "Birşeyler ters gitti" });
             }
         }

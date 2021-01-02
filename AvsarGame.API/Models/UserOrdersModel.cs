@@ -9,6 +9,8 @@ namespace AvsarGame.API.Models {
         public int Id { get; set; }
         public string UserId { get; set; }
         public UserPaymentManagementModel User { get; set; }
+        public ICollection<UserOrderDetailModel> MoneyOrders { get; set; }
+        public ICollection<UserOrderDetailModel> CodeOrders { get; set; }
         public ICollection<UserOrderDetailModel> Orders { get; set; }
     }
 }

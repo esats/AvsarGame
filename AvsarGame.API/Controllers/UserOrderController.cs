@@ -33,10 +33,11 @@ namespace AvsarGame.API.Controllers
         private readonly IUserSell _userSell;
         private readonly IUserSellDetail _userSellDetail;
         private readonly IUserDrawableMoney _userDrawableMoney;
+        private readonly ICategory _category;
 
         public UserOrderController(IUserOrder userOrder, IMapper mapper, IUserOrderDetail userDetailOrder, IGame game, IUserBalanceDetails userBalanceDetail,
                                    IUserBalance userBalance, UserManager<ApplicationUser> userManager, IUserNotification userNotification, IUserSell userSell,
-                                   IUserSellDetail userSellDetail, IUserDrawableMoney userDrawableMoney)
+                                   IUserSellDetail userSellDetail, IUserDrawableMoney userDrawableMoney, ICategory category)
         {
             _userOrder = userOrder;
             _mapper = mapper;
@@ -49,6 +50,7 @@ namespace AvsarGame.API.Controllers
             _userSell = userSell;
             _userSellDetail = userSellDetail;
             _userDrawableMoney = userDrawableMoney;
+            _category = category;
         }
 
         [HttpGet]
@@ -72,7 +74,51 @@ namespace AvsarGame.API.Controllers
                     model.BillingPrice = detail.BillingPrice;
                     model.BillingAmount = detail.BillingAmount;
                     model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
-                    userOrderDetailList.Add(model);
+                    var categoryMoneyType = _category.GetT(x => x.Id == model.Game.CategoryId).CategoryMoneyType;
+                    if (categoryMoneyType == 1)//knight metin vsoyun parası olanlar için yapıldı
+                    {
+                        userOrderDetailList.Add(model);
+                    }
+                }
+
+                if (userOrderDetailList.Count > 0)
+                {
+                    userOrderModel.Id = userOrder.Id;
+                    userOrderModel.User = _mapper.Map<UserPaymentManagementModel>(_userManager.FindByIdAsync(userOrder.UserId).Result);
+                    userOrderModel.Orders = userOrderDetailList;
+                    userOrderList.Add(userOrderModel);
+                }
+            }
+
+            return userOrderList;
+        }
+
+        [HttpGet]
+        [Route("UserCodeList")]
+        [Authorize(Roles = "Admin")]
+        public List<UserOrdersModel> UserCodeList()
+        {
+            var userOrders = _userOrder.GetUserOrder(null);
+            List<UserOrdersModel> userOrderList = new List<UserOrdersModel>();
+
+            foreach (var userOrder in userOrders)
+            {
+                UserOrdersModel userOrderModel = new UserOrdersModel();
+                List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
+                foreach (var detail in userOrder.Orders.Where(x => x.OrderStatus == 0 && x.UserOrderId == userOrder.Id))
+                {
+                    UserOrderDetailModel model = new UserOrderDetailModel();
+                    model.Id = detail.Id;
+                    model.UserOrderId = userOrder.Id;
+                    model.CharacterName = detail.CharacterName;
+                    model.BillingPrice = detail.BillingPrice;
+                    model.BillingAmount = detail.BillingAmount;
+                    model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
+                    var categoryMoneyType = _category.GetT(x => x.Id == model.Game.CategoryId).CategoryMoneyType;
+                    if (categoryMoneyType != 1)//oyun kodu için yapıldı
+                    {
+                        userOrderDetailList.Add(model);
+                    }
                 }
 
                 if (userOrderDetailList.Count > 0)
@@ -128,9 +174,11 @@ namespace AvsarGame.API.Controllers
         public UserOrdersModel GetOne(string id)
         {
             UserOrdersModel userOrderModel = new UserOrdersModel();
-            List<UserOrderDetailModel> userOrderDetailList = new List<UserOrderDetailModel>();
+            List<UserOrderDetailModel> userMoneyOrderDetailList = new List<UserOrderDetailModel>();
+            List<UserOrderDetailModel> userCodeOrderDetailList = new List<UserOrderDetailModel>();
 
             var userOrders = _userOrder.GetUserOrder(id);
+            var categories = _category.GetList(x => x.IsActive);
 
             foreach (var userOrder in userOrders)
             {
@@ -144,11 +192,40 @@ namespace AvsarGame.API.Controllers
                     model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
                     model.OrderStatus = detail.OrderStatus;
                     model.CreatedDate = detail.CreatedDate;
-                    userOrderDetailList.Add(model);
+
+                    var categoryMoneyType = categories.FirstOrDefault(x => x.Id == model.Game.CategoryId).CategoryMoneyType;
+                    if (categoryMoneyType == 1)
+                    {
+                        userMoneyOrderDetailList.Add(model);
+                    }
                 }
 
                 userOrderModel.UserId = userOrder.UserId;
-                userOrderModel.Orders = userOrderDetailList;
+                userOrderModel.MoneyOrders = userMoneyOrderDetailList;
+            }
+
+            foreach (var userOrder in userOrders)
+            {
+                foreach (var detail in userOrder.Orders)
+                {
+                    UserOrderDetailModel model = new UserOrderDetailModel();
+                    model.UserOrderId = userOrder.Id;
+                    model.CharacterName = detail.CharacterName;
+                    model.BillingPrice = detail.BillingPrice;
+                    model.BillingAmount = detail.BillingAmount;
+                    model.Game = _mapper.Map<GameModel>((_game.GetT(x => x.Id == detail.GameId)));
+                    model.OrderStatus = detail.OrderStatus;
+                    model.CreatedDate = detail.CreatedDate;
+                    var categoryMoneyType = categories.FirstOrDefault(x => x.Id == model.Game.CategoryId).CategoryMoneyType;
+                    if (categoryMoneyType != 1)
+                    {
+                        model.Code = detail.Code;
+                        userCodeOrderDetailList.Add(model);
+                    }
+                }
+
+                userOrderModel.UserId = userOrder.UserId;
+                userOrderModel.CodeOrders = userCodeOrderDetailList;
             }
 
             return userOrderModel;
@@ -504,6 +581,95 @@ namespace AvsarGame.API.Controllers
                         CreatedBy = base.GetUser()
                     };
 
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("ApproveCode")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> ApproveCode(UserOrderRequestModel model)
+        {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try
+            {
+                using (var trancation = new TransactionScope())
+                {
+                    var updatedEntity = _userOrderDetail.GetT(x => x.Id == model.OrderId);
+                    updatedEntity.OrderStatus = (int)ORDER_STATUS.APPROVED;
+                    updatedEntity.Code = model.Code;
+                    _userOrderDetail.Update(updatedEntity);
+
+                    UserNotification notification = new UserNotification()
+                    {
+                        UserId = model.UserId,
+                        Message = "Oyun koduuz hesabınıza aktarılmıştır. Siparişlerim bölümünden görebilirsiniz.",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                    };
+                    _userNotification.Add(notification);
+
+                    response.IsSuccess = true;
+                    response.Value = HttpStatusCode.OK;
+                    trancation.Complete();
+                }
+            }
+            catch (Exception exception)
+            {
+                response.IsSuccess = false;
+                response.Value = HttpStatusCode.BadRequest;
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RejectCode")]
+        [Authorize(Roles = "Admin")]
+        public Response<HttpStatusCode> RejectCode(UserOrderRequestModel model)
+        {
+            Response<HttpStatusCode> response = new Response<HttpStatusCode>();
+            try
+            {
+                using (var trancation = new TransactionScope())
+                {
+                    var updatedEntity = _userOrderDetail.GetT(x => x.Id == model.OrderId);
+                    updatedEntity.OrderStatus = (int)ORDER_STATUS.REJECT;
+                    _userOrderDetail.Update(updatedEntity);
+
+                    var userBalance = _UserBalance.GetBalance(base.GetUser());
+                    UserBalanceDetail detail = new UserBalanceDetail
+                    {
+                        Amount = updatedEntity.BillingPrice,
+                        CreatedBy = base.GetUser(),
+                        CreatedDate = DateTime.Now,
+                        TransactionDescription = (int)TRANSACTION_DESCIPTION.ORDER_REJECT,
+                        UserBalanceId = userBalance.Id,
+                        UserOrderDetailId = updatedEntity.Id
+                    };
+
+                    _UserBalanceDetail.Add(detail);
+
+                    UserNotification notification = new UserNotification()
+                    {
+                        UserId = model.UserId,
+                        Message = "Oyun kodunuz tanımlanamamıştır. Bakiyeniz geri iade edildi.",
+                        NotificationType = NotificationType.REJECT,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                    };
                     _userNotification.Add(notification);
 
                     response.IsSuccess = true;

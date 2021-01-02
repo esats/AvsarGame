@@ -811,7 +811,7 @@ namespace AvsarGame.API.Controllers
             {
                 using (var trancation = new TransactionScope())
                 {
-                    var updatedEntity = _knightCommerceDetail.GetT(x => x.AddversimentId == model.AddversimentId && x.AddversimentType == model.AddversimentType);
+                    var updatedEntity = _knightCommerceDetail.GetT(x => x.AddversimentId == model.AddversimentId && x.AddversimentType == model.AddversimentType && x.Status == 0);
                     updatedEntity.Status = (int)AddversimentStatus.REJECT;
                     _knightCommerceDetail.Update(updatedEntity);
 
@@ -830,6 +830,16 @@ namespace AvsarGame.API.Controllers
                         entity.IsActive = true;
                         _knightItem.Update(entity);
                     }
+
+                    UserNotification notification = new UserNotification()
+                    {
+                        UserId = model.BuyerUserId,
+                        Message = "Item ticareti gerçekleşememiştir. Bakiye hesabınıza geri yüklenmiştir",
+                        NotificationType = NotificationType.APPROVED,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = base.GetUser()
+                    };
+                    _notification.Add(notification);
 
                     response.IsSuccess = true;
                     response.Value = HttpStatusCode.OK;

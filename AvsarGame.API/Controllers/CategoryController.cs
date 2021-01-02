@@ -139,12 +139,22 @@ namespace AvsarGame.API.Controllers {
         public CategoryGameModel GetCategoryWithGames(string SeoName) {
             CategoryGameModel categoryGameModel = new CategoryGameModel();
             try {
+                List<GameModel> gameList = new List<GameModel>();
                 var category = _category.GetT(x => x.SeoName == SeoName && x.IsActive == true);
                 var games = _game.GetList(x => x.CategoryId == category.Id && x.IsActive == true);
 
-                categoryGameModel.Games = _mapper.Map<List<GameModel>>(games);
                 categoryGameModel.Category = _mapper.Map<CategoryModel>(category);
-            } catch (Exception e) {
+
+                foreach (var game in games)
+                {
+                    GameModel gameModel = new GameModel();
+                    gameModel = _mapper.Map<GameModel>(game);
+                    gameModel.CategoryType = category.CategoryMoneyType;
+                    gameList.Add(gameModel);
+                }
+                categoryGameModel.Games = gameList;
+            }
+            catch (Exception e) {
                 throw new Exception(e.Message);
             }
 
