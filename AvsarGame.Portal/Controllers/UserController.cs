@@ -807,10 +807,10 @@ namespace AvsarGame.Portal.Controllers
 
             if (baseResponse.IsSuccess)
             {
-                var sellerPhoneNumber =
-                           JsonConvert.DeserializeObject<string>(
+                var userModel =
+                           JsonConvert.DeserializeObject<RegisterModel>(
                                    UiRequestManager.Instance.Get(String.Format("User/GetSellerPhoneNumber/{0}", model.SellerUserId)));
-                SmsHelper.SendSms(sellerPhoneNumber, "Bir alıcı ilanınızı almak için ödeme yaptı. Lütfen canlı destek ekibimiz ile iletişime geçiniz. AnatoliaGame");
+                SmsHelper.SendSms(userModel.PhoneNumber, "Bir alıcı ilanınızı almak için ödeme yaptı. Lütfen canlı destek ekibimiz ile iletişime geçiniz. AnatoliaGame");
             }
 
             return Json(new { Success = true, data = baseResponse });

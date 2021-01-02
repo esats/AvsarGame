@@ -696,7 +696,15 @@ namespace AvsarGame.API.Controllers
                     detail.UserBalanceId = userBalance.Id;
                     detail.CreatedDate = DateTime.Now;
                     detail.CreatedBy = base.GetUser();
-                    _UserBalanceDetail.Add(detail);
+                    var userBalanceDetailId = _UserBalanceDetail.Add(detail).Id;
+
+                    UserDrawableMoney userDrawable = new UserDrawableMoney();
+                    userDrawable.Amount = -model.PriceWithComission;
+                    userDrawable.CreatedBy = GetUser();
+                    userDrawable.CreatedDate = DateTime.Now;
+                    userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                    _userDrawableMoney.Add(userDrawable);
+
 
                     if (model.AddversimentType == 1)
                     {
@@ -723,12 +731,6 @@ namespace AvsarGame.API.Controllers
             }
 
             return response;
-        }
-
-        [Route("GetSellerPhoneNumber/{addversimentId}")]
-        public string GetSellerPhoneNumber(int addversimentId, int addversimentType)
-        {
-            return "";
         }
 
         [HttpGet]
@@ -797,6 +799,7 @@ namespace AvsarGame.API.Controllers
             return response;
         }
 
+        // TODO ticaret işlemi yapıldığında çekilebilir paradan düşen miktar ticaret işlemi iptal edilirse aynı miktarda gelmeli
         [HttpPost]
         [Route("RejectKnightOnlineCommerce")]
         [Authorize(Roles = "Admin")]
@@ -808,7 +811,7 @@ namespace AvsarGame.API.Controllers
             {
                 using (var trancation = new TransactionScope())
                 {
-                    var updatedEntity = _knightCommerceDetail.GetT(x => x.Id == model.AddversimentId && x.AddversimentType == model.AddversimentType);
+                    var updatedEntity = _knightCommerceDetail.GetT(x => x.AddversimentId == model.AddversimentId && x.AddversimentType == model.AddversimentType);
                     updatedEntity.Status = (int)AddversimentStatus.REJECT;
                     _knightCommerceDetail.Update(updatedEntity);
 

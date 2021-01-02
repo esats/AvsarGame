@@ -32,9 +32,9 @@ namespace AvsarGame.API.Controllers
 
         [HttpGet]
         [Route("GetSellerPhoneNumber/{id}")]
-        public string GetSellerPhoneNumber(string id) {
-            var user = _userManager.FindByIdAsync(id).Result;
-            return user.PhoneNumber;
+        public RegisterModel GetSellerPhoneNumber(string id) {
+            var user = _mapper.Map<RegisterModel>(_userManager.FindByIdAsync(id).Result);
+            return user;
         }
     }
 }

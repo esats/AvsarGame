@@ -16,13 +16,13 @@ BEGIN
 	UNION ALL
 
 	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
-			KCR.Title,
+			KI.Title,
 			USR.Name +' '+ USR.Surname AS Seller,
 			KCD.PriceWithComission,
 			'Knight Item' AS GameName
 	FROM 
 	KnightCommerceDetail KCD
-	INNER JOIN KnightItem KCR ON KCR.Id = KCD.AddversimentId AND KCD.AddversimentType = 2
-	INNER JOIN AspNetUsers USR ON KCD.AddversimentId = KCD.AddversimentId  
+	INNER JOIN KnightItem KI ON KI.Id = KCD.AddversimentId AND KCD.AddversimentType = 2
+	INNER JOIN AspNetUsers USR ON  USR.Id = KI.UserId   
 	WHERE KCD.UserId = @userId
 END
