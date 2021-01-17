@@ -9,5 +9,6 @@ namespace AvsarGame.Dal.Abstract
 {
     public interface IUserDrawableMoney : IEntityRepository<UserDrawableMoney>
     {
+        decimal GetUserDrawableMoney(Guid userBalanceId);
     }
 }

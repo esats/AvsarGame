@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[GetUserDrawableBalance]
+	 @userBalanceId NVARCHAR
+AS
+BEGIN
+	SELECT SUM(UDM.Amount) FROM UserDrawableMoney UDM (NOLOCK)
+	INNER JOIN UserBalanceDetails UBD (NOLOCK) ON UDM.UserBalanceDetailId = UBD.Id
+	WHERE UBD.UserBalanceId = @userBalanceId
+END

@@ -273,7 +273,7 @@ namespace AvsarGame.API.Controllers
                 notification.Message = "Para çekme işleminiz gerçekleşti";
                 notification.UserId = model.UserId.ToString();
                 notification.NotificationType = NotificationType.APPROVED;
-                 _userNotification.Add(notification);
+                _userNotification.Add(notification);
 
                 response.IsSuccess = true;
                 response.Value = HttpStatusCode.OK;
@@ -295,9 +295,9 @@ namespace AvsarGame.API.Controllers
             Response<HttpStatusCode> response = new Response<HttpStatusCode>();
             try
             {
-                using (var transaction  = new TransactionScope())
+                using (var transaction = new TransactionScope())
                 {
-                    var request = _userMoneyDrawRequest.GetT(x => x.Id == model.RequestId);
+                    var request = _userMoneyDrawRequest.GetT(x => x.Id == model.RequestId && x.IsActive);
                     request.Statu = 2; //red edildi.
                     _userMoneyDrawRequest.Update(request);
 
@@ -330,7 +330,7 @@ namespace AvsarGame.API.Controllers
                     response.IsSuccess = true;
                     response.Value = HttpStatusCode.OK;
                 }
-               
+
             }
             catch (Exception e)
             {

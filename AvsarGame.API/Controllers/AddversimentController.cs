@@ -698,13 +698,34 @@ namespace AvsarGame.API.Controllers
                     detail.CreatedBy = base.GetUser();
                     var userBalanceDetailId = _UserBalanceDetail.Add(detail).Id;
 
-                    UserDrawableMoney userDrawable = new UserDrawableMoney();
-                    userDrawable.Amount = -model.PriceWithComission;
-                    userDrawable.CreatedBy = GetUser();
-                    userDrawable.CreatedDate = DateTime.Now;
-                    userDrawable.UserBalanceDetailId = userBalanceDetailId;
-                    _userDrawableMoney.Add(userDrawable);
 
+                    var drawableMoney = _userDrawableMoney.GetUserDrawableMoney(userBalance.Id);
+
+                    if (drawableMoney > 0)
+                    {
+                        var userMoney = _UserBalance.GetBalance(GetUser()).Balance;
+                        if (userMoney < drawableMoney)
+                        {
+                            if (drawableMoney < (decimal)model.PriceWithComission)
+                            {
+                                UserDrawableMoney userDrawable = new UserDrawableMoney();
+                                userDrawable.Amount = -(double)drawableMoney;
+                                userDrawable.CreatedBy = GetUser();
+                                userDrawable.CreatedDate = DateTime.Now;
+                                userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                                _userDrawableMoney.Add(userDrawable);
+                            }
+                            else
+                            {
+                                UserDrawableMoney userDrawable = new UserDrawableMoney();
+                                userDrawable.Amount = -model.PriceWithComission;
+                                userDrawable.CreatedBy = GetUser();
+                                userDrawable.CreatedDate = DateTime.Now;
+                                userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                                _userDrawableMoney.Add(userDrawable);
+                            }
+                        }
+                    }
 
                     if (model.AddversimentType == 1)
                     {
@@ -815,7 +836,9 @@ namespace AvsarGame.API.Controllers
                     updatedEntity.Status = (int)AddversimentStatus.REJECT;
                     _knightCommerceDetail.Update(updatedEntity);
 
-                    UpdateUserBalance(model.BuyerUserId, model.Price, model.AddversimentId, model.AddversimentType);
+                    var userBalanceDetailId = UpdateUserBalance(model.BuyerUserId, model.Price, model.AddversimentId, model.AddversimentType);
+
+                    UpdateDrawableMoney(userBalanceDetailId, model.Price);
 
                     if (model.AddversimentType == (int)AddversimentType.KNIGHT_ONLINE_CYBERRING)
                     {
@@ -853,6 +876,16 @@ namespace AvsarGame.API.Controllers
             }
 
             return response;
+        }
+
+        private void UpdateDrawableMoney(Guid userBalanceDetailId, double price)
+        {
+            UserDrawableMoney drawableMoney = new UserDrawableMoney();
+            drawableMoney.Amount = price;
+            drawableMoney.UserBalanceDetailId = userBalanceDetailId;
+            drawableMoney.CreatedBy = GetUser();
+            drawableMoney.CreatedDate = DateTime.Now;
+            _userDrawableMoney.Add(drawableMoney);
         }
 
 
