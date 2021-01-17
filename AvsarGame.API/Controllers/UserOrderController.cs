@@ -306,13 +306,20 @@ namespace AvsarGame.API.Controllers
                         var userBalanceDetail = _UserBalanceDetail.Add(detail);
                         item.Game = _mapper.Map<GameModel>(_game.GetT(x => x.Id == item.GameId));
 
+                        var userMoney = _UserBalance.GetBalance(base.GetUser()).Balance;
+                        var userDrawableMoney = _userDrawableMoney.GetUserDrawableMoney(userBalance.Id);
 
-                        UserDrawableMoney userDrawable = new UserDrawableMoney();
-                        userDrawable.Amount = -(double)item.BillingPrice;
-                        userDrawable.CreatedBy = GetUser();
-                        userDrawable.CreatedDate = DateTime.Now;
-                        userDrawable.UserBalanceDetailId = userBalanceDetail.Id;
-                        _userDrawableMoney.Add(userDrawable);
+                        if (userMoney < userDrawableMoney)
+                        {
+                            UserDrawableMoney userDrawable = new UserDrawableMoney();
+                            userDrawable.Amount = -(double)(userDrawableMoney - userMoney);
+                            userDrawable.BillingAmount = item.BillingAmount;
+                            userDrawable.CreatedBy = GetUser();
+                            userDrawable.CreatedDate = DateTime.Now;
+                            userDrawable.UserBalanceDetailId = userBalanceDetail.Id;
+                            _userDrawableMoney.Add(userDrawable);
+                        }
+
                     }
                     transactionScope.Complete();
                 }

@@ -725,6 +725,7 @@ namespace AvsarGame.API.Controllers
                             //}
                             UserDrawableMoney userDrawable = new UserDrawableMoney();
                             userDrawable.Amount = -(double)(drawableMoney - userMoney);
+                            userDrawable.BillingAmount = (decimal)model.PriceWithComission;
                             userDrawable.CreatedBy = GetUser();
                             userDrawable.CreatedDate = DateTime.Now;
                             userDrawable.UserBalanceDetailId = userBalanceDetailId;

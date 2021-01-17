@@ -9,5 +9,6 @@ namespace AvsarGame.Entities.Entities
     {
         public Guid UserBalanceDetailId { get; set; }
         public double Amount { get; set; }
+        public decimal BillingAmount { get; set; }
     }
 }
