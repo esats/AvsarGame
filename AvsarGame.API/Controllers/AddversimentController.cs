@@ -698,7 +698,6 @@ namespace AvsarGame.API.Controllers
                     detail.CreatedBy = base.GetUser();
                     var userBalanceDetailId = _UserBalanceDetail.Add(detail).Id;
 
-
                     var drawableMoney = _userDrawableMoney.GetUserDrawableMoney(userBalance.Id);
 
                     if (drawableMoney > 0)
@@ -706,24 +705,30 @@ namespace AvsarGame.API.Controllers
                         var userMoney = _UserBalance.GetBalance(GetUser()).Balance;
                         if (userMoney < drawableMoney)
                         {
-                            if (drawableMoney < (decimal)model.PriceWithComission)
-                            {
-                                UserDrawableMoney userDrawable = new UserDrawableMoney();
-                                userDrawable.Amount = -(double)drawableMoney;
-                                userDrawable.CreatedBy = GetUser();
-                                userDrawable.CreatedDate = DateTime.Now;
-                                userDrawable.UserBalanceDetailId = userBalanceDetailId;
-                                _userDrawableMoney.Add(userDrawable);
-                            }
-                            else
-                            {
-                                UserDrawableMoney userDrawable = new UserDrawableMoney();
-                                userDrawable.Amount = -model.PriceWithComission;
-                                userDrawable.CreatedBy = GetUser();
-                                userDrawable.CreatedDate = DateTime.Now;
-                                userDrawable.UserBalanceDetailId = userBalanceDetailId;
-                                _userDrawableMoney.Add(userDrawable);
-                            }
+                            //if (drawableMoney < (decimal)model.PriceWithComission)
+                            //{
+                            //    UserDrawableMoney userDrawable = new UserDrawableMoney();
+                            //    userDrawable.Amount = -(double)drawableMoney;
+                            //    userDrawable.CreatedBy = GetUser();
+                            //    userDrawable.CreatedDate = DateTime.Now;
+                            //    userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                            //    _userDrawableMoney.Add(userDrawable);
+                            //}
+                            //else
+                            //{
+                            //    UserDrawableMoney userDrawable = new UserDrawableMoney();
+                            //    userDrawable.Amount = -model.PriceWithComission;
+                            //    userDrawable.CreatedBy = GetUser();
+                            //    userDrawable.CreatedDate = DateTime.Now;
+                            //    userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                            //    _userDrawableMoney.Add(userDrawable);
+                            //}
+                            UserDrawableMoney userDrawable = new UserDrawableMoney();
+                            userDrawable.Amount = -(double)(drawableMoney - userMoney);
+                            userDrawable.CreatedBy = GetUser();
+                            userDrawable.CreatedDate = DateTime.Now;
+                            userDrawable.UserBalanceDetailId = userBalanceDetailId;
+                            _userDrawableMoney.Add(userDrawable);
                         }
                     }
 
@@ -820,7 +825,6 @@ namespace AvsarGame.API.Controllers
             return response;
         }
 
-        // TODO ticaret işlemi yapıldığında çekilebilir paradan düşen miktar ticaret işlemi iptal edilirse aynı miktarda gelmeli
         [HttpPost]
         [Route("RejectKnightOnlineCommerce")]
         [Authorize(Roles = "Admin")]

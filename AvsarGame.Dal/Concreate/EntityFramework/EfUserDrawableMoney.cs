@@ -20,7 +20,8 @@ namespace AvsarGame.Dal.Concreate.EntityFramework
                 var parameter = new DynamicParameters();
                 parameter.Add("userBalanceId", userBalanceId);
 
-                return sqlConnection.QueryFirstOrDefault<decimal>("GetUserDrawableBalance", parameter, commandType: CommandType.StoredProcedure)
+                return sqlConnection.QueryFirstOrDefault<decimal>("GetUserDrawableBalance", parameter,
+                    commandType: CommandType.StoredProcedure);
             }
         }
     }
