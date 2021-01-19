@@ -76,7 +76,7 @@ namespace AvsarGame.API.Controllers
                                      join d in _userBalanceDetails.GetList() on e.UserBalanceDetailId equals d.Id
                                      where d.UserBalanceId == balanceDetail.Id
                                      select new { e.Amount }).Sum(x => x.Amount);
-            drawableMoney.Balance = (double)balanceDetail.Details.Sum(x => x.Amount);
+            if (balanceDetail != null) drawableMoney.Balance = (double) balanceDetail?.Details.Sum(x => x.Amount);
             drawableMoney.DrawableBalance = userDrawableMoney;
 
             return drawableMoney;

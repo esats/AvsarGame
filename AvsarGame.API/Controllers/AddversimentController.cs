@@ -702,7 +702,8 @@ namespace AvsarGame.API.Controllers
 
                     if (drawableMoney > 0)
                     {
-                        var userMoney = _UserBalance.GetBalance(GetUser()).Balance;
+                        var userMoney = _UserBalance.GetBalance(base.GetUser()).Details.Sum(x => x.Amount);
+
                         if (userMoney < drawableMoney)
                         {
                             //if (drawableMoney < (decimal)model.PriceWithComission)
@@ -843,14 +844,13 @@ namespace AvsarGame.API.Controllers
 
                     var userBalanceDetailId = UpdateUserBalance(model.BuyerUserId, model.Price, model.AddversimentId, model.AddversimentType);
 
-                    UpdateDrawableMoney(userBalanceDetailId, model.Price);
+                    //UpdateDrawableMoney(userBalanceDetailId, model.Price);
 
                     if (model.AddversimentType == (int)AddversimentType.KNIGHT_ONLINE_CYBERRING)
                     {
                         var entity = _KnightCyberRing.GetT(x => x.Id == model.AddversimentId);
                         entity.IsActive = true;
                         _KnightCyberRing.Update(entity);
-
                     }
                     else
                     {

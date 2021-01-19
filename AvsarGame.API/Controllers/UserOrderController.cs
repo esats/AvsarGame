@@ -306,10 +306,11 @@ namespace AvsarGame.API.Controllers
                         var userBalanceDetail = _UserBalanceDetail.Add(detail);
                         item.Game = _mapper.Map<GameModel>(_game.GetT(x => x.Id == item.GameId));
 
-                        var userMoney = _UserBalance.GetBalance(base.GetUser()).Balance;
+                        var userMoney = _UserBalance.GetBalance(base.GetUser()).Details.Sum(x => x.Amount);
+
                         var userDrawableMoney = _userDrawableMoney.GetUserDrawableMoney(userBalance.Id);
 
-                        if (userMoney < userDrawableMoney)
+                        if (userMoney < userDrawableMoney && userDrawableMoney > decimal.Zero)
                         {
                             UserDrawableMoney userDrawable = new UserDrawableMoney();
                             userDrawable.Amount = -(double)(userDrawableMoney - userMoney);
