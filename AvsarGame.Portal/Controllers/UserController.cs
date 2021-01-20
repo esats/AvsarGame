@@ -246,7 +246,7 @@ namespace AvsarGame.Portal.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders)
+        public async Task<JsonResult> UserOrderCodeRequest([FromBody] List<UserOrderDetailModel> orders)
         {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
             UserOrderResponseModel response = new UserOrderResponseModel();

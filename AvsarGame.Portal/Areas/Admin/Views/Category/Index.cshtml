@@ -167,7 +167,6 @@
                     hideSpinner();
                 },
                 success: function (response) {
-                    debugger;
                     if (response.success && response.data.isSuccess) {
                         swal("Basarili!", "Kayıt Eklendi", "success");
                         setTimeout(function () {
@@ -185,7 +184,6 @@
         });
 
         $(".justify-content-center #update").click(function (e) {
-            debugger
             var model = new FormData(); // you can consider this as 'data bag'
             model.append('Name', $(this.parentElement.parentElement.getElementsByTagName("input")[0]).val());
             model.append('Image', this.parentElement.parentElement.getElementsByTagName("input")[1].files[0]);

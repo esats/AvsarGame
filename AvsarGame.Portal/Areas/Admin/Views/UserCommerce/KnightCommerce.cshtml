@@ -100,7 +100,6 @@
         });
 
         $(".requestrow .reject").click(function () {
-            debugger
             var model = $(this).attr('data-model');
 
             swal({
@@ -162,7 +161,6 @@
         }
 
         $("#dataTable #SendMsg").on('click', function (e) {
-            debugger;
             e.preventDefault();
             var type = $(this).attr('data-type');
             var phone = $(this).attr('data-phoneNumber');

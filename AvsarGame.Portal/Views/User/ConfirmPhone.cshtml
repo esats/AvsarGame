@@ -93,7 +93,6 @@
 
         $("#confirmCode").on('click', function (e) {
             if (localStorage.getItem("counter") == null || localStorage.getItem("counter") == 0) {
-                debugger;
                 e.preventDefault();
                 alert("Lütfen sms kodunu tekrardan isteyiniz")
             }
