@@ -240,7 +240,7 @@ namespace AvsarGame.API.Controllers
         public List<MoneyWithDrawModel> UserDrawableMoneyRequests()
         {
             List<MoneyWithDrawModel> list = new List<MoneyWithDrawModel>();
-            var requests = _userMoneyDrawRequest.GetList(x => x.Statu == 0);
+            var requests = _userMoneyDrawRequest.GetList(x => x.Statu == 0 && x.IsActive);
             var users = _userManager.Users.ToList();
             foreach (var item in requests)
             {

@@ -1,8 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[GetUserCommerceRequestDetail]
-	 @userId NVARCHAR(50)
-AS
-BEGIN
-	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
+﻿CREATE PROCEDURE [esat].[GetUserCommerceRequestDetail]    
+  @userId NVARCHAR(50)    
+AS    
+BEGIN    
+	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' WHEN KCD.[Status] = 2 THEN 'Reddedildi' 
+	ELSE 'Teslim Edildi' END AS StatusDescription,
 			KCR.Title,
 			USR.Name +' '+ USR.Surname AS Seller,
 			KCD.PriceWithComission,
@@ -15,7 +16,7 @@ BEGIN
 
 	UNION ALL
 
-	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' ELSE 'Teslim Edildi' END AS StatusDescription,
+	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' WHEN KCD.[Status] = 2 THEN 'Reddedildi'  ELSE 'Teslim Edildi' END AS StatusDescription,
 			KI.Title,
 			USR.Name +' '+ USR.Surname AS Seller,
 			KCD.PriceWithComission,
@@ -24,5 +25,5 @@ BEGIN
 	KnightCommerceDetail KCD
 	INNER JOIN KnightItem KI ON KI.Id = KCD.AddversimentId AND KCD.AddversimentType = 2
 	INNER JOIN AspNetUsers USR ON  USR.Id = KI.UserId   
-	WHERE KCD.UserId = @userId
+	WHERE KCD.UserId = @userId    
 END
