@@ -1,8 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[GetUserDrawableBalance]
-	 @userBalanceId NVARCHAR
+﻿CREATE PROCEDURE [esat].[GetUserDrawableBalance] --'0907876e-594a-4efc-a6c3-cd8aabfc3872'
+	 @userBalanceId NVARCHAR(max)
 AS
 BEGIN
-	SELECT SUM(UDM.Amount) FROM UserDrawableMoney UDM (NOLOCK)
+
+	SELECT ISNULL(CAST(SUM(UDM.Amount) AS float),0) AS Total FROM UserDrawableMoney UDM (NOLOCK)
 	INNER JOIN UserBalanceDetails UBD (NOLOCK) ON UDM.UserBalanceDetailId = UBD.Id
 	WHERE UBD.UserBalanceId = @userBalanceId
 END

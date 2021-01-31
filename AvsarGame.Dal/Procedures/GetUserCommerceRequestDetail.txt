@@ -5,7 +5,7 @@ BEGIN
 	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' WHEN KCD.[Status] = 2 THEN 'Reddedildi' 
 	ELSE 'Teslim Edildi' END AS StatusDescription,
 			KCR.Title,
-			USR.Name +' '+ USR.Surname AS Seller,
+			CONVERT(VARCHAR(25), KCD.CreatedDate, 120) AS TransactionTime,
 			KCD.PriceWithComission,
 			'Knight Cyber Ring' AS GameName
 	FROM 
@@ -18,7 +18,7 @@ BEGIN
 
 	SELECT CASE WHEN KCD.[Status] = 0 THEN 'Beklemede' WHEN KCD.[Status] = 2 THEN 'Reddedildi'  ELSE 'Teslim Edildi' END AS StatusDescription,
 			KI.Title,
-			USR.Name +' '+ USR.Surname AS Seller,
+			CONVERT(VARCHAR(25), KCD.CreatedDate, 120) AS TransactionTime,
 			KCD.PriceWithComission,
 			'Knight Item' AS GameName
 	FROM 

@@ -293,6 +293,53 @@ namespace AvsarGame.Portal.Controllers
         }
 
         [HttpPost]
+        public async Task<JsonResult> UserOrderRequest([FromBody] List<UserOrderDetailModel> orders)
+        {
+            Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
+            UserOrderResponseModel response = new UserOrderResponseModel();
+            try
+            {
+                if (!SessionManager.Instance.IsAuthenticate())
+                {
+                    response.RedirectUrl = "/User/login";
+                    response.Message = "Lütfen Giriş Yapınız";
+                    response.Error = (int)Errors.UNAUTHORIZED;
+                    baseResponse.IsSuccess = false;
+                    baseResponse.Value = response;
+                    SessionManager.Instance.set("returnUrl", "/sepetim");
+                    return Json(new { Success = true, data = baseResponse });
+                }
+
+                var totalGameAmount = orders.Sum(x => x.BillingPrice);
+                UserBalanceModel Balance =
+                        JsonConvert.DeserializeObject<UserBalanceModel>(
+                                UiRequestManager.Instance.Get(String.Format("UserBalance/GetBalance/{0}", SessionManager.Instance.GetUserId())));
+
+                if (totalGameAmount > Balance.Balance)
+                {
+                    response.Message = "Hesabınızın bakiyesi bu işlem için yetersiz";
+                    response.Error = (int)Errors.OUTOFBALANCE;
+                    baseResponse.Value = response;
+                    baseResponse.IsSuccess = false;
+                    return Json(new { Success = true, data = baseResponse });
+                }
+
+                baseResponse =
+                        JsonConvert.DeserializeObject<Response<UserOrderResponseModel>>(UiRequestManager.Instance.Post("UserOrder", "Save", JsonConvert.SerializeObject(orders)));
+
+                await UiRequestManager.Instance.PostAsync("MailSender", "SendOrderMail", JsonConvert.SerializeObject(orders));
+
+                SessionManager.Instance.Remove("chart");
+
+                return Json(new { Success = true, data = baseResponse });
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false, Message = "Birşeyler ters gitti" });
+            }
+        }
+
+        [HttpPost]
         public JsonResult UserSellRequest([FromBody] List<UserOrderDetailModel> sells)
         {
             Response<UserOrderResponseModel> baseResponse = new Response<UserOrderResponseModel>();
