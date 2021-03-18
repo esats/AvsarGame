@@ -50,7 +50,7 @@ namespace AvsarGame.Dal.Concreate.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"server=mssql04.turhost.com;Initial Catalog=anatol20_anatoliagame;User ID=esat;password=Coie078");
+                optionsBuilder.UseSqlServer(@"server=213.238.181.163;Initial Catalog=AnatoliaGame;User ID=sa;password=kSkg18pX4B34");
 
                 //optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS01;database=AvsarGame;Trusted_Connection=True;MultipleActiveResultSets=true");
 #else
