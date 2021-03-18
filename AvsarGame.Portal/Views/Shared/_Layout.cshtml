@@ -12,19 +12,17 @@
     <link href="~/assest/Floating-label.css" rel="stylesheet" />
     <link href="~/assest/Style/card.css" rel="stylesheet" />
     <link rel="icon" href="~/assest/logos/favicon.svg" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="~/assest/scripts/toastr.min.js"></script>
     <link href="~/assest/style/toastr.min.css" rel="stylesheet" />
     <link href="~/assest/style/additional.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <script src="~/assest/scripts/jquery.mask.min.js"></script>
     <link href="~/assest/style/uppy-min.css" rel="stylesheet" />
-    <script src="~/assest/scripts/uppy-tr.js"></script>
     <link href="~/assest/style/camroll_slider.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/assest/scripts/toastr.min.js"></script>
+    <script src="~/assest/scripts/uppy-tr.js"></script>
     <script src="~/assest/scripts/camroll_slider.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-
     <style>
         .box-pay {
             border: 3px solid #009aff;
@@ -108,6 +106,7 @@
     <meta name="robots" content="index, follow" />
     <meta name="robots" content="NOODP" />
     <script src="//code.jivosite.com/widget/52YoFr6EhE" async></script>
+
     <script>
         $(document).ready(function () {
 
@@ -213,6 +212,7 @@
         }
     </script>
 </head>
+
 <div class="spinner-wrapper">
     <div class="spinner">
         <div class="rect1"></div>
@@ -275,7 +275,7 @@
                                 </div>
                                 <div class="form-row form-group">
                                     <div class="col-12">
-                                        <input type="email" class="form-control validate" id="user-email" required autocomplete="off" />
+                                        <input type="email" class="form-control validate" data-inputmask="'alias': 'email'" id="user-email" required autocomplete="off" />
                                         <span class="highlight"></span>
                                         <span class="bar"></span>
                                         <label class="floating-lbl">E-mail</label>
@@ -309,8 +309,7 @@
                                         </label>
                                         <span class="terms ">
                                             <input type="checkbox" id="isChecked" />
-                                            <a data-toggle="tab" href="#terms-tab"
-                                               href="javascript:void(0)" onclick="showTerms()">
+                                            <a data-toggle="tab" href="#terms-tab" href="javascript:void(0)" onclick="showTerms()">
                                                 <span style="color: #009aff !important; background-color: transparent;">Kullanım koşullarını kabul ediyorum</span>
                                             </a>
                                         </span>
@@ -449,8 +448,13 @@
 
     <script src="~/assest/scripts/app.min.js"></script>
     <script src="~/assest/scripts/additional.js"></script>
+    <script src="~/assest/Scripts/jquery.inputmask.js"></script>
     <script>
         $(document).ready(function () {
+
+            $('#user-phone').inputmask({ "mask": "(999) 999 99 99"});
+            
+
             $("#login").click(function (e) {
                 e.preventDefault();
                 var model = {

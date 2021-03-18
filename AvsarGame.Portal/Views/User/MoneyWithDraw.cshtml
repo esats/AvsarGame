@@ -17,7 +17,7 @@
                                     <label class="label-white">Iban Adresi:</label>
                                 </div>
                                 <div class="input-group col-lg-10 col-11" style="margin-top:10px">
-                                    <input type="text" name="Iban" id="iban" class="form-control col-6" placeholder="TR 0000 0000 0000 0000 0000 0000">
+                                    <input type="text" name="Iban" id="iban" class="form-control col-6" placeholder="TR__ ____ ____ ____ ____ __">
                                 </div>
                                 <div class="col-lg-2 col-1" style="margin-top:10px">
                                     <label class="label-white">Miktar:</label>
@@ -58,9 +58,12 @@
         </div>
     </main>
 </div>
+
 <script>
 
     $(document).ready(function () {
+
+        $('#iban').inputmask({ "mask":"TR99 9999 9999 9999 9999 9999 99" });
 
         var res = '@ViewBag.result';
         if (res != "") {
@@ -73,6 +76,7 @@
                 alert("Para çekerken bir hata oluştu. Tekrar deneyiniz.")
             }
         }
+
 
         $("#moneyWithDraw").click(function (e) {
             if (!validform()) {
@@ -93,11 +97,12 @@
         });
 
         function validform() {
+            debugger
             var res = true;
             var iban = $("#iban").val();
             var amount = $("#Amount").val();
 
-            if (iban.length != 26 || iban == "") {
+            if (iban.length != 32 || iban == "") {
                 res =  false;
             }
 

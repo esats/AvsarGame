@@ -28,7 +28,8 @@
                                                 <th scope="col">İlan Adı</th>
                                                 <th scope="col">Oyun Adı</th>
                                                 <th scope="col">Fiyat</th>
-                                                <th scope="col">Satıcı</th>
+                                                @*<th scope="col">Satıcı</th>*@
+                                                <th scope="col">İşlem Tarihi</th>
                                                 <th scope="col">Durumu</th>
                                             </tr>
                                         </thead>
@@ -38,7 +39,8 @@
                                                     <td scope="col">@item.Title</td>
                                                     <td scope="col">@item.GameName</td>
                                                     <td scope="col">@item.PriceWithComission</td>
-                                                    <td scope="col">@item.Seller</td>
+                                                    <td scope="col">@item.TransactionTime</td>
+                                                    @*<td scope="col">@item.Seller</td>*@
                                                     <td scope="col">@item.StatusDescription</td>
                                                 </tr>
                                             }
